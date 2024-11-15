@@ -105,9 +105,7 @@ class AlertDialog {
   }
   showModal(props: ModalProps): Promise<boolean> {
     let isAutoHide =
-      (props?.isAutoClose || props.onConfirm || props.onCancel
-        ? false
-        : true) ?? true;
+      props?.isAutoClose || props.onConfirm || props.onCancel ? false : true;
     return new Promise(resolve => {
       const id = ModalPortal.show(
         <Modal
