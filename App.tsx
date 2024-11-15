@@ -1,19 +1,22 @@
 import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import styled from 'styled-components/native';
+
+const Container = styled.View`
+  flex: 1;
+  background-color: blue;
+  justify-content: center;
+  align-items: center;
+`;
+
+const StyledText = styled.Text`
+  color: white;
+  font-size: 20px;
+`;
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Hello</Text>
-    </View>
+    <Container>
+      <StyledText>Hello</StyledText>
+    </Container>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: 'blue',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-});
