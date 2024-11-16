@@ -14,7 +14,6 @@ export default function Input({
   inputSize = 'md',
   enableFocusBorder = true,
   errorMessage,
-
   required = false,
   ...props
 }: FormInputProps & {
