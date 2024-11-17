@@ -17,4 +17,3 @@ const authSlice = createSlice({
 });
 export const AuthReducer = authSlice.reducer;
 export const AuthActions = authSlice.actions;
-//const [user,setUser] = React.UseState(null);

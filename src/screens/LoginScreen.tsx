@@ -1,21 +1,41 @@
-import {View, TouchableOpacity, Platform, Image} from 'react-native';
+import {View, TouchableOpacity, Image} from 'react-native';
 import React, {useState} from 'react';
 import Container from '../components/Container/Container';
 import Input from '../components/Input/Input';
 import styled from 'styled-components';
 import CustomText from '../components/Text/Text';
 import Button from '../components/Button/Button';
-import AlertDialog from '../components/AlertDialog/AlertDialog';
 import FormContainer, {FormContainerRef} from 'react-native-form-container';
 import {faEnvelope} from '@fortawesome/free-regular-svg-icons';
 import {faLock} from '@fortawesome/free-solid-svg-icons';
-import LottieView from 'lottie-react-native';
 import {LogoIcon} from '../assets/logo';
-import {SIZES} from '../constant/theme';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {RootStackParamList} from '../types/navigator';
+import LoginRequest from '../payload/request/LoginRequest';
 
-export default function LoginScreen(props: any) {
+export default function LoginScreen(
+  props: NativeStackScreenProps<RootStackParamList, 'LoginScreen'>,
+) {
+  const [loginRequest, setLoginRequest] = useState({
+    email: '',
+    password: '',
+  });
+
   const ref = React.useRef<FormContainerRef>(null);
 
+  const login = () => {
+    let result = ref.current?.validate({
+      email: 'E-posta adresi boş bırakılamaz',
+      password: 'Şifre boş bırakılamaz',
+    });
+    if (result) {
+      if (loginRequest.email === 'test' && loginRequest.password === 'test1') {
+        console.log('Giriş başarılı!');
+      } else {
+        console.log('Hatalı e-posta veya şifre.');
+      }
+    }
+  };
   return (
     <Container header title="Giriş Yap">
       <Form>
@@ -30,6 +50,10 @@ export default function LoginScreen(props: any) {
               required
               icon={faEnvelope}
               placeholder="E-posta"
+              value={loginRequest.email}
+              onChangeText={text =>
+                setLoginRequest({...loginRequest, email: text})
+              }
             />
             <Input
               required
@@ -37,13 +61,23 @@ export default function LoginScreen(props: any) {
               icon={faLock}
               placeholder="Şifre"
               secureTextEntry={true}
+              value={loginRequest.password}
+              onChangeText={text =>
+                setLoginRequest({...loginRequest, password: text})
+              }
             />
           </FormContainer>
           <ForgotPassword>
-            <CustomText color="secondary">Şifremi Unuttum</CustomText>
+            <CustomText
+              color="secondary"
+              onPress={() => {
+                props.navigation.navigate('ForgotPasswordScreen');
+              }}>
+              Şifremi Unuttum
+            </CustomText>
           </ForgotPassword>
           <View style={{marginBottom: 10}}>
-            <Button text="Giriş Yap" />
+            <Button onPress={login} text="Giriş Yap" />
           </View>
         </LoginContainer>
         <RegisterContainer>
@@ -63,8 +97,6 @@ export default function LoginScreen(props: any) {
   );
 }
 const Form = styled(View)`
-  margin-top: 20px;
-  gap: 10px;
   margin-horizontal: 20px;
   flex: 1;
 `;
