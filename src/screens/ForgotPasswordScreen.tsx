@@ -3,15 +3,11 @@ import React, {useRef, useState} from 'react';
 import Container from '../components/Container/Container';
 import Input from '../components/Input/Input';
 import styled from 'styled-components';
-import CustomText from '../components/Text/Text';
 import Button from '../components/Button/Button';
 import FormContainer, {FormContainerRef} from 'react-native-form-container';
-import {faEnvelope} from '@fortawesome/free-regular-svg-icons';
-import {faLock} from '@fortawesome/free-solid-svg-icons';
-import {LogoIcon} from '../assets/logo';
+import {faEnvelope} from '@fortawesome/free-solid-svg-icons';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../types/navigator';
-import LoginRequest from '../payload/request/LoginRequest';
 
 export default function ForgotPasswordScreen(
   props: NativeStackScreenProps<RootStackParamList, 'ForgotPasswordScreen'>,
@@ -22,9 +18,9 @@ export default function ForgotPasswordScreen(
     <Container header title="Şifremi Unuttum" goBackShow>
       <Form>
         <PasswordContainer>
-          <IconContainer>
-            <Image source={LogoIcon} style={{height: 200, width: 200}} />
-          </IconContainer>
+          <View style={{alignItems: 'center', justifyContent: 'center'}}>
+            <IconContainer></IconContainer>
+          </View>
           <FormContainer formContainerRef={ref}>
             <Input
               autoCapitalize="none"
@@ -53,4 +49,7 @@ const PasswordContainer = styled(View)`
 const IconContainer = styled(View)`
   align-items: center;
   margin-bottom: 30px;
+  width: 200px;
+  height: 200px;
+  background-color: green;
 `;

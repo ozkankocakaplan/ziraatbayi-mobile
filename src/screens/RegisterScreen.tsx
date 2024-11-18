@@ -8,10 +8,11 @@ import styled from 'styled-components';
 import FormContainer, {FormContainerRef} from 'react-native-form-container';
 import {
   faBarcode,
+  faBuilding,
   faEnvelope,
   faFileLines,
   faHouse,
-  faLock,
+  faLocationDot,
   faPhone,
   faUser,
 } from '@fortawesome/free-solid-svg-icons';
@@ -65,7 +66,7 @@ export default function RegisterScreen() {
           <Input
             required
             id="taxOffice"
-            icon={faFileLines}
+            icon={faBuilding}
             placeholder="Vergi Dairesi"
             keyboardType="phone-pad"
             style={{width: width * 0.43}}
@@ -74,14 +75,10 @@ export default function RegisterScreen() {
         <Input
           required
           id="address"
-          icon={faHouse}
+          multiline
+          icon={faLocationDot}
           placeholder="Firma Adresi"
-          style={{
-            height: 80,
-            textAlign: 'left',
-
-            flexDirection: 'row',
-          }}
+          style={{height: 100}}
         />
         <CheckInput
           id="contract"
@@ -91,7 +88,7 @@ export default function RegisterScreen() {
           clickedLabel="Gizlilik ve Kullanım Koşullarını"
           clickLabel={() => console.log('clicked')}
         />
-        <RegisterContainer gap={10} mx={20} mt={20}>
+        <RegisterContainer>
           <Button
             onPress={() => {
               let result = ref.current?.validate({

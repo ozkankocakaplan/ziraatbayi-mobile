@@ -6,43 +6,53 @@ import styled from 'styled-components';
 import CustomText from '../components/Text/Text';
 import Button from '../components/Button/Button';
 import FormContainer, {FormContainerRef} from 'react-native-form-container';
-import {faEnvelope} from '@fortawesome/free-regular-svg-icons';
-import {faLock} from '@fortawesome/free-solid-svg-icons';
-import {LogoIcon} from '../assets/logo';
+import {faLock, faEnvelope} from '@fortawesome/free-solid-svg-icons';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../types/navigator';
 import LoginRequest from '../payload/request/LoginRequest';
+import {useLoginMutation} from '../services/authService';
 
 export default function LoginScreen(
   props: NativeStackScreenProps<RootStackParamList, 'LoginScreen'>,
 ) {
-  const [loginRequest, setLoginRequest] = useState({
-    email: '',
-    password: '',
+  const [loginRequest, setLoginRequest] = useState<LoginRequest>({
+    email: 'ozkankocakaplan07@gmail.com',
+    password: '123456',
   });
 
   const ref = React.useRef<FormContainerRef>(null);
 
-  const login = () => {
+  const [loginMutation, {isLoading, isError, error}] = useLoginMutation();
+
+  const login = async () => {
     let result = ref.current?.validate({
       email: 'E-posta adresi boş bırakılamaz',
       password: 'Şifre boş bırakılamaz',
     });
+
     if (result) {
-      if (loginRequest.email === 'test' && loginRequest.password === 'test1') {
-        console.log('Giriş başarılı!');
-      } else {
-        console.log('Hatalı e-posta veya şifre.');
+      try {
+        const response = await loginMutation(loginRequest).unwrap();
+
+        if (response) {
+          console.log('Giriş başarılı!', response);
+
+          // props.navigation.navigate('HomeScreen');
+        }
+      } catch (err) {
+        console.error('Giriş hatası:', err);
       }
     }
   };
+
   return (
     <Container header title="Giriş Yap">
       <Form>
         <LoginContainer>
-          <IconContainer>
-            <Image source={LogoIcon} style={{height: 200, width: 200}} />
-          </IconContainer>
+          <View style={{alignItems: 'center', justifyContent: 'center'}}>
+            <IconContainer></IconContainer>
+          </View>
+
           <FormContainer style={{gap: 10}} formContainerRef={ref}>
             <Input
               autoCapitalize="none"
@@ -105,9 +115,10 @@ const LoginContainer = styled(View)`
   justify-content: center;
 `;
 const IconContainer = styled(View)`
-  align-items: center;
-  justify-content: center;
   margin-bottom: 20px;
+  width: 200px;
+  height: 200px;
+  background-color: green;
 `;
 const RegisterContainer = styled(View)`
   margin-bottom: 30px;

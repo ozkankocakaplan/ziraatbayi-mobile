@@ -3,7 +3,8 @@ import {TransitionPresets, createStackNavigator} from '@react-navigation/stack';
 import {RootStackParamList} from '../types/navigator';
 import LoginScreen from '../screens/LoginScreen';
 import RegisterScreen from '../screens/RegisterScreen';
-import ForgotPasswordScreen from '../screens/ForgotPasswordPassword';
+import ForgotPasswordScreen from '../screens/ForgotPasswordScreen';
+import HomeScreen from '../screens/HomeScreen';
 
 const Stack = createStackNavigator<RootStackParamList>();
 const RootNavigator = () => {
@@ -20,6 +21,7 @@ const RootNavigator = () => {
         name="ForgotPasswordScreen"
         component={ForgotPasswordScreen}
       />
+      <Stack.Screen name="HomeScreen" component={HomeScreen} />
     </Stack.Navigator>
   );
 };

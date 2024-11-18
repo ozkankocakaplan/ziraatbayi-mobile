@@ -1,9 +1,6 @@
 interface LoginResponse {
   uid?: string;
-  firstName?: string;
-  lastName?: string;
-  fullName?: string;
-  photo?: string;
+  password?: string;
   email?: string;
 }
 export default LoginResponse;
