@@ -10,7 +10,11 @@ import {faLock, faEnvelope} from '@fortawesome/free-solid-svg-icons';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../types/navigator';
 import LoginRequest from '../payload/request/LoginRequest';
-import {useLoginMutation} from '../services/authService';
+import {AuthApi} from '../services/authService';
+import AlertDialog from '../components/AlertDialog/AlertDialog';
+import {useDispatch, useSelector} from 'react-redux';
+import {AuthActions} from '../store/features/authReducer';
+import {RootState} from '../store';
 
 export default function LoginScreen(
   props: NativeStackScreenProps<RootStackParamList, 'LoginScreen'>,
@@ -19,29 +23,41 @@ export default function LoginScreen(
     email: 'ozkankocakaplan07@gmail.com',
     password: '123456',
   });
-
+  const dispatch = useDispatch(); // useDispatch hook'u ile store'a erişim sağlanır.
+  const {user} = useSelector((state: RootState) => state.auth); // useSelector hook'u ile store'dan veri okunur.
+  console.log(user);
   const ref = React.useRef<FormContainerRef>(null);
 
-  const [loginMutation, {isLoading, isError, error}] = useLoginMutation();
+  const [loginMutation, {isLoading, isError, error}] =
+    AuthApi.useLoginMutation();
 
-  const login = async () => {
+  const login = () => {
     let result = ref.current?.validate({
       email: 'E-posta adresi boş bırakılamaz',
       password: 'Şifre boş bırakılamaz',
     });
-
     if (result) {
-      try {
-        const response = await loginMutation(loginRequest).unwrap();
-
-        if (response) {
-          console.log('Giriş başarılı!', response);
-
-          // props.navigation.navigate('HomeScreen');
-        }
-      } catch (err) {
-        console.error('Giriş hatası:', err);
-      }
+      loginMutation(loginRequest); // loginMutation hook'u ile login işlemi yapılır.
+      // loginMutation(loginRequest)
+      // .unwrap()
+      // .then(response => {
+      //   if (response.isSuccessful) {
+      //     dispatch(AuthActions.setUser(response.entity));
+      //   } else {
+      //     AlertDialog.showModal({
+      //       title: 'Hata',
+      //       type: 'error',
+      //       message: response.exceptionMessage,
+      //     });
+      //   }
+      // })
+      // .catch(er => {
+      //   AlertDialog.showModal({
+      //     title: 'Hata',
+      //     type: 'error',
+      //     message: 'E-posta veya şifre hatalı',
+      //   });
+      // });
     }
   };
 

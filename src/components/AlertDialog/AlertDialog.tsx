@@ -8,7 +8,7 @@ import {Appearance, Text, View} from 'react-native';
 import styled from 'styled-components';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import LottieView from 'lottie-react-native';
-import {CheckAnimation} from '../../assets/lottie/LottieData';
+import {CheckAnimation, LoadingAnimation} from '../../assets/lottie/LottieData';
 import CustomText from '../Text/Text';
 import Button from '../Button/Button';
 import {
@@ -31,7 +31,36 @@ interface ModalProps {
 
 class AlertDialog {
   ids: any[] = [];
-
+  showLoading() {
+    const id = ModalPortal.show(
+      <Modal
+        visible={true}
+        onTouchOutside={() => {
+          ModalPortal.dismiss(id);
+        }}
+        modalStyle={{backgroundColor: 'transparent'}}
+        overlayBackgroundColor={'black'}>
+        <View
+          style={{
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+          <LottieView
+            style={{width: 100, height: 100}}
+            autoPlay
+            loop
+            source={LoadingAnimation}
+          />
+        </View>
+      </Modal>,
+    );
+    this.ids.push(id);
+  }
+  hideLoading() {
+    ModalPortal.dismiss(this.ids[this.ids.length - 1]);
+    this.ids.pop();
+  }
   showLogoutModal(onConfirm: () => void) {
     return new Promise(resolve => {
       const id = ModalPortal.show(

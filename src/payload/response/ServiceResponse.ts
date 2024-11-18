@@ -1,6 +1,6 @@
 export default interface ServiceResponse<T> {
   hasExceptionError: boolean;
-  isSuccess: boolean;
+  isSuccessful: boolean;
   exceptionMessage: string;
   count: number;
   entity: T;

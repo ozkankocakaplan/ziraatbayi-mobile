@@ -1,6 +1,9 @@
 interface LoginResponse {
-  uid?: string;
-  password?: string;
-  email?: string;
+  id: number;
+  firstName: string;
+  lastName: string;
+  email: string;
+  token: string;
+  companyName: string;
 }
 export default LoginResponse;

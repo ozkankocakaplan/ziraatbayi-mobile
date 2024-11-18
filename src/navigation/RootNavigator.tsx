@@ -5,23 +5,32 @@ import LoginScreen from '../screens/LoginScreen';
 import RegisterScreen from '../screens/RegisterScreen';
 import ForgotPasswordScreen from '../screens/ForgotPasswordScreen';
 import HomeScreen from '../screens/HomeScreen';
+import {useSelector} from 'react-redux';
+import {RootState} from '../store';
 
 const Stack = createStackNavigator<RootStackParamList>();
 const RootNavigator = () => {
+  const user = useSelector((state: RootState) => state.auth.user);
   return (
     <Stack.Navigator
-      initialRouteName="LoginScreen"
       screenOptions={{
         ...TransitionPresets.SlideFromRightIOS,
         headerShown: false,
       }}>
-      <Stack.Screen name="LoginScreen" component={LoginScreen} />
-      <Stack.Screen name="RegisterScreen" component={RegisterScreen} />
-      <Stack.Screen
-        name="ForgotPasswordScreen"
-        component={ForgotPasswordScreen}
-      />
-      <Stack.Screen name="HomeScreen" component={HomeScreen} />
+      {user == null ? (
+        <>
+          <Stack.Screen name="LoginScreen" component={LoginScreen} />
+          <Stack.Screen name="RegisterScreen" component={RegisterScreen} />
+          <Stack.Screen
+            name="ForgotPasswordScreen"
+            component={ForgotPasswordScreen}
+          />
+        </>
+      ) : (
+        <>
+          <Stack.Screen name="HomeScreen" component={HomeScreen} />
+        </>
+      )}
     </Stack.Navigator>
   );
 };

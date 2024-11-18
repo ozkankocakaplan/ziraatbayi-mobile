@@ -16,10 +16,16 @@ import {
   faPhone,
   faUser,
 } from '@fortawesome/free-solid-svg-icons';
+import {AuthApi} from '../services/authService';
 
 export default function RegisterScreen() {
   var ref = useRef<FormContainerRef>(null);
+
+  const [useRegister] = AuthApi.useCreateDealerMutation();
   const {width} = Dimensions.get('window');
+
+  const handleRegister = () => {};
+
   return (
     <Container header title={'Kayıt Ol'} goBackShow>
       <Form formContainerRef={ref}>
@@ -105,6 +111,7 @@ export default function RegisterScreen() {
               if (!result) {
                 return;
               }
+              handleRegister();
             }}
             text="Kayıt Ol"
           />

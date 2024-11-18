@@ -1,7 +1,8 @@
 import {createSlice} from '@reduxjs/toolkit';
+import LoginResponse from '../../payload/response/LoginResponse';
 
 interface AuthState {
-  user: null;
+  user: LoginResponse | null;
 }
 const InitialState: AuthState = {
   user: null,
