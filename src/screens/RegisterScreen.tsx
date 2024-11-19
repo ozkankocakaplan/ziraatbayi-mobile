@@ -114,32 +114,28 @@ export default function RegisterScreen() {
             setRegisterRequest({...registerRequest, gnlNumber: text})
           }
         />
-        <TaxContainer>
-          <Input
-            required
-            id="taxNumber"
-            icon={faFileLines}
-            placeholder="Vergi Numarası"
-            keyboardType="phone-pad"
-            value={registerRequest.taxNumber}
-            onChangeText={text =>
-              setRegisterRequest({...registerRequest, taxNumber: text})
-            }
-            style={{width: width * 0.43}}
-          />
-          <Input
-            required
-            id="taxOffice"
-            icon={faBuilding}
-            placeholder="Vergi Dairesi"
-            keyboardType="phone-pad"
-            value={registerRequest.taxOffice}
-            onChangeText={text =>
-              setRegisterRequest({...registerRequest, taxOffice: text})
-            }
-            style={{width: width * 0.43}}
-          />
-        </TaxContainer>
+        <Input
+          required
+          id="taxNumber"
+          icon={faFileLines}
+          placeholder="Vergi Numarası"
+          keyboardType="phone-pad"
+          value={registerRequest.taxNumber}
+          onChangeText={text =>
+            setRegisterRequest({...registerRequest, taxNumber: text})
+          }
+        />
+        <Input
+          required
+          id="taxOffice"
+          icon={faBuilding}
+          placeholder="Vergi Dairesi"
+          keyboardType="phone-pad"
+          value={registerRequest.taxOffice}
+          onChangeText={text =>
+            setRegisterRequest({...registerRequest, taxOffice: text})
+          }
+        />
         <Input
           required
           id="address"
@@ -155,6 +151,7 @@ export default function RegisterScreen() {
         <CheckInput
           id="contract"
           type="checkbox"
+          value={false}
           errorMessage=""
           label="Gizlilik ve Kullanım Koşullarını okudum kabul ediyorum."
           clickedLabel="Gizlilik ve Kullanım Koşullarını"
@@ -163,33 +160,22 @@ export default function RegisterScreen() {
         <RegisterContainer>
           <Button
             onPress={() => {
-              console.log('Validasyon başladı.');
-              let result = ref.current?.validate({
-                firstName: 'Lütfen adınızı giriniz.',
-                lastName: 'Lütfen soyadınızı giriniz.',
-                companyName: 'Lütfen firma adınızı giriniz.',
-                email: 'Lütfen e-posta adresinizi giriniz.',
-                phone: 'Lütfen telefon numaranızı giriniz.',
-                glnNumber: 'Lütfen GLN numaranızı giriniz.',
+              // let result = ref.current?.validate({
+              //   firstName: 'Lütfen adınızı giriniz.',
+              //   lastName: 'Lütfen soyadınızı giriniz.',
+              //   companyName: 'Lütfen firma adınızı giriniz.',
+              //   email: 'Lütfen e-posta adresinizi giriniz.',
+              //   phone: 'Lütfen telefon numaranızı giriniz.',
+              //   glnNumber: 'Lütfen GLN numaranızı giriniz.',
+              //   taxNumber: 'Lütfen vergi numaranızı giriniz.',
+              //   taxOffice: 'Lütfen vergi dairesi adını giriniz.',
+              //   address: 'Lütfen firma adresinizi giriniz.',
+              //   contract: 'Gizlilik ve Kullanım Koşullarını kabul etmelisiniz.',
+              // });
+              // console.log('result', result);
+              // if (result) {
 
-                address: 'Lütfen firma adresinizi giriniz.',
-              });
-              console.log('Validasyon sonucu:', result);
-              if (!result) {
-                console.log('Validasyon hatası. Alanların durumu:');
-                console.log('firstName:', registerRequest.firstName);
-                console.log('lastName:', registerRequest.lastName);
-                console.log('companyName:', registerRequest.companyName);
-                console.log('email:', registerRequest.email);
-                console.log('phone:', registerRequest.phone);
-                console.log('glnNumber:', registerRequest.gnlNumber);
-                console.log('taxNumber:', registerRequest.taxNumber);
-                console.log('taxOffice:', registerRequest.taxOffice);
-                console.log('address:', registerRequest.address);
-                return;
-              }
-
-              console.log('Validasyon başarılı, kayıt işlemi başlatılıyor...');
+              // }
               handleRegister();
             }}
             text="Kayıt Ol"

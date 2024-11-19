@@ -13,7 +13,7 @@ import useThemeColors from '../../constant/useColor';
 import CustomText from '../Text/Text';
 
 interface CheckInputProps extends TouchableOpacityProps {
-  checked?: boolean;
+  value?: boolean;
   label?: string;
   clickLabel?: () => void;
   clickedLabel?: string;
@@ -21,7 +21,7 @@ interface CheckInputProps extends TouchableOpacityProps {
   type?: 'checkbox';
 }
 export default function CheckInput({
-  checked = false,
+  value = false,
   label,
   clickLabel,
   clickedLabel,
@@ -101,7 +101,7 @@ export default function CheckInput({
     <View>
       <Container>
         <InputContainer {...props} activeOpacity={0.7}>
-          {checked ? (
+          {value ? (
             <FontAwesomeIcon
               color={colors.iconColor}
               size={20}

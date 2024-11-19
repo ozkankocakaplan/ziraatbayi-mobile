@@ -37,7 +37,7 @@ export const authApi = baseApi.injectEndpoints({
       CreateDealerRequest
     >({
       query: credentials => ({
-        url: '/auth/createDealer',
+        url: '/dealer',
         method: 'POST',
         body: credentials,
       }),
@@ -45,17 +45,19 @@ export const authApi = baseApi.injectEndpoints({
         try {
           AlertDialog.showLoading();
           let result = await queryFulfilled;
-          if (result.data.isSuccessful) {
-            dispatch(AuthActions.setUser(result.data.entity));
-          }
-        } catch (error) {
-          AlertDialog.showModal({
-            title: 'Hata',
-            type: 'error',
-            message: 'hata',
-          });
-        } finally {
           AlertDialog.hideLoading();
+          if (result.data.isSuccessful) {
+            AlertDialog.showModal({
+              title: 'Başarılı',
+              type: 'success',
+              message: 'Kayıt başarılı',
+            });
+          }
+        } catch (error: any) {
+          AlertDialog.showModal({
+            type: 'error',
+            message: error?.error?.data?.exceptionMessage || 'Bir hata oluştu',
+          });
         }
       },
     }),

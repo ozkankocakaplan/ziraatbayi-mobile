@@ -4,6 +4,6 @@ interface LoginResponse {
   lastName: string;
   email: string;
   token: string;
-  companyName: string;
+  dealerId: number;
 }
 export default LoginResponse;

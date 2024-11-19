@@ -20,25 +20,17 @@ export default function LoginScreen(
   props: NativeStackScreenProps<RootStackParamList, 'LoginScreen'>,
 ) {
   const [loginRequest, setLoginRequest] = useState<LoginRequest>({
-    email: 'ozkankocakaplan07@gmail.com',
+    email: 'ferizaocal60@gmail.com',
     password: '123456',
   });
   const dispatch = useDispatch(); // useDispatch hook'u ile store'a erişim sağlanır.
   const {user} = useSelector((state: RootState) => state.auth); // useSelector hook'u ile store'dan veri okunur.
-  console.log(user);
-  const ref = React.useRef<FormContainerRef>(null);
 
   const [loginMutation, {isLoading, isError, error}] =
     AuthApi.useLoginMutation();
 
   const login = () => {
-    let result = ref.current?.validate({
-      email: 'E-posta adresi boş bırakılamaz',
-      password: 'Şifre boş bırakılamaz',
-    });
-    if (result) {
-      loginMutation(loginRequest).unwrap();
-    }
+    loginMutation(loginRequest).unwrap();
   };
 
   return (
@@ -49,7 +41,7 @@ export default function LoginScreen(
             <IconContainer></IconContainer>
           </View>
 
-          <FormContainer style={{gap: 10}} formContainerRef={ref}>
+          <View style={{gap: 10}}>
             <Input
               autoCapitalize="none"
               id="email"
@@ -72,7 +64,7 @@ export default function LoginScreen(
                 setLoginRequest({...loginRequest, password: text})
               }
             />
-          </FormContainer>
+          </View>
           <ForgotPassword>
             <CustomText
               color="secondary"
