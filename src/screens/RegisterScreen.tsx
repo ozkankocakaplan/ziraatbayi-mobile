@@ -1,4 +1,4 @@
-import React, {useRef} from 'react';
+import React, {useRef, useState} from 'react';
 import {Dimensions, View} from 'react-native';
 import Container from '../components/Container/Container';
 import Input from '../components/Input/Input';
@@ -17,25 +17,67 @@ import {
   faUser,
 } from '@fortawesome/free-solid-svg-icons';
 import {AuthApi} from '../services/authService';
+import CreateDealerRequest from '../payload/request/CreateDealerRequest';
 
 export default function RegisterScreen() {
   var ref = useRef<FormContainerRef>(null);
-
   const [useRegister] = AuthApi.useCreateDealerMutation();
   const {width} = Dimensions.get('window');
 
-  const handleRegister = () => {};
+  const [registerRequest, setRegisterRequest] = useState<CreateDealerRequest>({
+    firstName: 'feriza',
+    lastName: 'öcal',
+    companyName: 'feriza şirket',
+    email: 'f@gmail.com',
+    phone: '123',
+    gnlNumber: '456',
+    taxNumber: '789',
+    taxOffice: '01234',
+    address: 'yozgat',
+  });
+
+  const handleRegister = async () => {
+    try {
+      console.log('Kayıt işlemi başlatılıyor...', registerRequest);
+      const response = await useRegister(registerRequest).unwrap();
+      console.log('Kayıt başarılı:', response);
+    } catch (error) {
+      console.error('Kayıt sırasında bir hata oluştu:', error);
+    }
+  };
 
   return (
     <Container header title={'Kayıt Ol'} goBackShow>
       <Form formContainerRef={ref}>
-        <Input required id="firstName" icon={faUser} placeholder="Ad" />
-        <Input required id="lastName" icon={faUser} placeholder="Soyad" />
+        <Input
+          required
+          id="firstName"
+          icon={faUser}
+          placeholder="Ad"
+          value={registerRequest.firstName}
+          onChangeText={text =>
+            setRegisterRequest({...registerRequest, firstName: text})
+          }
+        />
+        <Input
+          required
+          id="lastName"
+          icon={faUser}
+          placeholder="Soyad"
+          value={registerRequest.lastName}
+          onChangeText={text =>
+            setRegisterRequest({...registerRequest, lastName: text})
+          }
+        />
         <Input
           required
           id="companyName"
           icon={faHouse}
           placeholder="Firma Adı"
+          value={registerRequest.companyName}
+          onChangeText={text =>
+            setRegisterRequest({...registerRequest, companyName: text})
+          }
         />
         <Input
           required
@@ -44,6 +86,10 @@ export default function RegisterScreen() {
           icon={faEnvelope}
           placeholder="E-posta"
           validation="email"
+          value={registerRequest.email}
+          onChangeText={text =>
+            setRegisterRequest({...registerRequest, email: text})
+          }
         />
         <Input
           required
@@ -52,6 +98,10 @@ export default function RegisterScreen() {
           validation="phone"
           keyboardType="phone-pad"
           placeholder="Telefon Numarası"
+          value={registerRequest.phone}
+          onChangeText={text =>
+            setRegisterRequest({...registerRequest, phone: text})
+          }
         />
         <Input
           required
@@ -59,6 +109,10 @@ export default function RegisterScreen() {
           icon={faBarcode}
           keyboardType="phone-pad"
           placeholder="GLN Numarası"
+          value={registerRequest.gnlNumber}
+          onChangeText={text =>
+            setRegisterRequest({...registerRequest, gnlNumber: text})
+          }
         />
         <TaxContainer>
           <Input
@@ -67,6 +121,10 @@ export default function RegisterScreen() {
             icon={faFileLines}
             placeholder="Vergi Numarası"
             keyboardType="phone-pad"
+            value={registerRequest.taxNumber}
+            onChangeText={text =>
+              setRegisterRequest({...registerRequest, taxNumber: text})
+            }
             style={{width: width * 0.43}}
           />
           <Input
@@ -75,6 +133,10 @@ export default function RegisterScreen() {
             icon={faBuilding}
             placeholder="Vergi Dairesi"
             keyboardType="phone-pad"
+            value={registerRequest.taxOffice}
+            onChangeText={text =>
+              setRegisterRequest({...registerRequest, taxOffice: text})
+            }
             style={{width: width * 0.43}}
           />
         </TaxContainer>
@@ -84,6 +146,10 @@ export default function RegisterScreen() {
           multiline
           icon={faLocationDot}
           placeholder="Firma Adresi"
+          value={registerRequest.address}
+          onChangeText={text =>
+            setRegisterRequest({...registerRequest, address: text})
+          }
           style={{height: 100}}
         />
         <CheckInput
@@ -97,6 +163,7 @@ export default function RegisterScreen() {
         <RegisterContainer>
           <Button
             onPress={() => {
+              console.log('Validasyon başladı.');
               let result = ref.current?.validate({
                 firstName: 'Lütfen adınızı giriniz.',
                 lastName: 'Lütfen soyadınızı giriniz.',
@@ -104,13 +171,25 @@ export default function RegisterScreen() {
                 email: 'Lütfen e-posta adresinizi giriniz.',
                 phone: 'Lütfen telefon numaranızı giriniz.',
                 glnNumber: 'Lütfen GLN numaranızı giriniz.',
-                taxNumber: 'Zorunlu alan',
-                taxOffice: 'Zorunlu alan',
+
                 address: 'Lütfen firma adresinizi giriniz.',
               });
+              console.log('Validasyon sonucu:', result);
               if (!result) {
+                console.log('Validasyon hatası. Alanların durumu:');
+                console.log('firstName:', registerRequest.firstName);
+                console.log('lastName:', registerRequest.lastName);
+                console.log('companyName:', registerRequest.companyName);
+                console.log('email:', registerRequest.email);
+                console.log('phone:', registerRequest.phone);
+                console.log('glnNumber:', registerRequest.gnlNumber);
+                console.log('taxNumber:', registerRequest.taxNumber);
+                console.log('taxOffice:', registerRequest.taxOffice);
+                console.log('address:', registerRequest.address);
                 return;
               }
+
+              console.log('Validasyon başarılı, kayıt işlemi başlatılıyor...');
               handleRegister();
             }}
             text="Kayıt Ol"

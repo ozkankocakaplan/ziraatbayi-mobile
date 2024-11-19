@@ -41,6 +41,23 @@ export const authApi = baseApi.injectEndpoints({
         method: 'POST',
         body: credentials,
       }),
+      async onQueryStarted(arg, {dispatch, queryFulfilled}) {
+        try {
+          AlertDialog.showLoading();
+          let result = await queryFulfilled;
+          if (result.data.isSuccessful) {
+            dispatch(AuthActions.setUser(result.data.entity));
+          }
+        } catch (error) {
+          AlertDialog.showModal({
+            title: 'Hata',
+            type: 'error',
+            message: 'hata',
+          });
+        } finally {
+          AlertDialog.hideLoading();
+        }
+      },
     }),
   }),
 });

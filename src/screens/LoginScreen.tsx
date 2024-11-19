@@ -37,27 +37,7 @@ export default function LoginScreen(
       password: 'Şifre boş bırakılamaz',
     });
     if (result) {
-      loginMutation(loginRequest); // loginMutation hook'u ile login işlemi yapılır.
-      // loginMutation(loginRequest)
-      // .unwrap()
-      // .then(response => {
-      //   if (response.isSuccessful) {
-      //     dispatch(AuthActions.setUser(response.entity));
-      //   } else {
-      //     AlertDialog.showModal({
-      //       title: 'Hata',
-      //       type: 'error',
-      //       message: response.exceptionMessage,
-      //     });
-      //   }
-      // })
-      // .catch(er => {
-      //   AlertDialog.showModal({
-      //     title: 'Hata',
-      //     type: 'error',
-      //     message: 'E-posta veya şifre hatalı',
-      //   });
-      // });
+      loginMutation(loginRequest).unwrap();
     }
   };
 
