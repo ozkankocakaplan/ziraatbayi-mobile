@@ -27,6 +27,7 @@ export const authApi = baseApi.injectEndpoints({
             type: 'error',
             message: 'E-posta veya şifre hatalı',
           });
+          AlertDialog.hideLoading();
         } finally {
           AlertDialog.hideLoading();
         }
@@ -58,6 +59,9 @@ export const authApi = baseApi.injectEndpoints({
             type: 'error',
             message: error?.error?.data?.exceptionMessage || 'Bir hata oluştu',
           });
+          AlertDialog.hideLoading();
+        } finally {
+          AlertDialog.hideLoading();
         }
       },
     }),
