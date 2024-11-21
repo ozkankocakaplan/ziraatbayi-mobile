@@ -3,17 +3,12 @@ import React, {
   useMemo,
   forwardRef,
   useImperativeHandle,
-  useEffect,
-  Ref,
   useState,
-  useLayoutEffect,
-  useCallback,
 } from 'react';
-import {View, Text, StyleSheet, LayoutChangeEvent} from 'react-native';
+import {StyleSheet} from 'react-native';
 import BottomSheet, {
   BottomSheetBackdrop,
   BottomSheetBackgroundProps,
-  BottomSheetView,
 } from '@gorhom/bottom-sheet';
 
 interface BottomSheetComponentProps {

@@ -18,8 +18,12 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import {AuthApi} from '../services/authService';
 import CreateDealerRequest from '../payload/request/CreateDealerRequest';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {RootStackParamList} from '../types/navigator';
 
-export default function RegisterScreen() {
+export default function RegisterScreen(
+  props: NativeStackScreenProps<RootStackParamList, 'RegisterScreen'>,
+) {
   var ref = useRef<FormContainerRef>(null);
   const [useRegister] = AuthApi.useCreateDealerMutation();
   const {width} = Dimensions.get('window');
@@ -176,6 +180,7 @@ export default function RegisterScreen() {
               // if (result) {
 
               // }
+              props.navigation.navigate('BottomTabMenu');
               handleRegister();
             }}
             text="Kayıt Ol"

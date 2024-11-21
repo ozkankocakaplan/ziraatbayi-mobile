@@ -7,6 +7,8 @@ import ForgotPasswordScreen from '../screens/ForgotPasswordScreen';
 import HomeScreen from '../screens/HomeScreen';
 import {useSelector} from 'react-redux';
 import {RootState} from '../store';
+import BottomTabNavigator from './BottomTabNavigator';
+import MessageScreen from '../screens/MessageScreen';
 
 const Stack = createStackNavigator<RootStackParamList>();
 const RootNavigator = () => {
@@ -28,7 +30,9 @@ const RootNavigator = () => {
         </>
       ) : (
         <>
+          <Stack.Screen name="BottomTabMenu" component={BottomTabNavigator} />
           <Stack.Screen name="HomeScreen" component={HomeScreen} />
+          <Stack.Screen name="MessageScreen" component={MessageScreen} />
         </>
       )}
     </Stack.Navigator>

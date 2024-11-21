@@ -1,6 +1,10 @@
-import React from 'react';
-import {Image, Text, View} from 'react-native';
+import React, {useRef} from 'react';
+import {Image, Text, TouchableOpacity, View} from 'react-native';
 import styled from 'styled-components';
+import ProductBottomSheet, {
+  BottomSheetRef,
+} from '../BottomSheet/CustomBottomSheet';
+import CustomBottomSheet from '../BottomSheet/CustomBottomSheet';
 
 interface Product {
   image: string;
@@ -14,31 +18,38 @@ export default function ProductCard({
   productName,
   price,
 }: Product) {
+  const bottomSheetRef = useRef<BottomSheetRef>(null);
+
+  const handleCardPress = () => {
+    bottomSheetRef.current?.open();
+  };
+
   return (
-    <Card>
-      <ImageContainer>
-        <ProductImage source={{uri: image}} resizeMode="cover" />
-      </ImageContainer>
-      <InfoContainer>
-        <CategoryName>{categoryName}</CategoryName>
-        <ProductName>{productName}</ProductName>
-        <Price>{price}</Price>
-      </InfoContainer>
-    </Card>
+    <>
+      <Card onPress={handleCardPress}>
+        <ImageContainer>
+          <ProductImage source={{uri: image}} resizeMode="cover" />
+        </ImageContainer>
+        <InfoContainer>
+          <CategoryName>{categoryName}</CategoryName>
+          <ProductName>{productName}</ProductName>
+          <Price>{price}</Price>
+        </InfoContainer>
+      </Card>
+    </>
   );
 }
 
-const Card = styled(View)`
-  width: 130px;
+const Card = styled(TouchableOpacity)`
   margin: 10px;
   background-color: white;
-  border-radius: 10px;
+  border-radius: 6px;
 `;
 
 const ImageContainer = styled(View)`
-  height: 150px;
-  border-radius: 10px;
-  overflow: hidden;
+  width: 125px;
+  height: 100px;
+  padding: 8px;
 `;
 
 const ProductImage = styled(Image)`
@@ -51,15 +62,17 @@ const InfoContainer = styled(View)`
 `;
 
 const CategoryName = styled(Text)`
-  font-size: 14px;
+  font-size: 11px;
   font-weight: bold;
   color: #555;
+  margin-bottom: 5px;
 `;
 
 const ProductName = styled(Text)`
   font-size: 16px;
   font-weight: bold;
   color: #333;
+  margin-bottom: 5px;
 `;
 
 const Price = styled(Text)`

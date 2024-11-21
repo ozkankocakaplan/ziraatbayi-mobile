@@ -9,19 +9,38 @@ import {
 import styled from 'styled-components';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faBell, faEnvelope} from '@fortawesome/free-regular-svg-icons';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {RootStackParamList} from '../../types/navigator';
+import {NavigationProp, useNavigation} from '@react-navigation/native';
 
-export default function MainHeader() {
+interface MainHeaderProps {
+  screen: 'HomeScreen' | 'AdvertScreen';
+}
+export default function MainHeader(props: MainHeaderProps) {
+  const {screen} = props;
+  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
+
   return (
     <Container>
       <Header>
-        <SearchInput placeholder="Ürün ara..." placeholderTextColor="#999" />
+        {screen === 'HomeScreen' ? (
+          <SearchInput placeholder="Ürün ara..." placeholderTextColor="#999" />
+        ) : (
+          <AdvertTitle>İlanlarım</AdvertTitle>
+        )}
 
         <IconContainer>
-          <IconButton>
-            <FontAwesomeIcon icon={faEnvelope} size={24} color="black" />
+          <IconButton
+            onPress={() => {
+              navigation.navigate('MessageScreen');
+            }}>
+            <FontAwesomeIcon icon={faEnvelope} size={24} color="#f0f0f0" />
           </IconButton>
-          <IconButton>
-            <FontAwesomeIcon icon={faBell} size={24} color="black" />
+          <IconButton
+            onPress={() => {
+              navigation.navigate('MessageScreen');
+            }}>
+            <FontAwesomeIcon icon={faBell} size={24} color="#f0f0f0" />
           </IconButton>
         </IconContainer>
       </Header>
@@ -47,6 +66,13 @@ const SearchInput = styled(TextInput)`
   border-radius: 6px;
   padding-horizontal: 10px;
   background-color: #fff;
+`;
+const AdvertTitle = styled(Text)`
+  flex: 0.8;
+
+  font-size: 18px;
+  font-weight: bold;
+  color: white;
 `;
 
 const IconContainer = styled(View)`

@@ -1,21 +1,23 @@
-import React from 'react';
-import {FlatList, SafeAreaView, Text, View} from 'react-native';
+import React, {useRef} from 'react';
+import {
+  FlatList,
+  SafeAreaView,
+  ScrollView,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import Button from '../components/Button/Button';
-import {useDispatch} from 'react-redux';
-import {AuthActions} from '../store/features/authReducer';
-import AlertDialog from '../components/AlertDialog/AlertDialog';
-import Container from '../components/Container/Container';
 import MainHeader from '../components/Header/MainHeader';
 import ProductCard from '../components/Product/ProductCard';
 import styled from 'styled-components';
+import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
+import {faBars, faFilter} from '@fortawesome/free-solid-svg-icons';
+import CustomBottomSheet, {
+  BottomSheetRef,
+} from '../components/BottomSheet/CustomBottomSheet';
 
 export default function HomeScreen() {
-  // const dispatch = useDispatch();
-
-  // const logOut = () => {
-  //   dispatch(AuthActions.setUser(null));
-  // };
-
   const products = [
     {
       id: '1',
@@ -102,28 +104,90 @@ export default function HomeScreen() {
       price: '₺500',
     },
   ];
-
+  const bottomSheetRef = useRef<BottomSheetRef>(null);
   return (
     <>
-      <MainHeader />
+      <MainHeader screen="HomeScreen" />
+      <Container>
+        <HeaderRow>
+          {/* Boyutu ayarla */}
+          <ButtonContainer>
+            <FontAwesomeIcon icon={faBars} size={16} color="black" />
+            <ButtonText>Kategoriler</ButtonText>
+          </ButtonContainer>
+          <CategoriesScroll horizontal showsHorizontalScrollIndicator={false}>
+            <CategoriesContainer>
+              <Button text="Kategori 2" />
+              <Button text="Kategori 3" />
+              <Button text="Kategori 4" />
+            </CategoriesContainer>
+          </CategoriesScroll>
 
-      <ProductList
-        data={products}
-        keyExtractor={(item: any) => item.id}
-        renderItem={({item}: {item: any}) => (
-          <ProductCard
-            image={item.image}
-            categoryName={item.categoryName}
-            productName={item.productName}
-            price={item.price}
-          />
-        )}
-        numColumns={3} // 3 kart aynı satırda olacak şekilde düzenle
-        contentContainerStyle={{paddingBottom: 20}} // Aşağı kaydırma için boşluk bırak
-      />
+          <FilterIconContainer>
+            <FontAwesomeIcon icon={faFilter} size={24} color="black" />
+          </FilterIconContainer>
+        </HeaderRow>
+
+        <ProductList
+          data={products}
+          keyExtractor={(item: any) => item.id}
+          renderItem={({item}: {item: any}) => (
+            <ProductCard
+              image={item.image}
+              categoryName={item.categoryName}
+              productName={item.productName}
+              price={item.price}
+            />
+          )}
+          numColumns={3}
+        />
+        <CustomBottomSheet
+          snapPoints={['80%']}
+          ref={bottomSheetRef}></CustomBottomSheet>
+      </Container>
     </>
   );
 }
+
+const Container = styled(View)`
+  flex: 1;
+  background-color: #f0f0f0;
+`;
+
+const HeaderRow = styled(View)`
+  flex-direction: row;
+  align-items: center;
+  padding: 8px;
+`;
+
+const CategoriesScroll = styled(ScrollView)`
+  flex: 0.9;
+`;
+
+const CategoriesContainer = styled(View)`
+  flex-direction: row;
+  gap: 10px;
+`;
+const ButtonContainer = styled(TouchableOpacity)`
+  flex-direction: row;
+  align-items: center;
+  padding: 8px 12px;
+  background-color: #fff;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+`;
+
+const ButtonText = styled(Text)`
+  font-size: 14px;
+  color: #333333;
+  margin-left: 8px;
+`;
+
+const FilterIconContainer = styled(TouchableOpacity)`
+  flex: 0.1;
+  align-items: flex-end;
+  justify-content: center;
+`;
 
 const ProductList = styled(FlatList)`
   background-color: #f0f0f0;

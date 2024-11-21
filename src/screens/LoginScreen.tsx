@@ -5,15 +5,12 @@ import Input from '../components/Input/Input';
 import styled from 'styled-components';
 import CustomText from '../components/Text/Text';
 import Button from '../components/Button/Button';
-import FormContainer, {FormContainerRef} from 'react-native-form-container';
 import {faLock, faEnvelope} from '@fortawesome/free-solid-svg-icons';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../types/navigator';
 import LoginRequest from '../payload/request/LoginRequest';
 import {AuthApi} from '../services/authService';
-import AlertDialog from '../components/AlertDialog/AlertDialog';
 import {useDispatch, useSelector} from 'react-redux';
-import {AuthActions} from '../store/features/authReducer';
 import {RootState} from '../store';
 
 export default function LoginScreen(
