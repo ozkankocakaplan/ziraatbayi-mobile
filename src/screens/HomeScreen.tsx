@@ -1,4 +1,4 @@
-import React, {useRef} from 'react';
+import React, {useEffect, useRef} from 'react';
 import {
   FlatList,
   SafeAreaView,
@@ -19,6 +19,7 @@ import CustomBottomSheet, {
 import Container from '../components/Container/Container';
 
 export default function HomeScreen() {
+  const [isLoading, setIsLoading] = React.useState(true);
   const products = [
     {
       id: '1',
@@ -105,15 +106,24 @@ export default function HomeScreen() {
       price: '₺500',
     },
   ];
+  useEffect(() => {
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 2000);
+  }, []);
+  const loadAdverts = () => {
+    // Load adverts
+  };
   const bottomSheetRef = useRef<BottomSheetRef>(null);
   return (
     <Container
       isSearchable
       header
+      title="İlanlarıms"
       showMessage
       showNotification
       extraIcon={faEnvelope}>
-      <Container type="container">
+      <Container type="container" isLoading={isLoading}>
         <HeaderRow>
           {/* Boyutu ayarla */}
           <ButtonContainer>

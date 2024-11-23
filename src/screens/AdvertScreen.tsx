@@ -1,11 +1,13 @@
+import {View, Text} from 'react-native';
 import React from 'react';
-import {Text, View} from 'react-native';
-import MainHeader from '../components/Header/MainHeader';
+import Container from '../components/Container/Container';
 
 export default function AdvertScreen() {
   return (
-    <>
-      <MainHeader screen="AdvertScreen" />
-    </>
+    <Container header showMessage showNotification title="İlanlarım">
+      <Container type="container" p={10}>
+        <Text>İlanlarım</Text>
+      </Container>
+    </Container>
   );
 }

@@ -1,4 +1,4 @@
-import {View, Text, SafeAreaView} from 'react-native';
+import {View, Text, SafeAreaView, ActivityIndicator} from 'react-native';
 import useThemeColors from '../../constant/useColor';
 import styled from 'styled-components';
 import Header, {HeaderProps} from '../Header/Header';
@@ -25,6 +25,7 @@ interface ContainerProps extends HeaderProps {
   px?: number;
   py?: number;
   flex?: number;
+  isLoading?: boolean;
 }
 
 export default function Container({
@@ -33,10 +34,12 @@ export default function Container({
   goBackShow = false,
   type = 'page',
   bgColor,
+  isLoading = false,
   flex = 1,
   ...props
 }: ContainerProps) {
   const colors = useThemeColors();
+
   return !header ? (
     <SafeViewContainer
       flex={flex}
@@ -63,7 +66,14 @@ export default function Container({
             paddingHorizontal: props.px,
             paddingVertical: props.py,
           }}>
-          {children}
+          {isLoading ? (
+            <View
+              style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+              <ActivityIndicator size="large" color={colors.primary} />
+            </View>
+          ) : (
+            children
+          )}
         </View>
       ) : (
         children
