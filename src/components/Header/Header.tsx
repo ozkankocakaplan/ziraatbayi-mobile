@@ -1,23 +1,23 @@
 import {
   View,
-  Text,
   SafeAreaView,
   TouchableOpacity,
   Platform,
+  TextInput,
 } from 'react-native';
-
 import styled from 'styled-components';
 import useThemeColors from '../../constant/useColor';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {faAngleLeft, faBars} from '@fortawesome/free-solid-svg-icons';
-import {DrawerActions, useNavigation} from '@react-navigation/native';
+import {faEnvelope} from '@fortawesome/free-solid-svg-icons';
 import {faBell} from '@fortawesome/free-regular-svg-icons';
 import CustomText from '../Text/Text';
 import {IconProp} from '@fortawesome/fontawesome-svg-core';
 
 export interface HeaderProps {
   title?: string;
+  isSearchable?: boolean;
   showNotification?: boolean;
+  showMessage?: boolean;
   goBackShow?: boolean;
   onShowNotification?: () => void;
   extraIcon?: IconProp;
@@ -25,13 +25,14 @@ export interface HeaderProps {
 }
 export default function Header({
   title,
+  isSearchable = false,
   showNotification = false,
+  showMessage = false,
   goBackShow = false,
   onShowNotification,
   extraIcon,
   extraIconPress,
 }: HeaderProps) {
-  const navigation = useNavigation();
   const colors = useThemeColors();
   return (
     <HeaderContainer
@@ -39,25 +40,28 @@ export default function Header({
         background: colors.primary,
       }}>
       <Container>
-        {goBackShow && (
-          <IconLeft
-            hitSlop={15}
-            onPress={() => {
-              if (goBackShow) {
-                navigation.goBack();
-              } else {
-                navigation.dispatch(DrawerActions.openDrawer());
-              }
-            }}>
-            <FontAwesomeIcon icon={faAngleLeft} color={'#fff'} size={20} />
-          </IconLeft>
-        )}
-        {title?.length != 0 && (
-          <TitleContainer>
-            <HeaderTitle adjustsFontSizeToFit={true}>{title}</HeaderTitle>
-          </TitleContainer>
+        {isSearchable ? (
+          <SearchInput placeholder="Ürün ara..." placeholderTextColor="#999" />
+        ) : (
+          title?.length != 0 && (
+            <TitleContainer>
+              <HeaderTitle adjustsFontSizeToFit={true}>{title}</HeaderTitle>
+            </TitleContainer>
+          )
         )}
         <ExtraContainer>
+          {showMessage && (
+            <IconRight
+              onPress={() => {
+                if (extraIconPress) {
+                  extraIconPress();
+                }
+              }}
+              hitSlop={15}>
+              <FontAwesomeIcon icon={faEnvelope} color={'#fff'} size={20} />
+            </IconRight>
+          )}
+
           {showNotification && (
             <IconRight
               onPress={() => {
@@ -68,17 +72,6 @@ export default function Header({
               }}
               hitSlop={15}>
               <FontAwesomeIcon icon={faBell} color={'#fff'} size={20} />
-            </IconRight>
-          )}
-          {extraIcon && (
-            <IconRight
-              onPress={() => {
-                if (extraIconPress) {
-                  extraIconPress();
-                }
-              }}
-              hitSlop={15}>
-              <FontAwesomeIcon icon={extraIcon} color={'#fff'} size={20} />
             </IconRight>
           )}
         </ExtraContainer>
@@ -93,8 +86,8 @@ const HeaderContainer = styled(SafeAreaView)`
 `;
 const Container = styled(View)`
   justify-content: center;
-  align-items: center;
-  padding-bottom: 40px;
+
+  padding-bottom: 10px;
   top: 0;
 `;
 const IconLeft = styled(TouchableOpacity)`
@@ -103,12 +96,13 @@ const IconLeft = styled(TouchableOpacity)`
 `;
 const IconRight = styled(TouchableOpacity)``;
 const TitleContainer = styled(View)`
-  position: absolute;
+  position: center;
 `;
 const HeaderTitle = styled(CustomText)`
   font-size: 20px;
   color: #fff;
   font-weight: bold;
+  text-align: center;
 `;
 const ExtraContainer = styled(View)`
   position: absolute;
@@ -117,4 +111,13 @@ const ExtraContainer = styled(View)`
   justify-content: space-between;
   align-items: center;
   gap: 15px;
+`;
+const SearchInput = styled(TextInput)`
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding-vertical: 6px;
+  padding-horizontal: 10px;
+  background-color: #fff;
+  width: 70%;
+  margin-left: 10px;
 `;

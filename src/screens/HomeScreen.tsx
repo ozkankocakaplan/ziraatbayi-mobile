@@ -12,10 +12,11 @@ import MainHeader from '../components/Header/MainHeader';
 import ProductCard from '../components/Product/ProductCard';
 import styled from 'styled-components';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {faBars, faFilter} from '@fortawesome/free-solid-svg-icons';
+import {faBars, faEnvelope, faFilter} from '@fortawesome/free-solid-svg-icons';
 import CustomBottomSheet, {
   BottomSheetRef,
 } from '../components/BottomSheet/CustomBottomSheet';
+import Container from '../components/Container/Container';
 
 export default function HomeScreen() {
   const products = [
@@ -106,9 +107,13 @@ export default function HomeScreen() {
   ];
   const bottomSheetRef = useRef<BottomSheetRef>(null);
   return (
-    <>
-      <MainHeader screen="HomeScreen" />
-      <Container>
+    <Container
+      isSearchable
+      header
+      showMessage
+      showNotification
+      extraIcon={faEnvelope}>
+      <Container type="container">
         <HeaderRow>
           {/* Boyutu ayarla */}
           <ButtonContainer>
@@ -141,18 +146,10 @@ export default function HomeScreen() {
           )}
           numColumns={3}
         />
-        <CustomBottomSheet
-          snapPoints={['80%']}
-          ref={bottomSheetRef}></CustomBottomSheet>
       </Container>
-    </>
+    </Container>
   );
 }
-
-const Container = styled(View)`
-  flex: 1;
-  background-color: #f0f0f0;
-`;
 
 const HeaderRow = styled(View)`
   flex-direction: row;

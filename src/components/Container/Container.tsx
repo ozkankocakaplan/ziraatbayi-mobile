@@ -5,106 +5,108 @@ import Header, {HeaderProps} from '../Header/Header';
 
 interface ContainerProps extends HeaderProps {
   children?: React.ReactNode;
+  type?: 'container' | 'page';
   header?: boolean;
   goBackShow?: boolean;
+  bgColor?: string;
   gap?: number;
   m?: number;
   mr?: number;
   ml?: number;
   mt?: number;
   mb?: number;
+  mx?: number;
+  my?: number;
   p?: number;
   pl?: number;
   pr?: number;
   pt?: number;
   pb?: number;
-  bg?: string;
-  mx?: number;
-  my?: number;
-  py?: number;
   px?: number;
-  justifyContent?:
-    | 'center'
-    | 'flex-start'
-    | 'flex-end'
-    | 'space-between'
-    | 'space-around'
-    | 'space-evenly';
-  alignItems?: 'center' | 'flex-start' | 'flex-end' | 'stretch' | 'baseline';
+  py?: number;
+  flex?: number;
 }
 
 export default function Container({
   children,
   header,
   goBackShow = false,
-  bg,
+  type = 'page',
+  bgColor,
+  flex = 1,
   ...props
 }: ContainerProps) {
   const colors = useThemeColors();
   return !header ? (
     <SafeViewContainer
+      flex={flex}
       style={{
-        backgroundColor: bg || colors.background,
+        backgroundColor: bgColor ? bgColor : colors.background,
       }}>
-      <View
-        style={{
-          flex: 1,
-          margin: props.m,
-          marginRight: props.mr,
-          marginLeft: props.ml,
-          marginTop: props.mt,
-          padding: props.p,
-          paddingLeft: props.pl,
-          paddingRight: props.pr,
-          paddingTop: props.pt,
-          paddingBottom: props.pb,
-          gap: props.gap,
-          marginHorizontal: props.mx,
-          marginVertical: props.my,
-          paddingHorizontal: props.px,
-          paddingVertical: props.py,
-          justifyContent: props.justifyContent,
-          alignItems: props.alignItems,
-        }}>
-        {children}
-      </View>
+      {type === 'container' ? (
+        <View
+          style={{
+            flex: flex,
+            margin: props.m,
+            marginRight: props.mr,
+            marginLeft: props.ml,
+            marginTop: props.mt,
+            marginBottom: props.mb,
+            padding: props.p,
+            paddingLeft: props.pl,
+            paddingRight: props.pr,
+            paddingTop: props.pt,
+            paddingBottom: props.pb,
+            gap: props.gap,
+            marginHorizontal: props.mx,
+            marginVertical: props.my,
+            paddingHorizontal: props.px,
+            paddingVertical: props.py,
+          }}>
+          {children}
+        </View>
+      ) : (
+        children
+      )}
     </SafeViewContainer>
   ) : (
     <ViewContainer
+      flex={flex}
       style={{
-        backgroundColor: bg || colors.background,
+        backgroundColor: bgColor ? bgColor : colors.background,
       }}>
       {header && <Header {...props} goBackShow={goBackShow} />}
-      <View
-        style={{
-          flex: 1,
-          margin: props.m,
-          marginRight: props.mr,
-          marginLeft: props.ml,
-          marginTop: props.mt,
-          padding: props.p,
-          paddingLeft: props.pl,
-          paddingRight: props.pr,
-          paddingTop: props.pt,
-          paddingBottom: props.pb,
-          gap: props.gap,
-          marginHorizontal: props.mx,
-          marginVertical: props.my,
-          paddingHorizontal: props.px,
-          paddingVertical: props.py,
-          justifyContent: props.justifyContent,
-          alignItems: props.alignItems,
-        }}>
-        {children}
-      </View>
+
+      {type === 'container' ? (
+        <View
+          style={{
+            margin: props.m,
+            marginRight: props.mr,
+            marginLeft: props.ml,
+            marginTop: props.mt,
+            marginBottom: props.mb,
+            padding: props.p,
+            paddingLeft: props.pl,
+            paddingRight: props.pr,
+            paddingTop: props.pt,
+            paddingBottom: props.pb,
+            gap: props.gap,
+            marginHorizontal: props.mx,
+            marginVertical: props.my,
+            paddingHorizontal: props.px,
+            paddingVertical: props.py,
+          }}></View>
+      ) : (
+        children
+      )}
     </ViewContainer>
   );
 }
-const ViewContainer = styled(View)`
-  flex: 1;
+const ViewContainer = styled(View)<{flex?: number}>`
+  flex: ${props => props.flex || 1};
   background-color: ${props => props.theme.background};
 `;
-const SafeViewContainer = styled(SafeAreaView)`
-  flex: 1;
+const SafeViewContainer = styled(SafeAreaView)<{flex?: number}>`
+  flex: ${props => props.flex || 1};
   background-color: ${props => props.theme.background};
 `;
