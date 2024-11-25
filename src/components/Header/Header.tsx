@@ -11,7 +11,6 @@ import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faAngleLeft, faEnvelope} from '@fortawesome/free-solid-svg-icons';
 import {faBell} from '@fortawesome/free-regular-svg-icons';
 import CustomText from '../Text/Text';
-import {IconProp} from '@fortawesome/fontawesome-svg-core';
 import {NavigationProp, useNavigation} from '@react-navigation/native';
 import {RootStackParamList} from '../../types/navigator';
 

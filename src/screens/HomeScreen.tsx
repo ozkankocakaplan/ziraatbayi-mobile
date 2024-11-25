@@ -17,6 +17,7 @@ import CustomBottomSheet, {
   BottomSheetRef,
 } from '../components/BottomSheet/CustomBottomSheet';
 import Container from '../components/Container/Container';
+import {categoryApi} from '../services/categoryService';
 
 export default function HomeScreen() {
   const [isLoading, setIsLoading] = React.useState(true);
@@ -106,58 +107,100 @@ export default function HomeScreen() {
       price: '₺500',
     },
   ];
+  const [getCategories] = categoryApi.useGetCategoriesMutation();
   useEffect(() => {
     setTimeout(() => {
       setIsLoading(false);
     }, 2000);
+    const fetchCategories = async () => {
+      try {
+        const response = await getCategories().unwrap();
+        console.log('Categories:', response);
+      } catch (error) {
+        console.error('Error fetching categories:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchCategories();
   }, []);
   const loadAdverts = () => {
     // Load adverts
   };
+
+  const closeBottomSheet = () => {
+    bottomSheetRef.current?.close();
+  };
   const bottomSheetRef = useRef<BottomSheetRef>(null);
+  const productSheetRef = useRef<BottomSheetRef>(null);
   return (
-    <Container
-      isSearchable
-      header
-      title="İlanlarıms"
-      showMessage
-      showNotification
-      extraIcon={faEnvelope}>
-      <Container type="container" isLoading={isLoading}>
-        <HeaderRow>
-          {/* Boyutu ayarla */}
-          <ButtonContainer>
-            <FontAwesomeIcon icon={faBars} size={16} color="black" />
-            <ButtonText>Kategoriler</ButtonText>
-          </ButtonContainer>
-          <CategoriesScroll horizontal showsHorizontalScrollIndicator={false}>
-            <CategoriesContainer>
-              <Button text="Kategori 2" />
-              <Button text="Kategori 3" />
-              <Button text="Kategori 4" />
-            </CategoriesContainer>
-          </CategoriesScroll>
+    <>
+      <Container
+        isSearchable
+        header
+        title="İlanlarıms"
+        showMessage
+        showNotification>
+        <Container type="container" isLoading={isLoading}>
+          <HeaderRow>
+            {/* Boyutu ayarla */}
+            <ButtonContainer>
+              <FontAwesomeIcon icon={faBars} size={16} color="black" />
+              <ButtonText>Kategoriler</ButtonText>
+            </ButtonContainer>
+            <CategoriesScroll horizontal showsHorizontalScrollIndicator={false}>
+              <CategoriesContainer>
+                <Button text="Kategori 2" />
+                <Button text="Kategori 3" />
+                <Button text="Kategori 4" />
+              </CategoriesContainer>
+            </CategoriesScroll>
 
-          <FilterIconContainer>
-            <FontAwesomeIcon icon={faFilter} size={24} color="black" />
-          </FilterIconContainer>
-        </HeaderRow>
+            <FilterIconContainer
+              onPress={() => {
+                bottomSheetRef.current?.open();
+              }}>
+              <FontAwesomeIcon icon={faFilter} size={24} color="black" />
+            </FilterIconContainer>
+          </HeaderRow>
 
-        <ProductList
-          data={products}
-          keyExtractor={(item: any) => item.id}
-          renderItem={({item}: {item: any}) => (
-            <ProductCard
-              image={item.image}
-              categoryName={item.categoryName}
-              productName={item.productName}
-              price={item.price}
-            />
-          )}
-          numColumns={3}
-        />
+          <ProductList
+            data={products}
+            keyExtractor={(item: any) => item.id}
+            renderItem={({item}: {item: any}) => (
+              <ProductCard
+                onPress={() => productSheetRef.current?.open()}
+                image={item.image}
+                categoryName={item.categoryName}
+                productName={item.productName}
+                price={item.price}
+              />
+            )}
+            numColumns={3}
+          />
+        </Container>
       </Container>
-    </Container>
+      <CustomBottomSheet ref={bottomSheetRef} snapPoints={['25%', '50%']}>
+        <View style={{padding: 20}}>
+          <Text style={{fontSize: 16}}>Alt bilgi içeriği buraya gelecek.</Text>
+          <TouchableOpacity onPress={closeBottomSheet} style={{marginTop: 20}}>
+            <Text style={{color: 'blue'}}>Kapat</Text>
+          </TouchableOpacity>
+        </View>
+      </CustomBottomSheet>
+      <CustomBottomSheet ref={productSheetRef} snapPoints={['50%']}>
+        <View style={{padding: 20}}>
+          <Text style={{fontSize: 16}}>Ürün bilgi içeriği buraya gelecek.</Text>
+          <TouchableOpacity
+            onPress={() => {
+              productSheetRef.current?.close();
+            }}
+            style={{marginTop: 20}}>
+            <Text style={{color: 'blue'}}>Kapat</Text>
+          </TouchableOpacity>
+        </View>
+      </CustomBottomSheet>
+    </>
   );
 }
 

@@ -1,12 +1,13 @@
-import React, {useRef} from 'react';
+import React, {useRef, useState} from 'react';
 import {Image, Text, TouchableOpacity, View} from 'react-native';
 import styled from 'styled-components';
 import ProductBottomSheet, {
   BottomSheetRef,
 } from '../BottomSheet/CustomBottomSheet';
 import CustomBottomSheet from '../BottomSheet/CustomBottomSheet';
+import {TouchableOpacityProps} from 'react-native';
 
-interface Product {
+interface Product extends TouchableOpacityProps {
   image: string;
   categoryName: string;
   productName: string;
@@ -17,26 +18,19 @@ export default function ProductCard({
   categoryName,
   productName,
   price,
+  ...props
 }: Product) {
-  const bottomSheetRef = useRef<BottomSheetRef>(null);
-
-  const handleCardPress = () => {
-    bottomSheetRef.current?.open();
-  };
-
   return (
-    <>
-      <Card onPress={handleCardPress}>
-        <ImageContainer>
-          <ProductImage source={{uri: image}} resizeMode="cover" />
-        </ImageContainer>
-        <InfoContainer>
-          <CategoryName>{categoryName}</CategoryName>
-          <ProductName>{productName}</ProductName>
-          <Price>{price}</Price>
-        </InfoContainer>
-      </Card>
-    </>
+    <Card {...props}>
+      <ImageContainer>
+        <ProductImage source={{uri: image}} resizeMode="cover" />
+      </ImageContainer>
+      <InfoContainer>
+        <CategoryName>{categoryName}</CategoryName>
+        <ProductName>{productName}</ProductName>
+        <Price>{price}</Price>
+      </InfoContainer>
+    </Card>
   );
 }
 

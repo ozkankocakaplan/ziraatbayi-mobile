@@ -2,6 +2,11 @@ import {View, Text, SafeAreaView, ActivityIndicator} from 'react-native';
 import useThemeColors from '../../constant/useColor';
 import styled from 'styled-components';
 import Header, {HeaderProps} from '../Header/Header';
+import CustomBottomSheet, {
+  BottomSheetRef,
+} from '../BottomSheet/CustomBottomSheet';
+import {useRef} from 'react';
+import Button from '../Button/Button';
 
 interface ContainerProps extends HeaderProps {
   children?: React.ReactNode;
