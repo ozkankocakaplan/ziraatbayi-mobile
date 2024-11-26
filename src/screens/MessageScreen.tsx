@@ -1,10 +1,7 @@
 import React from 'react';
 import {Text, View} from 'react-native';
+import Container from '../components/Container/Container';
 
 export default function MessageScreen() {
-  return (
-    <View>
-      <Text>Burası mesaj safası</Text>
-    </View>
-  );
+  return <Container header title="Mesajlar" goBackShow></Container>;
 }

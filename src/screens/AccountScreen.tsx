@@ -32,7 +32,7 @@ export default function AccountScreen() {
       showMessage
       showNotification>
       <Container type="container" pb={10} pl={10} pr={10}>
-        <Container type="container" p={10}></Container>
+        <Container type="container"></Container>
         <Button text="Çıkış Yap" onPress={logOut} />
       </Container>
     </Container>

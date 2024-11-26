@@ -1,11 +1,7 @@
 import {
-  View,
-  Text,
   TouchableOpacity,
   TouchableOpacityProps,
   ActivityIndicator,
-  StyleProp,
-  ViewStyle,
 } from 'react-native';
 import {SIZES} from '../../constant/theme';
 import styled from 'styled-components';
@@ -23,6 +19,7 @@ interface OutlineButtonProps extends TouchableOpacityProps {
   backgroundColor?: string;
   borderRadius?: number;
   size?: 'sm' | 'md';
+  minWidth?: number;
 }
 
 export default function Button({
@@ -34,6 +31,7 @@ export default function Button({
   backgroundColor,
   borderRadius = SIZES.radius_sm,
   size = 'md',
+
   ...props
 }: OutlineButtonProps) {
   const colors = useThemeColors();
@@ -64,6 +62,7 @@ export default function Button({
           : loading
           ? '#ddd'
           : backgroundColor || colors.primary,
+        minWidth: props.minWidth,
       }}>
       {icon && <IconLeft icon={icon} color={colors.iconColor} />}
       {loading ? (
@@ -83,7 +82,7 @@ export default function Button({
 const IconLeft = styled(FontAwesomeIcon)`
   margin-right: 0px;
 `;
-const CustomButton = styled(TouchableOpacity)`
+const CustomButton = styled(TouchableOpacity)<{minWidth?: number}>`
   background-color: ${props => props.theme.backgroundColor};
   padding: ${props => (props.theme.size === 'sm' ? '5px' : '10px')};
   border-radius: ${props => props.theme.borderRadius}px;
@@ -94,6 +93,7 @@ const CustomButton = styled(TouchableOpacity)`
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  min-width: ${props => props.theme.minWidth + 'px' || 'auto'};
 `;
 const ButtonText = styled(CustomText)`
   color: ${props => props.theme.color};

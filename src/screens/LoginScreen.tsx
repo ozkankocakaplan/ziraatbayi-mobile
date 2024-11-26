@@ -17,7 +17,7 @@ export default function LoginScreen(
   props: NativeStackScreenProps<RootStackParamList, 'LoginScreen'>,
 ) {
   const [loginRequest, setLoginRequest] = useState<LoginRequest>({
-    email: 'ferizaocal60@gmail.com',
+    email: 'ozkankocakaplan07@gmail.com',
     password: '123456',
   });
   const dispatch = useDispatch(); // useDispatch hook'u ile store'a erişim sağlanır.

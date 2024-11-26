@@ -9,6 +9,7 @@ import {useSelector} from 'react-redux';
 import {RootState} from '../store';
 import BottomTabNavigator from './BottomTabNavigator';
 import MessageScreen from '../screens/MessageScreen';
+import NotificationScreen from '../screens/NotificationScreen';
 
 const Stack = createStackNavigator<RootStackParamList>();
 const RootNavigator = () => {
@@ -33,6 +34,10 @@ const RootNavigator = () => {
           <Stack.Screen name="BottomTabMenu" component={BottomTabNavigator} />
           <Stack.Screen name="HomeScreen" component={HomeScreen} />
           <Stack.Screen name="MessageScreen" component={MessageScreen} />
+          <Stack.Screen
+            name="NotificationScreen"
+            component={NotificationScreen}
+          />
         </>
       )}
     </Stack.Navigator>

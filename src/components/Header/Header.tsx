@@ -32,6 +32,35 @@ export default function Header({
 }: HeaderProps) {
   const colors = useThemeColors();
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
+
+  const HeaderIcons = ({bottom}: {bottom?: number}) => {
+    return (
+      <ExtraContainer>
+        {showMessage && (
+          <IconRight
+            bottom={bottom}
+            onPress={() => {
+              navigation.navigate('MessageScreen');
+            }}
+            hitSlop={15}>
+            <FontAwesomeIcon icon={faEnvelope} color={'#fff'} size={25} />
+          </IconRight>
+        )}
+
+        {showNotification && (
+          <IconRight
+            bottom={bottom}
+            onPress={() => {
+              navigation.navigate('NotificationScreen'); // bak burayı tek hale getirdik sen aynı ikonda ki gibi uunutabilrdin
+              // bu sayede hem buradan hemde hesabım sayfasından değişmiş oldu
+            }}
+            hitSlop={15}>
+            <FontAwesomeIcon icon={faBell} color={'#fff'} size={25} />
+          </IconRight>
+        )}
+      </ExtraContainer>
+    );
+  };
   return (
     <HeaderContainer
       theme={{
@@ -41,29 +70,7 @@ export default function Header({
         <>
           {customView}
           <Container>
-            <ExtraContainer>
-              {showMessage && (
-                <IconRight
-                  bottom={45}
-                  onPress={() => {
-                    navigation.navigate('MessageScreen');
-                  }}
-                  hitSlop={15}>
-                  <FontAwesomeIcon icon={faEnvelope} color={'#fff'} size={20} />
-                </IconRight>
-              )}
-
-              {showNotification && (
-                <IconRight
-                  bottom={45}
-                  onPress={() => {
-                    navigation.navigate('MessageScreen');
-                  }}
-                  hitSlop={15}>
-                  <FontAwesomeIcon icon={faBell} color={'#fff'} size={20} />
-                </IconRight>
-              )}
-            </ExtraContainer>
+            <HeaderIcons bottom={45} />
           </Container>
         </>
       ) : (
@@ -90,27 +97,7 @@ export default function Header({
                 </TitleContainer>
               )
             )}
-            <ExtraContainer>
-              {showMessage && (
-                <IconRight
-                  onPress={() => {
-                    navigation.navigate('MessageScreen');
-                  }}
-                  hitSlop={15}>
-                  <FontAwesomeIcon icon={faEnvelope} color={'#fff'} size={20} />
-                </IconRight>
-              )}
-
-              {showNotification && (
-                <IconRight
-                  onPress={() => {
-                    navigation.navigate('MessageScreen');
-                  }}
-                  hitSlop={15}>
-                  <FontAwesomeIcon icon={faBell} color={'#fff'} size={20} />
-                </IconRight>
-              )}
-            </ExtraContainer>
+            <HeaderIcons />
           </Container>
         </>
       )}
@@ -126,6 +113,7 @@ const Container = styled(View)`
   justify-content: center;
   padding-bottom: 10px;
   top: 0px;
+  padding-horizontal: 7px;
 `;
 const IconLeft = styled(TouchableOpacity)`
   position: absolute;
@@ -149,18 +137,18 @@ const HeaderTitle = styled(CustomText)`
 `;
 const ExtraContainer = styled(View)`
   position: absolute;
-  right: 20px;
+  right: 15px;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  gap: 15px;
+  gap: 20px;
 `;
 const SearchInput = styled(TextInput)`
   border: 1px solid #ddd;
-  border-radius: 6px;
-  padding-vertical: 2px;
+  border-radius: 100px;
+  padding-vertical: 10px;
   padding-horizontal: 10px;
   background-color: #fff;
-  width: 70%;
+  width: 73%;
   margin-left: 10px;
 `;

@@ -16,11 +16,11 @@ import {faBars, faEnvelope, faFilter} from '@fortawesome/free-solid-svg-icons';
 import CustomBottomSheet, {
   BottomSheetRef,
 } from '../components/BottomSheet/CustomBottomSheet';
-import Container from '../components/Container/Container';
-import {categoryApi} from '../services/categoryService';
 
-export default function HomeScreen() {
-  const [isLoading, setIsLoading] = React.useState(true);
+import {categoryApi} from '../services/categoryService';
+import Container from '../components/Container/Container';
+
+export default function HomeScreen(props: any) {
   const products = [
     {
       id: '1',
@@ -107,27 +107,8 @@ export default function HomeScreen() {
       price: '₺500',
     },
   ];
-  const [getCategories] = categoryApi.useGetCategoriesMutation();
-  useEffect(() => {
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 2000);
-    const fetchCategories = async () => {
-      try {
-        const response = await getCategories().unwrap();
-        console.log('Categories:', response);
-      } catch (error) {
-        console.error('Error fetching categories:', error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    fetchCategories();
-  }, []);
-  const loadAdverts = () => {
-    // Load adverts
-  };
 
+  const {data: categories} = categoryApi.useGetCategoriesQuery();
   const closeBottomSheet = () => {
     bottomSheetRef.current?.close();
   };
@@ -138,21 +119,29 @@ export default function HomeScreen() {
       <Container
         isSearchable
         header
-        title="İlanlarıms"
+        title="İlanlarım"
         showMessage
         showNotification>
-        <Container type="container" isLoading={isLoading}>
+        <Container type="container">
           <HeaderRow>
-            {/* Boyutu ayarla */}
             <ButtonContainer>
               <FontAwesomeIcon icon={faBars} size={16} color="black" />
               <ButtonText>Kategoriler</ButtonText>
             </ButtonContainer>
             <CategoriesScroll horizontal showsHorizontalScrollIndicator={false}>
               <CategoriesContainer>
-                <Button text="Kategori 2" />
-                <Button text="Kategori 3" />
-                <Button text="Kategori 4" />
+                {categories?.list
+                  .filter(x => x.parentCategoryId == 0)
+                  .map((category, index) => {
+                    return (
+                      <Button
+                        borderRadius={100}
+                        key={category.id}
+                        text={category.name}
+                        minWidth={110}
+                      />
+                    );
+                  })}
               </CategoriesContainer>
             </CategoriesScroll>
 
@@ -160,7 +149,7 @@ export default function HomeScreen() {
               onPress={() => {
                 bottomSheetRef.current?.open();
               }}>
-              <FontAwesomeIcon icon={faFilter} size={24} color="black" />
+              <FontAwesomeIcon icon={faFilter} size={24} color="#333" />
             </FilterIconContainer>
           </HeaderRow>
 
@@ -189,16 +178,9 @@ export default function HomeScreen() {
         </View>
       </CustomBottomSheet>
       <CustomBottomSheet ref={productSheetRef} snapPoints={['50%']}>
-        <View style={{padding: 20}}>
-          <Text style={{fontSize: 16}}>Ürün bilgi içeriği buraya gelecek.</Text>
-          <TouchableOpacity
-            onPress={() => {
-              productSheetRef.current?.close();
-            }}
-            style={{marginTop: 20}}>
-            <Text style={{color: 'blue'}}>Kapat</Text>
-          </TouchableOpacity>
-        </View>
+        <Container bgColor="white">
+          <Text>a</Text>
+        </Container>
       </CustomBottomSheet>
     </>
   );
@@ -207,7 +189,7 @@ export default function HomeScreen() {
 const HeaderRow = styled(View)`
   flex-direction: row;
   align-items: center;
-  padding: 8px;
+  background-color: #f0f0f0;
 `;
 
 const CategoriesScroll = styled(ScrollView)`
@@ -221,10 +203,12 @@ const CategoriesContainer = styled(View)`
 const ButtonContainer = styled(TouchableOpacity)`
   flex-direction: row;
   align-items: center;
-  padding: 8px 12px;
+  padding: 13px 13px;
   background-color: #fff;
-  border-radius: 8px;
+  border-radius: 100px;
   border: 1px solid #e0e0e0;
+  margin-horizontal: 15px;
+  margin-vertical: 10px;
 `;
 
 const ButtonText = styled(Text)`
@@ -237,6 +221,7 @@ const FilterIconContainer = styled(TouchableOpacity)`
   flex: 0.1;
   align-items: flex-end;
   justify-content: center;
+  margin-horizontal: 15px;
 `;
 
 const ProductList = styled(FlatList)`
