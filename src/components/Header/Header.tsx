@@ -13,6 +13,8 @@ import {faBell} from '@fortawesome/free-regular-svg-icons';
 import CustomText from '../Text/Text';
 import {NavigationProp, useNavigation} from '@react-navigation/native';
 import {RootStackParamList} from '../../types/navigator';
+import {memo, useMemo} from 'react';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 export interface HeaderProps {
   title?: string;
@@ -22,17 +24,18 @@ export interface HeaderProps {
   goBackShow?: boolean;
   customView?: React.ReactNode;
 }
-export default function Header({
+const Header = ({
   title,
   isSearchable = false,
   showNotification = false,
   showMessage = false,
   goBackShow = false,
   customView,
-}: HeaderProps) {
+}: HeaderProps) => {
   const colors = useThemeColors();
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
-
+  const insets = useSafeAreaInsets();
+  console.log('insets', insets);
   const HeaderIcons = ({bottom}: {bottom?: number}) => {
     return (
       <ExtraContainer>
@@ -63,6 +66,7 @@ export default function Header({
   };
   return (
     <HeaderContainer
+      topInset={insets.top}
       theme={{
         background: colors.primary,
       }}>
@@ -103,10 +107,12 @@ export default function Header({
       )}
     </HeaderContainer>
   );
-}
-const HeaderContainer = styled(SafeAreaView)`
+};
+export default memo(Header);
+const HeaderContainer = styled(SafeAreaView)<{topInset?: number}>`
   background-color: ${props => props.theme.background};
-  height: ${Platform.OS === 'ios' ? 'auto' : '50px'};
+  height: ${props =>
+    Platform.OS === 'ios' ? (props?.topInset || 0) + 58 + 'px' : '50px'};
   justify-content: center;
 `;
 const Container = styled(View)`

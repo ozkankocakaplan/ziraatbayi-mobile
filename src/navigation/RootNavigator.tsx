@@ -10,6 +10,7 @@ import {RootState} from '../store';
 import BottomTabNavigator from './BottomTabNavigator';
 import MessageScreen from '../screens/MessageScreen';
 import NotificationScreen from '../screens/NotificationScreen';
+import Header from '../components/Header/Header';
 
 const Stack = createStackNavigator<RootStackParamList>();
 const RootNavigator = () => {
