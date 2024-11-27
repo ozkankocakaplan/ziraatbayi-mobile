@@ -20,6 +20,7 @@ import {AuthApi} from '../services/authService';
 import CreateDealerRequest from '../payload/request/CreateDealerRequest';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../types/navigator';
+import Page from '../components/Page/Page';
 
 export default function RegisterScreen(
   props: NativeStackScreenProps<RootStackParamList, 'RegisterScreen'>,
@@ -51,7 +52,7 @@ export default function RegisterScreen(
   };
 
   return (
-    <Container header title={'Kayıt Ol'} goBackShow>
+    <Page header title={'Kayıt Ol'} goBackShow>
       <Form formContainerRef={ref}>
         <Input
           required
@@ -187,7 +188,7 @@ export default function RegisterScreen(
           />
         </RegisterContainer>
       </Form>
-    </Container>
+    </Page>
   );
 }
 const Form = styled(FormContainer)`

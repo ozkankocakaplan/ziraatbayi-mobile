@@ -1,6 +1,7 @@
 import React from 'react';
 import Container from '../components/Container/Container';
+import Page from '../components/Page/Page';
 
 export default function NotificationScreen() {
-  return <Container header title="Bildirimler" goBackShow></Container>;
+  return <Page header title="Bildirimler" goBackShow></Page>;
 }

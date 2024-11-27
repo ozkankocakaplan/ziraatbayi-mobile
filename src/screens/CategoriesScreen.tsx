@@ -1,44 +1,136 @@
-import React from 'react';
-import {Dimensions} from 'react-native';
-import {Row, ColBackground} from '../constant/GlobalStyled';
+import React, {useEffect, useState} from 'react';
+import {Dimensions, TouchableOpacity, View} from 'react-native';
+import {Row, ColBackground, Flex} from '../constant/GlobalStyled';
 import Container from '../components/Container/Container';
 import CustomText from '../components/Text/Text';
 import Button from '../components/Button/Button';
+import styled from 'styled-components';
+import {SIZES} from '../constant/theme';
+import {categoryApi} from '../services/categoryService';
+import CategoryResponse from '../payload/response/CategoryResponse';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {RootStackParamList} from '../types/navigator';
+import AlertDialog from '../components/AlertDialog/AlertDialog';
+import Page from '../components/Page/Page';
+export default function CategoriesScreen(
+  props: NativeStackScreenProps<RootStackParamList, 'CategoriesScreen'>,
+) {
+  const [selectedCategory, setSelectedCategory] = useState<CategoryResponse>(
+    {} as CategoryResponse,
+  );
+  const selected = props.route.params.selectedCategory;
+  const previousSelected = props.route.params.previousCategory;
+  const {data: categories} = categoryApi.useGetCategoriesQuery();
 
-const {width, height} = Dimensions.get('window');
-
-export default function CategoriesScreen() {
-  const CustomCategories = () => {
-    const columnHeight = height * 0.8;
-    const firstColumnWidth = width * 0.4;
-    const secondColumnWidth = width * 0.6;
-
-    return (
-      <Row gap={10}>
-        <ColBackground
-          backgroundColor="lightblue"
-          style={{
-            width: firstColumnWidth,
-            height: columnHeight,
-          }}>
-          <Button textAlign="left" text="kategori"></Button>
-        </ColBackground>
-
-        <ColBackground
-          backgroundColor="lightgreen"
-          style={{
-            width: secondColumnWidth,
-            height: columnHeight,
-          }}>
-          <Button textAlign="left" text="kategori1"></Button>
-        </ColBackground>
-      </Row>
-    );
+  useEffect(() => {
+    if (categories?.list && !selected && !previousSelected) {
+      setSelectedCategory(categories?.list[0]);
+    }
+  }, [categories]);
+  useEffect(() => {
+    if (selected) {
+      setSelectedCategory(selected);
+    }
+  }, [selected]);
+  const selectedCategories = categories?.list.find(
+    x => x.id == selectedCategory.id,
+  );
+  const goToProductPage = () => {
+    AlertDialog.showModal({
+      message: 'Ürün sayfasına git',
+    });
+  };
+  const recuversiveCategory = (
+    data?: CategoryResponse,
+    isSelected?: boolean,
+    categoryType?: 'left' | 'right',
+  ) => {
+    categoryType = categoryType ?? 'right';
+    return data?.children?.map?.((el: CategoryResponse) => {
+      return (
+        <CategoryButton
+          onPress={() => {
+            if (categoryType == 'right') {
+              if (el.children.length != 0) {
+                props.navigation.push('CategoriesScreen', {
+                  selectedCategory: el,
+                  previousCategory: selectedCategory,
+                });
+              } else {
+                goToProductPage();
+              }
+            } else {
+              setSelectedCategory(el);
+            }
+          }}
+          isSelected={selectedCategory.id == el.id || isSelected}>
+          <CustomText fontWeight="bold" fontSizes="body3" color="default">
+            {el.name}
+          </CustomText>
+        </CategoryButton>
+      );
+    });
   };
 
   return (
-    <Container header goBackShow>
-      <Container type="container" children={CustomCategories()}></Container>
-    </Container>
+    <Page header title={'Kategoriler'} goBackShow>
+      <Container>
+        <Row gap={5}>
+          <Container flex={0.7} bgColor="#333">
+            {previousSelected
+              ? recuversiveCategory(previousSelected, undefined, 'left')
+              : categories?.list
+                  .filter(x => x.parentCategoryId == 0)
+                  .map((el, index) => {
+                    return (
+                      <CategoryButton
+                        isSelected={el.id === selectedCategory.id}
+                        onPress={() => {
+                          if (el.children.length != 0) {
+                            setSelectedCategory(el);
+                          } else {
+                            goToProductPage();
+                          }
+                        }}>
+                        <CustomText
+                          fontWeight="bold"
+                          fontSizes="body3"
+                          color="ferizakarimin_rengi">
+                          {el.name}
+                        </CustomText>
+                      </CategoryButton>
+                    );
+                  })}
+          </Container>
+          <Container>
+            {selectedCategory && selectedCategories?.children.length == 0 ? (
+              <CategoryButton
+                onPress={() => {
+                  goToProductPage();
+                }}
+                isSelected={true}>
+                <CustomText fontWeight="bold" fontSizes="body3" color="default">
+                  {selectedCategories.name}
+                </CustomText>
+              </CategoryButton>
+            ) : selected ? (
+              recuversiveCategory(selectedCategory, true)
+            ) : (
+              recuversiveCategory(selectedCategories, true)
+            )}
+          </Container>
+        </Row>
+      </Container>
+    </Page>
   );
 }
+const CategoryButton = styled(TouchableOpacity)<{isSelected?: boolean}>`
+  padding-vertical: 10px;
+  height: 50px;
+  background-color: ${props => (props.isSelected ? '#f9f9f9' : '#333')};
+  padding-horizontal: 18px;
+  justify-content: center;
+  align-items: flex-start;
+  border-bottom-width: 1px;
+  border-bottom-color: ${props => (props.isSelected ? '#f9f9f9' : '#333')};
+`;

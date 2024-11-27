@@ -52,6 +52,7 @@ export const COLORS = {
   white: '#fff',
   link: '#e78577',
   grey: '#9B9B9B',
+  ferizakarimin_rengi: 'purple',
 };
 export const FONTWEIGHT = {
   bold: 'bold',

@@ -8,6 +8,7 @@ import {Col, Row} from '../constant/GlobalStyled';
 import styled from 'styled-components';
 import {RootState} from '../store';
 import CustomText from '../components/Text/Text';
+import Page from '../components/Page/Page';
 
 export default function AccountScreen() {
   const dispatch = useDispatch();
@@ -29,17 +30,17 @@ export default function AccountScreen() {
     );
   };
   return (
-    <Container
+    <Page
       customView={CustomAccount()}
       header
       title="Hesabım"
       showMessage
       showNotification>
-      <Container type="container" pb={10} pl={10} pr={10}>
-        <Container type="container"></Container>
+      <Container pb={10} pl={10} pr={10}>
+        <Container></Container>
         <Button text="Çıkış Yap" onPress={logOut} />
       </Container>
-    </Container>
+    </Page>
   );
 }
 const AccountProfile = styled(View)`

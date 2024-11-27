@@ -12,6 +12,7 @@ import LoginRequest from '../payload/request/LoginRequest';
 import {AuthApi} from '../services/authService';
 import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '../store';
+import Page from '../components/Page/Page';
 
 export default function LoginScreen(
   props: NativeStackScreenProps<RootStackParamList, 'LoginScreen'>,
@@ -31,7 +32,7 @@ export default function LoginScreen(
   };
 
   return (
-    <Container header title="Giriş Yap">
+    <Page header title="Giriş Yap">
       <Form>
         <LoginContainer>
           <View style={{alignItems: 'center', justifyContent: 'center'}}>
@@ -88,7 +89,7 @@ export default function LoginScreen(
           />
         </RegisterContainer>
       </Form>
-    </Container>
+    </Page>
   );
 }
 const Form = styled(View)`

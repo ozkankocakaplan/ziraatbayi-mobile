@@ -1,3 +1,5 @@
+import CategoryResponse from '../payload/response/CategoryResponse';
+
 export type RootStackParamList = {
   LoginScreen: undefined;
   RegisterScreen: undefined;
@@ -5,15 +7,14 @@ export type RootStackParamList = {
   HomeScreen: undefined;
   BottomTabMenu: undefined;
   MessageScreen: undefined;
-  MainHeader: undefined;
   NotificationScreen: undefined;
-  CategoriesScreen: undefined;
+  CategoriesScreen: {
+    selectedCategory?: CategoryResponse;
+    previousCategory?: CategoryResponse;
+  };
 };
 export type BottomTabParamList = {
   Home: undefined;
-  Menu: undefined;
-  BottomLoginScreen: undefined;
-  UserScreen: undefined;
-  RegisterScreen: undefined;
+  Adverts: undefined;
   AccountScreen: undefined;
 };

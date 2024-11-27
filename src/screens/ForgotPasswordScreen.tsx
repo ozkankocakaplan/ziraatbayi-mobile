@@ -8,6 +8,7 @@ import FormContainer, {FormContainerRef} from 'react-native-form-container';
 import {faEnvelope} from '@fortawesome/free-solid-svg-icons';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../types/navigator';
+import Page from '../components/Page/Page';
 
 export default function ForgotPasswordScreen(
   props: NativeStackScreenProps<RootStackParamList, 'ForgotPasswordScreen'>,
@@ -15,7 +16,7 @@ export default function ForgotPasswordScreen(
   var ref = useRef<FormContainerRef>(null);
 
   return (
-    <Container header title="Şifremi Unuttum" goBackShow>
+    <Page header title="Şifremi Unuttum" goBackShow>
       <Form>
         <PasswordContainer>
           <View style={{alignItems: 'center', justifyContent: 'center'}}>
@@ -36,7 +37,7 @@ export default function ForgotPasswordScreen(
           </View>
         </PasswordContainer>
       </Form>
-    </Container>
+    </Page>
   );
 }
 const Form = styled(View)`

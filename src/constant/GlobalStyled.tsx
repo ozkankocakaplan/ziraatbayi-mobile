@@ -15,6 +15,7 @@ export const Row = styled(View)<{
   mt?: number;
   mb?: number;
 }>`
+  flex: 1;
   flex-direction: row;
   gap: ${({gap}) => gap || 0}px;
   justify-content: ${({between, flexEnd}) =>

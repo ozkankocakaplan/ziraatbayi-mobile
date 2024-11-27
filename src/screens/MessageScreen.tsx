@@ -1,7 +1,8 @@
 import React from 'react';
 import {Text, View} from 'react-native';
 import Container from '../components/Container/Container';
+import Page from '../components/Page/Page';
 
 export default function MessageScreen() {
-  return <Container header title="Mesajlar" goBackShow></Container>;
+  return <Page header title="Mesajlar" goBackShow></Page>;
 }

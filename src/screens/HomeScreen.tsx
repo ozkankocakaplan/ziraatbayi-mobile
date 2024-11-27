@@ -21,6 +21,7 @@ import {categoryApi} from '../services/categoryService';
 import Container from '../components/Container/Container';
 import {NavigationProp, useNavigation} from '@react-navigation/native';
 import {RootStackParamList} from '../types/navigator';
+import Page from '../components/Page/Page';
 
 export default function HomeScreen(props: any) {
   const products = [
@@ -119,17 +120,12 @@ export default function HomeScreen(props: any) {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
   return (
     <>
-      <Container
-        isSearchable
-        header
-        title="İlanlarım"
-        showMessage
-        showNotification>
-        <Container type="container">
+      <Page isSearchable header title="İlanlarım" showMessage showNotification>
+        <Container>
           <HeaderRow>
             <ButtonContainer
               onPress={() => {
-                navigation.navigate('CategoriesScreen');
+                navigation.navigate('CategoriesScreen', {});
               }}>
               <FontAwesomeIcon icon={faBars} size={16} color="black" />
               <ButtonText>Kategoriler</ButtonText>
@@ -174,7 +170,7 @@ export default function HomeScreen(props: any) {
             numColumns={3}
           />
         </Container>
-      </Container>
+      </Page>
       <CustomBottomSheet ref={bottomSheetRef} snapPoints={['25%', '50%']}>
         <View style={{padding: 20}}>
           <Text style={{fontSize: 16}}>Alt bilgi içeriği buraya gelecek.</Text>

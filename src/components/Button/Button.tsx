@@ -69,13 +69,9 @@ export default function Button({
       {loading ? (
         <ActivityIndicator color={'white'} />
       ) : (
-        <ButtonText
-          theme={{
-            color: outline ? colors.primary : textColor || colors.text,
-            textAlign: props.textAlign || 'center',
-          }}>
+        <CustomText left color="white">
           {text}
-        </ButtonText>
+        </CustomText>
       )}
     </CustomButton>
   );
@@ -96,10 +92,4 @@ const CustomButton = styled(TouchableOpacity)<{minWidth?: number}>`
   justify-content: center;
   align-items: center;
   min-width: ${props => props.theme.minWidth + 'px' || 'auto'};
-`;
-const ButtonText = styled(CustomText)`
-  color: ${props => props.theme.color};
-  font-size: ${SIZES.fontSm}px;
-  font-weight: bold;
-  text-align: ${props => props.theme.textAlign || 'center'};
 `;

@@ -84,7 +84,7 @@ const Header = ({
               onPress={() => {
                 navigation.goBack();
               }}>
-              <FontAwesomeIcon icon={faAngleLeft} color={'#fff'} size={20} />
+              <FontAwesomeIcon icon={faAngleLeft} color={'#fff'} size={25} />
             </IconLeft>
           )}
           <Container>
@@ -110,8 +110,7 @@ const Header = ({
 export default memo(Header);
 const HeaderContainer = styled(SafeAreaView)<{topInset?: number}>`
   background-color: ${props => props.theme.background};
-  height: ${props =>
-    Platform.OS === 'ios' ? (props?.topInset || 0) + 58 + 'px' : '50px'};
+  height: ${props => (Platform.OS === 'ios' ? 'auto' : '50px')};
   justify-content: center;
 `;
 const Container = styled(View)`
