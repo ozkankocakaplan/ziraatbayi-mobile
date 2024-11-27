@@ -20,6 +20,7 @@ interface OutlineButtonProps extends TouchableOpacityProps {
   borderRadius?: number;
   size?: 'sm' | 'md';
   minWidth?: number;
+  textAlign?: string;
 }
 
 export default function Button({
@@ -71,6 +72,7 @@ export default function Button({
         <ButtonText
           theme={{
             color: outline ? colors.primary : textColor || colors.text,
+            textAlign: props.textAlign || 'center',
           }}>
           {text}
         </ButtonText>
@@ -99,4 +101,5 @@ const ButtonText = styled(CustomText)`
   color: ${props => props.theme.color};
   font-size: ${SIZES.fontSm}px;
   font-weight: bold;
+  text-align: ${props => props.theme.textAlign || 'center'};
 `;

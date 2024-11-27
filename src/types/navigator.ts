@@ -7,6 +7,7 @@ export type RootStackParamList = {
   MessageScreen: undefined;
   MainHeader: undefined;
   NotificationScreen: undefined;
+  CategoriesScreen: undefined;
 };
 export type BottomTabParamList = {
   Home: undefined;

@@ -19,6 +19,8 @@ import CustomBottomSheet, {
 
 import {categoryApi} from '../services/categoryService';
 import Container from '../components/Container/Container';
+import {NavigationProp, useNavigation} from '@react-navigation/native';
+import {RootStackParamList} from '../types/navigator';
 
 export default function HomeScreen(props: any) {
   const products = [
@@ -114,6 +116,7 @@ export default function HomeScreen(props: any) {
   };
   const bottomSheetRef = useRef<BottomSheetRef>(null);
   const productSheetRef = useRef<BottomSheetRef>(null);
+  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
   return (
     <>
       <Container
@@ -124,7 +127,10 @@ export default function HomeScreen(props: any) {
         showNotification>
         <Container type="container">
           <HeaderRow>
-            <ButtonContainer>
+            <ButtonContainer
+              onPress={() => {
+                navigation.navigate('CategoriesScreen');
+              }}>
               <FontAwesomeIcon icon={faBars} size={16} color="black" />
               <ButtonText>Kategoriler</ButtonText>
             </ButtonContainer>

@@ -54,8 +54,7 @@ const Header = ({
           <IconRight
             bottom={bottom}
             onPress={() => {
-              navigation.navigate('NotificationScreen'); // bak burayı tek hale getirdik sen aynı ikonda ki gibi uunutabilrdin
-              // bu sayede hem buradan hemde hesabım sayfasından değişmiş oldu
+              navigation.navigate('NotificationScreen');
             }}
             hitSlop={15}>
             <FontAwesomeIcon icon={faBell} color={'#fff'} size={25} />

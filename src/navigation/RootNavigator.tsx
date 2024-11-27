@@ -11,6 +11,7 @@ import BottomTabNavigator from './BottomTabNavigator';
 import MessageScreen from '../screens/MessageScreen';
 import NotificationScreen from '../screens/NotificationScreen';
 import Header from '../components/Header/Header';
+import CategoriesScreen from '../screens/CategoriesScreen';
 
 const Stack = createStackNavigator<RootStackParamList>();
 const RootNavigator = () => {
@@ -39,6 +40,7 @@ const RootNavigator = () => {
             name="NotificationScreen"
             component={NotificationScreen}
           />
+          <Stack.Screen name="CategoriesScreen" component={CategoriesScreen} />
         </>
       )}
     </Stack.Navigator>
