@@ -22,6 +22,8 @@ import Container from '../components/Container/Container';
 import {NavigationProp, useNavigation} from '@react-navigation/native';
 import {RootStackParamList} from '../types/navigator';
 import Page from '../components/Page/Page';
+import {Col, Row} from '../constant/GlobalStyled';
+import CustomText from '../components/Text/Text';
 
 export default function HomeScreen(props: any) {
   const products = [
@@ -180,8 +182,42 @@ export default function HomeScreen(props: any) {
         </View>
       </CustomBottomSheet>
       <CustomBottomSheet ref={productSheetRef} snapPoints={['50%']}>
-        <Container bgColor="white">
-          <Text>a</Text>
+        <Container m={5} flex={0.3} bgColor="white">
+          <Row gap={10}>
+            <AccountProfile></AccountProfile>
+            <Col gap={12}>
+              <CustomText color="black" fontSizes="body4">
+                Ürün Adı
+              </CustomText>
+              <CustomText color="black" fontSizes="body6">
+                Kategori
+              </CustomText>
+              <CustomText color="black" fontSizes="body6">
+                Stok Miktarı
+              </CustomText>
+              <CustomText color="black" fontSizes="body5">
+                Fiyat
+              </CustomText>
+            </Col>
+          </Row>
+        </Container>
+        <Container flex={0.7} m={14}>
+          <Col gap={10}>
+            <CustomText color="black" fontSizes="body3" fontWeight="bold">
+              Ürün Açıklaması
+            </CustomText>
+            <CustomText color="black" fontSizes="body5">
+              Lorem Ipsum is simply dummy text of the printing and typesetting
+              industry. Lorem Ipsum has been the industry's standard dummy text
+              ever since the 1500s, when an unknown. Lorem Ipsum is simply dummy
+              text of the printing and typesetting industry. Lorem Ipsum has
+              been the industry's standard dummy text ever since the 1500s, when
+              an unknown. Lorem Ipsum is simply dummy text of the printing and
+              typesetting industry. Lorem Ipsum has been the industry's standard
+              dummy text ever since the 1500s, when an unknown
+            </CustomText>
+            <Button style={{marginTop: 20}} text="MESAJ GÖNDER"></Button>
+          </Col>
         </Container>
       </CustomBottomSheet>
     </>
@@ -228,4 +264,10 @@ const FilterIconContainer = styled(TouchableOpacity)`
 
 const ProductList = styled(FlatList)`
   background-color: #f0f0f0;
+`;
+const AccountProfile = styled(View)`
+  height: 100px;
+  width: 100px;
+  background-color: red;
+  margin-left: 10px;
 `;

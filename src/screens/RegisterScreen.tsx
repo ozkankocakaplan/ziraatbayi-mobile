@@ -30,15 +30,15 @@ export default function RegisterScreen(
   const {width} = Dimensions.get('window');
 
   const [registerRequest, setRegisterRequest] = useState<CreateDealerRequest>({
-    firstName: 'feriza',
-    lastName: 'öcal',
-    companyName: 'feriza şirket',
-    email: 'f@gmail.com',
-    phone: '123',
-    gnlNumber: '456',
-    taxNumber: '789',
-    taxOffice: '01234',
-    address: 'yozgat',
+    firstName: '',
+    lastName: '',
+    companyName: ' ',
+    email: '',
+    phone: '',
+    gnlNumber: '',
+    taxNumber: '',
+    taxOffice: '',
+    address: '',
   });
 
   const handleRegister = async () => {

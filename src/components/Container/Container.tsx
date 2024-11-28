@@ -22,6 +22,8 @@ interface ContainerProps {
   py?: number;
   flex?: number;
   isLoading?: boolean;
+  borderRightColor?: string;
+  borderRightWidth?: number;
 }
 
 export default function Container({
@@ -57,6 +59,8 @@ export default function Container({
           marginVertical: props.my,
           paddingHorizontal: props.px,
           paddingVertical: props.py,
+          borderRightColor: props.borderRightColor,
+          borderRightWidth: props.borderRightWidth,
         }}>
         {isLoading ? (
           <View

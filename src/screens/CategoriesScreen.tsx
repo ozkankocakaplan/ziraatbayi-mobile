@@ -12,6 +12,7 @@ import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../types/navigator';
 import AlertDialog from '../components/AlertDialog/AlertDialog';
 import Page from '../components/Page/Page';
+import {isColor} from 'react-native-reanimated';
 export default function CategoriesScreen(
   props: NativeStackScreenProps<RootStackParamList, 'CategoriesScreen'>,
 ) {
@@ -64,7 +65,10 @@ export default function CategoriesScreen(
             }
           }}
           isSelected={selectedCategory.id == el.id || isSelected}>
-          <CustomText fontWeight="bold" fontSizes="body3" color="default">
+          <CustomText
+            fontWeight={el.id === selectedCategory.id ? 'bold' : 'normal'}
+            fontSizes="body4"
+            color="primary">
             {el.name}
           </CustomText>
         </CategoryButton>
@@ -75,8 +79,8 @@ export default function CategoriesScreen(
   return (
     <Page header title={'Kategoriler'} goBackShow>
       <Container>
-        <Row gap={5}>
-          <Container flex={0.7} bgColor="#333">
+        <Row>
+          <Container borderRightColor="black" flex={0.6} bgColor="#B4B4B8">
             {previousSelected
               ? recuversiveCategory(previousSelected, undefined, 'left')
               : categories?.list
@@ -93,9 +97,11 @@ export default function CategoriesScreen(
                           }
                         }}>
                         <CustomText
-                          fontWeight="bold"
+                          fontWeight={
+                            el.id === selectedCategory.id ? 'bold' : 'normal'
+                          }
                           fontSizes="body3"
-                          color="ferizakarimin_rengi">
+                          color="primary">
                           {el.name}
                         </CustomText>
                       </CategoryButton>
@@ -127,10 +133,10 @@ export default function CategoriesScreen(
 const CategoryButton = styled(TouchableOpacity)<{isSelected?: boolean}>`
   padding-vertical: 10px;
   height: 50px;
-  background-color: ${props => (props.isSelected ? '#f9f9f9' : '#333')};
+  background-color: ${props => (props.isSelected ? '#f9f9f9' : '#B4B4B8')};
   padding-horizontal: 18px;
   justify-content: center;
   align-items: flex-start;
   border-bottom-width: 1px;
-  border-bottom-color: ${props => (props.isSelected ? '#f9f9f9' : '#333')};
+  border-bottom-color: ${props => (props.isSelected ? 'black' : '#B4B4B8')};
 `;

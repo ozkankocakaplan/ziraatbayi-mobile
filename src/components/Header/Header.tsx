@@ -110,7 +110,7 @@ const Header = ({
 export default memo(Header);
 const HeaderContainer = styled(SafeAreaView)<{topInset?: number}>`
   background-color: ${props => props.theme.background};
-  height: ${props => (Platform.OS === 'ios' ? 'auto' : '50px')};
+  height: ${props => (Platform.OS === 'ios' ? '120px' : '50px')};
   justify-content: center;
 `;
 const Container = styled(View)`
