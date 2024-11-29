@@ -201,7 +201,7 @@ export default function HomeScreen(props: any) {
             </Col>
           </Row>
         </Container>
-        <Container flex={0.7} m={14}>
+        <Container flex={0.7} m={14} bgColor="white">
           <Col gap={10}>
             <CustomText color="black" fontSizes="body3" fontWeight="bold">
               Ürün Açıklaması

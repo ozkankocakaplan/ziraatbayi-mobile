@@ -24,6 +24,8 @@ interface ContainerProps {
   isLoading?: boolean;
   borderRightColor?: string;
   borderRightWidth?: number;
+  jContent?: string;
+  aItems?: string;
 }
 
 export default function Container({
@@ -61,6 +63,8 @@ export default function Container({
           paddingVertical: props.py,
           borderRightColor: props.borderRightColor,
           borderRightWidth: props.borderRightWidth,
+          justifyContent: props.jContent,
+          alignItems: props.aItems,
         }}>
         {isLoading ? (
           <View
