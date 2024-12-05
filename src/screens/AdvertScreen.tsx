@@ -12,14 +12,13 @@ import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../types/navigator';
 import {advertApi} from '../services/advertService';
 import AdvertResponse from '../payload/response/AdvertResponse';
+import ProductImage from '../components/Product/ProductImage';
 
-export default function AdvertScreen(
-  props: NativeStackScreenProps<RootStackParamList, 'AdvertScreen'>,
-) {
+export default function AdvertScreen(props: any) {
   const {data: adverts} = advertApi.useGetAdvertsByDealerIdQuery();
 
   return (
-    <Page header showMessage showNotification title="İlanlarım">
+    <Page header showNotification title="İlanlarım">
       {adverts && adverts.list.length > 0 ? (
         <Container pb={10} pl={15} pr={15}>
           <HeaderRow>
@@ -38,7 +37,11 @@ export default function AdvertScreen(
                   key={advert.id}
                   onPress={() => props.navigation.navigate('EditAdvertScreen')}>
                   <Row>
-                    <AccountProfile></AccountProfile>
+                    <AccountProfile>
+                      <ProductImage
+                        imageUrl={advert?.product?.images?.[0]?.imageUrl}
+                      />
+                    </AccountProfile>
                     <Col gap={10}>
                       <CustomText color="black" fontSizes="body4">
                         {advert.product.name}

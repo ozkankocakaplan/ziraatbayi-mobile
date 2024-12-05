@@ -10,7 +10,7 @@ import {View} from 'react-native';
 export default function EditAdvertScreen() {
   var ref = useRef<FormContainerRef>(null);
   return (
-    <Page header goBackShow title="İlan Düzenle">
+    <Page header showGoBack title="İlan Düzenle">
       <Form formContainerRef={ref}>
         <CustomText sx={{marginBottom: 16}} fontSizes="body3" color="black">
           İlan Bilgileri

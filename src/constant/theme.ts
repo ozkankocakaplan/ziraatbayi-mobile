@@ -46,7 +46,7 @@ export const FONTSIZES = {
 };
 export const COLORS = {
   default: '#1F8505',
-  primary: '#0D361A',
+  primary: '#1F8505',
   secondary: '#143722',
   black: '#000',
   white: '#fff',

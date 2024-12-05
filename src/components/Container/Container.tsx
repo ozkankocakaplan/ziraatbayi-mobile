@@ -24,8 +24,14 @@ interface ContainerProps {
   isLoading?: boolean;
   borderRightColor?: string;
   borderRightWidth?: number;
-  jContent?: string;
-  aItems?: string;
+  jContent?:
+    | 'center'
+    | 'flex-start'
+    | 'flex-end'
+    | 'space-between'
+    | 'space-around'
+    | 'space-evenly';
+  aItems?: 'center' | 'flex-start' | 'flex-end' | 'stretch' | 'baseline';
   borderColor?: string;
   borderWidth?: number;
 }

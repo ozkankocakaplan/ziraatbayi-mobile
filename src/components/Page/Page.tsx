@@ -1,17 +1,12 @@
-import {View, Text, SafeAreaView, ActivityIndicator} from 'react-native';
+import {View, ActivityIndicator} from 'react-native';
 import useThemeColors from '../../constant/useColor';
 import styled from 'styled-components';
 import Header, {HeaderProps} from '../Header/Header';
-import CustomBottomSheet, {
-  BottomSheetRef,
-} from '../BottomSheet/CustomBottomSheet';
-import {useRef} from 'react';
-import Button from '../Button/Button';
 
 interface PageProps extends HeaderProps {
   children?: React.ReactNode;
   header?: boolean;
-  goBackShow?: boolean;
+  showGoBack?: boolean;
   bgColor?: string;
 
   flex?: number;
@@ -21,7 +16,7 @@ interface PageProps extends HeaderProps {
 export default function Page({
   children,
   header,
-  goBackShow = false,
+  showGoBack = false,
   bgColor,
   isLoading = false,
   flex = 1,
@@ -33,9 +28,10 @@ export default function Page({
     <ViewContainer
       flex={flex}
       style={{
-        backgroundColor: bgColor ? bgColor : colors.background,
+        backgroundColor: bgColor || colors.background,
+        flex: 1,
       }}>
-      {header && <Header {...props} goBackShow={goBackShow} />}
+      {header && <Header {...props} showGoBack={showGoBack} />}
       {isLoading ? (
         <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
           <ActivityIndicator />

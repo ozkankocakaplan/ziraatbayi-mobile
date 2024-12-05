@@ -2,7 +2,7 @@ import useColorScheme from './useColorScheme';
 
 const Colors = {
   light: {
-    background: '#ffffff',
+    background: '#f0f0f0',
     primary: '#1F8505',
     text: '#fff',
     secondary: '#D6F1D4',
@@ -15,7 +15,7 @@ const Colors = {
     error: '#FF0000',
   },
   dark: {
-    background: '#ffffff',
+    background: '#f0f0f0',
     primary: '#1F8505',
     text: '#fff',
     secondary: '#D6F1D4',

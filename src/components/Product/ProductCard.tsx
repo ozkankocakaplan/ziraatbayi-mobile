@@ -1,17 +1,16 @@
 import React, {useRef, useState} from 'react';
 import {Image, Text, TouchableOpacity, View} from 'react-native';
 import styled from 'styled-components';
-import ProductBottomSheet, {
-  BottomSheetRef,
-} from '../BottomSheet/CustomBottomSheet';
-import CustomBottomSheet from '../BottomSheet/CustomBottomSheet';
 import {TouchableOpacityProps} from 'react-native';
+import CustomText from '../Text/Text';
+import {SIZES} from '../../constant/theme';
+import ProductImage from './ProductImage';
 
 interface Product extends TouchableOpacityProps {
   image: string;
   categoryName: string;
   productName: string;
-  price: string;
+  price?: string;
 }
 export default function ProductCard({
   image,
@@ -23,12 +22,20 @@ export default function ProductCard({
   return (
     <Card {...props}>
       <ImageContainer>
-        <ProductImage source={{uri: image}} resizeMode="cover" />
+        <ProductImage imageUrl={image} />
       </ImageContainer>
       <InfoContainer>
-        <CategoryName>{categoryName}</CategoryName>
-        <ProductName>{productName}</ProductName>
-        <Price>{price}</Price>
+        <CustomText color="primary" fontSizes="caption2">
+          {categoryName}
+        </CustomText>
+        <CustomText
+          numberOfLines={2}
+          fontSizes="body6"
+          color="black"
+          fontWeight="bold">
+          {productName}
+        </CustomText>
+        {/* <Price>{price}</Price> */}
       </InfoContainer>
     </Card>
   );
@@ -38,6 +45,9 @@ const Card = styled(TouchableOpacity)`
   margin: 10px;
   background-color: white;
   border-radius: 6px;
+  border-width: 1px;
+  border-color: #f9f9f9;
+  width: ${SIZES.width / 3 - 20}px;
 `;
 
 const ImageContainer = styled(View)`
@@ -46,27 +56,10 @@ const ImageContainer = styled(View)`
   padding: 8px;
 `;
 
-const ProductImage = styled(Image)`
-  width: 100%;
-  height: 100%;
-`;
-
 const InfoContainer = styled(View)`
-  padding: 10px;
-`;
-
-const CategoryName = styled(Text)`
-  font-size: 11px;
-  font-weight: bold;
-  color: #555;
-  margin-bottom: 5px;
-`;
-
-const ProductName = styled(Text)`
-  font-size: 16px;
-  font-weight: bold;
-  color: #333;
-  margin-bottom: 5px;
+  padding-horizontal: 10px;
+  gap: 5px;
+  padding-bottom: 8px;
 `;
 
 const Price = styled(Text)`

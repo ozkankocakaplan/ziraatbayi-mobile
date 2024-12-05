@@ -17,7 +17,7 @@ export default function ForgotPasswordScreen(
   var ref = useRef<FormContainerRef>(null);
 
   return (
-    <Page header title="Şifremi Unuttum" goBackShow>
+    <Page header title="Şifremi Unuttum" showGoBack>
       <Form>
         <PasswordContainer>
           <View style={{alignItems: 'center', justifyContent: 'center'}}>

@@ -15,3 +15,18 @@ export const baseApi = createApi({
 
   endpoints: builder => ({}),
 });
+export const imageApi = createApi({
+  reducerPath: 'imageApi',
+  baseQuery: fetchBaseQuery({
+    baseUrl: BaseUrl.replace('/api', ''),
+    prepareHeaders: (headers, {getState}: any) => {
+      const token = getState().auth.user?.token;
+      if (token) {
+        headers.set('authorization', `Bearer ${token}`);
+      }
+      return headers;
+    },
+  }),
+
+  endpoints: builder => ({}),
+});

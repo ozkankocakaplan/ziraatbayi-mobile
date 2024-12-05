@@ -2,7 +2,7 @@ import {combineReducers, configureStore} from '@reduxjs/toolkit';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {AuthReducer} from './features/authReducer';
 import {persistReducer, persistStore} from 'redux-persist';
-import {baseApi} from './api/BaseApi';
+import {baseApi, imageApi} from './api/BaseApi';
 import {AdvertReducer} from './features/advertReducer';
 
 const authPersistConfig = {
@@ -14,6 +14,7 @@ const rootReducer = combineReducers({
   auth: persistReducer(authPersistConfig, AuthReducer),
   advert: AdvertReducer,
   [baseApi.reducerPath]: baseApi.reducer,
+  [imageApi.reducerPath]: imageApi.reducer,
 });
 
 const setupStore = () => {
@@ -22,7 +23,9 @@ const setupStore = () => {
     middleware: getDefaultMiddleware =>
       getDefaultMiddleware({
         serializableCheck: false,
-      }).concat(baseApi.middleware),
+      })
+        .concat(baseApi.middleware)
+        .concat(imageApi.middleware),
   });
 };
 export const store = setupStore();

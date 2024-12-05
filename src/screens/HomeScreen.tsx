@@ -1,12 +1,5 @@
 import React, {useEffect, useRef} from 'react';
-import {
-  FlatList,
-  SafeAreaView,
-  ScrollView,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {FlatList, ScrollView, Text, TouchableOpacity, View} from 'react-native';
 import Button from '../components/Button/Button';
 import MainHeader from '../components/Header/MainHeader';
 import ProductCard from '../components/Product/ProductCard';
@@ -24,95 +17,12 @@ import {RootStackParamList} from '../types/navigator';
 import Page from '../components/Page/Page';
 import {Col, Row} from '../constant/GlobalStyled';
 import CustomText from '../components/Text/Text';
+import {products} from '../mockup/data';
+import {AdvertApi} from '../services/advertService';
+import AdvertResponse from '../payload/response/AdvertResponse';
+import CustomFlatList from '../components/Flatlist/CustomFlatList';
 
 export default function HomeScreen(props: any) {
-  const products = [
-    {
-      id: '1',
-      image: 'https://via.placeholder.com/150',
-      categoryName: 'Kategori Adı 1',
-      productName: 'Ürün Adı 1',
-      price: '₺100',
-    },
-    {
-      id: '1',
-      image: 'https://via.placeholder.com/150',
-      categoryName: 'Kategori Adı 1',
-      productName: 'Ürün Adı 1',
-      price: '₺100',
-    },
-    {
-      id: '1',
-      image: 'https://via.placeholder.com/150',
-      categoryName: 'Kategori Adı 1',
-      productName: 'Ürün Adı 1',
-      price: '₺100',
-    },
-    {
-      id: '1',
-      image: 'https://via.placeholder.com/150',
-      categoryName: 'Kategori Adı 1',
-      productName: 'Ürün Adı 1',
-      price: '₺100',
-    },
-    {
-      id: '1',
-      image: 'https://via.placeholder.com/150',
-      categoryName: 'Kategori Adı 1',
-      productName: 'Ürün Adı 1',
-      price: '₺100',
-    },
-    {
-      id: '2',
-      image: 'https://via.placeholder.com/150',
-      categoryName: 'Kategori Adı 2',
-      productName: 'Ürün Adı 2',
-      price: '₺200',
-    },
-    {
-      id: '3',
-      image: 'https://via.placeholder.com/150',
-      categoryName: 'Kategori Adı 3',
-      productName: 'Ürün Adı 3',
-      price: '₺300',
-    },
-    {
-      id: '4',
-      image: 'https://via.placeholder.com/150',
-      categoryName: 'Kategori Adı 4',
-      productName: 'Ürün Adı 4',
-      price: '₺400',
-    },
-    {
-      id: '5',
-      image: 'https://via.placeholder.com/150',
-      categoryName: 'Kategori Adı 5',
-      productName: 'Ürün Adı 5',
-      price: '₺500',
-    },
-    {
-      id: '6',
-      image: 'https://via.placeholder.com/150',
-      categoryName: 'Kategori Adı 6',
-      productName: 'Ürün Adı 6',
-      price: '₺600',
-    },
-    {
-      id: '4',
-      image: 'https://via.placeholder.com/150',
-      categoryName: 'Kategori Adı 4',
-      productName: 'Ürün Adı 4',
-      price: '₺400',
-    },
-    {
-      id: '5',
-      image: 'https://via.placeholder.com/150',
-      categoryName: 'Kategori Adı 5',
-      productName: 'Ürün Adı 5',
-      price: '₺500',
-    },
-  ];
-
   const {data: categories} = categoryApi.useGetCategoriesQuery();
   const closeBottomSheet = () => {
     bottomSheetRef.current?.close();
@@ -120,9 +30,12 @@ export default function HomeScreen(props: any) {
   const bottomSheetRef = useRef<BottomSheetRef>(null);
   const productSheetRef = useRef<BottomSheetRef>(null);
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
+
+  const {data, isLoading, error} = AdvertApi.useGetShowCaseAdvertsQuery();
+  console.log(data?.list);
   return (
     <>
-      <Page isSearchable header title="İlanlarım" showMessage showNotification>
+      <Page isSearchable header showNotification showMessage>
         <Container>
           <HeaderRow>
             <ButtonContainer
@@ -156,20 +69,21 @@ export default function HomeScreen(props: any) {
               <FontAwesomeIcon icon={faFilter} size={24} color="#333" />
             </FilterIconContainer>
           </HeaderRow>
-
-          <ProductList
-            data={products}
-            keyExtractor={(item: any) => item.id}
-            renderItem={({item}: {item: any}) => (
-              <ProductCard
-                onPress={() => productSheetRef.current?.open()}
-                image={item.image}
-                categoryName={item.categoryName}
-                productName={item.productName}
-                price={item.price}
-              />
-            )}
+          <CustomFlatList
             numColumns={3}
+            data={data?.list || []}
+            renderItem={(item: AdvertResponse) => {
+              console.log(item.product.images[0].imageUrl);
+              return (
+                <ProductCard
+                  key={item.id}
+                  onPress={() => productSheetRef.current?.open()}
+                  image={item.product.images[0].imageUrl}
+                  categoryName={item?.product?.categoryName}
+                  productName={item?.product?.name}
+                />
+              );
+            }}
           />
         </Container>
       </Page>
@@ -262,9 +176,6 @@ const FilterIconContainer = styled(TouchableOpacity)`
   margin-horizontal: 15px;
 `;
 
-const ProductList = styled(FlatList)`
-  background-color: #f0f0f0;
-`;
 const AccountProfile = styled(View)`
   height: 100px;
   width: 100px;

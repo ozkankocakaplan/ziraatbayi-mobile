@@ -74,7 +74,7 @@ export default function CategoriesScreen(
   };
 
   return (
-    <Page header title={'Kategoriler'} goBackShow>
+    <Page header title={'Kategoriler'} showGoBack>
       <Container>
         <Row>
           <Container borderRightColor="black" flex={0.6} bgColor="#B4B4B8">

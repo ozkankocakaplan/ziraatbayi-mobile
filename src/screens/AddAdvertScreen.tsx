@@ -15,13 +15,15 @@ import CustomBottomSheet, {
 import {faCheck, faReceipt} from '@fortawesome/free-solid-svg-icons';
 import Button from '../components/Button/Button';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
+import CheckRadio from '../components/CheckInput/CheckRadio';
 
+const family = ['Feriza', 'Özkan'];
 export default function AddAdvertScreen(
   props: NativeStackScreenProps<RootStackParamList, 'AddAdvertScreen'>,
 ) {
   var ref = useRef<FormContainerRef>(null);
   const [useRegister] = AdvertApi.useCreateAdvertMutation();
-
+  const [selectedFamily, setSelectedFamily] = useState<string>('');
   const [advertRequest, setAdvertRequest] = useState<CreateAdvertRequest>({
     productId: 0,
     stockQuantity: 1,
@@ -31,7 +33,7 @@ export default function AddAdvertScreen(
 
   return (
     <>
-      <Page header goBackShow title="İlan Ekle">
+      <Page header showGoBack title="İlan Ekle">
         <Form formContainerRef={ref}>
           <CustomText sx={{marginBottom: 16}} fontSizes="body3" color="black">
             İlan Bilgileri
@@ -43,7 +45,7 @@ export default function AddAdvertScreen(
             isPlaceholder={true}
             required
             id="category"
-            placeholderValue="Kategori"
+            placeholderValue={selectedFamily ? selectedFamily : 'Kategori Seç'}
           />
           <Input
             handlePress={() => {
@@ -73,39 +75,19 @@ export default function AddAdvertScreen(
         </Form>
       </Page>
       <CustomBottomSheet ref={bottomSheetRef} snapPoints={['25%', '50%']}>
-        <ScrollableContainer>
-          <ButtonWrapper>
-            <StyledButton onPress={bottomSheetRef.current?.close}>
-              <FontAwesomeIcon
-                icon={faCheck}
-                size={16}
-                color="green"
-                style={{marginRight: 10}}
+        <ScrollableContainer contentContainerStyle={{margin: 10}}>
+          {family.map((item, index) => {
+            return (
+              <CheckRadio
+                value={item}
+                checked={selectedFamily === item}
+                handleChecked={(isCheck: boolean) => {
+                  bottomSheetRef.current?.close();
+                  setSelectedFamily(item);
+                }}
               />
-              <StyledText>Buton1</StyledText>
-            </StyledButton>
-            <StyledButton onPress={bottomSheetRef.current?.close}>
-              <StyledText>Buton1</StyledText>
-            </StyledButton>
-            <StyledButton onPress={bottomSheetRef.current?.close}>
-              <StyledText>Buton1</StyledText>
-            </StyledButton>
-            <StyledButton onPress={bottomSheetRef.current?.close}>
-              <StyledText>Buton1</StyledText>
-            </StyledButton>
-            <StyledButton onPress={bottomSheetRef.current?.close}>
-              <StyledText>Buton1</StyledText>
-            </StyledButton>
-            <StyledButton onPress={bottomSheetRef.current?.close}>
-              <StyledText>Buton1</StyledText>
-            </StyledButton>
-            <StyledButton onPress={bottomSheetRef.current?.close}>
-              <StyledText>Buton1</StyledText>
-            </StyledButton>
-            <StyledButton onPress={bottomSheetRef.current?.close}>
-              <StyledText>Buton1</StyledText>
-            </StyledButton>
-          </ButtonWrapper>
+            );
+          })}
         </ScrollableContainer>
       </CustomBottomSheet>
     </>
@@ -123,27 +105,4 @@ const RegisterContainer = styled(View)`
   justify-content: flex-end;
 `;
 
-const ButtonWrapper = styled(View)`
-  justify-content: center;
-  align-items: center;
-  margin: 10px;
-`;
-
-const StyledButton = styled(TouchableOpacity)`
-  width: 100%;
-  border-radius: 10px;
-  background-color: #fff;
-  margin-bottom: 10px;
-  justify-content: flex-start;
-  align-items: center;
-  flex-direction: row;
-  padding: 10px;
-  height: 50px;
-  border: 1px solid grey;
-`;
-
-const StyledText = styled(Text)`
-  font-size: 16px;
-  color: black;
-`;
 const ScrollableContainer = styled(ScrollView)``;

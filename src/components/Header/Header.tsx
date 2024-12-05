@@ -1,148 +1,145 @@
 import {
   View,
-  SafeAreaView,
+  Text,
   TouchableOpacity,
   Platform,
+  SafeAreaView,
   TextInput,
 } from 'react-native';
+
 import styled from 'styled-components';
 import useThemeColors from '../../constant/useColor';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {faAngleLeft, faEnvelope} from '@fortawesome/free-solid-svg-icons';
-import {faBell} from '@fortawesome/free-regular-svg-icons';
+import {faAngleLeft, faBars} from '@fortawesome/free-solid-svg-icons';
+import {DrawerActions, useNavigation} from '@react-navigation/native';
+import {faBell, faEnvelope} from '@fortawesome/free-regular-svg-icons';
 import CustomText from '../Text/Text';
-import {NavigationProp, useNavigation} from '@react-navigation/native';
-import {RootStackParamList} from '../../types/navigator';
-import {memo, useMemo} from 'react';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import {IconProp} from '@fortawesome/fontawesome-svg-core';
+import Icon from '../Icon/Icon';
+import {SvgXml} from 'react-native-svg';
+import {Col, Row} from '../../constant/GlobalStyled';
+import {useSelector} from 'react-redux';
+import {RootState} from '../../store';
 
 export interface HeaderProps {
   title?: string;
   isSearchable?: boolean;
   showNotification?: boolean;
+  showAccountDetail?: boolean;
+  showGoBack?: boolean;
   showMessage?: boolean;
-  goBackShow?: boolean;
-  customView?: React.ReactNode;
 }
-const Header = ({
+export default function Header({
   title,
-  isSearchable = false,
   showNotification = false,
-  showMessage = false,
-  goBackShow = false,
-  customView,
-}: HeaderProps) => {
+  showAccountDetail = false,
+  showGoBack = false,
+  isSearchable = false,
+  showMessage,
+}: HeaderProps) {
+  const navigation = useNavigation();
   const colors = useThemeColors();
-  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
-  const insets = useSafeAreaInsets();
-  console.log('insets', insets);
-  const HeaderIcons = ({bottom}: {bottom?: number}) => {
-    return (
-      <ExtraContainer>
-        {showMessage && (
-          <IconRight
-            bottom={bottom}
-            onPress={() => {
-              navigation.navigate('MessageScreen');
-            }}
-            hitSlop={15}>
-            <FontAwesomeIcon icon={faEnvelope} color={'#fff'} size={25} />
-          </IconRight>
-        )}
-
-        {showNotification && (
-          <IconRight
-            bottom={bottom}
-            onPress={() => {
-              navigation.navigate('NotificationScreen');
-            }}
-            hitSlop={15}>
-            <FontAwesomeIcon icon={faBell} color={'#fff'} size={25} />
-          </IconRight>
-        )}
-      </ExtraContainer>
-    );
-  };
+  const {user} = useSelector((state: RootState) => state.auth);
   return (
     <HeaderContainer
-      topInset={insets.top}
       theme={{
         background: colors.primary,
       }}>
-      {customView ? (
-        <>
-          {customView}
-          <Container>
-            <HeaderIcons bottom={45} />
-          </Container>
-        </>
-      ) : (
-        <>
-          {goBackShow && (
-            <IconLeft
-              hitSlop={15}
-              onPress={() => {
+      <Container alignItems={title ? 'center' : 'flex-start'}>
+        {showAccountDetail && (
+          <View style={{height: 40}}>
+            <Row gap={10}>
+              <AccountProfile>
+                <CustomText color="primary">
+                  {user?.firstName?.charAt(0)}
+                  {user?.lastName?.charAt(0)}
+                </CustomText>
+              </AccountProfile>
+              <Col gap={5}>
+                <CustomText fontSizes="body5">
+                  {user?.firstName} {user?.lastName}
+                </CustomText>
+                <CustomText fontSizes="body6">{user?.email}</CustomText>
+              </Col>
+            </Row>
+          </View>
+        )}
+        {showGoBack && (
+          <IconLeft
+            hitSlop={15}
+            onPress={() => {
+              if (showGoBack) {
                 navigation.goBack();
-              }}>
-              <FontAwesomeIcon icon={faAngleLeft} color={'#fff'} size={25} />
-            </IconLeft>
+              } else {
+                navigation.dispatch(DrawerActions.openDrawer());
+              }
+            }}>
+            <Icon icon={faAngleLeft} size={25} color="white" />
+          </IconLeft>
+        )}
+        {isSearchable && <SearchInput placeholder="Ara..." />}
+        {title?.length != 0 && (
+          <TitleContainer>
+            <CustomText
+              fontSizes="body3"
+              color="white"
+              fontWeight="bold"
+              adjustsFontSizeToFit={true}>
+              {title}
+            </CustomText>
+          </TitleContainer>
+        )}
+        <ExtraContainer>
+          {showNotification && (
+            <IconRight
+              onPress={() => {
+                navigation.navigate('NotificationScreen' as never);
+              }}
+              hitSlop={15}>
+              <Icon icon={faBell} color="white" />
+            </IconRight>
           )}
-          <Container>
-            {isSearchable ? (
-              <SearchInput
-                placeholder="Ürün ara..."
-                placeholderTextColor="#999"
-              />
-            ) : (
-              title?.length != 0 && (
-                <TitleContainer>
-                  <HeaderTitle adjustsFontSizeToFit={true}>{title}</HeaderTitle>
-                </TitleContainer>
-              )
-            )}
-            <HeaderIcons />
-          </Container>
-        </>
-      )}
+          {showMessage && (
+            <IconRight
+              onPress={() => {
+                navigation.navigate('MessageScreen' as never);
+              }}
+              hitSlop={15}>
+              <Icon icon={faEnvelope} color="white" />
+            </IconRight>
+          )}
+        </ExtraContainer>
+      </Container>
     </HeaderContainer>
   );
-};
-export default memo(Header);
-const HeaderContainer = styled(SafeAreaView)<{topInset?: number}>`
+}
+const HeaderContainer = styled(SafeAreaView)`
   background-color: ${props => props.theme.background};
-  height: ${props => (Platform.OS === 'ios' ? '120px' : '50px')};
+  height: ${Platform.OS === 'android' ? '55px' : 'auto'};
   justify-content: center;
 `;
-const Container = styled(View)`
-  justify-content: center;
+const Container = styled(View)<{alignItems: string}>`
   padding-bottom: 10px;
-  top: 0px;
-  padding-horizontal: 7px;
+  justify-content: center;
+  align-items: ${props => props.alignItems};
+  padding-bottom: ${props => (props.alignItems === 'center' ? '40px' : '10px')};
+  top: 0;
 `;
 const IconLeft = styled(TouchableOpacity)`
   position: absolute;
   left: 20px;
-  bottom: 12px;
-  z-index: 1;
 `;
-const IconRight = styled(TouchableOpacity)<{bottom?: number}>`
-  position: relative;
-  bottom: ${props => props.bottom || 5}px;
-  z-index: 1;
+const IconRight = styled(TouchableOpacity)`
+  bottom: 5px;
 `;
 const TitleContainer = styled(View)`
-  position: center;
+  position: absolute;
 `;
-const HeaderTitle = styled(CustomText)`
-  font-size: 20px;
-  color: #fff;
-  font-weight: bold;
-  text-align: center;
-`;
+
 const ExtraContainer = styled(View)`
   position: absolute;
-  right: 15px;
-  flex-direction: row;
+  right: 20px;
+  flex-direction: row-reverse;
   justify-content: space-between;
   align-items: center;
   gap: 20px;
@@ -155,4 +152,13 @@ const SearchInput = styled(TextInput)`
   background-color: #fff;
   width: 73%;
   margin-left: 10px;
+`;
+const AccountProfile = styled(View)`
+  height: 40px;
+  width: 40px;
+  background-color: #f9f9f9;
+  margin-left: 10px;
+  border-radius: 10px;
+  justify-content: center;
+  align-items: center;
 `;

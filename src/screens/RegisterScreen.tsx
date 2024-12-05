@@ -52,7 +52,7 @@ export default function RegisterScreen(
   };
 
   return (
-    <Page header title={'Kayıt Ol'} goBackShow>
+    <Page header title={'Kayıt Ol'} showGoBack>
       <Form formContainerRef={ref}>
         <Input
           required
