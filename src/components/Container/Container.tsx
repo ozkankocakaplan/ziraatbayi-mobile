@@ -26,6 +26,8 @@ interface ContainerProps {
   borderRightWidth?: number;
   jContent?: string;
   aItems?: string;
+  borderColor?: string;
+  borderWidth?: number;
 }
 
 export default function Container({
@@ -65,6 +67,8 @@ export default function Container({
           borderRightWidth: props.borderRightWidth,
           justifyContent: props.jContent,
           alignItems: props.aItems,
+          borderColor: props.borderColor,
+          borderWidth: props.borderWidth,
         }}>
         {isLoading ? (
           <View

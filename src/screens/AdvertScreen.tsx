@@ -1,106 +1,85 @@
-import {View, Text, TouchableOpacity, TextInput} from 'react-native';
-import React, {useRef} from 'react';
+import React from 'react';
+import {View, TouchableOpacity, TextInput, Image} from 'react-native';
+import styled from 'styled-components';
+import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
+import {faFilter} from '@fortawesome/free-solid-svg-icons';
 import Container from '../components/Container/Container';
 import Page from '../components/Page/Page';
 import CustomText from '../components/Text/Text';
 import Button from '../components/Button/Button';
-import styled from 'styled-components';
-import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {faFilter} from '@fortawesome/free-solid-svg-icons';
-import {BottomSheetRef} from '../components/BottomSheet/CustomBottomSheet';
 import {Col, Row} from '../constant/GlobalStyled';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {RootStackParamList} from '../types/navigator';
+import {advertApi} from '../services/advertService';
+import AdvertResponse from '../payload/response/AdvertResponse';
 
-export default function AdvertScreen() {
-  const closeBottomSheet = () => {
-    bottomSheetRef.current?.close();
-  };
-  const bottomSheetRef = useRef<BottomSheetRef>(null);
+export default function AdvertScreen(
+  props: NativeStackScreenProps<RootStackParamList, 'AdvertScreen'>,
+) {
+  const {data: adverts} = advertApi.useGetAdvertsByDealerIdQuery();
+
   return (
     <Page header showMessage showNotification title="İlanlarım">
-      <Container aItems="center" jContent="center">
-        <CustomText color="black" fontSizes="body4">
-          Henüz hiçbir ürün eklemediniz.
-        </CustomText>
-        <Button text="Ürün Ekle"></Button>
-      </Container>
-      {/* <Container pb={10} pl={15} pr={15}>
-        <HeaderRow>
-          <SearchInput placeholder="Ürün ara..." placeholderTextColor="#999" />
-          <FilterIconContainer
-            onPress={() => {
-              bottomSheetRef.current?.open();
-            }}>
-            <FontAwesomeIcon icon={faFilter} size={24} color="#333" />
-          </FilterIconContainer>
-        </HeaderRow>
-        <Container flex={1} justifyContent="space-between">
-          <Container flex={1}>
-            <StyledContainer>
-              <Row gap={10}>
-                <AccountProfile></AccountProfile>
-                <Col gap={12}>
-                  <CustomText color="black" fontSizes="body4">
-                    Ürün Adı
-                  </CustomText>
-                  <CustomText color="black" fontSizes="body6">
-                    Kategori
-                  </CustomText>
-                  <CustomText color="black" fontSizes="body6">
-                    Stok Miktarı
-                  </CustomText>
-                  <CustomText color="black" fontSizes="body5">
-                    Fiyat
-                  </CustomText>
-                </Col>
-              </Row>
-            </StyledContainer>
-            <StyledContainer>
-              <Row gap={10}>
-                <AccountProfile></AccountProfile>
-                <Col gap={12}>
-                  <CustomText color="black" fontSizes="body4">
-                    Ürün Adı
-                  </CustomText>
-                  <CustomText color="black" fontSizes="body6">
-                    Kategori
-                  </CustomText>
-                  <CustomText color="black" fontSizes="body6">
-                    Stok Miktarı
-                  </CustomText>
-                  <CustomText color="black" fontSizes="body5">
-                    Fiyat
-                  </CustomText>
-                </Col>
-              </Row>
-            </StyledContainer>
-            <StyledContainer>
-              <Row gap={10}>
-                <AccountProfile></AccountProfile>
-                <Col gap={12}>
-                  <CustomText color="black" fontSizes="body4">
-                    Ürün Adı
-                  </CustomText>
-                  <CustomText color="black" fontSizes="body6">
-                    Kategori
-                  </CustomText>
-                  <CustomText color="black" fontSizes="body6">
-                    Stok Miktarı
-                  </CustomText>
-                  <CustomText color="black" fontSizes="body5">
-                    Fiyat
-                  </CustomText>
-                </Col>
-              </Row>
-            </StyledContainer>
-          </Container>
-          <Container flex={0.1}>
-            <Button text="YENİ İLAN EKLE"></Button>
+      {adverts && adverts.list.length > 0 ? (
+        <Container pb={10} pl={15} pr={15}>
+          <HeaderRow>
+            <SearchInput
+              placeholder="Ürün ara..."
+              placeholderTextColor="#999"
+            />
+            <FilterIconContainer>
+              <FontAwesomeIcon icon={faFilter} size={24} color="#333" />
+            </FilterIconContainer>
+          </HeaderRow>
+          <Container flex={1} jContent="space-between">
+            <Container flex={1}>
+              {adverts.list.map((advert: AdvertResponse) => (
+                <StyledContainer
+                  key={advert.id}
+                  onPress={() => props.navigation.navigate('EditAdvertScreen')}>
+                  <Row>
+                    <AccountProfile></AccountProfile>
+                    <Col gap={10}>
+                      <CustomText color="black" fontSizes="body4">
+                        {advert.product.name}
+                      </CustomText>
+                      <CustomText color="black" fontSizes="body6">
+                        {advert.product.categoryName}
+                      </CustomText>
+                      <CustomText color="black" fontSizes="body6">
+                        Stok Miktarı: {advert.stockQuantity}
+                      </CustomText>
+                      {/* <CustomText color="black" fontSizes="body5">
+                        Fiyat: {advert.price}
+                      </CustomText> */}
+                    </Col>
+                  </Row>
+                </StyledContainer>
+              ))}
+            </Container>
+            <Container flex={0.1}>
+              <Button
+                onPress={() => props.navigation.navigate('AddAdvertScreen')}
+                text="YENİ İLAN EKLE"
+              />
+            </Container>
           </Container>
         </Container>
-      </Container> */}
+      ) : (
+        <Container gap={10} aItems="center" jContent="center">
+          <CustomText color="black" fontSizes="body4">
+            Henüz hiç ilan eklemediniz.
+          </CustomText>
+          <Button
+            text="İlan Ekle"
+            onPress={() => props.navigation.navigate('AddAdvertScreen')}
+          />
+        </Container>
+      )}
     </Page>
   );
 }
+
 const HeaderRow = styled(View)`
   flex-direction: row;
   align-items: center;
@@ -122,9 +101,8 @@ const SearchInput = styled(TextInput)`
 const AccountProfile = styled(View)`
   height: 100px;
   width: 100px;
-  background-color: red;
 `;
-const StyledContainer = styled(View)`
+const StyledContainer = styled(TouchableOpacity)`
   background-color: #fff;
   padding: 15px;
   width: 100%;
@@ -132,5 +110,5 @@ const StyledContainer = styled(View)`
   justify-content: center;
   margin-bottom: 10px;
   border-width: 1px;
-  border-color: black;
+  border-color: #ddd;
 `;

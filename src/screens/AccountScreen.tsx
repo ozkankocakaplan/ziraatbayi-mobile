@@ -9,6 +9,12 @@ import styled from 'styled-components';
 import {RootState} from '../store';
 import CustomText from '../components/Text/Text';
 import Page from '../components/Page/Page';
+import {
+  faCircleQuestion,
+  faLock,
+  faUser,
+  faUserGroup,
+} from '@fortawesome/free-solid-svg-icons';
 
 export default function AccountScreen() {
   const dispatch = useDispatch();
@@ -37,7 +43,45 @@ export default function AccountScreen() {
       showMessage
       showNotification>
       <Container pb={10} pl={10} pr={10}>
-        <Container></Container>
+        <Container flex={1}>
+          <Container
+            borderWidth={1}
+            borderColor="black"
+            p={10}
+            mt={35}
+            flex={0.4}
+            bgColor="pink">
+            <CustomText sx={{marginBottom: 15}} color="black" fontSizes="body3">
+              Hesabım
+            </CustomText>
+            <Container flex={0.4}>
+              <Button
+                icon={faUser}
+                marginBottom={10}
+                text="Kullanıcı Bilgilerim"></Button>
+              <Button icon={faLock} text="Şifre Değişikliği"></Button>
+            </Container>
+          </Container>
+          <Container
+            bgColor="yellow"
+            borderWidth={1}
+            borderColor="black"
+            p={10}
+            flex={0.5}>
+            <CustomText sx={{marginBottom: 15}} color="black" fontSizes="body3">
+              Abonelik Bilgilerim
+            </CustomText>
+            <Container>
+              <Button
+                icon={faUserGroup}
+                marginBottom={10}
+                text="Abonelik Durumum"></Button>
+              <Button
+                icon={faCircleQuestion}
+                text="Yardım & Sıkça Sorulan Sorular"></Button>
+            </Container>
+          </Container>
+        </Container>
         <Button text="Çıkış Yap" onPress={logOut} />
       </Container>
     </Page>

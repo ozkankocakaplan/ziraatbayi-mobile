@@ -13,13 +13,14 @@ import {AuthApi} from '../services/authService';
 import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '../store';
 import Page from '../components/Page/Page';
+import {LogoIcon} from '../assets/logo';
 
 export default function LoginScreen(
   props: NativeStackScreenProps<RootStackParamList, 'LoginScreen'>,
 ) {
   const [loginRequest, setLoginRequest] = useState<LoginRequest>({
-    email: 'ozkankocakaplan07@gmail.com',
-    password: '123456',
+    email: 'ferizaocal60@gmail.com',
+    password: '6bd355',
   });
   const dispatch = useDispatch(); // useDispatch hook'u ile store'a erişim sağlanır.
   const {user} = useSelector((state: RootState) => state.auth); // useSelector hook'u ile store'dan veri okunur.
@@ -36,7 +37,11 @@ export default function LoginScreen(
       <Form>
         <LoginContainer>
           <View style={{alignItems: 'center', justifyContent: 'center'}}>
-            <IconContainer></IconContainer>
+            <Image
+              source={LogoIcon}
+              style={{width: 200, height: 200}}
+              resizeMode="contain"
+            />
           </View>
 
           <View style={{gap: 10}}>
@@ -99,12 +104,6 @@ const Form = styled(View)`
 const LoginContainer = styled(View)`
   flex: 2;
   justify-content: center;
-`;
-const IconContainer = styled(View)`
-  margin-bottom: 20px;
-  width: 200px;
-  height: 200px;
-  background-color: green;
 `;
 const RegisterContainer = styled(View)`
   margin-bottom: 30px;

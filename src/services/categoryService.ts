@@ -12,7 +12,7 @@ export const categoryApi = baseApi.injectEndpoints({
     }),
     getCategory: builder.query<ServiceResponse<CategoryResponse>, number>({
       query: id => ({
-        url: '',
+        url: '/getCategory/' + id,
         method: 'GET',
       }),
     }),

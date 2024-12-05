@@ -21,6 +21,8 @@ interface OutlineButtonProps extends TouchableOpacityProps {
   size?: 'sm' | 'md';
   minWidth?: number;
   textAlign?: string;
+  marginBottom?: number;
+  margin?: number;
 }
 
 export default function Button({
@@ -64,6 +66,7 @@ export default function Button({
           ? '#ddd'
           : backgroundColor || colors.primary,
         minWidth: props.minWidth,
+        marginBottom: props.marginBottom,
       }}>
       {icon && <IconLeft icon={icon} color={colors.iconColor} />}
       {loading ? (
@@ -92,4 +95,5 @@ const CustomButton = styled(TouchableOpacity)<{minWidth?: number}>`
   justify-content: center;
   align-items: center;
   min-width: ${props => props.theme.minWidth + 'px' || 'auto'};
+  margin-bottom: ${props => props.theme.marginBottom + 'px' || 'auto'};
 `;

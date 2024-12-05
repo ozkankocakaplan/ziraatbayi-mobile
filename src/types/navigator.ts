@@ -12,6 +12,9 @@ export type RootStackParamList = {
     selectedCategory?: CategoryResponse;
     previousCategory?: CategoryResponse;
   };
+  AddAdvertScreen: undefined;
+  AdvertScreen: undefined;
+  EditAdvertScreen: undefined;
 };
 export type BottomTabParamList = {
   Home: undefined;

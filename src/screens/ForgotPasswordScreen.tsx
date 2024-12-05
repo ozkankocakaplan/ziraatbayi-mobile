@@ -9,6 +9,7 @@ import {faEnvelope} from '@fortawesome/free-solid-svg-icons';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../types/navigator';
 import Page from '../components/Page/Page';
+import {LogoIcon} from '../assets/logo';
 
 export default function ForgotPasswordScreen(
   props: NativeStackScreenProps<RootStackParamList, 'ForgotPasswordScreen'>,
@@ -20,7 +21,11 @@ export default function ForgotPasswordScreen(
       <Form>
         <PasswordContainer>
           <View style={{alignItems: 'center', justifyContent: 'center'}}>
-            <IconContainer></IconContainer>
+            <Image
+              source={LogoIcon}
+              style={{width: 200, height: 200}}
+              resizeMode="contain"
+            />
           </View>
           <FormContainer formContainerRef={ref}>
             <Input
@@ -46,11 +51,4 @@ const Form = styled(View)`
 `;
 const PasswordContainer = styled(View)`
   margin-top: 50px;
-`;
-const IconContainer = styled(View)`
-  align-items: center;
-  margin-bottom: 30px;
-  width: 200px;
-  height: 200px;
-  background-color: green;
 `;

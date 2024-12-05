@@ -10,7 +10,7 @@ export const authApi = baseApi.injectEndpoints({
   endpoints: builder => ({
     login: builder.mutation<ServiceResponse<LoginResponse>, LoginRequest>({
       query: credentials => ({
-        url: '/auth/login',
+        url: '/auth/loginForMobile',
         method: 'POST',
         body: credentials,
       }),
@@ -38,7 +38,7 @@ export const authApi = baseApi.injectEndpoints({
       CreateDealerRequest
     >({
       query: credentials => ({
-        url: '/dealer',
+        url: 'dealer/register',
         method: 'POST',
         body: credentials,
       }),

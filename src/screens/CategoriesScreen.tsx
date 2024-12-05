@@ -3,16 +3,13 @@ import {Dimensions, TouchableOpacity, View} from 'react-native';
 import {Row, ColBackground, Flex} from '../constant/GlobalStyled';
 import Container from '../components/Container/Container';
 import CustomText from '../components/Text/Text';
-import Button from '../components/Button/Button';
 import styled from 'styled-components';
-import {SIZES} from '../constant/theme';
 import {categoryApi} from '../services/categoryService';
 import CategoryResponse from '../payload/response/CategoryResponse';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../types/navigator';
 import AlertDialog from '../components/AlertDialog/AlertDialog';
 import Page from '../components/Page/Page';
-import {isColor} from 'react-native-reanimated';
 export default function CategoriesScreen(
   props: NativeStackScreenProps<RootStackParamList, 'CategoriesScreen'>,
 ) {

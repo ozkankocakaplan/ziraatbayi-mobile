@@ -12,6 +12,8 @@ import MessageScreen from '../screens/MessageScreen';
 import NotificationScreen from '../screens/NotificationScreen';
 import Header from '../components/Header/Header';
 import CategoriesScreen from '../screens/CategoriesScreen';
+import AddAdvertScreen from '../screens/AddAdvertScreen';
+import EditAdvertScreen from '../screens/EditAdvertScreen';
 
 const Stack = createStackNavigator<RootStackParamList>();
 const RootNavigator = () => {
@@ -41,6 +43,8 @@ const RootNavigator = () => {
             component={NotificationScreen}
           />
           <Stack.Screen name="CategoriesScreen" component={CategoriesScreen} />
+          <Stack.Screen name="AddAdvertScreen" component={AddAdvertScreen} />
+          <Stack.Screen name="EditAdvertScreen" component={EditAdvertScreen} />
         </>
       )}
     </Stack.Navigator>

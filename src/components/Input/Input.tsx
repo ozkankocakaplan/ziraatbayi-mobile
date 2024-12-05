@@ -19,6 +19,9 @@ export default function Input({
 }: FormInputProps & {
   priceInput?: boolean;
   onChangeValue?: (value: any) => void;
+  isPlaceholder?: boolean;
+  placeholderValue?: string;
+  handlePress?: () => void;
 }) {
   const colors = useThemeColors();
   const [passwordShow, setPasswordShow] = useState(false);
@@ -54,7 +57,8 @@ export default function Input({
           color={colors.iconColor}
         />
       )}
-      {props.priceInput ? (
+
+      {props.priceInput && !props.isPlaceholder ? (
         <PriceInput
           autoFocus={false}
           placeholderTextColor={colors.inputPlaceholder}
@@ -85,7 +89,7 @@ export default function Input({
             borderColor: isFocused ? colors.activeBorder : colors.inputBorder,
           }}
         />
-      ) : (
+      ) : !props.isPlaceholder ? (
         <CustomInput
           autoFocus={false}
           placeholderTextColor={colors.inputPlaceholder}
@@ -117,6 +121,34 @@ export default function Input({
             borderColor: isFocused ? colors.activeBorder : colors.inputBorder,
           }}
         />
+      ) : (
+        <CustomPlaceholder
+          onPress={e => {
+            if (props?.handlePress) {
+              props.handlePress();
+            }
+          }}
+          theme={{
+            size:
+              inputSize === 'sm'
+                ? '10px'
+                : Platform.OS === 'android'
+                ? '10px'
+                : '15px',
+            left:
+              iconPosition === 'left' && icon !== undefined
+                ? inputPaddingHorizontal
+                : size,
+            right:
+              iconPosition === 'right' && icon !== undefined
+                ? inputPaddingHorizontal
+                : size,
+            borderColor: isFocused ? colors.activeBorder : colors.inputBorder,
+          }}>
+          <CustomText fontWeight="bold" color="grey">
+            {props.placeholderValue || 'Seçiniz'}
+          </CustomText>
+        </CustomPlaceholder>
       )}
 
       {props.secureTextEntry && (
@@ -155,6 +187,17 @@ const CustomInput = styled(TextInput)`
   padding: ${props => props.theme.size} ${props => props.theme.right}
     ${props => props.theme.size} ${props => props.theme.left};
   width: 100%;
+  height: 50px;
+  border-radius: 10px;
+  background-color: #fff;
+  color: #143722;
+  border: 1px solid ${props => props.theme.borderColor};
+`;
+const CustomPlaceholder = styled(TouchableOpacity)`
+  padding: ${props => props.theme.size} ${props => props.theme.right}
+    ${props => props.theme.size} ${props => props.theme.left};
+  width: 100%;
+  height: 50px;
   border-radius: 10px;
   background-color: #fff;
   color: #143722;
@@ -167,6 +210,7 @@ const PriceInput = styled(CurrencyInput)`
   border-radius: 10px;
   background-color: #fff;
   color: #143722;
+  height: 50px;
   border: 1px solid ${props => props.theme.borderColor};
 `;
 const IconLeft = styled(FontAwesomeIcon)`

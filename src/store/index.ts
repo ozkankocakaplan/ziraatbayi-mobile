@@ -3,6 +3,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {AuthReducer} from './features/authReducer';
 import {persistReducer, persistStore} from 'redux-persist';
 import {baseApi} from './api/BaseApi';
+import {AdvertReducer} from './features/advertReducer';
 
 const authPersistConfig = {
   key: 'auth',
@@ -11,6 +12,7 @@ const authPersistConfig = {
 };
 const rootReducer = combineReducers({
   auth: persistReducer(authPersistConfig, AuthReducer),
+  advert: AdvertReducer,
   [baseApi.reducerPath]: baseApi.reducer,
 });
 
