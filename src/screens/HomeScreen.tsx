@@ -27,12 +27,13 @@ export default function HomeScreen(props: any) {
   const closeBottomSheet = () => {
     bottomSheetRef.current?.close();
   };
+
   const bottomSheetRef = useRef<BottomSheetRef>(null);
   const productSheetRef = useRef<BottomSheetRef>(null);
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
   const {data, isLoading, error} = AdvertApi.useGetShowCaseAdvertsQuery();
-  console.log(data?.list);
+
   return (
     <>
       <Page isSearchable header showNotification showMessage>

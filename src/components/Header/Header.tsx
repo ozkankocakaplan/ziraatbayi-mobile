@@ -11,7 +11,11 @@ import styled from 'styled-components';
 import useThemeColors from '../../constant/useColor';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faAngleLeft, faBars} from '@fortawesome/free-solid-svg-icons';
-import {DrawerActions, useNavigation} from '@react-navigation/native';
+import {
+  DrawerActions,
+  NavigationProp,
+  useNavigation,
+} from '@react-navigation/native';
 import {faBell, faEnvelope} from '@fortawesome/free-regular-svg-icons';
 import CustomText from '../Text/Text';
 import {IconProp} from '@fortawesome/fontawesome-svg-core';
@@ -20,6 +24,8 @@ import {SvgXml} from 'react-native-svg';
 import {Col, Row} from '../../constant/GlobalStyled';
 import {useSelector} from 'react-redux';
 import {RootState} from '../../store';
+import {useState} from 'react';
+import {RootStackParamList} from '../../types/navigator';
 
 export interface HeaderProps {
   title?: string;
@@ -37,7 +43,8 @@ export default function Header({
   isSearchable = false,
   showMessage,
 }: HeaderProps) {
-  const navigation = useNavigation();
+  const [search, setSearch] = useState('');
+  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
   const colors = useThemeColors();
   const {user} = useSelector((state: RootState) => state.auth);
   return (
@@ -77,7 +84,19 @@ export default function Header({
             <Icon icon={faAngleLeft} size={25} color="white" />
           </IconLeft>
         )}
-        {isSearchable && <SearchInput placeholder="Ara..." />}
+        {isSearchable && (
+          <SearchInput
+            value={search}
+            onChangeText={setSearch}
+            returnKeyLabel="search"
+            returnKeyType="search"
+            placeholder="Ara..."
+            onSubmitEditing={() => {
+              // arama sayfayına yönlendir search statinin değerinide gönder
+              navigation.navigate('SearchScreen', {query: search});
+            }}
+          />
+        )}
         {title?.length != 0 && (
           <TitleContainer>
             <CustomText
