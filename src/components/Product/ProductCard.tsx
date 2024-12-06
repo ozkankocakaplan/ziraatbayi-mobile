@@ -44,7 +44,7 @@ export default function ProductCard({
 const Card = styled(TouchableOpacity)`
   margin: 10px;
   background-color: white;
-  border-radius: 6px;
+  border-radius: 10px;
   border-width: 1px;
   border-color: #f9f9f9;
   width: ${SIZES.width / 3 - 20}px;

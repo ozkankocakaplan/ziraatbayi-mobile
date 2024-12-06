@@ -33,7 +33,7 @@ export default function LoginScreen(
   };
 
   return (
-    <Page header title="Giriş Yap">
+    <Page bgColor="#ffff" header title="Giriş Yap">
       <Form>
         <LoginContainer>
           <View style={{alignItems: 'center', justifyContent: 'center'}}>

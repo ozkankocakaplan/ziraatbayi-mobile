@@ -145,7 +145,7 @@ export default function Input({
                 : size,
             borderColor: isFocused ? colors.activeBorder : colors.inputBorder,
           }}>
-          <CustomText fontWeight="bold" color="grey">
+          <CustomText fontWeight="normal" color="grey">
             {props.placeholderValue || 'Seçiniz'}
           </CustomText>
         </CustomPlaceholder>

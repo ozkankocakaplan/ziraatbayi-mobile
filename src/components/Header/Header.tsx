@@ -6,11 +6,9 @@ import {
   SafeAreaView,
   TextInput,
 } from 'react-native';
-
 import styled from 'styled-components';
 import useThemeColors from '../../constant/useColor';
-import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {faAngleLeft, faBars} from '@fortawesome/free-solid-svg-icons';
+import {faAngleLeft} from '@fortawesome/free-solid-svg-icons';
 import {
   DrawerActions,
   NavigationProp,
@@ -18,9 +16,7 @@ import {
 } from '@react-navigation/native';
 import {faBell, faEnvelope} from '@fortawesome/free-regular-svg-icons';
 import CustomText from '../Text/Text';
-import {IconProp} from '@fortawesome/fontawesome-svg-core';
 import Icon from '../Icon/Icon';
-import {SvgXml} from 'react-native-svg';
 import {Col, Row} from '../../constant/GlobalStyled';
 import {useSelector} from 'react-redux';
 import {RootState} from '../../store';
@@ -157,7 +153,7 @@ const TitleContainer = styled(View)`
 
 const ExtraContainer = styled(View)`
   position: absolute;
-  right: 20px;
+  right: 10px;
   flex-direction: row-reverse;
   justify-content: space-between;
   align-items: center;

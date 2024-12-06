@@ -16,6 +16,9 @@ export type RootStackParamList = {
   AdvertScreen: undefined;
   EditAdvertScreen: undefined;
   SearchScreen: {query: string};
+  UserInfoScreen: undefined;
+  ChangePasswordScreen: undefined;
+  SupportScreen: undefined;
 };
 export type BottomTabParamList = {
   Home: undefined;

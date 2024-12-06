@@ -8,8 +8,6 @@ import Page from '../components/Page/Page';
 import CustomText from '../components/Text/Text';
 import Button from '../components/Button/Button';
 import {Col, Row} from '../constant/GlobalStyled';
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {RootStackParamList} from '../types/navigator';
 import {advertApi} from '../services/advertService';
 import AdvertResponse from '../payload/response/AdvertResponse';
 import ProductImage from '../components/Product/ProductImage';
@@ -18,9 +16,9 @@ export default function AdvertScreen(props: any) {
   const {data: adverts} = advertApi.useGetAdvertsByDealerIdQuery();
 
   return (
-    <Page header showNotification title="İlanlarım">
+    <Page header showNotification showMessage title="İlanlarım">
       {adverts && adverts.list.length > 0 ? (
-        <Container pb={10} pl={15} pr={15}>
+        <Container pb={10} pl={10} pr={10}>
           <HeaderRow>
             <SearchInput
               placeholder="Ürün ara..."
@@ -43,7 +41,10 @@ export default function AdvertScreen(props: any) {
                       />
                     </AccountProfile>
                     <Col gap={10}>
-                      <CustomText color="black" fontSizes="body4">
+                      <CustomText
+                        color="black"
+                        fontSizes="body4"
+                        fontWeight="light">
                         {advert.product.name}
                       </CustomText>
                       <CustomText color="black" fontSizes="body6">
@@ -60,7 +61,7 @@ export default function AdvertScreen(props: any) {
                 </StyledContainer>
               ))}
             </Container>
-            <Container flex={0.1}>
+            <Container flex={0.07}>
               <Button
                 onPress={() => props.navigation.navigate('AddAdvertScreen')}
                 text="YENİ İLAN EKLE"
@@ -111,7 +112,8 @@ const StyledContainer = styled(TouchableOpacity)`
   width: 100%;
   flex: 0.2;
   justify-content: center;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
   border-width: 1px;
   border-color: #ddd;
+  border-radius: 10px;
 `;

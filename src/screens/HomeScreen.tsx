@@ -1,15 +1,13 @@
-import React, {useEffect, useRef} from 'react';
-import {FlatList, ScrollView, Text, TouchableOpacity, View} from 'react-native';
+import React, {useRef} from 'react';
+import {ScrollView, Text, TouchableOpacity, View} from 'react-native';
 import Button from '../components/Button/Button';
-import MainHeader from '../components/Header/MainHeader';
 import ProductCard from '../components/Product/ProductCard';
 import styled from 'styled-components';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {faBars, faEnvelope, faFilter} from '@fortawesome/free-solid-svg-icons';
+import {faBars, faFilter} from '@fortawesome/free-solid-svg-icons';
 import CustomBottomSheet, {
   BottomSheetRef,
 } from '../components/BottomSheet/CustomBottomSheet';
-
 import {categoryApi} from '../services/categoryService';
 import Container from '../components/Container/Container';
 import {NavigationProp, useNavigation} from '@react-navigation/native';
@@ -17,7 +15,6 @@ import {RootStackParamList} from '../types/navigator';
 import Page from '../components/Page/Page';
 import {Col, Row} from '../constant/GlobalStyled';
 import CustomText from '../components/Text/Text';
-import {products} from '../mockup/data';
 import {AdvertApi} from '../services/advertService';
 import AdvertResponse from '../payload/response/AdvertResponse';
 import CustomFlatList from '../components/Flatlist/CustomFlatList';
@@ -101,7 +98,7 @@ export default function HomeScreen(props: any) {
           <Row gap={10}>
             <AccountProfile></AccountProfile>
             <Col gap={12}>
-              <CustomText color="black" fontSizes="body4">
+              <CustomText color="black" fontSizes="body4" fontWeight="bold">
                 Ürün Adı
               </CustomText>
               <CustomText color="black" fontSizes="body6">
@@ -160,7 +157,7 @@ const ButtonContainer = styled(TouchableOpacity)`
   background-color: #fff;
   border-radius: 100px;
   border: 1px solid #e0e0e0;
-  margin-horizontal: 15px;
+  margin-horizontal: 10px;
   margin-vertical: 10px;
 `;
 

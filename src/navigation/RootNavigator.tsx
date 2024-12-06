@@ -14,6 +14,9 @@ import Header from '../components/Header/Header';
 import CategoriesScreen from '../screens/CategoriesScreen';
 import AddAdvertScreen from '../screens/AddAdvertScreen';
 import EditAdvertScreen from '../screens/EditAdvertScreen';
+import UserInfoScreen from '../screens/UserInfoScreen';
+import ChangePasswordScreen from '../screens/ChangePasswordScreen';
+import SupportScreen from '../screens/SupportScreen';
 
 const Stack = createStackNavigator<RootStackParamList>();
 const RootNavigator = () => {
@@ -45,6 +48,12 @@ const RootNavigator = () => {
           <Stack.Screen name="CategoriesScreen" component={CategoriesScreen} />
           <Stack.Screen name="AddAdvertScreen" component={AddAdvertScreen} />
           <Stack.Screen name="EditAdvertScreen" component={EditAdvertScreen} />
+          <Stack.Screen name="UserInfoScreen" component={UserInfoScreen} />
+          <Stack.Screen
+            name="ChangePasswordScreen"
+            component={ChangePasswordScreen}
+          />
+          <Stack.Screen name="SupportScreen" component={SupportScreen} />
         </>
       )}
     </Stack.Navigator>

@@ -77,7 +77,7 @@ export default function CategoriesScreen(
     <Page header title={'Kategoriler'} showGoBack>
       <Container>
         <Row>
-          <Container borderRightColor="black" flex={0.6} bgColor="#B4B4B8">
+          <Container flex={0.6} bgColor="#D0F5D5">
             {previousSelected
               ? recuversiveCategory(previousSelected, undefined, 'left')
               : categories?.list
@@ -130,7 +130,7 @@ export default function CategoriesScreen(
 const CategoryButton = styled(TouchableOpacity)<{isSelected?: boolean}>`
   padding-vertical: 10px;
   height: 50px;
-  background-color: ${props => (props.isSelected ? '#f9f9f9' : '#B4B4B8')};
+  background-color: ${props => (props.isSelected ? '#f9f9f9' : '#D0F5D5')};
   padding-horizontal: 18px;
   justify-content: center;
   align-items: flex-start;

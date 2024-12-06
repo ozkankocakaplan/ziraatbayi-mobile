@@ -4,7 +4,7 @@ import FormContainer, {FormContainerRef} from 'react-native-form-container';
 import Input from '../components/Input/Input';
 import styled from 'styled-components';
 import CustomText from '../components/Text/Text';
-import {ScrollView, Text, TouchableOpacity, View} from 'react-native';
+import {ScrollView, View} from 'react-native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../types/navigator';
 import {AdvertApi} from '../services/advertService';
@@ -12,9 +12,7 @@ import CreateAdvertRequest from '../payload/request/CreateAdvertRequest';
 import CustomBottomSheet, {
   BottomSheetRef,
 } from '../components/BottomSheet/CustomBottomSheet';
-import {faCheck, faReceipt} from '@fortawesome/free-solid-svg-icons';
 import Button from '../components/Button/Button';
-import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import CheckRadio from '../components/CheckInput/CheckRadio';
 
 const family = ['Feriza', 'Özkan'];
@@ -35,7 +33,7 @@ export default function AddAdvertScreen(
     <>
       <Page header showGoBack title="İlan Ekle">
         <Form formContainerRef={ref}>
-          <CustomText sx={{marginBottom: 16}} fontSizes="body3" color="black">
+          <CustomText sx={{marginBottom: 10}} fontSizes="body3" color="black">
             İlan Bilgileri
           </CustomText>
           <Input
@@ -96,11 +94,11 @@ export default function AddAdvertScreen(
 const Form = styled(FormContainer)`
   margin-top: 20px;
   gap: 10px;
-  margin-horizontal: 20px;
+  margin-horizontal: 10px;
   flex: 1;
 `;
 const RegisterContainer = styled(View)`
-  margin-bottom: 30px;
+  margin-bottom: 50px;
   flex: 1;
   justify-content: flex-end;
 `;
