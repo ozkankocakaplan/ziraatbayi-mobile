@@ -5,6 +5,7 @@ import {faBell, faTimes, faUndo} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import Container from '../components/Container/Container';
 import Page from '../components/Page/Page';
+import Icon from '../components/Icon/Icon';
 
 export default function NotificationScreen() {
   const notifications = [
@@ -59,9 +60,12 @@ export default function NotificationScreen() {
     <Page header title="Bildirimler" showGoBack>
       <ScrollContainer>
         {notifications.map(item => (
-          <NotificationCard key={item.id} bgColor={item.bgColor}>
+          <NotificationCard
+            activeOpacity={0.7}
+            key={item.id}
+            bgColor={item.bgColor}>
             <IconContainer>
-              <FontAwesomeIcon icon={item.icon} size={20} color="#FF6A00" />
+              <Icon icon={item.icon} size={20} color="#1F8505" />
             </IconContainer>
             <Content>
               <NotificationTitle>{item.title}</NotificationTitle>
@@ -71,7 +75,7 @@ export default function NotificationScreen() {
               <NotificationDate>{item.date}</NotificationDate>
             </Content>
             <CloseButton>
-              <FontAwesomeIcon icon={faTimes} size={16} color="#CCCCCC" />
+              <Icon icon={faTimes} size={16} color="#CCCCCC" />
             </CloseButton>
           </NotificationCard>
         ))}
@@ -84,13 +88,11 @@ const ScrollContainer = styled(ScrollView)`
   flex: 1;
 `;
 
-const NotificationCard = styled(View)<{bgColor: string}>`
+const NotificationCard = styled(TouchableOpacity)<{bgColor: string}>`
   background-color: ${({bgColor}) => bgColor};
-  border-radius: 10px;
   padding: 15px;
   flex-direction: row;
   align-items: flex-start;
-  border: 1px solid #ebeff3;
 `;
 
 const IconContainer = styled(View)`

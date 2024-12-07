@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components/native';
-import {TextInput, View, Text, Image} from 'react-native';
+import {TextInput, View, Text, Image, TouchableOpacity} from 'react-native';
 import Page from '../components/Page/Page';
 import Container from '../components/Container/Container';
 import CustomText from '../components/Text/Text';
@@ -55,7 +55,7 @@ export default function MessageScreen() {
       <Container p={10} flex={1}>
         <SearchBar placeholder="Ara" />
         {messages.map(message => (
-          <MessageCard key={message.id}>
+          <MessageCard activeOpacity={0.7} key={message.id}>
             <StatusIndicator color={message.statusColor} />
             <ImageContainer>
               <MessageImage source={{uri: message.imageUrl}} />
@@ -70,7 +70,7 @@ export default function MessageScreen() {
                 </CustomText>
               </Row>
 
-              <CustomText fontSizes="body5" color="deneme1">
+              <CustomText fontSizes="caption1" color="deneme1">
                 {message.seller}
               </CustomText>
 
@@ -94,7 +94,7 @@ const SearchBar = styled(TextInput)`
   margin-bottom: 10px;
 `;
 
-const MessageCard = styled(View)`
+const MessageCard = styled(TouchableOpacity)`
   background-color: #ffffff;
   flex-direction: row;
   align-items: center;

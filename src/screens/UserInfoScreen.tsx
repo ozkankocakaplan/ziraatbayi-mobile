@@ -29,7 +29,6 @@ export default function UserInfoScreen() {
   return (
     <Page header showGoBack title="Kullanıcı Bilgilerim">
       <Form formContainerRef={ref}>
-        <ColTitle title="Kullanıcı Bilgilerim" />
         <Input required id="firstName" icon={faUser} placeholder="Ad" />
         <Input required id="lastName" icon={faUser} placeholder="Soyad" />
         <Input

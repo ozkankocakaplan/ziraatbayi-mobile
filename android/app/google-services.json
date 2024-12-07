@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1069715901345",
+    "project_id": "ziraatbayi-e38dc",
+    "storage_bucket": "ziraatbayi-e38dc.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1069715901345:android:e41a1bddcf8988aad059e0",
+        "android_client_info": {
+          "package_name": "com.ziraatbayi"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB5dGlP8O-V5JNhIcKAejFVneV7o_Dp1vs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

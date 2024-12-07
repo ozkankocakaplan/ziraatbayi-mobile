@@ -20,7 +20,6 @@ export default function ChangePasswordScreen() {
   return (
     <Page header showGoBack title="Şifremi Değiştir">
       <Form formContainerRef={ref}>
-        <ColTitle title="Şifremi Değiştir" />
         <Input required id="firstName" icon={faLock} placeholder="Yeni Şifre" />
         <Input
           required
@@ -29,9 +28,7 @@ export default function ChangePasswordScreen() {
           placeholder="Tekrardan Yeni Şifre"
         />
 
-        <RegisterContainer>
-          <Button text="GÜNCELLE" />
-        </RegisterContainer>
+        <Button text="Kaydet" />
       </Form>
     </Page>
   );

@@ -47,6 +47,7 @@ export default function CategoriesScreen(
     return data?.children?.map?.((el: CategoryResponse) => {
       return (
         <CategoryButton
+          key={el.id}
           onPress={() => {
             if (categoryType == 'right') {
               if (el.children.length != 0) {
@@ -85,6 +86,7 @@ export default function CategoriesScreen(
                   .map((el, index) => {
                     return (
                       <CategoryButton
+                        key={el.id}
                         isSelected={el.id === selectedCategory.id}
                         onPress={() => {
                           if (el.children.length != 0) {
