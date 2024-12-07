@@ -9,6 +9,7 @@ export type RootStackParamList = {
   MessageScreen: undefined;
   NotificationScreen: undefined;
   CategoriesScreen: {
+    initCategory?: CategoryResponse;
     selectedCategory?: CategoryResponse;
     previousCategory?: CategoryResponse;
   };

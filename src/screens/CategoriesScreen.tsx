@@ -14,14 +14,20 @@ export default function CategoriesScreen(
   props: NativeStackScreenProps<RootStackParamList, 'CategoriesScreen'>,
 ) {
   const [selectedCategory, setSelectedCategory] = useState<CategoryResponse>(
-    {} as CategoryResponse,
+    props.route.params.initCategory ?? ({} as CategoryResponse),
   );
+  console.log('selectedCategory', selectedCategory);
   const selected = props.route.params.selectedCategory;
   const previousSelected = props.route.params.previousCategory;
   const {data: categories} = categoryApi.useGetCategoriesQuery();
 
   useEffect(() => {
-    if (categories?.list && !selected && !previousSelected) {
+    if (
+      categories?.list &&
+      !selected &&
+      !previousSelected &&
+      !props.route.params.initCategory
+    ) {
       setSelectedCategory(categories?.list[0]);
     }
   }, [categories]);

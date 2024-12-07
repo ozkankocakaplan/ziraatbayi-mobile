@@ -18,16 +18,19 @@ import CustomText from '../components/Text/Text';
 import {AdvertApi} from '../services/advertService';
 import AdvertResponse from '../payload/response/AdvertResponse';
 import CustomFlatList from '../components/Flatlist/CustomFlatList';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
 
-export default function HomeScreen(props: any) {
+export default function HomeScreen(
+  props: NativeStackScreenProps<RootStackParamList, 'HomeScreen'>,
+) {
   const {data: categories} = categoryApi.useGetCategoriesQuery();
+  const {navigation} = props;
   const closeBottomSheet = () => {
     bottomSheetRef.current?.close();
   };
 
   const bottomSheetRef = useRef<BottomSheetRef>(null);
   const productSheetRef = useRef<BottomSheetRef>(null);
-  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
   const {data, isLoading, error} = AdvertApi.useGetShowCaseAdvertsQuery();
 
@@ -50,6 +53,15 @@ export default function HomeScreen(props: any) {
                   .map((category, index) => {
                     return (
                       <Button
+                        onPress={() => {
+                          if (category.children.length > 0) {
+                            navigation.navigate('CategoriesScreen', {
+                              initCategory: category,
+                            });
+                          } else {
+                            console.log('ürünler');
+                          }
+                        }}
                         borderRadius={100}
                         key={category.id}
                         text={category.name}
