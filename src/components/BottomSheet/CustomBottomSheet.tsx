@@ -94,7 +94,7 @@ const CustomBottomSheet = forwardRef<BottomSheetRef, BottomSheetComponentProps>(
           children
         ) : (
           <BottomSheetView
-            style={{flex: 0, minHeight: 100, backgroundColor: 'white'}}>
+            style={{flex: 0, minHeight: 500, backgroundColor: 'white'}}>
             {isOpen && children}
           </BottomSheetView>
         )}

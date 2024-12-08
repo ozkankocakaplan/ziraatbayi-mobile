@@ -5,35 +5,47 @@ import {TouchableOpacityProps} from 'react-native';
 import CustomText from '../Text/Text';
 import {SIZES} from '../../constant/theme';
 import ProductImage from './ProductImage';
+import {useDispatch, useSelector} from 'react-redux';
+import {RootState} from '../../store';
+import {AdvertApi} from '../../services/advertService';
+import AdvertResponse from '../../payload/response/AdvertResponse';
+import {AdvertActions} from '../../store/features/advertReducer';
 
-interface Product extends TouchableOpacityProps {
-  image: string;
-  categoryName: string;
-  productName: string;
-  price?: string;
+interface AdvertCardProps extends TouchableOpacityProps {
+  item: AdvertResponse;
 }
-export default function ProductCard({
-  image,
-  categoryName,
-  productName,
-  price,
-  ...props
-}: Product) {
+export default function AdvertCard({item, ...props}: AdvertCardProps) {
+  const {advertBottomSheetRef} = useSelector(
+    (state: RootState) => state.advert,
+  );
+  const dispatch = useDispatch();
+  const [getAdvert] = AdvertApi.useGetAdvertByIdMutation();
+  const openDetail = async () => {
+    const response = await getAdvert(item.id).unwrap();
+    if (response.isSuccessful) {
+      dispatch(AdvertActions.setAdvert(response.entity));
+      advertBottomSheetRef?.open();
+    }
+  };
+
   return (
-    <Card {...props}>
+    <Card
+      onPress={() => {
+        openDetail();
+      }}>
       <ImageContainer>
-        <ProductImage imageUrl={image} />
+        <ProductImage imageUrl={item?.product?.images?.[0]?.imageUrl} />
       </ImageContainer>
       <InfoContainer>
         <CustomText color="primary" fontSizes="caption2">
-          {categoryName}
+          {item?.product?.categoryName}
         </CustomText>
         <CustomText
           numberOfLines={2}
           fontSizes="body6"
           color="black"
           fontWeight="bold">
-          {productName}
+          {item?.product?.name}
         </CustomText>
         {/* <Price>{price}</Price> */}
       </InfoContainer>

@@ -1,3 +1,4 @@
+import ManufacturerResponse from './ManufacturerResponse';
 import ProductImageResponse from './ProductImageResponse';
 
 export default interface ProductResponse {
@@ -9,4 +10,6 @@ export default interface ProductResponse {
   categoryDescription: string | null;
   isActive: boolean;
   images: ProductImageResponse[];
+  activeSubstance: string;
+  manufacturer: ManufacturerResponse;
 }

@@ -2,9 +2,13 @@ import {createSlice} from '@reduxjs/toolkit';
 import AdvertResponse from '../../payload/response/AdvertResponse';
 
 interface AdvertState {
-  advert: AdvertResponse[] | null;
+  advertBottomSheetRef: any;
+  selectedAdvertId: number | null;
+  advert: AdvertResponse | null;
 }
 const InitialState: AdvertState = {
+  advertBottomSheetRef: null,
+  selectedAdvertId: null,
   advert: null,
 };
 const advertSlice = createSlice({
@@ -13,6 +17,12 @@ const advertSlice = createSlice({
   reducers: {
     setAdvert(state, action) {
       state.advert = action.payload;
+    },
+    setSelectedAdvertId(state, action) {
+      state.selectedAdvertId = action.payload;
+    },
+    setAdvertBottomSheetRef(state, action) {
+      state.advertBottomSheetRef = action.payload;
     },
   },
 });
