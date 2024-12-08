@@ -10,6 +10,18 @@ const useChatList = () => {
   const [getChatInfo] = FirebaseApi.useGetChatInfoMutation();
   useEffect(() => {
     const chatsRef = database().ref('/messages');
+    const checkIfMessagesExist = async () => {
+      try {
+        const snapshot = await chatsRef.once('value');
+        if (!snapshot.exists()) {
+          setChats([]);
+          setLoading(false);
+        }
+      } catch (error) {
+        console.error('Error checking messages existence:', error);
+        setLoading(false);
+      }
+    };
     const onValueChange = chatsRef.on('value', async snapshot => {
       const currentUserId = await auth().currentUser?.uid;
       const data = snapshot.val();
@@ -37,7 +49,6 @@ const useChatList = () => {
                 senderId: Number(lastMessage.senderId),
                 productId: Number(lastMessage.productId),
               }).unwrap();
-
               return {
                 chatId,
                 lastMessage,
@@ -67,7 +78,7 @@ const useChatList = () => {
         }
       }
     });
-
+    checkIfMessagesExist();
     return () => chatsRef.off('value', onValueChange);
   }, []);
   const updateMessageReadToTrue = async (chatId: string) => {

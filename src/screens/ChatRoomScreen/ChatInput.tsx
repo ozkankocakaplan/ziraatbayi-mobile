@@ -67,14 +67,17 @@ const ChatInput = ({
         content,
         productId,
       };
+      console.log('entity', entity);
+
+      let finalContent = entity.content;
       var formData = new FormData();
       formData.append('chatId', entity.chatId);
       formData.append('senderId', entity.senderId);
       formData.append('receiverId', entity.receiverId);
-      formData.append('content', entity.content);
+      formData.append('content', finalContent);
       formData.append('productId', entity.productId.toString());
-      await sendMessage(formData).unwrap();
       setContent('');
+      await sendMessage(formData).unwrap();
     }
   };
   const handlePhotoSend = async () => {

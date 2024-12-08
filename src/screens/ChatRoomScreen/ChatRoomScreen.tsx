@@ -1,11 +1,10 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {View, Text, FlatList} from 'react-native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../../types/navigator';
 import {useSelector} from 'react-redux';
 import {RootState} from '../../store';
 import {Col, Row} from '../../constant/GlobalStyled';
-import {useGetProductImageForChatMutation} from '../../services/advertService';
 
 import Page from '../../components/Page/Page';
 import styled from 'styled-components';
@@ -20,7 +19,8 @@ import usePhoto from '../../hooks/usePhoto';
 import ShowMoreButton from '../../components/ShowMoreButton/ShowMoreButton';
 
 import ChatInput from './ChatInput';
-const LAST_LIMIT = 10;
+import ChatBubble from './ChatBubble';
+const LAST_LIMIT = 50;
 
 export default function ChatRoomScreen({
   route,
@@ -53,16 +53,21 @@ export default function ChatRoomScreen({
       };
     }
   }, [flatListRef.current, messages]);
-  const [getProductImage] = useGetProductImageForChatMutation();
+
   const slideToBottom = () => {
     flatListRef.current?.scrollToEnd({animated: true});
   };
-
+  const calculateLastLimit = useCallback(() => {
+    if (lastLimit > messages.length) {
+      return false;
+    }
+    return true;
+  }, [lastLimit, messages.length]);
   return (
     <Page
       header
       title={
-        user?.id?.toString() === senderId?.toString()
+        user?.id?.toString() !== senderId?.toString()
           ? receiverFullName
           : senderFullName
       }
@@ -91,7 +96,7 @@ export default function ChatRoomScreen({
             </Row>
           </ProductInfoContainer>
           <ShowMoreButton
-            isShow={LAST_LIMIT >= messages.length ? false : true}
+            isShow={calculateLastLimit()}
             onPress={() => {
               setLastLimit(lastLimit + LAST_LIMIT);
               if (lastLimit + LAST_LIMIT >= messages.length) {
@@ -111,69 +116,12 @@ export default function ChatRoomScreen({
             renderItem={({item}) => {
               const isCurrentUser = item.senderId === senderId.toString();
               return (
-                <View
-                  style={
-                    item.contentType === 'text'
-                      ? {
-                          alignSelf: isCurrentUser ? 'flex-end' : 'flex-start',
-                          backgroundColor: isCurrentUser
-                            ? '#4caf50'
-                            : '#4caf50',
-                          borderRadius: 10,
-                          borderTopRightRadius: isCurrentUser ? 0 : 10,
-                          borderTopLeftRadius: isCurrentUser ? 10 : 0,
-                          padding: 10,
-                          marginVertical: 5,
-                          maxWidth: '70%',
-                          marginHorizontal: 10,
-                        }
-                      : {
-                          padding: 10,
-                          alignSelf: isCurrentUser ? 'flex-end' : 'flex-start',
-                        }
-                  }>
-                  {!isCurrentUser && (
-                    <Text
-                      style={[
-                        {
-                          color:
-                            item.contentType === 'text' ? '#fff' : '#4caf50',
-                          fontWeight: 'bold',
-                        },
-                        item.contentType === 'text' ? {} : {marginBottom: 5},
-                      ]}>
-                      {isCurrentUser ? senderFullName : receiverFullName}
-                    </Text>
-                  )}
-                  {item.contentType === 'text' ? (
-                    <Text
-                      style={{
-                        color: '#fff',
-                      }}>
-                      {item.content}
-                    </Text>
-                  ) : (
-                    <View
-                      style={{
-                        width: 200,
-                        height: 200,
-                        borderRadius: 10,
-                        overflow: 'hidden',
-                      }}>
-                      <ProductImage imageUrl={item.content} />
-                    </View>
-                  )}
-                  <Text
-                    style={{
-                      fontSize: 10,
-                      color:
-                        item.contentType === 'text' ? '#e0e0e0' : '#4caf50',
-                      alignSelf: 'flex-end',
-                      marginTop: 5,
-                    }}>
-                    {new Date(item.timestamp).toLocaleTimeString()}
-                  </Text>
-                </View>
+                <ChatBubble
+                  item={item}
+                  isCurrentUser={isCurrentUser}
+                  senderFullName={senderFullName}
+                  receiverFullName={receiverFullName}
+                />
               );
             }}
           />

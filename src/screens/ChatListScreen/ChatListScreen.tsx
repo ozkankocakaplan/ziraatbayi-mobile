@@ -32,7 +32,7 @@ export default function ChatListScreen(
   });
 
   const handleChatPress = (item: MessageResponse) => {
-    let isCurrentUser = item.senderId === userId?.toString();
+    let isCurrentUser = item.senderId.toString() === userId?.toString();
     if (!item.lastMessage.isRead) {
       updateMessageReadToTrue(item.chatId);
       handleReadMessage({
@@ -44,10 +44,10 @@ export default function ChatListScreen(
     dispatch(AdvertActions.setSelectedChatId(item.chatId));
     navigation.navigate('ChatRoomScreen', {
       chatId: item.chatId,
-      receiverFullName: isCurrentUser
+      senderFullName: isCurrentUser
         ? item.receiverFullName
         : item.senderFullName,
-      senderFullName: isCurrentUser
+      receiverFullName: isCurrentUser
         ? item.senderFullName
         : item.receiverFullName,
       senderId: userId?.toString() || '',

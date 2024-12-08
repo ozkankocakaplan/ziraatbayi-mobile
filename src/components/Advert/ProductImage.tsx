@@ -8,14 +8,19 @@ import {
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {useGetProductImageQuery} from '../../services/advertService';
-import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import Icon from '../Icon/Icon';
 import {faImage} from '@fortawesome/free-regular-svg-icons';
 import {ActivityIndicator} from 'react-native';
 import ImageViewer from 'react-native-image-zoom-viewer';
 import {faClose} from '@fortawesome/free-solid-svg-icons';
 
-export default function ProductImage({imageUrl}: {imageUrl: string}) {
+export default function ProductImage({
+  imageUrl,
+  isImageView = false,
+}: {
+  imageUrl: string;
+  isImageView?: boolean;
+}) {
   const {data, isLoading, isError} = useGetProductImageQuery({
     endpoint: imageUrl,
   });
@@ -48,8 +53,11 @@ export default function ProductImage({imageUrl}: {imageUrl: string}) {
       return (
         <>
           <TouchableOpacity
+            activeOpacity={isImageView ? 0.6 : 1}
             onPress={() => {
-              setShowImageViewer(true);
+              if (isImageView) {
+                setShowImageViewer(true);
+              }
             }}>
             <Image
               source={{uri: image}}
