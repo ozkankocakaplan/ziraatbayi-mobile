@@ -16,7 +16,6 @@ export default function CategoriesScreen(
   const [selectedCategory, setSelectedCategory] = useState<CategoryResponse>(
     props.route.params.initCategory ?? ({} as CategoryResponse),
   );
-  console.log('selectedCategory', selectedCategory);
   const selected = props.route.params.selectedCategory;
   const previousSelected = props.route.params.previousCategory;
   const {data: categories} = categoryApi.useGetCategoriesQuery();

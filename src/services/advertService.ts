@@ -3,7 +3,7 @@ import AdvertResponse from '../payload/response/AdvertResponse';
 import ServiceResponse from '../payload/response/ServiceResponse';
 import {baseApi, imageApi} from '../store/api/BaseApi';
 
-export const advertApi = baseApi.injectEndpoints({
+const advertApi = baseApi.injectEndpoints({
   endpoints: builder => ({
     getAdvertsByDealerId: builder.query<ServiceResponse<AdvertResponse>, void>({
       query: () => ({
@@ -14,6 +14,12 @@ export const advertApi = baseApi.injectEndpoints({
     getShowCaseAdverts: builder.query<ServiceResponse<AdvertResponse>, void>({
       query: () => ({
         url: '/advert/get-showcase-adverts-for-homepage',
+        method: 'GET',
+      }),
+    }),
+    getAdvertById: builder.mutation<ServiceResponse<AdvertResponse>, number>({
+      query: id => ({
+        url: `/advert/get-advert-by-id/${id}`,
         method: 'GET',
       }),
     }),
@@ -28,16 +34,26 @@ export const advertApi = baseApi.injectEndpoints({
 });
 export const AdvertApi = advertApi;
 
-export const {useGetProductImageQuery} = imageApi.injectEndpoints({
-  endpoints: builder => ({
-    getProductImage: builder.query<Blob, {endpoint: string}>({
-      query: ({endpoint}) => ({
-        url: endpoint,
-        method: 'GET',
-        responseHandler: (response: Response) => {
-          return response.blob();
-        },
+export const {useGetProductImageQuery, useGetProductImageForChatMutation} =
+  imageApi.injectEndpoints({
+    endpoints: builder => ({
+      getProductImage: builder.query<Blob, {endpoint: string}>({
+        query: ({endpoint}) => ({
+          url: endpoint,
+          method: 'GET',
+          responseHandler: (response: Response) => {
+            return response.blob();
+          },
+        }),
+      }),
+      getProductImageForChat: builder.mutation<Blob, {endpoint: string}>({
+        query: ({endpoint}) => ({
+          url: endpoint,
+          method: 'GET',
+          responseHandler: (response: Response) => {
+            return response.blob();
+          },
+        }),
       }),
     }),
-  }),
-});
+  });

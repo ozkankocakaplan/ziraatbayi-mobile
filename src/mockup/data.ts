@@ -84,3 +84,45 @@ export const products = [
     price: '₺500',
   },
 ];
+export const messages = [
+  {
+    id: 1,
+    statusColor: '#FF6A00',
+    imageUrl: 'https://via.placeholder.com/50',
+    productName: 'Ürün Adı',
+    seller: 'A Ziraat Bayi',
+    description:
+      'Lorem Ipsum is simply dummy text of the printing and type ...',
+    date: '28 Ekim 2024',
+  },
+  {
+    id: 2,
+    statusColor: '#FF6A00',
+    imageUrl: 'https://via.placeholder.com/50',
+    productName: 'Ürün Adı',
+    seller: 'A Ziraat Bayi',
+    description:
+      'Lorem Ipsum is simply dummy text of the printing and type ...',
+    date: '28 Ekim 2024',
+  },
+  {
+    id: 3,
+    statusColor: '#FF6A00',
+    imageUrl: 'https://via.placeholder.com/50',
+    productName: 'Ürün Adı',
+    seller: 'A Ziraat Bayi',
+    description:
+      'Lorem Ipsum is simply dummy text of the printing and type ...',
+    date: '28 Ekim 2024',
+  },
+  {
+    id: 4,
+    statusColor: '#999999',
+    imageUrl: 'https://via.placeholder.com/50',
+    productName: 'Ürün Adı',
+    seller: 'A Ziraat Bayi',
+    description:
+      'Lorem Ipsum is simply dummy text of the printing and type ...',
+    date: '28 Ekim 2024',
+  },
+];

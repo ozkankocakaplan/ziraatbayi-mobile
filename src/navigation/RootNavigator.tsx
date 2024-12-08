@@ -17,46 +17,65 @@ import EditAdvertScreen from '../screens/EditAdvertScreen';
 import UserInfoScreen from '../screens/UserInfoScreen';
 import ChangePasswordScreen from '../screens/ChangePasswordScreen';
 import SupportScreen from '../screens/SupportScreen';
+import ChatRoomScreen from '../screens/ChatRoomScreen';
+import AdvertDetailBottomSheet from '../components/BottomSheet/AdvertDetailBottomSheet';
+import FirebaseNotification from '../firebase/FirebaseNotification';
+import Snackbar from '../components/Snackbar/Snackbar';
 
 const Stack = createStackNavigator<RootStackParamList>();
 const RootNavigator = () => {
   const user = useSelector((state: RootState) => state.auth.user);
   return (
-    <Stack.Navigator
-      screenOptions={{
-        ...TransitionPresets.SlideFromRightIOS,
-        headerShown: false,
-      }}>
-      {user == null ? (
+    <>
+      <Stack.Navigator
+        screenOptions={{
+          ...TransitionPresets.SlideFromRightIOS,
+          headerShown: false,
+        }}>
+        {user == null ? (
+          <>
+            <Stack.Screen name="LoginScreen" component={LoginScreen} />
+            <Stack.Screen name="RegisterScreen" component={RegisterScreen} />
+            <Stack.Screen
+              name="ForgotPasswordScreen"
+              component={ForgotPasswordScreen}
+            />
+          </>
+        ) : (
+          <>
+            <Stack.Screen name="BottomTabMenu" component={BottomTabNavigator} />
+            <Stack.Screen name="HomeScreen" component={HomeScreen} />
+            <Stack.Screen name="MessageScreen" component={MessageScreen} />
+            <Stack.Screen name="ChatRoomScreen" component={ChatRoomScreen} />
+            <Stack.Screen
+              name="NotificationScreen"
+              component={NotificationScreen}
+            />
+            <Stack.Screen
+              name="CategoriesScreen"
+              component={CategoriesScreen}
+            />
+            <Stack.Screen name="AddAdvertScreen" component={AddAdvertScreen} />
+            <Stack.Screen
+              name="EditAdvertScreen"
+              component={EditAdvertScreen}
+            />
+            <Stack.Screen name="UserInfoScreen" component={UserInfoScreen} />
+            <Stack.Screen
+              name="ChangePasswordScreen"
+              component={ChangePasswordScreen}
+            />
+            <Stack.Screen name="SupportScreen" component={SupportScreen} />
+          </>
+        )}
+      </Stack.Navigator>
+      {user != null && (
         <>
-          <Stack.Screen name="LoginScreen" component={LoginScreen} />
-          <Stack.Screen name="RegisterScreen" component={RegisterScreen} />
-          <Stack.Screen
-            name="ForgotPasswordScreen"
-            component={ForgotPasswordScreen}
-          />
-        </>
-      ) : (
-        <>
-          <Stack.Screen name="BottomTabMenu" component={BottomTabNavigator} />
-          <Stack.Screen name="HomeScreen" component={HomeScreen} />
-          <Stack.Screen name="MessageScreen" component={MessageScreen} />
-          <Stack.Screen
-            name="NotificationScreen"
-            component={NotificationScreen}
-          />
-          <Stack.Screen name="CategoriesScreen" component={CategoriesScreen} />
-          <Stack.Screen name="AddAdvertScreen" component={AddAdvertScreen} />
-          <Stack.Screen name="EditAdvertScreen" component={EditAdvertScreen} />
-          <Stack.Screen name="UserInfoScreen" component={UserInfoScreen} />
-          <Stack.Screen
-            name="ChangePasswordScreen"
-            component={ChangePasswordScreen}
-          />
-          <Stack.Screen name="SupportScreen" component={SupportScreen} />
+          <FirebaseNotification />
+          <AdvertDetailBottomSheet />
         </>
       )}
-    </Stack.Navigator>
+    </>
   );
 };
 

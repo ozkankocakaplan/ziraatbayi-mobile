@@ -8,18 +8,28 @@ export const InputContainer = styled(View)`
   gap: 10px;
 `;
 export const Row = styled(View)<{
+  flex?: number;
   gap?: number;
   between?: boolean;
   flexEnd?: boolean;
+  center?: boolean;
+  alignCenter?: boolean;
   m?: number;
   mt?: number;
   mb?: number;
 }>`
-  flex: 1;
+  flex: ${({flex}) => flex || 1};
   flex-direction: row;
   gap: ${({gap}) => gap || 0}px;
-  justify-content: ${({between, flexEnd}) =>
-    between ? 'space-between' : flexEnd ? 'flex-end' : 'flex-start'};
+  align-items: ${({alignCenter}) => (alignCenter ? 'center' : 'flex-start')};
+  justify-content: ${({between, flexEnd, center}) =>
+    between
+      ? 'space-between'
+      : flexEnd
+      ? 'flex-end'
+      : center
+      ? 'center'
+      : 'flex-start'};
   margin: ${({m}) => m || 0}px;
   margin-top: ${({mt}) => mt || 0}px;
   margin-bottom: ${({mb}) => mb || 0}px;
@@ -28,14 +38,23 @@ export const Col = styled(View)<{
   gap?: number;
   between?: boolean;
   flexEnd?: boolean;
+  center?: boolean;
+  alignCenter?: boolean;
   m?: number;
   mt?: number;
   mb?: number;
 }>`
   flex-direction: column;
   gap: ${({gap}) => gap || 0}px;
-  justify-content: ${({between, flexEnd}) =>
-    between ? 'space-between' : flexEnd ? 'flex-end' : 'flex-start'};
+  align-items: ${({alignCenter}) => (alignCenter ? 'center' : 'flex-start')};
+  justify-content: ${({between, flexEnd, center}) =>
+    between
+      ? 'space-between'
+      : flexEnd
+      ? 'flex-end'
+      : center
+      ? 'center'
+      : 'flex-start'};
   margin: ${({m}) => m || 0}px;
   margin-top: ${({mt}) => mt || 0}px;
   margin-bottom: ${({mb}) => mb || 0}px;

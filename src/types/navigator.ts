@@ -1,4 +1,5 @@
 import CategoryResponse from '../payload/response/CategoryResponse';
+import ProductResponse from '../payload/response/ProductResponse';
 
 export type RootStackParamList = {
   LoginScreen: undefined;
@@ -7,6 +8,14 @@ export type RootStackParamList = {
   HomeScreen: undefined;
   BottomTabMenu: undefined;
   MessageScreen: undefined;
+  ChatRoomScreen: {
+    chatId: string;
+    receiverFullName: string;
+    senderFullName: string;
+    senderId: string;
+    receiverId: string;
+    product: ProductResponse;
+  };
   NotificationScreen: undefined;
   CategoriesScreen: {
     initCategory?: CategoryResponse;

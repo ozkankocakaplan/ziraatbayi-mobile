@@ -5,5 +5,6 @@ interface LoginResponse {
   email: string;
   token: string;
   dealerId: number;
+  firebaseAccessToken: string;
 }
 export default LoginResponse;

@@ -10,8 +10,6 @@ import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../types/navigator';
 import LoginRequest from '../payload/request/LoginRequest';
 import {AuthApi} from '../services/authService';
-import {useDispatch, useSelector} from 'react-redux';
-import {RootState} from '../store';
 import Page from '../components/Page/Page';
 import {LogoIcon} from '../assets/logo';
 
@@ -19,17 +17,15 @@ export default function LoginScreen(
   props: NativeStackScreenProps<RootStackParamList, 'LoginScreen'>,
 ) {
   const [loginRequest, setLoginRequest] = useState<LoginRequest>({
-    email: 'ferizaocal60@gmail.com',
-    password: '6bd355',
+    email: 'ozkankocakaplan07@gmail.com',
+    password: '123456',
   });
-  const dispatch = useDispatch(); // useDispatch hook'u ile store'a erişim sağlanır.
-  const {user} = useSelector((state: RootState) => state.auth); // useSelector hook'u ile store'dan veri okunur.
 
   const [loginMutation, {isLoading, isError, error}] =
     AuthApi.useLoginMutation();
 
-  const login = () => {
-    loginMutation(loginRequest).unwrap();
+  const login = async () => {
+    await loginMutation(loginRequest).unwrap();
   };
 
   return (

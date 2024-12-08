@@ -8,12 +8,13 @@ import Page from '../components/Page/Page';
 import CustomText from '../components/Text/Text';
 import Button from '../components/Button/Button';
 import {Col, Row} from '../constant/GlobalStyled';
-import {advertApi} from '../services/advertService';
+
 import AdvertResponse from '../payload/response/AdvertResponse';
-import ProductImage from '../components/Product/ProductImage';
+import ProductImage from '../components/Advert/ProductImage';
+import {AdvertApi} from '../services/advertService';
 
 export default function AdvertScreen(props: any) {
-  const {data: adverts} = advertApi.useGetAdvertsByDealerIdQuery();
+  const {data: adverts} = AdvertApi.useGetAdvertsByDealerIdQuery();
 
   return (
     <Page header showNotification showMessage title="İlanlarım">

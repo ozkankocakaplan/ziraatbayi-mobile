@@ -20,11 +20,12 @@ import Icon from '../components/Icon/Icon';
 import {IconProp} from '@fortawesome/fontawesome-svg-core';
 import {NavigationProp, useNavigation} from '@react-navigation/native';
 import {RootStackParamList} from '../types/navigator';
-
+import auth from '@react-native-firebase/auth';
 export default function AccountScreen(props: any) {
   const dispatch = useDispatch();
   const pageColor = '#f9f9f9';
   const logOut = () => {
+    auth().signOut();
     dispatch(AuthActions.setUser(null));
   };
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
