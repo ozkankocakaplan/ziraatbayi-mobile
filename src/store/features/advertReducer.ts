@@ -5,11 +5,13 @@ interface AdvertState {
   advertBottomSheetRef: any;
   selectedAdvertId: number | null;
   advert: AdvertResponse | null;
+  selectedChatId: string | null;
 }
 const InitialState: AdvertState = {
   advertBottomSheetRef: null,
   selectedAdvertId: null,
   advert: null,
+  selectedChatId: null,
 };
 const advertSlice = createSlice({
   name: 'advert',
@@ -23,6 +25,9 @@ const advertSlice = createSlice({
     },
     setAdvertBottomSheetRef(state, action) {
       state.advertBottomSheetRef = action.payload;
+    },
+    setSelectedChatId(state, action) {
+      state.selectedChatId = action.payload;
     },
   },
 });

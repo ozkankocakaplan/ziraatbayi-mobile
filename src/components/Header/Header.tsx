@@ -30,6 +30,7 @@ export interface HeaderProps {
   showAccountDetail?: boolean;
   showGoBack?: boolean;
   showMessage?: boolean;
+  showGoToDealerButton?: () => void;
 }
 export default function Header({
   title,
@@ -37,6 +38,7 @@ export default function Header({
   showAccountDetail = false,
   showGoBack = false,
   isSearchable = false,
+  showGoToDealerButton,
   showMessage,
 }: HeaderProps) {
   const [search, setSearch] = useState('');
@@ -50,7 +52,7 @@ export default function Header({
       }}>
       <Container alignItems={title ? 'center' : 'flex-start'}>
         {showAccountDetail && (
-          <View style={{height: 40}}>
+          <View style={{height: 40, top: Platform.OS === 'android' ? 5 : 0}}>
             <Row gap={10}>
               <AccountProfile>
                 <CustomText color="primary">
@@ -123,6 +125,17 @@ export default function Header({
               <Icon icon={faEnvelope} color="white" />
             </IconRight>
           )}
+          {showGoToDealerButton && (
+            <DealerButton
+              onPress={() => {
+                console.log('bayiye git');
+              }}
+              hitSlop={15}>
+              <CustomText fontSizes="body6" color="white">
+                Bayiye git
+              </CustomText>
+            </DealerButton>
+          )}
         </ExtraContainer>
       </Container>
     </HeaderContainer>
@@ -145,7 +158,13 @@ const IconLeft = styled(TouchableOpacity)`
   left: 20px;
 `;
 const IconRight = styled(TouchableOpacity)`
-  bottom: 5px;
+  bottom: ${Platform.OS === 'android' ? '0px' : '5px'};
+`;
+const DealerButton = styled(TouchableOpacity)`
+  background-color: #104f0280;
+  padding-horizontal: 8px;
+  padding-vertical: 7px;
+  border-radius: 10px;
 `;
 const TitleContainer = styled(View)`
   position: absolute;
@@ -167,6 +186,7 @@ const SearchInput = styled(TextInput)`
   background-color: #fff;
   width: 73%;
   margin-left: 10px;
+  top: ${Platform.OS === 'android' ? '5px' : '0px'};
 `;
 const AccountProfile = styled(View)`
   height: 40px;

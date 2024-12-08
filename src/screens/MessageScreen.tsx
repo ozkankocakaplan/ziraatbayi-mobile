@@ -17,17 +17,38 @@ import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../types/navigator';
 import MessageResponse from '../payload/response/MessageResponse';
 import {RootState} from '../store';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import dayjs from 'dayjs';
 import Loading from '../components/Loading/Loading';
+import FirebaseApi from '../services/firebaseService';
+import ProductImage from '../components/Advert/ProductImage';
+import {AdvertActions} from '../store/features/advertReducer';
+import {useFocusEffect} from '@react-navigation/native';
 export default function MessageScreen(
   props: NativeStackScreenProps<RootStackParamList, 'MessageScreen'>,
 ) {
+  const dispatch = useDispatch();
   const userId = useSelector((state: RootState) => state.auth.user?.id);
   const {navigation} = props;
-  const {chats, loading} = useChatList();
+  const {chats, loading, updateMessageReadToTrue} = useChatList();
+
+  const [handleReadMessage] = FirebaseApi.useMessageReadMutation();
+
+  useFocusEffect(() => {
+    dispatch(AdvertActions.setSelectedChatId(''));
+  });
+
   const handleChatPress = (item: MessageResponse) => {
-    let isCurrentUser = item.senderId === userId;
+    let isCurrentUser = item.senderId === userId?.toString();
+    if (!item.lastMessage.isRead) {
+      updateMessageReadToTrue(item.chatId);
+      handleReadMessage({
+        receiverId: item.receiverId.toString(),
+        senderId: item.senderId.toString(),
+        messageId: item.lastMessage.messageId,
+      });
+    }
+    dispatch(AdvertActions.setSelectedChatId(item.chatId));
     navigation.navigate('ChatRoomScreen', {
       chatId: item.chatId,
       receiverFullName: isCurrentUser
@@ -36,9 +57,11 @@ export default function MessageScreen(
       senderFullName: isCurrentUser
         ? item.senderFullName
         : item.receiverFullName,
-      senderId: Number(userId),
-      receiverId: isCurrentUser ? item.receiverId : item.senderId,
-      product: {} as any,
+      senderId: userId?.toString() || '',
+      receiverId: isCurrentUser
+        ? item?.receiverId?.toString()
+        : item?.senderId?.toString?.(),
+      product: item.product,
     });
   };
   return (
@@ -50,12 +73,13 @@ export default function MessageScreen(
             data={chats}
             keyExtractor={(item: MessageResponse) => item.chatId}
             renderItem={({item}) => {
-              var isCurrentUser = item.senderId === userId;
+              var isCurrentUser = item.senderId === userId?.toString();
               return (
                 <MessageItem
                   handlePress={() => {
                     handleChatPress(item);
                   }}
+                  isCurrentUser={isCurrentUser}
                   message={{
                     ...item,
                     senderFullName: isCurrentUser
@@ -78,38 +102,44 @@ export default function MessageScreen(
 const MessageItem = ({
   message,
   handlePress,
+  isCurrentUser,
 }: {
   message: MessageResponse;
   handlePress: () => void;
+  isCurrentUser?: boolean;
 }) => {
   return (
     <MessageCard onPress={handlePress} activeOpacity={0.7} key={message.chatId}>
-      <StatusIndicator color="#FF6A00" />
+      {!message?.lastMessage?.isRead && !isCurrentUser && (
+        <StatusIndicator color={'#FF6A00'} />
+      )}
       <ImageContainer>
-        <MessageImage />
+        <ProductImage imageUrl={message?.product?.images?.[0]?.imageUrl} />
       </ImageContainer>
       <Container bgColor="default" flex={1}>
         <Col gap={5}>
           <Row between>
             <Flex>
               <CustomText fontSizes="body4" fontWeight="bold" color="deneme">
-                Lampotin 1LT
+                {message?.product?.name}
               </CustomText>
             </Flex>
             <CustomText fontSizes="body6" color="deneme2">
-              {message.lastMessage?.timestamp
-                ? dayjs(message.lastMessage.timestamp).format(
+              {message?.lastMessage?.timestamp
+                ? dayjs(message?.lastMessage.timestamp).format(
                     'DD.MM.YYYY HH:mm',
                   )
                 : ''}
             </CustomText>
           </Row>
-          <Col>
+          <Col gap={5}>
             <CustomText fontSizes="body6" color="deneme2">
-              Ziraat
+              {message.senderFullName}
             </CustomText>
             <CustomText fontSizes="body6" color="deneme2">
-              {message.content}
+              {message.contentType === 'text'
+                ? message.lastMessage.content
+                : 'Bir resim gönderildi'}
             </CustomText>
           </Col>
         </Col>

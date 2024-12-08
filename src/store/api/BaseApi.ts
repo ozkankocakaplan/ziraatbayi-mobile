@@ -2,8 +2,7 @@ import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react';
 export const BaseUrl =
   process.env.NODE_ENV === 'developer'
     ? 'http://195.85.207.129:6868/api'
-    : 'http://localhost:8080/api';
-console.log(BaseUrl);
+    : 'http://192.168.1.133:8080/api';
 export const baseApi = createApi({
   reducerPath: 'baseApi',
   baseQuery: fetchBaseQuery({

@@ -27,6 +27,7 @@ interface ModalProps {
   isAutoClose?: boolean;
   onCancel?: () => void;
   type?: 'success' | 'error' | 'warning';
+  showLoading?: boolean;
 }
 
 class AlertDialog {
@@ -215,6 +216,7 @@ class AlertDialog {
                   {props.onConfirm && (
                     <ButtonView>
                       <Button
+                        loading={props.showLoading}
                         text={props.onConfirmText || 'Tamam'}
                         onPress={() => {
                           ModalPortal.dismiss(id);

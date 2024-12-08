@@ -34,16 +34,26 @@ const advertApi = baseApi.injectEndpoints({
 });
 export const AdvertApi = advertApi;
 
-export const {useGetProductImageQuery} = imageApi.injectEndpoints({
-  endpoints: builder => ({
-    getProductImage: builder.query<Blob, {endpoint: string}>({
-      query: ({endpoint}) => ({
-        url: endpoint,
-        method: 'GET',
-        responseHandler: (response: Response) => {
-          return response.blob();
-        },
+export const {useGetProductImageQuery, useGetProductImageForChatMutation} =
+  imageApi.injectEndpoints({
+    endpoints: builder => ({
+      getProductImage: builder.query<Blob, {endpoint: string}>({
+        query: ({endpoint}) => ({
+          url: endpoint,
+          method: 'GET',
+          responseHandler: (response: Response) => {
+            return response.blob();
+          },
+        }),
+      }),
+      getProductImageForChat: builder.mutation<Blob, {endpoint: string}>({
+        query: ({endpoint}) => ({
+          url: endpoint,
+          method: 'GET',
+          responseHandler: (response: Response) => {
+            return response.blob();
+          },
+        }),
       }),
     }),
-  }),
-});
+  });

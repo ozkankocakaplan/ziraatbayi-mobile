@@ -1,5 +1,6 @@
 import {View, TouchableOpacity, Image} from 'react-native';
 import React, {useState} from 'react';
+import Container from '../components/Container/Container';
 import Input from '../components/Input/Input';
 import styled from 'styled-components';
 import CustomText from '../components/Text/Text';
@@ -16,15 +17,15 @@ export default function LoginScreen(
   props: NativeStackScreenProps<RootStackParamList, 'LoginScreen'>,
 ) {
   const [loginRequest, setLoginRequest] = useState<LoginRequest>({
-    email: 'ferizaocal@gmail.com',
+    email: 'ozkankocakaplan07@gmail.com',
     password: '123456',
   });
 
   const [loginMutation, {isLoading, isError, error}] =
     AuthApi.useLoginMutation();
 
-  const login = () => {
-    loginMutation(loginRequest).unwrap();
+  const login = async () => {
+    await loginMutation(loginRequest).unwrap();
   };
 
   return (

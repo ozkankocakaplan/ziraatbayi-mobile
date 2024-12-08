@@ -22,7 +22,6 @@ const useChatMessages = (chatId: string) => {
     const onValueChange = messagesRef.on('value', snapshot => {
       const data = snapshot.val();
       if (data) {
-        console.log('data', data);
         const parsedMessages = Object.keys(data).map(key => ({
           messageId: key,
           ...data[key],

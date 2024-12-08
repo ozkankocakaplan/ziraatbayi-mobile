@@ -30,7 +30,6 @@ export default function useFcmToken() {
         if (status === 1) {
           getToken();
         } else {
-          console.log('Not authorized');
         }
       })
       .catch(e => console.log(e));

@@ -12,8 +12,8 @@ export type RootStackParamList = {
     chatId: string;
     receiverFullName: string;
     senderFullName: string;
-    senderId: number;
-    receiverId: number;
+    senderId: string;
+    receiverId: string;
     product: ProductResponse;
   };
   NotificationScreen: undefined;

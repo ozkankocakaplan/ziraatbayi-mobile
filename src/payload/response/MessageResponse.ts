@@ -1,14 +1,18 @@
+import ProductResponse from './ProductResponse';
+
 interface MessageResponse {
   chatId: string;
-  senderId: number;
-  receiverId: number;
+  senderId: string;
+  receiverId: string;
   content: string;
-  type: string;
+  contentType: string;
   productId?: number;
   messageId: string;
   timestamp: number;
   lastMessage: MessageResponse;
   receiverFullName: string;
   senderFullName: string;
+  isRead: boolean;
+  product: ProductResponse;
 }
 export default MessageResponse;

@@ -21,8 +21,6 @@ import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import useFcmToken from '../hooks/useFcmToken';
 import FirebaseApi from '../services/firebaseService';
 import DeviceRequest from '../payload/request/DeviceRequest';
-import {useSelector} from 'react-redux';
-import {RootState} from '../store';
 
 export default function HomeScreen(
   props: NativeStackScreenProps<RootStackParamList, 'HomeScreen'>,

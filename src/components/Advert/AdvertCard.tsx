@@ -1,5 +1,5 @@
 import React, {useRef, useState} from 'react';
-import {Image, Text, TouchableOpacity, View} from 'react-native';
+import {Image, Platform, Text, TouchableOpacity, View} from 'react-native';
 import styled from 'styled-components';
 import {TouchableOpacityProps} from 'react-native';
 import CustomText from '../Text/Text';
@@ -59,7 +59,7 @@ const Card = styled(TouchableOpacity)`
   border-radius: 10px;
   border-width: 1px;
   border-color: #f9f9f9;
-  width: ${SIZES.width / 3 - 20}px;
+  width: ${SIZES.width / 3 - (Platform.OS === 'ios' ? 20 : 0)}px;
 `;
 
 const ImageContainer = styled(View)`

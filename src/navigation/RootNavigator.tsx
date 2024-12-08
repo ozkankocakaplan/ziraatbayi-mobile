@@ -19,6 +19,8 @@ import ChangePasswordScreen from '../screens/ChangePasswordScreen';
 import SupportScreen from '../screens/SupportScreen';
 import ChatRoomScreen from '../screens/ChatRoomScreen';
 import AdvertDetailBottomSheet from '../components/BottomSheet/AdvertDetailBottomSheet';
+import FirebaseNotification from '../firebase/FirebaseNotification';
+import Snackbar from '../components/Snackbar/Snackbar';
 
 const Stack = createStackNavigator<RootStackParamList>();
 const RootNavigator = () => {
@@ -67,7 +69,12 @@ const RootNavigator = () => {
           </>
         )}
       </Stack.Navigator>
-      <AdvertDetailBottomSheet />
+      {user != null && (
+        <>
+          <FirebaseNotification />
+          <AdvertDetailBottomSheet />
+        </>
+      )}
     </>
   );
 };

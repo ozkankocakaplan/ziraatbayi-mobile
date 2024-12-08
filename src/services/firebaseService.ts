@@ -1,6 +1,7 @@
 import CreateMessageRequest from '../payload/request/CreateMessageRequest';
 import DeviceRequest from '../payload/request/DeviceRequest';
-import MessageUserInfo from '../payload/response/MessageUserInfo';
+import MessageReadRequest from '../payload/request/MessageReadRequest';
+import MessageUserInfo from '../payload/response/MessageInfoResponse';
 import ServiceResponse from '../payload/response/ServiceResponse';
 import {baseApi} from '../store/api/BaseApi';
 
@@ -13,22 +14,31 @@ const firebaseApi = baseApi.injectEndpoints({
         body,
       }),
     }),
-    sendMessage: builder.mutation<
-      ServiceResponse<boolean>,
-      CreateMessageRequest
-    >({
+    sendMessage: builder.mutation<ServiceResponse<boolean>, FormData>({
       query: body => ({
         url: '/firebase/message/send',
         method: 'POST',
-        body,
+        body: body,
+        headers: new Headers({
+          'Content-Type': 'multipart/form-data',
+        }),
       }),
     }),
-    getSenderReceiverNames: builder.mutation<
+    messageRead: builder.mutation<ServiceResponse<boolean>, MessageReadRequest>(
+      {
+        query: data => ({
+          url: `/firebase/message/read`,
+          method: 'POST',
+          body: data,
+        }),
+      },
+    ),
+    getChatInfo: builder.mutation<
       ServiceResponse<MessageUserInfo>,
-      {senderId: number; receiverId: number}
+      {senderId: number; receiverId: number; productId: number}
     >({
       query: data => ({
-        url: `/firebase/sender-receiver-names/${data.senderId}/${data.receiverId}`,
+        url: `/firebase/chat-info/${data.senderId}/${data.receiverId}/${data.productId}`,
         method: 'GET',
       }),
     }),

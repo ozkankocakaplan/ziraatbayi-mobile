@@ -36,21 +36,19 @@ export default function AdvertDetailBottomSheet() {
     product,
   }: {
     chatId: string;
-    receiverId: number;
+    receiverId: string;
     receiverFullName: string;
     product: ProductResponse;
   }) => {
-    let isCurrentUser = advertDetail?.dealer.id === user?.id;
+    const senderFullName = user?.firstName + ' ' + user?.lastName;
+    const userId = user?.id.toString() || '';
+    let isSender = advertDetail?.dealer.id?.toString() === user?.id.toString();
     navigation.navigate('ChatRoomScreen', {
       chatId: chatId,
-      receiverFullName: isCurrentUser
-        ? receiverFullName
-        : user?.firstName + ' ' + user?.lastName,
-      senderFullName: isCurrentUser
-        ? user?.firstName + ' ' + user?.lastName
-        : receiverFullName,
-      senderId: Number(user?.id),
-      receiverId: receiverId,
+      receiverFullName: isSender ? senderFullName : receiverFullName,
+      senderFullName: isSender ? receiverFullName : senderFullName,
+      senderId: userId,
+      receiverId: isSender ? receiverId?.toString?.() : userId,
       product: product,
     });
   };
@@ -105,8 +103,11 @@ export default function AdvertDetailBottomSheet() {
                   Number(user?.id),
                   Number(advertDetail?.dealer.id),
                 ),
-                receiverId: Number(advertDetail?.dealer.id),
-                receiverFullName: advertDetail?.dealer.fullName || '',
+                receiverId: advertDetail?.dealer.id.toString() || '',
+                receiverFullName:
+                  advertDetail?.dealer?.firstName +
+                  ' ' +
+                  advertDetail?.dealer?.lastName,
                 product: advertDetail?.product as ProductResponse,
               });
             }}
