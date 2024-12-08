@@ -10,8 +10,6 @@ import {faBullhorn, faHome, faUser} from '@fortawesome/free-solid-svg-icons';
 import HomeScreen from '../screens/HomeScreen';
 import AdvertScreen from '../screens/AdvertScreen';
 import AccountScreen from '../screens/AccountScreen';
-import CategoriesScreen from '../screens/CategoriesScreen';
-import MessageScreen from '../screens/MessageScreen';
 
 const Tab = createBottomTabNavigator<BottomTabParamList>();
 export default function BottomTabNavigator(

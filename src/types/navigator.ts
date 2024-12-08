@@ -7,7 +7,7 @@ export type RootStackParamList = {
   ForgotPasswordScreen: undefined;
   HomeScreen: undefined;
   BottomTabMenu: undefined;
-  MessageScreen: undefined;
+  ChatListScreen: undefined;
   ChatRoomScreen: {
     chatId: string;
     receiverFullName: string;

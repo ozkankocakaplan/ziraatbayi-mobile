@@ -90,7 +90,6 @@ export default function Header({
             returnKeyType="search"
             placeholder="Ara..."
             onSubmitEditing={() => {
-              // arama sayfayına yönlendir search statinin değerinide gönder
               navigation.navigate('SearchScreen', {query: search});
             }}
           />
@@ -119,7 +118,7 @@ export default function Header({
           {showMessage && (
             <IconRight
               onPress={() => {
-                navigation.navigate('MessageScreen' as never);
+                navigation.navigate('ChatListScreen' as never);
               }}
               hitSlop={15}>
               <Icon icon={faEnvelope} color="white" />
@@ -184,7 +183,7 @@ const SearchInput = styled(TextInput)`
   padding-vertical: 10px;
   padding-horizontal: 10px;
   background-color: #fff;
-  width: 73%;
+  width: 78%;
   margin-left: 10px;
   top: ${Platform.OS === 'android' ? '5px' : '0px'};
 `;

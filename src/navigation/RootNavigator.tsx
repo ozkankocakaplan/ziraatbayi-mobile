@@ -8,19 +8,17 @@ import HomeScreen from '../screens/HomeScreen';
 import {useSelector} from 'react-redux';
 import {RootState} from '../store';
 import BottomTabNavigator from './BottomTabNavigator';
-import MessageScreen from '../screens/MessageScreen';
+import ChatListScreen from '../screens/ChatListScreen/ChatListScreen';
 import NotificationScreen from '../screens/NotificationScreen';
-import Header from '../components/Header/Header';
 import CategoriesScreen from '../screens/CategoriesScreen';
 import AddAdvertScreen from '../screens/AddAdvertScreen';
 import EditAdvertScreen from '../screens/EditAdvertScreen';
 import UserInfoScreen from '../screens/UserInfoScreen';
 import ChangePasswordScreen from '../screens/ChangePasswordScreen';
 import SupportScreen from '../screens/SupportScreen';
-import ChatRoomScreen from '../screens/ChatRoomScreen';
+import ChatRoomScreen from '../screens/ChatRoomScreen/ChatRoomScreen';
 import AdvertDetailBottomSheet from '../components/BottomSheet/AdvertDetailBottomSheet';
 import FirebaseNotification from '../firebase/FirebaseNotification';
-import Snackbar from '../components/Snackbar/Snackbar';
 
 const Stack = createStackNavigator<RootStackParamList>();
 const RootNavigator = () => {
@@ -45,7 +43,7 @@ const RootNavigator = () => {
           <>
             <Stack.Screen name="BottomTabMenu" component={BottomTabNavigator} />
             <Stack.Screen name="HomeScreen" component={HomeScreen} />
-            <Stack.Screen name="MessageScreen" component={MessageScreen} />
+            <Stack.Screen name="ChatListScreen" component={ChatListScreen} />
             <Stack.Screen name="ChatRoomScreen" component={ChatRoomScreen} />
             <Stack.Screen
               name="NotificationScreen"

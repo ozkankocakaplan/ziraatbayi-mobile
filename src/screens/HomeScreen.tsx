@@ -11,7 +11,7 @@ import CustomBottomSheet, {
 import {categoryApi} from '../services/categoryService';
 import Container from '../components/Container/Container';
 
-import {RootStackParamList} from '../types/navigator';
+import {BottomTabParamList, RootStackParamList} from '../types/navigator';
 import Page from '../components/Page/Page';
 
 import {AdvertApi} from '../services/advertService';
@@ -23,7 +23,7 @@ import FirebaseApi from '../services/firebaseService';
 import DeviceRequest from '../payload/request/DeviceRequest';
 
 export default function HomeScreen(
-  props: NativeStackScreenProps<RootStackParamList, 'HomeScreen'>,
+  props: NativeStackScreenProps<RootStackParamList>,
 ) {
   const {fcmToken} = useFcmToken();
   const {data: categories} = categoryApi.useGetCategoriesQuery();
