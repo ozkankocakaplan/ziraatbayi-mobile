@@ -17,8 +17,8 @@ export default function LoginScreen(
   props: NativeStackScreenProps<RootStackParamList, 'LoginScreen'>,
 ) {
   const [loginRequest, setLoginRequest] = useState<LoginRequest>({
-    email: 'ferizaocal@gmail.com',
-    password: '123456',
+    email: 'ferizaocal60@gmail.com',
+    password: 'e4cc5a',
   });
 
   const [loginMutation, {isLoading, isError, error}] =

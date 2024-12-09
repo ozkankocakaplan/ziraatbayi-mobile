@@ -5,11 +5,9 @@ import {RootStackParamList} from '../../types/navigator';
 import {useSelector} from 'react-redux';
 import {RootState} from '../../store';
 import {Col, Row} from '../../constant/GlobalStyled';
-
 import Page from '../../components/Page/Page';
 import styled from 'styled-components';
 import Container from '../../components/Container/Container';
-
 import useChatMessages from '../../hooks/useChatMessages';
 import MessageResponse from '../../payload/response/MessageResponse';
 import Loading from '../../components/Loading/Loading';
@@ -17,7 +15,6 @@ import ProductImage from '../../components/Advert/ProductImage';
 import CustomText from '../../components/Text/Text';
 import usePhoto from '../../hooks/usePhoto';
 import ShowMoreButton from '../../components/ShowMoreButton/ShowMoreButton';
-
 import ChatInput from './ChatInput';
 import ChatBubble from './ChatBubble';
 const LAST_LIMIT = 50;

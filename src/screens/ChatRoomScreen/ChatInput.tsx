@@ -1,6 +1,4 @@
 import {
-  View,
-  Text,
   Keyboard,
   KeyboardAvoidingView,
   Platform,

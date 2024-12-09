@@ -78,7 +78,7 @@ export default function RegisterScreen(
           required
           id="companyName"
           icon={faHouse}
-          placeholder="FirmaAdı"
+          placeholder="Firma Adı"
           value={registerRequest.companyName}
           onChangeText={text =>
             setRegisterRequest({...registerRequest, companyName: text})

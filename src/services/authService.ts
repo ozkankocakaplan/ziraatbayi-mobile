@@ -1,6 +1,7 @@
 import AlertDialog from '../components/AlertDialog/AlertDialog';
 import CreateDealerRequest from '../payload/request/CreateDealerRequest';
 import LoginRequest from '../payload/request/LoginRequest';
+import DealerResponse from '../payload/response/DealerResponse';
 import LoginResponse from '../payload/response/LoginResponse';
 import ServiceResponse from '../payload/response/ServiceResponse';
 import {baseApi} from '../store/api/BaseApi';
@@ -57,6 +58,46 @@ export const authApi = baseApi.injectEndpoints({
               title: 'Başarılı',
               type: 'success',
               message: 'Kayıt başarılı',
+            });
+          }
+        } catch (error: any) {
+          AlertDialog.showModal({
+            type: 'error',
+            message: error?.error?.data?.exceptionMessage || 'Bir hata oluştu',
+          });
+          AlertDialog.hideLoading();
+        } finally {
+          AlertDialog.hideLoading();
+        }
+      },
+    }),
+    getDealer: builder.query<ServiceResponse<DealerResponse>, void>({
+      query: credentials => ({
+        url: '/dealer',
+        method: 'GET',
+        body: credentials,
+      }),
+    }),
+    updateDealer: builder.mutation<
+      ServiceResponse<DealerResponse>,
+      CreateDealerRequest
+    >({
+      query: credentials => ({
+        url: '/dealer/update',
+        method: 'POST',
+        body: credentials,
+      }),
+      async onQueryStarted(arg, {dispatch, queryFulfilled}) {
+        try {
+          AlertDialog.showLoading();
+          let result = await queryFulfilled;
+
+          AlertDialog.hideLoading();
+          if (result.data.isSuccessful) {
+            AlertDialog.showModal({
+              title: 'Başarılı',
+              type: 'success',
+              message: 'Güncelleme başarılı',
             });
           }
         } catch (error: any) {
