@@ -19,6 +19,7 @@ import SupportScreen from '../screens/SupportScreen';
 import ChatRoomScreen from '../screens/ChatRoomScreen/ChatRoomScreen';
 import AdvertDetailBottomSheet from '../components/BottomSheet/AdvertDetailBottomSheet';
 import FirebaseNotification from '../firebase/FirebaseNotification';
+import DealerDetailScreen from '../screens/DealerDetailScreen';
 
 const Stack = createStackNavigator<RootStackParamList>();
 const RootNavigator = () => {
@@ -64,6 +65,10 @@ const RootNavigator = () => {
               component={ChangePasswordScreen}
             />
             <Stack.Screen name="SupportScreen" component={SupportScreen} />
+            <Stack.Screen
+              name="DealerDetailScreen"
+              component={DealerDetailScreen}
+            />
           </>
         )}
       </Stack.Navigator>

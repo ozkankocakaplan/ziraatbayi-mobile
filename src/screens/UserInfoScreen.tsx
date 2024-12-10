@@ -1,9 +1,8 @@
 import React, {useRef, useState, useEffect} from 'react';
 import Page from '../components/Page/Page';
-import CustomText from '../components/Text/Text';
 import styled from 'styled-components';
 import Input from '../components/Input/Input';
-import FormContainer, {FormContainerRef} from 'react-native-form-container';
+import {FormContainerRef} from 'react-native-form-container';
 import {
   faBarcode,
   faBuilding,
@@ -17,9 +16,14 @@ import {
 import Button from '../components/Button/Button';
 import {View} from 'react-native';
 import {AuthApi} from '../services/authService';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {RootStackParamList} from '../types/navigator';
+import {checkObject} from '../helper/Helper';
 
-export default function UserInfoScreen() {
-  const {data: dealer} = AuthApi.useGetDealerQuery();
+export default function UserInfoScreen({
+  navigation,
+}: NativeStackScreenProps<RootStackParamList>) {
+  const {data: dealer, refetch} = AuthApi.useGetDealerQuery();
   const [updateDealer, {isLoading, isSuccess, isError}] =
     AuthApi.useUpdateDealerMutation();
 
@@ -38,7 +42,15 @@ export default function UserInfoScreen() {
   const ref = useRef<FormContainerRef>(null);
 
   useEffect(() => {
+    navigation.addListener('focus', () => {
+      refetch();
+    });
+  }, []);
+
+  useEffect(() => {
+    //burası ise bir kere yüklenecek ve sadece dealer değişirse çalışacak
     if (dealer) {
+      console.log('b');
       setFormData({
         firstName: dealer.entity.firstName || '',
         lastName: dealer.entity.lastName || '',
@@ -68,7 +80,7 @@ export default function UserInfoScreen() {
 
   return (
     <Page header showGoBack title="Kullanıcı Bilgilerim">
-      <Form formContainerRef={ref}>
+      <Form>
         <Input
           required
           id="firstName"
@@ -152,14 +164,18 @@ export default function UserInfoScreen() {
           onChangeText={text => handleInputChange('address', text)}
         />
         <RegisterContainer>
-          <Button text="GÜNCELLE" onPress={handleUpdate} />
+          <Button
+            isDisabled={checkObject(formData)}
+            text="Kaydet"
+            onPress={handleUpdate}
+          />
         </RegisterContainer>
       </Form>
     </Page>
   );
 }
 
-const Form = styled(FormContainer)`
+const Form = styled(View)`
   margin-top: 20px;
   gap: 10px;
   margin-horizontal: 10px;

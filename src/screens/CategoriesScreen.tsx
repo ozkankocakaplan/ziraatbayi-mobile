@@ -83,7 +83,7 @@ export default function CategoriesScreen(
     <Page header title={'Kategoriler'} showGoBack>
       <Container>
         <Row>
-          <Container flex={0.6} bgColor="#D0F5D5">
+          <Container flex={0.6} bgColor="#E9EED9">
             {previousSelected
               ? recuversiveCategory(previousSelected, undefined, 'left')
               : categories?.list

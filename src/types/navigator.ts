@@ -29,6 +29,7 @@ export type RootStackParamList = {
   UserInfoScreen: undefined;
   ChangePasswordScreen: undefined;
   SupportScreen: undefined;
+  DealerDetailScreen: {id: number};
 };
 export type BottomTabParamList = {
   Home: undefined;

@@ -8,8 +8,40 @@ import {PersistGate} from 'redux-persist/integration/react';
 import RootNavigator from './src/navigation/RootNavigator';
 import {persistor, store} from './src/store';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
+import {LocaleConfig} from 'react-native-calendars';
 
 LogBox.ignoreAllLogs(true);
+
+LocaleConfig.locales['tr'] = {
+  monthNames: [
+    'Ocak',
+    'Şubat',
+    'Mart',
+    'Nisan',
+    'Mayıs',
+    'Haziran',
+    'Temmuz',
+    'Ağustos',
+    'Eylül',
+    'Ekim',
+    'Kasım',
+    'Aralık',
+  ],
+
+  dayNames: [
+    'Pazar',
+    'Pazartesi',
+    'Salı',
+    'Çarşamba',
+    'Perşembe',
+    'Cuma',
+    'Cumartesi',
+  ],
+  dayNamesShort: ['Paz', 'Pzt', 'Sal', 'Çar', 'Per', 'Cum', 'Cmt'],
+  today: 'Bugün',
+};
+LocaleConfig.defaultLocale = 'tr';
+
 const ZiraatBayi = () => {
   return (
     <Provider store={store}>

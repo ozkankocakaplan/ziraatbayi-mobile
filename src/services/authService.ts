@@ -72,10 +72,9 @@ export const authApi = baseApi.injectEndpoints({
       },
     }),
     getDealer: builder.query<ServiceResponse<DealerResponse>, void>({
-      query: credentials => ({
+      query: () => ({
         url: '/dealer',
         method: 'GET',
-        body: credentials,
       }),
     }),
     updateDealer: builder.mutation<
@@ -110,6 +109,16 @@ export const authApi = baseApi.injectEndpoints({
           AlertDialog.hideLoading();
         }
       },
+    }),
+    updatePassword: builder.mutation<
+      ServiceResponse<Boolean>,
+      {oldPassword: string; newPassword: string}
+    >({
+      query: ({oldPassword, newPassword}) => ({
+        url: '/user/update-password',
+        method: 'POST',
+        body: {oldPassword, newPassword},
+      }),
     }),
   }),
 });

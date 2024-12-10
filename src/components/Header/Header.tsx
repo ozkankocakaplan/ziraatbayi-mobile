@@ -127,7 +127,7 @@ export default function Header({
           {showGoToDealerButton && (
             <DealerButton
               onPress={() => {
-                console.log('bayiye git');
+                showGoToDealerButton();
               }}
               hitSlop={15}>
               <CustomText fontSizes="body6" color="white">

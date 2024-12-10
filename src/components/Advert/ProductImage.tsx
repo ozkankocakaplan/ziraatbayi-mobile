@@ -52,19 +52,27 @@ export default function ProductImage({
     if (image != null) {
       return (
         <>
-          <TouchableOpacity
-            activeOpacity={isImageView ? 0.6 : 1}
-            onPress={() => {
-              if (isImageView) {
-                setShowImageViewer(true);
-              }
-            }}>
+          {isImageView ? (
+            <TouchableOpacity
+              activeOpacity={isImageView ? 0.6 : 1}
+              onPress={() => {
+                if (isImageView) {
+                  setShowImageViewer(true);
+                }
+              }}>
+              <Image
+                source={{uri: image}}
+                style={{width: '100%', height: '100%'}}
+                resizeMode="contain"
+              />
+            </TouchableOpacity>
+          ) : (
             <Image
               source={{uri: image}}
               style={{width: '100%', height: '100%'}}
               resizeMode="contain"
             />
-          </TouchableOpacity>
+          )}
 
           <Modal visible={showImageViewer} transparent={true}>
             <ImageViewer

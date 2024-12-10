@@ -70,7 +70,9 @@ export default function ChatRoomScreen({
       }
       showGoBack
       showGoToDealerButton={() => {
-        console.log('Go to dealer button clicked');
+        if (user?.id?.toString() === senderId?.toString()) {
+          navigation.navigate('DealerDetailScreen', {id: Number(receiverId)});
+        }
       }}>
       <Loading loading={loading}>
         <Container>

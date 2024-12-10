@@ -62,7 +62,13 @@ export default function AccountScreen(props: any) {
         <Container bgColor={pageColor}>
           <ColTitle title="Abonelik Bilgilerim" />
           <ListItemContainer>
-            <ListItem icon={faUser} text="Abonelik Durumum" />
+            <ListItem
+              onPress={() => {
+                navigation.navigate('DealerScreen');
+              }}
+              icon={faUser}
+              text="Abonelik Durumum"
+            />
             <ListItem
               noneBorder
               icon={faLock}

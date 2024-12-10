@@ -1,10 +1,10 @@
-import React, {useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import Page from '../components/Page/Page';
 import FormContainer, {FormContainerRef} from 'react-native-form-container';
 import Input from '../components/Input/Input';
 import styled from 'styled-components';
 import CustomText from '../components/Text/Text';
-import {ScrollView, View} from 'react-native';
+import {Modal, ScrollView, Text, TouchableOpacity, View} from 'react-native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../types/navigator';
 import {AdvertApi} from '../services/advertService';
@@ -14,6 +14,7 @@ import CustomBottomSheet, {
 } from '../components/BottomSheet/CustomBottomSheet';
 import Button from '../components/Button/Button';
 import CheckRadio from '../components/CheckInput/CheckRadio';
+import {Calendar} from 'react-native-calendars';
 
 const family = ['Feriza', 'Özkan'];
 export default function AddAdvertScreen(
@@ -29,6 +30,32 @@ export default function AddAdvertScreen(
   });
   const bottomSheetRef = useRef<BottomSheetRef>(null);
 
+  const [isCalendarVisible, setIsCalendarVisible] = useState(false);
+  const [selectedDate, setSelectedDate] = useState('');
+
+  const handleDateChange = (day: any) => {
+    console.log('Tarih Seçildi:', day.dateString);
+    const formattedDate = formatDate(day.dateString);
+    setSelectedDate(formattedDate);
+    setIsCalendarVisible(false);
+  };
+  const handleOpenCalendar = () => {
+    console.log('Modal Açılacak');
+    setIsCalendarVisible(true);
+    console.log(isCalendarVisible);
+  };
+
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const year = date.getFullYear();
+    return `${day}-${month}-${year}`;
+  };
+
+  useEffect(() => {
+    console.log('Calendar Visible:', isCalendarVisible); // Modal'ın durumu
+  }, [isCalendarVisible]);
   return (
     <>
       <Page header showGoBack title="İlan Ekle">
@@ -61,12 +88,16 @@ export default function AddAdvertScreen(
             placeholder="Minimum Sipariş Miktarı"
           />
           <Input required id="price" placeholder="Fiyat" />
+
           <Input
-            isPlaceholder={true}
+            handlePress={handleOpenCalendar}
+            isPlaceholder={!selectedDate}
             required
             id="expirationDate"
             placeholderValue="Son Kullanma Tarihi"
+            value={selectedDate}
           />
+
           <RegisterContainer>
             <Button text="KAYDET"></Button>
           </RegisterContainer>
@@ -77,6 +108,7 @@ export default function AddAdvertScreen(
           {family.map((item, index) => {
             return (
               <CheckRadio
+                key={item}
                 value={item}
                 checked={selectedFamily === item}
                 handleChecked={(isCheck: boolean) => {
@@ -88,6 +120,31 @@ export default function AddAdvertScreen(
           })}
         </ScrollableContainer>
       </CustomBottomSheet>
+      {isCalendarVisible && (
+        <Modal
+          transparent
+          animationType="slide"
+          visible={isCalendarVisible}
+          onRequestClose={() => setIsCalendarVisible(false)}>
+          <ModalOverlay>
+            <CalendarContainer>
+              <Calendar
+                onDayPress={handleDateChange}
+                markedDates={{
+                  [selectedDate]: {selected: true, selectedColor: '#007AFF'},
+                }}
+                style={{borderRadius: 10}}
+              />
+              <CloseButton>
+                <Button
+                  text="Kapat"
+                  onPress={() => setIsCalendarVisible(false)}
+                />
+              </CloseButton>
+            </CalendarContainer>
+          </ModalOverlay>
+        </Modal>
+      )}
     </>
   );
 }
@@ -104,3 +161,22 @@ const RegisterContainer = styled(View)`
 `;
 
 const ScrollableContainer = styled(ScrollView)``;
+
+const ModalOverlay = styled(View)`
+  flex: 1;
+  background-color: rgba(0, 0, 0, 0.5);
+  justify-content: center;
+  align-items: center;
+`;
+
+const CalendarContainer = styled(View)`
+  background-color: white;
+  border-radius: 10px;
+  padding: 20px;
+  align-items: center;
+`;
+
+const CloseButton = styled(View)`
+  margin-top: 10px;
+  width: 100px;
+`;

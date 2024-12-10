@@ -23,6 +23,7 @@ interface OutlineButtonProps extends TouchableOpacityProps {
   textAlign?: string;
   marginBottom?: number;
   margin?: number;
+  isDisabled?: boolean;
 }
 
 export default function Button({
@@ -34,7 +35,7 @@ export default function Button({
   backgroundColor,
   borderRadius = SIZES.radius_sm,
   size = 'md',
-
+  isDisabled = false,
   ...props
 }: OutlineButtonProps) {
   const colors = useThemeColors();
@@ -43,6 +44,10 @@ export default function Button({
     <CustomButton
       style={props.style}
       onPress={event => {
+        if (isDisabled) {
+          return;
+        }
+
         if (loading) {
           return true;
         }
@@ -55,14 +60,15 @@ export default function Button({
         }, 1000);
         props.onPress && props.onPress(event);
       }}
-      activeOpacity={props.activeOpacity || 0.7}
+      activeOpacity={isDisabled ? 1 : props.activeOpacity || 0.7}
       theme={{
         size: size,
         borderRadius: borderRadius,
-        borderColor: loading ? '#ddd' : backgroundColor || colors.secondary,
+        borderColor:
+          loading || isDisabled ? '#ddd' : backgroundColor || colors.secondary,
         backgroundColor: outline
           ? backgroundColor || colors.secondary
-          : loading
+          : loading || isDisabled
           ? '#ddd'
           : backgroundColor || colors.primary,
         minWidth: props.minWidth,
@@ -72,7 +78,7 @@ export default function Button({
       {loading ? (
         <ActivityIndicator color={'white'} />
       ) : (
-        <CustomText left color="white">
+        <CustomText left color={!isDisabled ? 'white' : 'deneme2'}>
           {text}
         </CustomText>
       )}
