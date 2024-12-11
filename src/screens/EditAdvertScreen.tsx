@@ -20,9 +20,6 @@ export default function EditAdvertScreen() {
     <>
       <Page header showGoBack title="İlan Düzenle">
         <Form formContainerRef={ref}>
-          <CustomText sx={{marginBottom: 16}} fontSizes="body3" color="black">
-            İlan Bilgileri
-          </CustomText>
           <Input
             handlePress={() => {
               bottomSheetRef.current?.open();

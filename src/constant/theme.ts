@@ -52,9 +52,10 @@ export const COLORS = {
   white: '#fff',
   link: '#e78577',
   grey: '#9B9B9B',
-  deneme: '#333333',
-  deneme1: '#666666',
-  deneme2: '#999999',
+  lightGrey: '#F5F5F5',
+  darkGrey: '#333333',
+  darkGrey2: '#666666',
+  darkGrey3: '#999999',
 };
 export const FONTWEIGHT = {
   bold: 'bold',

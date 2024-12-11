@@ -65,7 +65,6 @@ const ChatInput = ({
         content,
         productId,
       };
-      console.log('entity', entity);
 
       let finalContent = entity.content;
       var formData = new FormData();

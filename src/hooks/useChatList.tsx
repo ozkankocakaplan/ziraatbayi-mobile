@@ -36,7 +36,6 @@ const useChatList = () => {
               messages.length - 1
             ] as MessageResponse;
             if (!lastMessage) {
-              console.log(`No lastMessage found for chatId: ${chatId}`);
               return null;
             }
 

@@ -160,7 +160,7 @@ const IconRight = styled(TouchableOpacity)`
   bottom: ${Platform.OS === 'android' ? '0px' : '5px'};
 `;
 const DealerButton = styled(TouchableOpacity)`
-  background-color: #104f0280;
+  background-color: #104f0235;
   padding-horizontal: 8px;
   padding-vertical: 7px;
   border-radius: 10px;

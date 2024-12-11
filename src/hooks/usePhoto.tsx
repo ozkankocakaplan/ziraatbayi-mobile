@@ -72,7 +72,6 @@ export default function usePhoto() {
       );
       if (granted === PermissionsAndroid.RESULTS.GRANTED) {
         handleLaunchCamera();
-        console.log('Camera permission given');
       } else {
         console.log('Camera permission denied');
       }

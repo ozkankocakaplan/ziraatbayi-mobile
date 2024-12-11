@@ -10,6 +10,8 @@ import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../types/navigator';
 import AlertDialog from '../components/AlertDialog/AlertDialog';
 import Page from '../components/Page/Page';
+import Icon from '../components/Icon/Icon';
+import {faAngleRight} from '@fortawesome/free-solid-svg-icons';
 export default function CategoriesScreen(
   props: NativeStackScreenProps<RootStackParamList, 'CategoriesScreen'>,
 ) {
@@ -53,6 +55,8 @@ export default function CategoriesScreen(
       return (
         <CategoryButton
           key={el.id}
+          borderBottom={true}
+          borderLeft={categoryType !== 'right' ? 5 : 0}
           onPress={() => {
             if (categoryType == 'right') {
               if (el.children.length != 0) {
@@ -70,10 +74,11 @@ export default function CategoriesScreen(
           isSelected={selectedCategory.id == el.id || isSelected}>
           <CustomText
             fontWeight={el.id === selectedCategory.id ? 'bold' : 'normal'}
-            fontSizes="body4"
+            fontSizes="body5"
             color="primary">
             {el.name}
           </CustomText>
+          <Icon icon={faAngleRight} color="#1F8505" size={20} />
         </CategoryButton>
       );
     });
@@ -83,7 +88,7 @@ export default function CategoriesScreen(
     <Page header title={'Kategoriler'} showGoBack>
       <Container>
         <Row>
-          <Container flex={0.6} bgColor="#E9EED9">
+          <Container flex={1} bgColor="#F5F5F5">
             {previousSelected
               ? recuversiveCategory(previousSelected, undefined, 'left')
               : categories?.list
@@ -92,6 +97,7 @@ export default function CategoriesScreen(
                     return (
                       <CategoryButton
                         key={el.id}
+                        borderLeft={el.id === selectedCategory.id ? 5 : 0}
                         isSelected={el.id === selectedCategory.id}
                         onPress={() => {
                           if (el.children.length != 0) {
@@ -104,15 +110,16 @@ export default function CategoriesScreen(
                           fontWeight={
                             el.id === selectedCategory.id ? 'bold' : 'normal'
                           }
-                          fontSizes="body3"
+                          fontSizes="body5"
                           color="primary">
                           {el.name}
                         </CustomText>
+                        <Icon icon={faAngleRight} color="#1F8505" size={20} />
                       </CategoryButton>
                     );
                   })}
           </Container>
-          <Container>
+          <Container bgColor="#fff">
             {selectedCategory && selectedCategories?.children.length == 0 ? (
               <CategoryButton
                 onPress={() => {
@@ -124,7 +131,7 @@ export default function CategoriesScreen(
                 </CustomText>
               </CategoryButton>
             ) : selected ? (
-              recuversiveCategory(selectedCategory, true)
+              recuversiveCategory(selectedCategory, false)
             ) : (
               recuversiveCategory(selectedCategories, true)
             )}
@@ -134,13 +141,20 @@ export default function CategoriesScreen(
     </Page>
   );
 }
-const CategoryButton = styled(TouchableOpacity)<{isSelected?: boolean}>`
+const CategoryButton = styled(TouchableOpacity)<{
+  isSelected?: boolean;
+  borderLeft?: number;
+  borderBottom?: boolean;
+}>`
   padding-vertical: 10px;
   height: 50px;
-  background-color: ${props => (props.isSelected ? '#f9f9f9' : '#D0F5D5')};
+  background-color: ${props => (props.isSelected ? '#fff' : '#F5F5F5')};
   padding-horizontal: 18px;
-  justify-content: center;
-  align-items: flex-start;
-  border-bottom-width: 1px;
-  border-bottom-color: ${props => (props.isSelected ? 'black' : '#B4B4B8')};
+  justify-content: space-between;
+  align-items: center;
+  border-left-width: ${props => props.borderLeft}px;
+  flex-direction: row;
+  border-left-color: ${props => (props.isSelected ? '#4AAF55' : '#fff')};
+  border-bottom-width: ${props => (props.borderBottom ? 1 : 0)}px;
+  border-bottom-color: #ebeff3;
 `;

@@ -48,9 +48,7 @@ export default function UserInfoScreen({
   }, []);
 
   useEffect(() => {
-    //burası ise bir kere yüklenecek ve sadece dealer değişirse çalışacak
     if (dealer) {
-      console.log('b');
       setFormData({
         firstName: dealer.entity.firstName || '',
         lastName: dealer.entity.lastName || '',
@@ -72,10 +70,7 @@ export default function UserInfoScreen({
   const handleUpdate = async () => {
     try {
       const response = await updateDealer(formData).unwrap();
-      console.log('Güncelleme başarılı:', response);
-    } catch (error) {
-      console.error('Güncelleme hatası:', error);
-    }
+    } catch (error) {}
   };
 
   return (

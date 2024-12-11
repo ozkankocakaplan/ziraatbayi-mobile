@@ -1,11 +1,10 @@
 import React, {useRef, useState} from 'react';
-import {Dimensions, View} from 'react-native';
-import Container from '../components/Container/Container';
+import {View} from 'react-native';
 import Input from '../components/Input/Input';
 import CheckInput from '../components/CheckInput/CheckInput';
 import Button from '../components/Button/Button';
 import styled from 'styled-components';
-import FormContainer, {FormContainerRef} from 'react-native-form-container';
+import {FormContainerRef} from 'react-native-form-container';
 import {
   faBarcode,
   faBuilding,
@@ -21,18 +20,17 @@ import CreateDealerRequest from '../payload/request/CreateDealerRequest';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../types/navigator';
 import Page from '../components/Page/Page';
+import {checkObject} from '../helper/Helper';
 
 export default function RegisterScreen(
   props: NativeStackScreenProps<RootStackParamList, 'RegisterScreen'>,
 ) {
   var ref = useRef<FormContainerRef>(null);
   const [useRegister] = AuthApi.useCreateDealerMutation();
-  const {width} = Dimensions.get('window');
-
   const [registerRequest, setRegisterRequest] = useState<CreateDealerRequest>({
     firstName: '',
     lastName: '',
-    companyName: ' ',
+    companyName: '',
     email: '',
     phone: '',
     gnlNumber: '',
@@ -43,17 +41,13 @@ export default function RegisterScreen(
 
   const handleRegister = async () => {
     try {
-      console.log('Kayıt işlemi başlatılıyor...', registerRequest);
       const response = await useRegister(registerRequest).unwrap();
-      console.log('Kayıt başarılı:', response);
-    } catch (error) {
-      console.error('Kayıt sırasında bir hata oluştu:', error);
-    }
+    } catch (error) {}
   };
 
   return (
     <Page header title={'Kayıt Ol'} showGoBack>
-      <Form formContainerRef={ref}>
+      <Form>
         <Input
           required
           id="firstName"
@@ -77,7 +71,7 @@ export default function RegisterScreen(
         <Input
           required
           id="companyName"
-          icon={faHouse}
+          icon={faBuilding}
           placeholder="Firma Adı"
           value={registerRequest.companyName}
           onChangeText={text =>
@@ -164,6 +158,7 @@ export default function RegisterScreen(
         />
         <RegisterContainer>
           <Button
+            isDisabled={checkObject(registerRequest)}
             onPress={() => {
               // let result = ref.current?.validate({
               //   firstName: 'Lütfen adınızı giriniz.',
@@ -191,19 +186,15 @@ export default function RegisterScreen(
     </Page>
   );
 }
-const Form = styled(FormContainer)`
+const Form = styled(View)`
   margin-top: 20px;
   gap: 10px;
   margin-horizontal: 20px;
   flex: 1;
 `;
-const TaxContainer = styled(View)`
-  flex-direction: row;
-  justify-content: space-between;
-  width: 100%;
-`;
+
 const RegisterContainer = styled(View)`
-  margin-bottom: 30px;
+  margin-bottom: 40px;
   flex: 1;
   justify-content: flex-end;
 `;

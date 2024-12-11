@@ -78,7 +78,10 @@ export default function Button({
       {loading ? (
         <ActivityIndicator color={'white'} />
       ) : (
-        <CustomText left color={!isDisabled ? 'white' : 'deneme2'}>
+        <CustomText
+          left
+          fontWeight="bold"
+          color={outline ? 'primary' : !isDisabled ? 'white' : 'darkGrey3'}>
           {text}
         </CustomText>
       )}

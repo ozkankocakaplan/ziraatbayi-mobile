@@ -30,11 +30,11 @@ const MessageItem = ({
         <Col gap={5}>
           <Row between>
             <Flex>
-              <CustomText fontSizes="body4" fontWeight="bold" color="deneme">
+              <CustomText fontSizes="body4" fontWeight="bold" color="darkGrey">
                 {message?.product?.name}
               </CustomText>
             </Flex>
-            <CustomText fontSizes="body6" color="deneme2">
+            <CustomText fontSizes="body6" color="darkGrey3">
               {message?.lastMessage?.timestamp
                 ? dayjs(message?.lastMessage.timestamp).format(
                     'DD.MM.YYYY HH:mm',
@@ -43,10 +43,10 @@ const MessageItem = ({
             </CustomText>
           </Row>
           <Col gap={5}>
-            <CustomText fontSizes="body6" color="deneme2">
+            <CustomText fontSizes="body6" color="darkGrey3">
               {message.senderFullName}
             </CustomText>
-            <CustomText fontSizes="body6" color="deneme2">
+            <CustomText fontSizes="body6" color="darkGrey3">
               {message.contentType === 'text'
                 ? message.lastMessage.content
                 : 'Bir resim gönderildi'}

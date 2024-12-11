@@ -15,6 +15,8 @@ import CustomBottomSheet, {
 import Button from '../components/Button/Button';
 import CheckRadio from '../components/CheckInput/CheckRadio';
 import {Calendar} from 'react-native-calendars';
+import CalendarModal from '../components/CalendarModal/CalendarModal';
+import dayjs from 'dayjs';
 
 const family = ['Feriza', 'Özkan'];
 export default function AddAdvertScreen(
@@ -34,35 +36,22 @@ export default function AddAdvertScreen(
   const [selectedDate, setSelectedDate] = useState('');
 
   const handleDateChange = (day: any) => {
-    console.log('Tarih Seçildi:', day.dateString);
     const formattedDate = formatDate(day.dateString);
     setSelectedDate(formattedDate);
     setIsCalendarVisible(false);
   };
   const handleOpenCalendar = () => {
-    console.log('Modal Açılacak');
     setIsCalendarVisible(true);
-    console.log(isCalendarVisible);
   };
 
   const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    const day = String(date.getDate()).padStart(2, '0');
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const year = date.getFullYear();
-    return `${day}-${month}-${year}`;
+    return dayjs(dateString).format('DD.MM.YYYY');
   };
 
-  useEffect(() => {
-    console.log('Calendar Visible:', isCalendarVisible); // Modal'ın durumu
-  }, [isCalendarVisible]);
   return (
     <>
       <Page header showGoBack title="İlan Ekle">
         <Form formContainerRef={ref}>
-          <CustomText sx={{marginBottom: 10}} fontSizes="body3" color="black">
-            İlan Bilgileri
-          </CustomText>
           <Input
             handlePress={() => {
               bottomSheetRef.current?.open();
@@ -91,11 +80,12 @@ export default function AddAdvertScreen(
 
           <Input
             handlePress={handleOpenCalendar}
-            isPlaceholder={!selectedDate}
+            isPlaceholder={true}
             required
             id="expirationDate"
-            placeholderValue="Son Kullanma Tarihi"
-            value={selectedDate}
+            placeholderValue={
+              selectedDate ? selectedDate : 'Son Kullanma Tarihi'
+            }
           />
 
           <RegisterContainer>
@@ -120,31 +110,14 @@ export default function AddAdvertScreen(
           })}
         </ScrollableContainer>
       </CustomBottomSheet>
-      {isCalendarVisible && (
-        <Modal
-          transparent
-          animationType="slide"
-          visible={isCalendarVisible}
-          onRequestClose={() => setIsCalendarVisible(false)}>
-          <ModalOverlay>
-            <CalendarContainer>
-              <Calendar
-                onDayPress={handleDateChange}
-                markedDates={{
-                  [selectedDate]: {selected: true, selectedColor: '#007AFF'},
-                }}
-                style={{borderRadius: 10}}
-              />
-              <CloseButton>
-                <Button
-                  text="Kapat"
-                  onPress={() => setIsCalendarVisible(false)}
-                />
-              </CloseButton>
-            </CalendarContainer>
-          </ModalOverlay>
-        </Modal>
-      )}
+      <CalendarModal
+        isCalendarVisible={isCalendarVisible}
+        setIsCalendarVisible={value => {
+          setIsCalendarVisible(value);
+        }}
+        selectedDate={selectedDate}
+        handleDateChange={handleDateChange}
+      />
     </>
   );
 }

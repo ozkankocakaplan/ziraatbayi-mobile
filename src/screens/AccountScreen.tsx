@@ -21,12 +21,15 @@ import {IconProp} from '@fortawesome/fontawesome-svg-core';
 import {NavigationProp, useNavigation} from '@react-navigation/native';
 import {RootStackParamList} from '../types/navigator';
 import auth from '@react-native-firebase/auth';
+import AlertDialog from '../components/AlertDialog/AlertDialog';
 export default function AccountScreen(props: any) {
   const dispatch = useDispatch();
   const pageColor = '#f9f9f9';
   const logOut = () => {
-    auth().signOut();
-    dispatch(AuthActions.setUser(null));
+    AlertDialog.showLogoutModal(() => {
+      auth().signOut();
+      dispatch(AuthActions.setUser(null));
+    });
   };
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
   const ColTitle = ({title}: {title: string}) => {
@@ -62,13 +65,7 @@ export default function AccountScreen(props: any) {
         <Container bgColor={pageColor}>
           <ColTitle title="Abonelik Bilgilerim" />
           <ListItemContainer>
-            <ListItem
-              onPress={() => {
-                navigation.navigate('DealerScreen');
-              }}
-              icon={faUser}
-              text="Abonelik Durumum"
-            />
+            <ListItem icon={faUser} text="Abonelik Durumum" />
             <ListItem
               noneBorder
               icon={faLock}

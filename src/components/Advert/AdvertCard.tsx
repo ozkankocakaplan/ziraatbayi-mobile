@@ -37,9 +37,6 @@ export default function AdvertCard({item, ...props}: AdvertCardProps) {
         <ProductImage imageUrl={item?.product?.images?.[0]?.imageUrl} />
       </ImageContainer>
       <InfoContainer>
-        <CustomText color="primary" fontSizes="caption2">
-          {item?.product?.categoryName}
-        </CustomText>
         <CustomText
           numberOfLines={2}
           fontSizes="body6"
@@ -47,6 +44,13 @@ export default function AdvertCard({item, ...props}: AdvertCardProps) {
           fontWeight="bold">
           {item?.product?.name}
         </CustomText>
+        <CustomText color="darkGrey3" fontSizes="caption1">
+          {item?.dealer.companyName}
+        </CustomText>
+        <CustomText color="primary" fontSizes="caption2">
+          {item?.product?.categoryName}
+        </CustomText>
+
         {/* <Price>{price}</Price> */}
       </InfoContainer>
     </Card>

@@ -12,6 +12,7 @@ import {Col, Row} from '../constant/GlobalStyled';
 import AdvertResponse from '../payload/response/AdvertResponse';
 import ProductImage from '../components/Advert/ProductImage';
 import {AdvertApi} from '../services/advertService';
+import CustomFlatList from '../components/Flatlist/CustomFlatList';
 
 export default function AdvertScreen(props: any) {
   const {data: adverts} = AdvertApi.useGetAdvertsByDealerIdQuery();
@@ -25,42 +26,47 @@ export default function AdvertScreen(props: any) {
               placeholder="Ürün ara..."
               placeholderTextColor="#999"
             />
-            <FilterIconContainer>
-              <FontAwesomeIcon icon={faFilter} size={24} color="#333" />
-            </FilterIconContainer>
           </HeaderRow>
           <Container flex={1} jContent="space-between">
             <Container flex={1}>
-              {adverts.list.map((advert: AdvertResponse) => (
-                <StyledContainer
-                  key={advert.id}
-                  onPress={() => props.navigation.navigate('EditAdvertScreen')}>
-                  <Row>
-                    <AccountProfile>
-                      <ProductImage
-                        imageUrl={advert?.product?.images?.[0]?.imageUrl}
-                      />
-                    </AccountProfile>
-                    <Col gap={10}>
-                      <CustomText
-                        color="black"
-                        fontSizes="body4"
-                        fontWeight="light">
-                        {advert.product.name}
-                      </CustomText>
-                      <CustomText color="black" fontSizes="body6">
-                        {advert.product.categoryName}
-                      </CustomText>
-                      <CustomText color="black" fontSizes="body6">
-                        Stok Miktarı: {advert.stockQuantity}
-                      </CustomText>
-                      {/* <CustomText color="black" fontSizes="body5">
-                        Fiyat: {advert.price}
-                      </CustomText> */}
-                    </Col>
-                  </Row>
-                </StyledContainer>
-              ))}
+              <CustomFlatList
+                data={adverts.list}
+                renderItem={(item: AdvertResponse) => {
+                  return (
+                    <StyledContainer
+                      key={item.id}
+                      onPress={() =>
+                        props.navigation.navigate('EditAdvertScreen')
+                      }>
+                      <Row>
+                        <AccountProfile>
+                          <ProductImage
+                            isImageView
+                            imageUrl={item?.product?.images?.[0]?.imageUrl}
+                          />
+                        </AccountProfile>
+                        <Col gap={10}>
+                          <CustomText
+                            color="black"
+                            fontSizes="body4"
+                            fontWeight="light">
+                            {item.product.name}
+                          </CustomText>
+                          <CustomText color="black" fontSizes="body6">
+                            {item.product.categoryName}
+                          </CustomText>
+                          <CustomText color="black" fontSizes="body6">
+                            Stok Miktarı: {item.stockQuantity}
+                          </CustomText>
+                          {/* <CustomText color="black" fontSizes="body5">
+                     Fiyat: {advert.price}
+                   </CustomText> */}
+                        </Col>
+                      </Row>
+                    </StyledContainer>
+                  );
+                }}
+              />
             </Container>
             <Container flex={0.07}>
               <Button
@@ -90,18 +96,14 @@ const HeaderRow = styled(View)`
   align-items: center;
   margin-vertical: 10px;
 `;
-const FilterIconContainer = styled(TouchableOpacity)`
-  flex: 0.1;
-  align-items: flex-end;
-  justify-content: center;
-`;
+
 const SearchInput = styled(TextInput)`
   border: 1px solid #ddd;
   border-radius: 10px;
   padding-vertical: 15px;
   padding-horizontal: 10px;
   background-color: #fff;
-  flex: 0.9;
+  flex: 1;
 `;
 const AccountProfile = styled(View)`
   height: 100px;
@@ -111,7 +113,6 @@ const StyledContainer = styled(TouchableOpacity)`
   background-color: #fff;
   padding: 15px;
   width: 100%;
-  flex: 0.2;
   justify-content: center;
   margin-bottom: 5px;
   border-width: 1px;

@@ -11,7 +11,6 @@ const ShowMoreButton = ({
 }) => {
   const translateYAnim = useRef(new Animated.Value(-100)).current;
   const [isExpanded, setIsExpanded] = useState(isShow);
-  console.log('isShow', isShow);
   useEffect(() => {
     if (!isShow) {
       setIsExpanded(false);

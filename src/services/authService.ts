@@ -26,7 +26,6 @@ export const authApi = baseApi.injectEndpoints({
             dispatch(AuthActions.setUser(result.data.entity));
           }
         } catch (error) {
-          console.log('error', error);
           AlertDialog.showModal({
             title: 'Hata',
             type: 'error',

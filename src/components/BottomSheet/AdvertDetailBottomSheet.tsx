@@ -38,7 +38,6 @@ export default function AdvertDetailBottomSheet() {
 
     product: ProductResponse;
   }) => {
-    console.log(advertDetail?.dealer.id, user?.id);
     const senderFullName = user?.firstName + ' ' + user?.lastName;
     const receiverId = advertDetail?.dealer.id.toString() || '';
     const receiverFullName =
