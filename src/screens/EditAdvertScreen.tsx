@@ -10,15 +10,30 @@ import CustomBottomSheet, {
   BottomSheetRef,
 } from '../components/BottomSheet/CustomBottomSheet';
 import CheckRadio from '../components/CheckInput/CheckRadio';
+import AlertDialog from '../components/AlertDialog/AlertDialog';
 
 const family = ['Feriza', 'Özkan'];
 export default function EditAdvertScreen() {
   var ref = useRef<FormContainerRef>(null);
   const bottomSheetRef = useRef<BottomSheetRef>(null);
   const [selectedFamily, setSelectedFamily] = useState<string>('');
+  const handleDelete = () => {
+    AlertDialog.showModal({
+      title: 'İlanı Sil',
+      message: 'İlanı silmek istediğinize emin misiniz?',
+      onCancel() {},
+      onConfirm() {},
+    });
+  };
   return (
     <>
-      <Page header showGoBack title="İlan Düzenle">
+      <Page
+        header
+        showGoBack
+        title="İlan Düzenle"
+        handleDelete={() => {
+          handleDelete();
+        }}>
         <Form formContainerRef={ref}>
           <Input
             handlePress={() => {

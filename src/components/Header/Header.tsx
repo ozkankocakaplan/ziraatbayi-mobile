@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import styled from 'styled-components';
 import useThemeColors from '../../constant/useColor';
-import {faAngleLeft} from '@fortawesome/free-solid-svg-icons';
+import {faAngleLeft, faTrash} from '@fortawesome/free-solid-svg-icons';
 import {
   DrawerActions,
   NavigationProp,
@@ -31,6 +31,7 @@ export interface HeaderProps {
   showGoBack?: boolean;
   showMessage?: boolean;
   showGoToDealerButton?: () => void;
+  handleDelete?: () => void;
 }
 export default function Header({
   title,
@@ -40,6 +41,7 @@ export default function Header({
   isSearchable = false,
   showGoToDealerButton,
   showMessage,
+  handleDelete,
 }: HeaderProps) {
   const [search, setSearch] = useState('');
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
@@ -124,6 +126,16 @@ export default function Header({
               <Icon icon={faEnvelope} color="white" />
             </IconRight>
           )}
+          {handleDelete && (
+            <IconRight
+              top="0"
+              onPress={() => {
+                handleDelete();
+              }}
+              hitSlop={15}>
+              <Icon icon={faTrash} color="white" />
+            </IconRight>
+          )}
           {showGoToDealerButton && (
             <DealerButton
               onPress={() => {
@@ -156,8 +168,9 @@ const IconLeft = styled(TouchableOpacity)`
   position: absolute;
   left: 20px;
 `;
-const IconRight = styled(TouchableOpacity)`
+const IconRight = styled(TouchableOpacity)<{top?: string}>`
   bottom: ${Platform.OS === 'android' ? '0px' : '5px'};
+  top: ${props => props.top || '0px'};
 `;
 const DealerButton = styled(TouchableOpacity)`
   background-color: #104f0235;
