@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {View, TouchableOpacity, TextInput, Image} from 'react-native';
 import styled from 'styled-components';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
@@ -15,7 +15,14 @@ import {AdvertApi} from '../services/advertService';
 import CustomFlatList from '../components/Flatlist/CustomFlatList';
 
 export default function AdvertScreen(props: any) {
-  const {data: adverts} = AdvertApi.useGetAdvertsByDealerIdQuery();
+  const {data: adverts, refetch} = AdvertApi.useGetAdvertsByDealerIdQuery();
+  const {navigation} = props;
+
+  useEffect(() => {
+    navigation.addListener('focus', () => {
+      refetch();
+    });
+  }, []);
 
   return (
     <Page header showNotification showMessage title="İlanlarım">

@@ -45,7 +45,7 @@ export default function AdvertCard({item, ...props}: AdvertCardProps) {
           {item?.product?.name}
         </CustomText>
         <CustomText color="darkGrey3" fontSizes="caption1">
-          {item?.dealer.companyName}
+          {item?.dealer?.companyName}
         </CustomText>
         <CustomText color="primary" fontSizes="caption2">
           {item?.product?.categoryName}

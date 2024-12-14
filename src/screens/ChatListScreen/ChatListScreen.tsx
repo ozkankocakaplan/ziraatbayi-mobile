@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import styled from 'styled-components/native';
 import {TextInput, FlatList} from 'react-native';
 import Page from '../../components/Page/Page';

@@ -11,7 +11,7 @@ import CustomBottomSheet, {
 import {categoryApi} from '../services/categoryService';
 import Container from '../components/Container/Container';
 
-import {BottomTabParamList, RootStackParamList} from '../types/navigator';
+import {RootStackParamList} from '../types/navigator';
 import Page from '../components/Page/Page';
 
 import {AdvertApi} from '../services/advertService';
@@ -21,22 +21,34 @@ import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import useFcmToken from '../hooks/useFcmToken';
 import FirebaseApi from '../services/firebaseService';
 import DeviceRequest from '../payload/request/DeviceRequest';
+import CustomSvgXml from '../components/Icon/CustomSvgXml';
+import SendIcon, {FilterIcon} from '../constant/icons';
 
 export default function HomeScreen(
   props: NativeStackScreenProps<RootStackParamList>,
 ) {
   const {fcmToken} = useFcmToken();
-  const {data: categories} = categoryApi.useGetCategoriesQuery();
+  const {data: categories, refetch: refetchCategories} =
+    categoryApi.useGetCategoriesQuery();
+  const {
+    data: adverts,
+    refetch: refetchAdverts,
+    isLoading,
+    error,
+  } = AdvertApi.useGetShowCaseAdvertsQuery();
   const [useCreateFcmToken] = FirebaseApi.useCreateFirebaseMutation();
   const {navigation} = props;
-
+  const bottomSheetRef = useRef<BottomSheetRef>(null);
   const closeBottomSheet = () => {
     bottomSheetRef.current?.close();
   };
 
-  const bottomSheetRef = useRef<BottomSheetRef>(null);
-
-  const {data, isLoading, error} = AdvertApi.useGetShowCaseAdvertsQuery();
+  useEffect(() => {
+    navigation.addListener('focus', () => {
+      refetchCategories();
+      refetchAdverts();
+    });
+  }, []);
 
   useEffect(() => {
     if (fcmToken && fcmToken.length > 0) {
@@ -90,12 +102,17 @@ export default function HomeScreen(
               onPress={() => {
                 bottomSheetRef.current?.open();
               }}>
-              <FontAwesomeIcon icon={faFilter} size={24} color="#333" />
+              <CustomSvgXml
+                width={25}
+                height={25}
+                color="grey"
+                xml={FilterIcon}
+              />
             </FilterIconContainer>
           </HeaderRow>
           <CustomFlatList
             numColumns={3}
-            data={data?.list || []}
+            data={adverts?.list || []}
             renderItem={(item: AdvertResponse) => {
               return <AdvertCard key={item.id} item={item} />;
             }}

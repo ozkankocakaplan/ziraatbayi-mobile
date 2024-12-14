@@ -20,7 +20,14 @@ export default function CategoriesScreen(
   );
   const selected = props.route.params.selectedCategory;
   const previousSelected = props.route.params.previousCategory;
-  const {data: categories} = categoryApi.useGetCategoriesQuery();
+  const {data: categories, refetch: refetchCategories} =
+    categoryApi.useGetCategoriesQuery();
+  const {navigation} = props;
+  useEffect(() => {
+    navigation.addListener('focus', () => {
+      refetchCategories();
+    });
+  }, []);
 
   useEffect(() => {
     if (

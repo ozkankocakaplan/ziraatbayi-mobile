@@ -20,6 +20,7 @@ import ChatRoomScreen from '../screens/ChatRoomScreen/ChatRoomScreen';
 import AdvertDetailBottomSheet from '../components/BottomSheet/AdvertDetailBottomSheet';
 import FirebaseNotification from '../firebase/FirebaseNotification';
 import DealerDetailScreen from '../screens/DealerDetailScreen';
+import SearchScreen from '../screens/SearchScreen';
 
 const Stack = createStackNavigator<RootStackParamList>();
 const RootNavigator = () => {
@@ -69,6 +70,7 @@ const RootNavigator = () => {
               name="DealerDetailScreen"
               component={DealerDetailScreen}
             />
+            <Stack.Screen name="SearchScreen" component={SearchScreen} />
           </>
         )}
       </Stack.Navigator>

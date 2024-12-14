@@ -1,3 +1,4 @@
+import AlertDialog from '../components/AlertDialog/AlertDialog';
 import CreateAdvertRequest from '../payload/request/CreateAdvertRequest';
 import AdvertResponse from '../payload/response/AdvertResponse';
 import ServiceResponse from '../payload/response/ServiceResponse';
@@ -10,19 +11,75 @@ const advertApi = baseApi.injectEndpoints({
         url: '/advert/get-adverts-by-dealer-id',
         method: 'GET',
       }),
+      async onQueryStarted(arg, {dispatch, queryFulfilled}) {
+        try {
+          AlertDialog.showLoading();
+          let result = await queryFulfilled;
+
+          AlertDialog.hideLoading();
+        } catch (error: any) {
+          AlertDialog.showModal({
+            type: 'error',
+            message: error?.error?.data?.exceptionMessage || 'Bir hata oluştu',
+          });
+          AlertDialog.hideLoading();
+        } finally {
+          AlertDialog.hideLoading();
+        }
+      },
     }),
     getShowCaseAdverts: builder.query<ServiceResponse<AdvertResponse>, void>({
       query: () => ({
         url: '/advert/get-showcase-adverts-for-homepage',
         method: 'GET',
       }),
+      async onQueryStarted(arg, {dispatch, queryFulfilled}) {
+        try {
+          AlertDialog.showLoading();
+          let result = await queryFulfilled;
+
+          AlertDialog.hideLoading();
+        } catch (error: any) {
+          AlertDialog.showModal({
+            type: 'error',
+            message: error?.error?.data?.exceptionMessage || 'Bir hata oluştu',
+          });
+          AlertDialog.hideLoading();
+        } finally {
+          AlertDialog.hideLoading();
+        }
+      },
     }),
     getAdvertById: builder.mutation<ServiceResponse<AdvertResponse>, number>({
       query: id => ({
         url: `/advert/get-advert-by-id/${id}`,
         method: 'GET',
       }),
+      async onQueryStarted(arg, {dispatch, queryFulfilled}) {
+        try {
+          AlertDialog.showLoading();
+          let result = await queryFulfilled;
+
+          AlertDialog.hideLoading();
+        } catch (error: any) {
+          AlertDialog.showModal({
+            type: 'error',
+            message: error?.error?.data?.exceptionMessage || 'Bir hata oluştu',
+          });
+          AlertDialog.hideLoading();
+        } finally {
+          AlertDialog.hideLoading();
+        }
+      },
     }),
+    searchAdvertsByName: builder.query<ServiceResponse<AdvertResponse>, string>(
+      {
+        query: query => ({
+          url: '/product/search-product?query=' + query,
+          method: 'GET',
+        }),
+      },
+    ),
     createAdvert: builder.mutation<ServiceResponse<AdvertResponse>, void>({
       query: credentials => ({
         url: '/advert/create-advert',
@@ -45,6 +102,23 @@ export const {useGetProductImageQuery, useGetProductImageForChatMutation} =
             return response.blob();
           },
         }),
+        async onQueryStarted(arg, {dispatch, queryFulfilled}) {
+          try {
+            AlertDialog.showLoading();
+            let result = await queryFulfilled;
+
+            AlertDialog.hideLoading();
+          } catch (error: any) {
+            AlertDialog.showModal({
+              type: 'error',
+              message:
+                error?.error?.data?.exceptionMessage || 'Bir hata oluştu',
+            });
+            AlertDialog.hideLoading();
+          } finally {
+            AlertDialog.hideLoading();
+          }
+        },
       }),
       getProductImageForChat: builder.mutation<Blob, {endpoint: string}>({
         query: ({endpoint}) => ({
@@ -54,6 +128,23 @@ export const {useGetProductImageQuery, useGetProductImageForChatMutation} =
             return response.blob();
           },
         }),
+        async onQueryStarted(arg, {dispatch, queryFulfilled}) {
+          try {
+            AlertDialog.showLoading();
+            let result = await queryFulfilled;
+
+            AlertDialog.hideLoading();
+          } catch (error: any) {
+            AlertDialog.showModal({
+              type: 'error',
+              message:
+                error?.error?.data?.exceptionMessage || 'Bir hata oluştu',
+            });
+            AlertDialog.hideLoading();
+          } finally {
+            AlertDialog.hideLoading();
+          }
+        },
       }),
     }),
   });

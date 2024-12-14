@@ -1,13 +1,15 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import styled from 'styled-components/native';
 import {View, Text, TouchableOpacity, ScrollView} from 'react-native';
 import {faBell, faTimes, faUndo} from '@fortawesome/free-solid-svg-icons';
-import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import Container from '../components/Container/Container';
 import Page from '../components/Page/Page';
 import Icon from '../components/Icon/Icon';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {RootStackParamList} from '../types/navigator';
 
-export default function NotificationScreen() {
+export default function NotificationScreen({
+  navigation,
+}: NativeStackScreenProps<RootStackParamList>) {
   const notifications = [
     {
       id: 1,
@@ -56,6 +58,11 @@ export default function NotificationScreen() {
     },
   ];
 
+  // useEffect(() => {
+  //   navigation.addListener('focus', () => {
+  //     refetch();
+  //   });
+  // }, []);
   return (
     <Page header title="Bildirimler" showGoBack>
       <ScrollContainer>

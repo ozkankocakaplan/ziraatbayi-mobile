@@ -7,6 +7,7 @@ import ServiceResponse from '../payload/response/ServiceResponse';
 import {baseApi} from '../store/api/BaseApi';
 import {AuthActions} from '../store/features/authReducer';
 import auth from '@react-native-firebase/auth';
+
 export const authApi = baseApi.injectEndpoints({
   endpoints: builder => ({
     login: builder.mutation<ServiceResponse<LoginResponse>, LoginRequest>({
@@ -118,6 +119,29 @@ export const authApi = baseApi.injectEndpoints({
         method: 'POST',
         body: {oldPassword, newPassword},
       }),
+      async onQueryStarted(arg, {dispatch, queryFulfilled}) {
+        try {
+          AlertDialog.showLoading();
+          let result = await queryFulfilled;
+
+          AlertDialog.hideLoading();
+          if (result.data.isSuccessful) {
+            AlertDialog.showModal({
+              title: 'Başarılı',
+              type: 'success',
+              message: 'Güncelleme başarılı',
+            });
+          }
+        } catch (error: any) {
+          AlertDialog.showModal({
+            type: 'error',
+            message: error?.error?.data?.exceptionMessage || 'Bir hata oluştu',
+          });
+          AlertDialog.hideLoading();
+        } finally {
+          AlertDialog.hideLoading();
+        }
+      },
     }),
   }),
 });
