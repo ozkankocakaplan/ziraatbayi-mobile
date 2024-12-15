@@ -29,7 +29,6 @@ export default function Page({
       flex={flex}
       style={{
         backgroundColor: bgColor || colors.background,
-        flex: 1,
       }}>
       {header && <Header {...props} showGoBack={showGoBack} />}
       {isLoading ? (

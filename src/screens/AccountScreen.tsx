@@ -12,14 +12,26 @@ import {TouchableOpacity} from 'react-native';
 import Icon from '../components/Icon/Icon';
 import {IconProp} from '@fortawesome/fontawesome-svg-core';
 import {NavigationProp, useNavigation} from '@react-navigation/native';
-import {RootStackParamList} from '../types/navigator';
+import {BottomTabParamList, RootStackParamList} from '../types/navigator';
 import auth from '@react-native-firebase/auth';
 import AlertDialog from '../components/AlertDialog/AlertDialog';
+import {AuthApi} from '../services/authService';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
 
-export default function AccountScreen(props: any) {
-  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
+const pageColor = '#f9f9f9';
+export default function AccountScreen({
+  navigation,
+}: NativeStackScreenProps<RootStackParamList>) {
   const dispatch = useDispatch();
-  const pageColor = '#f9f9f9';
+
+  const {refetch} = AuthApi.useGetDealerQuery();
+
+  useEffect(() => {
+    navigation.addListener('focus', () => {
+      refetch();
+    });
+  }, []);
+
   const logOut = () => {
     AlertDialog.showLogoutModal(() => {
       auth().signOut();

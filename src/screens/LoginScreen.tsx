@@ -30,7 +30,7 @@ export default function LoginScreen(
 
   return (
     <Page bgColor="#ffff" header title="Giriş Yap">
-      <Container mx={20} bgColor="white">
+      <Container bgColor="white" mx={10}>
         <LoginContainer>
           <View style={{alignItems: 'center', justifyContent: 'center'}}>
             <Image
@@ -99,7 +99,7 @@ const LoginContainer = styled(View)`
   justify-content: center;
 `;
 const RegisterContainer = styled(View)`
-  margin-bottom: 30px;
+  margin-bottom: 50px;
   flex: 1;
   justify-content: flex-end;
 `;

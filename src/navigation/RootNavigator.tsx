@@ -21,6 +21,7 @@ import AdvertDetailBottomSheet from '../components/BottomSheet/AdvertDetailBotto
 import FirebaseNotification from '../firebase/FirebaseNotification';
 import DealerDetailScreen from '../screens/DealerDetailScreen';
 import ResetPasswordScreen from '../screens/ResetPasswordScreen';
+import MainScreen from '../screens/MainScreen';
 
 const Stack = createStackNavigator<RootStackParamList>();
 const RootNavigator = () => {
@@ -47,6 +48,7 @@ const RootNavigator = () => {
           </>
         ) : (
           <>
+            <Stack.Screen name="MainScreen" component={MainScreen} />
             <Stack.Screen name="BottomTabMenu" component={BottomTabNavigator} />
             <Stack.Screen name="HomeScreen" component={HomeScreen} />
             <Stack.Screen name="ChatListScreen" component={ChatListScreen} />

@@ -1,4 +1,5 @@
 import AlertDialog from '../components/AlertDialog/AlertDialog';
+import DealerResponse from '../payload/response/DealerResponse';
 import ServiceResponse from '../payload/response/ServiceResponse';
 import {baseApi} from '../store/api/BaseApi';
 
@@ -47,6 +48,36 @@ export const userApi = baseApi.injectEndpoints({
           AlertDialog.showLoading();
           await queryFulfilled;
 
+          AlertDialog.hideLoading();
+        } finally {
+          AlertDialog.hideLoading();
+        }
+      },
+    }),
+    forgotPassword: builder.mutation<ServiceResponse<DealerResponse>, void>({
+      query: credentials => ({
+        url: 'user/forgot-password?email=ozkankocakaplan07@gmail.com',
+        method: 'POST',
+        body: credentials,
+      }),
+      async onQueryStarted(arg, {dispatch, queryFulfilled}) {
+        try {
+          AlertDialog.showLoading();
+          let result = await queryFulfilled;
+
+          AlertDialog.hideLoading();
+          if (result.data.isSuccessful) {
+            AlertDialog.showModal({
+              title: 'Başarılı',
+              type: 'success',
+              message: 'Yeni Şifre E-posta Adresine Gönderildi',
+            });
+          }
+        } catch (error: any) {
+          AlertDialog.showModal({
+            type: 'error',
+            message: error?.error?.data?.exceptionMessage || 'Bir hata oluştu',
+          });
           AlertDialog.hideLoading();
         } finally {
           AlertDialog.hideLoading();

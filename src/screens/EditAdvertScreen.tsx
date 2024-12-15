@@ -13,9 +13,16 @@ import CheckRadio from '../components/CheckInput/CheckRadio';
 import AlertDialog from '../components/AlertDialog/AlertDialog';
 import CalendarModal from '../components/CalendarModal/CalendarModal';
 import dayjs from 'dayjs';
+import SwitchButton from '../components/Button/SwitchButton';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {RootStackParamList} from '../types/navigator';
+import {Row} from '../constant/GlobalStyled';
+import Container from '../components/Container/Container';
 
 const family = ['Feriza', 'Özkan'];
-export default function EditAdvertScreen() {
+export default function EditAdvertScreen(
+  props: NativeStackScreenProps<RootStackParamList, 'EditAdvertScreen'>,
+) {
   var ref = useRef<FormContainerRef>(null);
   const bottomSheetRef = useRef<BottomSheetRef>(null);
   const [selectedFamily, setSelectedFamily] = useState<string>('');
@@ -57,7 +64,7 @@ export default function EditAdvertScreen() {
         handleDelete={() => {
           handleDelete();
         }}>
-        <Form formContainerRef={ref}>
+        <Container mx={10} mt={10} gap={10}>
           <Input
             handlePress={() => {
               bottomSheetRef.current?.open();
@@ -114,16 +121,19 @@ export default function EditAdvertScreen() {
               expirationDate ? expirationDate : 'Son Kullanma Tarihi'
             }
           />
-          <CustomText sx={{marginTop: 16, marginLeft: 10}} color="black">
-            İlan durumu
-          </CustomText>
-          <RegisterContainer>
-            <Button text="GÜNCELLE"></Button>
-          </RegisterContainer>
-        </Form>
+          <Row between center>
+            <CustomText sx={{marginTop: 16, marginLeft: 10}} color="black">
+              İlan durumu
+            </CustomText>
+            {/* <SwitchButton value={false} /> */}
+          </Row>
+        </Container>
+        <Container flex={0.12} mx={10}>
+          <Button text="Kaydet"></Button>
+        </Container>
       </Page>
       <CustomBottomSheet ref={bottomSheetRef} snapPoints={['25%', '50%']}>
-        <ScrollableContainer contentContainerStyle={{margin: 10}}>
+        <ScrollView contentContainerStyle={{margin: 10}}>
           {family.map((item, index) => {
             return (
               <CheckRadio
@@ -137,7 +147,7 @@ export default function EditAdvertScreen() {
               />
             );
           })}
-        </ScrollableContainer>
+        </ScrollView>
       </CustomBottomSheet>
       <CalendarModal
         isCalendarVisible={isCalendarVisible}
@@ -155,15 +165,3 @@ export default function EditAdvertScreen() {
     </>
   );
 }
-const Form = styled(FormContainer)`
-  margin-top: 20px;
-  gap: 10px;
-  margin-horizontal: 10px;
-  flex: 1;
-`;
-const RegisterContainer = styled(View)`
-  margin-bottom: 50px;
-  flex: 1;
-  justify-content: flex-end;
-`;
-const ScrollableContainer = styled(ScrollView)``;

@@ -10,6 +10,7 @@ import {RootState} from '../../store';
 import {AdvertApi} from '../../services/advertService';
 import AdvertResponse from '../../payload/response/AdvertResponse';
 import {AdvertActions} from '../../store/features/advertReducer';
+import dayjs from 'dayjs';
 
 interface AdvertCardProps extends TouchableOpacityProps {
   item: AdvertResponse;
@@ -28,11 +29,23 @@ export default function AdvertCard({item, ...props}: AdvertCardProps) {
     }
   };
 
+  const formatDate = (dateString: string) => {
+    return dayjs(dateString).format('DD.MM.YYYY');
+  };
+
   return (
     <Card
       onPress={() => {
         openDetail();
       }}>
+      <ExpiryDateContainer>
+        <CustomText color="darkGrey3" fontSizes="caption1" fontWeight="bold">
+          {formatDate(item?.startDate || '')}
+        </CustomText>
+        <CustomText color="darkGrey3" fontSizes="caption1" fontWeight="bold">
+          {formatDate(item?.expiryDate || '')}
+        </CustomText>
+      </ExpiryDateContainer>
       <ImageContainer>
         <ProductImage imageUrl={item?.product?.images?.[0]?.imageUrl} />
       </ImageContainer>
@@ -50,13 +63,10 @@ export default function AdvertCard({item, ...props}: AdvertCardProps) {
         <CustomText color="primary" fontSizes="caption2">
           {item?.product?.categoryName}
         </CustomText>
-
-        {/* <Price>{price}</Price> */}
       </InfoContainer>
     </Card>
   );
 }
-
 const Card = styled(TouchableOpacity)`
   margin: 10px;
   background-color: white;
@@ -66,19 +76,18 @@ const Card = styled(TouchableOpacity)`
   width: ${SIZES.width / 3 - (Platform.OS === 'ios' ? 20 : 0)}px;
 `;
 
+const ExpiryDateContainer = styled(View)`
+  align-items: flex-end;
+  padding: 5px 5px 0 5px;
+`;
+
 const ImageContainer = styled(View)`
   width: 125px;
   height: 100px;
-  padding: 8px;
 `;
 
 const InfoContainer = styled(View)`
   padding-horizontal: 10px;
   gap: 5px;
   padding-bottom: 8px;
-`;
-
-const Price = styled(Text)`
-  font-size: 14px;
-  color: #007bff;
 `;

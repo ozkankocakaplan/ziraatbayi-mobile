@@ -7,6 +7,7 @@ import ServiceResponse from '../payload/response/ServiceResponse';
 import {baseApi} from '../store/api/BaseApi';
 import {AuthActions} from '../store/features/authReducer';
 import auth from '@react-native-firebase/auth';
+import {DealerActions} from '../store/features/dealerReducer';
 
 export const authApi = baseApi.injectEndpoints({
   endpoints: builder => ({
@@ -76,6 +77,17 @@ export const authApi = baseApi.injectEndpoints({
         url: '/dealer',
         method: 'GET',
       }),
+      async onQueryStarted(queryArgument, {queryFulfilled, dispatch}) {
+        try {
+          AlertDialog.showLoading();
+          let {data} = await queryFulfilled;
+          if (data.isSuccessful) {
+            dispatch(DealerActions.setDealer(data.entity));
+          }
+        } finally {
+          AlertDialog.hideLoading();
+        }
+      },
     }),
     updateDealer: builder.mutation<
       ServiceResponse<DealerResponse>,

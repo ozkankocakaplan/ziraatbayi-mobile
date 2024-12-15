@@ -19,11 +19,13 @@ import {AuthApi} from '../services/authService';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../types/navigator';
 import {checkObject} from '../helper/Helper';
+import {useSelector} from 'react-redux';
+import {RootState} from '../store';
 
 export default function UserInfoScreen({
   navigation,
 }: NativeStackScreenProps<RootStackParamList>) {
-  const {data: dealer, refetch} = AuthApi.useGetDealerQuery();
+  const {dealer} = useSelector((x: RootState) => x.dealer);
   const [updateDealer, {isLoading, isSuccess, isError}] =
     AuthApi.useUpdateDealerMutation();
 
@@ -39,26 +41,18 @@ export default function UserInfoScreen({
     address: '',
   });
 
-  const ref = useRef<FormContainerRef>(null);
-
-  useEffect(() => {
-    navigation.addListener('focus', () => {
-      refetch();
-    });
-  }, []);
-
   useEffect(() => {
     if (dealer) {
       setFormData({
-        firstName: dealer.entity.firstName || '',
-        lastName: dealer.entity.lastName || '',
-        companyName: dealer.entity.companyName || '',
-        email: dealer.entity.email || '',
-        phone: dealer.entity.phone || '',
-        gnlNumber: dealer.entity.gnlNumber || '',
-        taxNumber: dealer.entity.taxNumber || '',
-        taxOffice: dealer.entity.taxOffice || '',
-        address: dealer.entity.address || '',
+        firstName: dealer.firstName || '',
+        lastName: dealer.lastName || '',
+        companyName: dealer.companyName || '',
+        email: dealer.email || '',
+        phone: dealer.phone || '',
+        gnlNumber: dealer.gnlNumber || '',
+        taxNumber: dealer.taxNumber || '',
+        taxOffice: dealer.taxOffice || '',
+        address: dealer.address || '',
       });
     }
   }, [dealer]);

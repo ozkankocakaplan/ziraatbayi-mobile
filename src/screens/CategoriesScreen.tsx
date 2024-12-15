@@ -4,7 +4,6 @@ import {Row, ColBackground, Flex} from '../constant/GlobalStyled';
 import Container from '../components/Container/Container';
 import CustomText from '../components/Text/Text';
 import styled from 'styled-components';
-import {categoryApi} from '../services/categoryService';
 import CategoryResponse from '../payload/response/CategoryResponse';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../types/navigator';
@@ -12,6 +11,7 @@ import AlertDialog from '../components/AlertDialog/AlertDialog';
 import Page from '../components/Page/Page';
 import Icon from '../components/Icon/Icon';
 import {faAngleRight} from '@fortawesome/free-solid-svg-icons';
+import {CategoryApi} from '../services/categoryService';
 export default function CategoriesScreen(
   props: NativeStackScreenProps<RootStackParamList, 'CategoriesScreen'>,
 ) {
@@ -21,7 +21,7 @@ export default function CategoriesScreen(
   const selected = props.route.params.selectedCategory;
   const previousSelected = props.route.params.previousCategory;
   const {data: categories, refetch: refetchCategories} =
-    categoryApi.useGetCategoriesQuery();
+    CategoryApi.useGetCategoriesQuery(true);
   const {navigation} = props;
   useEffect(() => {
     navigation.addListener('focus', () => {

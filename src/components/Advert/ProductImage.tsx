@@ -12,7 +12,7 @@ import Icon from '../Icon/Icon';
 import {faImage} from '@fortawesome/free-regular-svg-icons';
 import {ActivityIndicator} from 'react-native';
 import ImageViewer from 'react-native-image-zoom-viewer';
-import {faClose} from '@fortawesome/free-solid-svg-icons';
+import {faClose, faGripHorizontal} from '@fortawesome/free-solid-svg-icons';
 
 export default function ProductImage({
   imageUrl,
@@ -67,11 +67,13 @@ export default function ProductImage({
               />
             </TouchableOpacity>
           ) : (
-            <Image
-              source={{uri: image}}
-              style={{width: '100%', height: '100%'}}
-              resizeMode="contain"
-            />
+            <>
+              <Image
+                source={{uri: image}}
+                style={{width: '100%', height: '100%'}}
+                resizeMode="contain"
+              />
+            </>
           )}
 
           <Modal visible={showImageViewer} transparent={true}>

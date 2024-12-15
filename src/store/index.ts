@@ -4,6 +4,8 @@ import {AuthReducer} from './features/authReducer';
 import {persistReducer, persistStore} from 'redux-persist';
 import {baseApi, imageApi} from './api/BaseApi';
 import {AdvertReducer} from './features/advertReducer';
+import {DealerReducer} from './features/dealerReducer';
+import {CategoryReducer} from './features/categoryReducer';
 
 const authPersistConfig = {
   key: 'auth',
@@ -13,6 +15,8 @@ const authPersistConfig = {
 const rootReducer = combineReducers({
   auth: persistReducer(authPersistConfig, AuthReducer),
   advert: AdvertReducer,
+  dealer: DealerReducer,
+  category: CategoryReducer,
   [baseApi.reducerPath]: baseApi.reducer,
   [imageApi.reducerPath]: imageApi.reducer,
 });

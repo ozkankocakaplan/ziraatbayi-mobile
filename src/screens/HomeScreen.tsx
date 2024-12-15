@@ -8,7 +8,7 @@ import {faBars, faFilter} from '@fortawesome/free-solid-svg-icons';
 import CustomBottomSheet, {
   BottomSheetRef,
 } from '../components/BottomSheet/CustomBottomSheet';
-import {categoryApi} from '../services/categoryService';
+
 import Container from '../components/Container/Container';
 
 import {RootStackParamList} from '../types/navigator';
@@ -23,13 +23,14 @@ import FirebaseApi from '../services/firebaseService';
 import DeviceRequest from '../payload/request/DeviceRequest';
 import CustomSvgXml from '../components/Icon/CustomSvgXml';
 import SendIcon, {FilterIcon} from '../constant/icons';
+import {useSelector} from 'react-redux';
+import {RootState} from '../store';
 
 export default function HomeScreen(
   props: NativeStackScreenProps<RootStackParamList>,
 ) {
   const {fcmToken} = useFcmToken();
-  const {data: categories, refetch: refetchCategories} =
-    categoryApi.useGetCategoriesQuery();
+  const {mainCategories} = useSelector((x: RootState) => x.category);
   const {
     data: adverts,
     refetch: refetchAdverts,
@@ -42,13 +43,6 @@ export default function HomeScreen(
   const closeBottomSheet = () => {
     bottomSheetRef.current?.close();
   };
-
-  useEffect(() => {
-    navigation.addListener('focus', () => {
-      refetchCategories();
-      refetchAdverts();
-    });
-  }, []);
 
   useEffect(() => {
     if (fcmToken && fcmToken.length > 0) {
@@ -74,27 +68,25 @@ export default function HomeScreen(
             </ButtonContainer>
             <CategoriesScroll horizontal showsHorizontalScrollIndicator={false}>
               <CategoriesContainer>
-                {categories?.list
-                  .filter(x => x.parentCategoryId == 0)
-                  .map((category, index) => {
-                    return (
-                      <Button
-                        onPress={() => {
-                          if (category.children.length > 0) {
-                            navigation.navigate('CategoriesScreen', {
-                              initCategory: category,
-                            });
-                          } else {
-                            console.log('ürünler');
-                          }
-                        }}
-                        borderRadius={100}
-                        key={category.id}
-                        text={category.name}
-                        minWidth={110}
-                      />
-                    );
-                  })}
+                {mainCategories.map((category, index) => {
+                  return (
+                    <Button
+                      onPress={() => {
+                        if (category.children.length > 0) {
+                          navigation.navigate('CategoriesScreen', {
+                            initCategory: category,
+                          });
+                        } else {
+                          console.log('ürünler');
+                        }
+                      }}
+                      borderRadius={100}
+                      key={category.id}
+                      text={category.name}
+                      minWidth={110}
+                    />
+                  );
+                })}
               </CategoriesContainer>
             </CategoriesScroll>
 

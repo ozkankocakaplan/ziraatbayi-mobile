@@ -48,14 +48,7 @@ export default function Header({
   const [search, setSearch] = useState('');
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
   const colors = useThemeColors();
-  const {user} = useSelector((state: RootState) => state.auth);
-  const {data: dealer, refetch} = AuthApi.useGetDealerQuery(); //buda yanlış ama değineceğim.
-
-  useEffect(() => {
-    navigation.addListener('focus', () => {
-      refetch();
-    });
-  }, []);
+  const {dealer} = useSelector((state: RootState) => state.dealer);
 
   return (
     <HeaderContainer
@@ -68,15 +61,15 @@ export default function Header({
             <Row gap={10}>
               <AccountProfile>
                 <CustomText color="primary">
-                  {dealer?.entity?.firstName?.charAt(0)}
-                  {dealer?.entity?.lastName?.charAt(0)}
+                  {dealer?.firstName?.charAt(0)}
+                  {dealer?.lastName?.charAt(0)}
                 </CustomText>
               </AccountProfile>
               <Col gap={5}>
                 <CustomText fontSizes="body5">
-                  {dealer?.entity?.firstName} {dealer?.entity?.lastName}
+                  {dealer?.firstName} {dealer?.lastName}
                 </CustomText>
-                <CustomText fontSizes="body6">{user?.email}</CustomText>
+                <CustomText fontSizes="body6">{dealer?.email}</CustomText>
               </Col>
             </Row>
           </View>
@@ -120,6 +113,7 @@ export default function Header({
         <ExtraContainer>
           {showNotification && (
             <IconRight
+              top={isSearchable ? '-5px' : '0px'}
               onPress={() => {
                 navigation.navigate('NotificationScreen' as never);
               }}
@@ -129,6 +123,7 @@ export default function Header({
           )}
           {showMessage && (
             <IconRight
+              top={isSearchable ? '-5px' : '0px'}
               onPress={() => {
                 navigation.navigate('ChatListScreen' as never);
               }}
@@ -138,7 +133,7 @@ export default function Header({
           )}
           {handleDelete && (
             <IconRight
-              top="0"
+              top="0px"
               onPress={() => {
                 handleDelete();
               }}
@@ -176,11 +171,12 @@ const Container = styled(View)<{alignItems: string}>`
 `;
 const IconLeft = styled(TouchableOpacity)`
   position: absolute;
-  left: 20px;
+  left: 10px;
 `;
 const IconRight = styled(TouchableOpacity)<{top?: string}>`
   bottom: ${Platform.OS === 'android' ? '0px' : '5px'};
   top: ${props => props.top || '0px'};
+  right: -10px;
 `;
 const DealerButton = styled(TouchableOpacity)`
   background-color: #104f0235;
@@ -206,7 +202,7 @@ const SearchInput = styled(TextInput)`
   padding-vertical: 10px;
   padding-horizontal: 10px;
   background-color: #fff;
-  width: 78%;
+  width: 75%;
   margin-left: 10px;
   top: ${Platform.OS === 'android' ? '5px' : '0px'};
 `;

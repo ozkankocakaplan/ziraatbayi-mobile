@@ -2,28 +2,27 @@ import AlertDialog from '../components/AlertDialog/AlertDialog';
 import CategoryResponse from '../payload/response/CategoryResponse';
 import ServiceResponse from '../payload/response/ServiceResponse';
 import {baseApi} from '../store/api/BaseApi';
+import {CategoryActions} from '../store/features/categoryReducer';
 
-export const categoryApi = baseApi.injectEndpoints({
+const categoryApi = baseApi.injectEndpoints({
   endpoints: builder => ({
-    getCategories: builder.query<ServiceResponse<CategoryResponse>, void>({
+    getCategories: builder.query<ServiceResponse<CategoryResponse>, boolean>({
       query: () => ({
         url: '/category/active-categories',
         method: 'GET',
       }),
       async onQueryStarted(arg, {dispatch, queryFulfilled}) {
         try {
-          AlertDialog.showLoading();
-          let result = await queryFulfilled;
-
-          AlertDialog.hideLoading();
-        } catch (error: any) {
-          AlertDialog.showModal({
-            type: 'error',
-            message: error?.error?.data?.exceptionMessage || 'Bir hata oluştu',
-          });
-          AlertDialog.hideLoading();
+          if (arg) {
+            AlertDialog.showLoading();
+          }
+          let {data} = await queryFulfilled;
+          let mainCategories = data.list.filter(x => x.parentCategoryId == 0);
+          dispatch(CategoryActions.setMainCategories(mainCategories));
         } finally {
-          AlertDialog.hideLoading();
+          if (arg) {
+            AlertDialog.hideLoading();
+          }
         }
       },
     }),
