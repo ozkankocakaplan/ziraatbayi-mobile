@@ -30,7 +30,7 @@ export type RootStackParamList = {
   ChangePasswordScreen: undefined;
   SupportScreen: undefined;
   DealerDetailScreen: {id: number};
-  ResetPassword: undefined;
+  ResetPassword: {token: string};
 };
 export type BottomTabParamList = {
   Home: undefined;

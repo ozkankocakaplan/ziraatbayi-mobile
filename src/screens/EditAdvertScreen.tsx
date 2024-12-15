@@ -127,6 +127,7 @@ export default function EditAdvertScreen() {
           {family.map((item, index) => {
             return (
               <CheckRadio
+                key={index}
                 value={item}
                 checked={selectedFamily === item}
                 handleChecked={(isCheck: boolean) => {

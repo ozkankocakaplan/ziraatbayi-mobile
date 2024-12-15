@@ -13,22 +13,17 @@ import {LogoIcon} from '../assets/logo';
 import Divider from '../components/Divider/Divider';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../types/navigator';
+import {UserApi} from '../services/userService';
+import {AppDispatch} from '../store';
+import {useDispatch} from 'react-redux';
+import {AuthActions} from '../store/features/authReducer';
 
 export default function ResetPassword(
   props: NativeStackScreenProps<RootStackParamList, 'ResetPassword'>,
 ) {
-  const [token, setToken] = useState<string | null>(null);
-  useEffect(() => {
-    const fetchDeeplink = async () => {
-      const url = await Linking.getInitialURL();
-      if (url) {
-        const parsedUrl = new URL(url);
-        setToken(parsedUrl.searchParams.get('token'));
-      }
-    };
-
-    fetchDeeplink();
-  }, []);
+  const dispatch = useDispatch();
+  const {token} = props.route.params || '';
+  const {data, isError, isLoading} = UserApi.useGetVerifyTokenQuery(token);
 
   return (
     <Page header title="Şifre Sıfırlama">
@@ -66,9 +61,10 @@ export default function ResetPassword(
         <View style={{width: 170, alignSelf: 'center'}}>
           <Button
             onPress={() => {
+              dispatch(AuthActions.setUser(null));
               props.navigation.reset({
                 index: 0,
-                routes: [{name: 'LoginScreen'}],
+                routes: [{name: 'HomeScreen'}],
               });
             }}
             outline

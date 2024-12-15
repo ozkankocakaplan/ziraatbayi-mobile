@@ -10,15 +10,15 @@ import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../types/navigator';
 import Page from '../components/Page/Page';
 import {LogoIcon} from '../assets/logo';
+import {checkObject} from '../helper/Helper';
 
 export default function ForgotPasswordScreen(
   props: NativeStackScreenProps<RootStackParamList, 'ForgotPasswordScreen'>,
 ) {
-  var ref = useRef<FormContainerRef>(null);
-
+  const [email, setEmail] = useState('');
   return (
     <Page header title="Şifremi Unuttum" showGoBack>
-      <Form>
+      <Container mx={20} bgColor="white">
         <PasswordContainer>
           <View style={{alignItems: 'center', justifyContent: 'center'}}>
             <Image
@@ -27,28 +27,25 @@ export default function ForgotPasswordScreen(
               resizeMode="contain"
             />
           </View>
-          <FormContainer formContainerRef={ref}>
-            <Input
-              autoCapitalize="none"
-              id="email"
-              required
-              icon={faEnvelope}
-              placeholder="E-posta"
-            />
-          </FormContainer>
+          <Input
+            autoCapitalize="none"
+            id="email"
+            required
+            icon={faEnvelope}
+            placeholder="E-posta"
+            value={email}
+            onChangeText={setEmail}
+          />
 
           <View style={{marginTop: 15}}>
-            <Button text="Gönder" />
+            <Button text="Gönder" isDisabled={checkObject({email})} />
           </View>
         </PasswordContainer>
-      </Form>
+      </Container>
     </Page>
   );
 }
-const Form = styled(View)`
-  margin-horizontal: 20px;
-  flex: 1;
-`;
+
 const PasswordContainer = styled(View)`
   margin-top: 50px;
 `;

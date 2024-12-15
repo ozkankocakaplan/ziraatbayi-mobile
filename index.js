@@ -47,6 +47,15 @@ const linking = {
   async getInitialURL() {
     try {
       const url = await Linking.getInitialURL();
+
+      if (url) {
+        console.log('Initial URL:', url);
+
+        if (url.includes('reset-password')) {
+          Linking.getInitialURL = async () => null;
+        }
+      }
+
       return url;
     } catch (error) {
       console.error('Error fetching initial URL:', error);
@@ -56,6 +65,7 @@ const linking = {
 
   subscribe(listener) {
     const linkingSubscription = Linking.addListener('url', ({url}) => {
+      console.log('Dynamic URL:', url);
       listener(url);
     });
 
@@ -69,7 +79,7 @@ const linking = {
       ResetPassword: {
         path: 'reset-password',
         parse: {
-          token: token => token,
+          token: token => token, // Token'i işle
         },
       },
     },

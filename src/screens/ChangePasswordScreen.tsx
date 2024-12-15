@@ -1,18 +1,19 @@
 import {View, Text} from 'react-native';
 import React, {useRef, useState} from 'react';
 import Page from '../components/Page/Page';
-import CustomText from '../components/Text/Text';
+
 import FormContainer, {FormContainerRef} from 'react-native-form-container';
 import styled from 'styled-components';
 import Input from '../components/Input/Input';
 import Button from '../components/Button/Button';
 import {faLock} from '@fortawesome/free-solid-svg-icons';
-import {AuthApi} from '../services/authService';
+
 import AlertDialog from '../components/AlertDialog/AlertDialog';
+import {UserApi} from '../services/userService';
 
 export default function ChangePasswordScreen() {
   var ref = useRef<FormContainerRef>(null);
-  const [updatePassword] = AuthApi.useUpdatePasswordMutation();
+  const [updatePassword] = UserApi.useUpdatePasswordMutation();
 
   const [oldPassword, setOldPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');

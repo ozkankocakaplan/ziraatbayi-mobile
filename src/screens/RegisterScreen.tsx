@@ -21,12 +21,14 @@ import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../types/navigator';
 import Page from '../components/Page/Page';
 import {checkObject} from '../helper/Helper';
+import Container from '../components/Container/Container';
 
 export default function RegisterScreen(
   props: NativeStackScreenProps<RootStackParamList, 'RegisterScreen'>,
 ) {
   var ref = useRef<FormContainerRef>(null);
   const [useRegister] = AuthApi.useCreateDealerMutation();
+  const [isContractChecked, setIsContractChecked] = useState(false);
   const [registerRequest, setRegisterRequest] = useState<CreateDealerRequest>({
     firstName: '',
     lastName: '',
@@ -47,7 +49,7 @@ export default function RegisterScreen(
 
   return (
     <Page header title={'Kayıt Ol'} showGoBack>
-      <Form>
+      <Container mx={20} bgColor="white" mt={20} gap={10}>
         <Input
           required
           id="firstName"
@@ -150,48 +152,28 @@ export default function RegisterScreen(
         <CheckInput
           id="contract"
           type="checkbox"
-          value={false}
-          errorMessage=""
+          value={isContractChecked}
+          onPress={() => setIsContractChecked(!isContractChecked)}
           label="Gizlilik ve Kullanım Koşullarını okudum kabul ediyorum."
           clickedLabel="Gizlilik ve Kullanım Koşullarını"
           clickLabel={() => console.log('clicked')}
         />
         <RegisterContainer>
           <Button
-            isDisabled={checkObject(registerRequest)}
+            isDisabled={checkObject({
+              ...registerRequest,
+              isContractChecked: isContractChecked ? 'secildi' : '',
+            })}
             onPress={() => {
-              // let result = ref.current?.validate({
-              //   firstName: 'Lütfen adınızı giriniz.',
-              //   lastName: 'Lütfen soyadınızı giriniz.',
-              //   companyName: 'Lütfen firma adınızı giriniz.',
-              //   email: 'Lütfen e-posta adresinizi giriniz.',
-              //   phone: 'Lütfen telefon numaranızı giriniz.',
-              //   glnNumber: 'Lütfen GLN numaranızı giriniz.',
-              //   taxNumber: 'Lütfen vergi numaranızı giriniz.',
-              //   taxOffice: 'Lütfen vergi dairesi adını giriniz.',
-              //   address: 'Lütfen firma adresinizi giriniz.',
-              //   contract: 'Gizlilik ve Kullanım Koşullarını kabul etmelisiniz.',
-              // });
-              // console.log('result', result);
-              // if (result) {
-
-              // }
-              props.navigation.navigate('BottomTabMenu');
               handleRegister();
             }}
             text="Kayıt Ol"
           />
         </RegisterContainer>
-      </Form>
+      </Container>
     </Page>
   );
 }
-const Form = styled(View)`
-  margin-top: 20px;
-  gap: 10px;
-  margin-horizontal: 20px;
-  flex: 1;
-`;
 
 const RegisterContainer = styled(View)`
   margin-bottom: 40px;
