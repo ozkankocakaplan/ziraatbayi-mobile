@@ -17,13 +17,13 @@ import {RootStackParamList} from '../types/navigator';
 export default function ResetPassword(
   props: NativeStackScreenProps<RootStackParamList, 'ResetPassword'>,
 ) {
-  const [query, setQuery] = useState<string | null>(null);
+  const [token, setToken] = useState<string | null>(null);
   useEffect(() => {
     const fetchDeeplink = async () => {
       const url = await Linking.getInitialURL();
       if (url) {
         const parsedUrl = new URL(url);
-        setQuery(parsedUrl.searchParams.get('query'));
+        setToken(parsedUrl.searchParams.get('token'));
       }
     };
 

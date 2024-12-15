@@ -69,7 +69,7 @@ const linking = {
       ResetPassword: {
         path: 'reset-password',
         parse: {
-          query: query => query,
+          token: token => token,
         },
       },
     },
