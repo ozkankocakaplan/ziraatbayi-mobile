@@ -5,14 +5,16 @@ import {Calendar} from 'react-native-calendars';
 interface CalendarModalProps {
   isCalendarVisible: boolean;
   setIsCalendarVisible: (value: boolean) => void;
-  selectedDate: string;
+  expirationDate: string;
+  productionDate: string;
   handleDateChange: (day: any) => void;
 }
 export default function CalendarModal(props: CalendarModalProps) {
   const {
     isCalendarVisible,
     setIsCalendarVisible,
-    selectedDate,
+    expirationDate,
+    productionDate,
     handleDateChange,
   } = props;
   return (
@@ -41,7 +43,11 @@ export default function CalendarModal(props: CalendarModalProps) {
           <Calendar
             onDayPress={handleDateChange}
             markedDates={{
-              [selectedDate]: {
+              [expirationDate]: {
+                selected: true,
+                selectedColor: '#007AFF',
+              },
+              [productionDate]: {
                 selected: true,
                 selectedColor: '#007AFF',
               },

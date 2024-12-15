@@ -73,7 +73,7 @@ export default function ChangePasswordScreen() {
           required
           id="oldPassword"
           icon={faLock}
-          placeholder="Eski Şifre"
+          placeholder="Mevcut Şifre"
           value={oldPassword}
           onChangeText={setOldPassword}
         />

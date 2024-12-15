@@ -20,8 +20,10 @@ import Icon from '../Icon/Icon';
 import {Col, Row} from '../../constant/GlobalStyled';
 import {useSelector} from 'react-redux';
 import {RootState} from '../../store';
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import {RootStackParamList} from '../../types/navigator';
+import {AuthApi} from '../../services/authService';
+import {AdvertApi} from '../../services/advertService';
 
 export interface HeaderProps {
   title?: string;
@@ -47,6 +49,14 @@ export default function Header({
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
   const colors = useThemeColors();
   const {user} = useSelector((state: RootState) => state.auth);
+  const {data: dealer, refetch} = AuthApi.useGetDealerQuery(); //buda yanlış ama değineceğim.
+
+  useEffect(() => {
+    navigation.addListener('focus', () => {
+      refetch();
+    });
+  }, []);
+
   return (
     <HeaderContainer
       theme={{
@@ -58,13 +68,13 @@ export default function Header({
             <Row gap={10}>
               <AccountProfile>
                 <CustomText color="primary">
-                  {user?.firstName?.charAt(0)}
-                  {user?.lastName?.charAt(0)}
+                  {dealer?.entity?.firstName?.charAt(0)}
+                  {dealer?.entity?.lastName?.charAt(0)}
                 </CustomText>
               </AccountProfile>
               <Col gap={5}>
                 <CustomText fontSizes="body5">
-                  {user?.firstName} {user?.lastName}
+                  {dealer?.entity?.firstName} {dealer?.entity?.lastName}
                 </CustomText>
                 <CustomText fontSizes="body6">{user?.email}</CustomText>
               </Col>

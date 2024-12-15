@@ -31,17 +31,24 @@ export default function AddAdvertScreen(
     expiryDate: '',
   });
   const bottomSheetRef = useRef<BottomSheetRef>(null);
+  const [activeInput, setActiveInput] = useState<
+    'productionDate' | 'expirationDate' | null
+  >(null);
 
   const [isCalendarVisible, setIsCalendarVisible] = useState(false);
-  const [selectedDate, setSelectedDate] = useState('');
+  const [expirationDate, setExpirationDate] = useState('');
+  const [productionDate, setProductionDate] = useState('');
 
-  const handleDateChange = (day: any) => {
+  const handleExpirationDateChange = (day: any) => {
     const formattedDate = formatDate(day.dateString);
-    setSelectedDate(formattedDate);
+    setExpirationDate(formattedDate);
     setIsCalendarVisible(false);
   };
-  const handleOpenCalendar = () => {
-    setIsCalendarVisible(true);
+
+  const handleProductionDateChange = (day: any) => {
+    const formattedDate = formatDate(day.dateString);
+    setProductionDate(formattedDate);
+    setIsCalendarVisible(false);
   };
 
   const formatDate = (dateString: string) => {
@@ -70,21 +77,43 @@ export default function AddAdvertScreen(
             required
             id="productName"
           />
+          <Input
+            handlePress={() => {
+              bottomSheetRef.current?.open();
+            }}
+            isPlaceholder={true}
+            placeholderValue="Etken Madde"
+            required
+            id="activeSubstance"
+          />
+
           <Input required id="stockQuantity" placeholder="Stok Miktarı" />
           <Input
             required
             id="orderQuantity"
             placeholder="Minimum Sipariş Miktarı"
           />
-          <Input required id="price" placeholder="Fiyat" />
 
           <Input
-            handlePress={handleOpenCalendar}
+            handlePress={() => {
+              setActiveInput('productionDate');
+              setIsCalendarVisible(true);
+            }}
+            isPlaceholder={true}
+            required
+            id="productionDate"
+            placeholderValue={productionDate ? productionDate : 'Üretim Tarihi'}
+          />
+          <Input
+            handlePress={() => {
+              setActiveInput('expirationDate');
+              setIsCalendarVisible(true);
+            }}
             isPlaceholder={true}
             required
             id="expirationDate"
             placeholderValue={
-              selectedDate ? selectedDate : 'Son Kullanma Tarihi'
+              expirationDate ? expirationDate : 'Son Kullanma Tarihi'
             }
           />
 
@@ -115,8 +144,13 @@ export default function AddAdvertScreen(
         setIsCalendarVisible={value => {
           setIsCalendarVisible(value);
         }}
-        selectedDate={selectedDate}
-        handleDateChange={handleDateChange}
+        expirationDate={expirationDate}
+        productionDate={productionDate}
+        handleDateChange={
+          activeInput === 'productionDate'
+            ? handleProductionDateChange
+            : handleExpirationDateChange
+        }
       />
     </>
   );

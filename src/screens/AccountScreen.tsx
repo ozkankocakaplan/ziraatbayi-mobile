@@ -1,20 +1,13 @@
-import React from 'react';
-import {useDispatch, useSelector} from 'react-redux';
+import React, {useEffect} from 'react';
+import {useDispatch} from 'react-redux';
 import {AuthActions} from '../store/features/authReducer';
 import Button from '../components/Button/Button';
 import Container from '../components/Container/Container';
-import {Text, View} from 'react-native';
-import {Col, Row} from '../constant/GlobalStyled';
+import {View} from 'react-native';
 import styled from 'styled-components';
-import {RootState} from '../store';
 import CustomText from '../components/Text/Text';
 import Page from '../components/Page/Page';
-import {
-  faCircleQuestion,
-  faLock,
-  faUser,
-  faUserGroup,
-} from '@fortawesome/free-solid-svg-icons';
+import {faLock, faUser} from '@fortawesome/free-solid-svg-icons';
 import {TouchableOpacity} from 'react-native';
 import Icon from '../components/Icon/Icon';
 import {IconProp} from '@fortawesome/fontawesome-svg-core';
@@ -22,7 +15,9 @@ import {NavigationProp, useNavigation} from '@react-navigation/native';
 import {RootStackParamList} from '../types/navigator';
 import auth from '@react-native-firebase/auth';
 import AlertDialog from '../components/AlertDialog/AlertDialog';
+
 export default function AccountScreen(props: any) {
+  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
   const dispatch = useDispatch();
   const pageColor = '#f9f9f9';
   const logOut = () => {
@@ -31,7 +26,7 @@ export default function AccountScreen(props: any) {
       dispatch(AuthActions.setUser(null));
     });
   };
-  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
+
   const ColTitle = ({title}: {title: string}) => {
     return (
       <CustomText sx={{marginBottom: 15}} color="black" fontSizes="body3">
@@ -39,6 +34,7 @@ export default function AccountScreen(props: any) {
       </CustomText>
     );
   };
+
   return (
     <Page header showAccountDetail showMessage showNotification>
       <Container bgColor={pageColor} pb={10} pl={10} pr={10}>

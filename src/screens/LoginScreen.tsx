@@ -1,6 +1,5 @@
 import {View, TouchableOpacity, Image} from 'react-native';
 import React, {useState} from 'react';
-import Container from '../components/Container/Container';
 import Input from '../components/Input/Input';
 import styled from 'styled-components';
 import CustomText from '../components/Text/Text';
@@ -18,7 +17,7 @@ export default function LoginScreen(
 ) {
   const [loginRequest, setLoginRequest] = useState<LoginRequest>({
     email: 'ferizaocal60@gmail.com',
-    password: '1234',
+    password: 'Asdf',
   });
 
   const [loginMutation, {isLoading, isError, error}] =

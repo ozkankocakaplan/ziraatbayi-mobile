@@ -108,7 +108,9 @@ export default function UserInfoScreen({
           placeholder="E-posta"
           validation="email"
           value={formData.email}
+          editable={false}
           onChangeText={text => handleInputChange('email', text)}
+          style={{color: '#ddd'}}
         />
         <Input
           required
