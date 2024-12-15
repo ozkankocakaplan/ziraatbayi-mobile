@@ -1,4 +1,4 @@
-import {AppRegistry, LogBox} from 'react-native';
+import {AppRegistry, Linking, LogBox} from 'react-native';
 import {name as appName} from './app.json';
 import 'react-native-gesture-handler';
 import {Provider} from 'react-redux';
@@ -41,13 +41,46 @@ LocaleConfig.locales['tr'] = {
   today: 'Bugün',
 };
 LocaleConfig.defaultLocale = 'tr';
+const linking = {
+  prefixes: ['ziraatbayi://', 'https://ziraatbayi.com'],
 
+  async getInitialURL() {
+    try {
+      const url = await Linking.getInitialURL();
+      return url;
+    } catch (error) {
+      console.error('Error fetching initial URL:', error);
+      return null;
+    }
+  },
+
+  subscribe(listener) {
+    const linkingSubscription = Linking.addListener('url', ({url}) => {
+      listener(url);
+    });
+
+    return () => {
+      linkingSubscription.remove();
+    };
+  },
+
+  config: {
+    screens: {
+      ResetPassword: {
+        path: 'reset-password',
+        parse: {
+          query: query => query,
+        },
+      },
+    },
+  },
+};
 const ZiraatBayi = () => {
   return (
     <Provider store={store}>
       <GestureHandlerRootView style={{flex: 1}}>
         <PersistGate loading={null} persistor={persistor}>
-          <NavigationContainer>
+          <NavigationContainer linking={linking}>
             <RootNavigator />
           </NavigationContainer>
         </PersistGate>

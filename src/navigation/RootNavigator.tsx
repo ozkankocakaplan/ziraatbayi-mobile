@@ -20,6 +20,7 @@ import ChatRoomScreen from '../screens/ChatRoomScreen/ChatRoomScreen';
 import AdvertDetailBottomSheet from '../components/BottomSheet/AdvertDetailBottomSheet';
 import FirebaseNotification from '../firebase/FirebaseNotification';
 import DealerDetailScreen from '../screens/DealerDetailScreen';
+import ResetPasswordScreen from '../screens/ResetPasswordScreen';
 
 const Stack = createStackNavigator<RootStackParamList>();
 const RootNavigator = () => {
@@ -38,6 +39,10 @@ const RootNavigator = () => {
             <Stack.Screen
               name="ForgotPasswordScreen"
               component={ForgotPasswordScreen}
+            />
+            <Stack.Screen
+              name="ResetPassword"
+              component={ResetPasswordScreen}
             />
           </>
         ) : (
@@ -68,6 +73,10 @@ const RootNavigator = () => {
             <Stack.Screen
               name="DealerDetailScreen"
               component={DealerDetailScreen}
+            />
+            <Stack.Screen
+              name="ResetPassword"
+              component={ResetPasswordScreen}
             />
           </>
         )}

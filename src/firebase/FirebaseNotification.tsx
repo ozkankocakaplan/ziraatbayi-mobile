@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import messaging from '@react-native-firebase/messaging';
 import Snackbar from '../components/Snackbar/Snackbar';
 import ProductResponse from '../payload/response/ProductResponse';
@@ -23,7 +23,7 @@ export interface NotificationData {
 }
 export default function FirebaseNotification() {
   const currentScreen = useNavigationState(
-    state => state?.routes?.[state.index].name,
+    state => state?.routes?.[state.index]?.name,
   );
 
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();

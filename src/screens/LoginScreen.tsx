@@ -30,7 +30,7 @@ export default function LoginScreen(
 
   return (
     <Page bgColor="#ffff" header title="Giriş Yap">
-      <Form>
+      <Container mx={20} bgColor="white">
         <LoginContainer>
           <View style={{alignItems: 'center', justifyContent: 'center'}}>
             <Image
@@ -89,14 +89,11 @@ export default function LoginScreen(
             text="Kayıt Ol"
           />
         </RegisterContainer>
-      </Form>
+      </Container>
     </Page>
   );
 }
-const Form = styled(View)`
-  margin-horizontal: 20px;
-  flex: 1;
-`;
+
 const LoginContainer = styled(View)`
   flex: 2;
   justify-content: center;
