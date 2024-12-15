@@ -65,6 +65,15 @@ export default function AdvertScreen(props: any) {
                           <CustomText color="black" fontSizes="body6">
                             Stok Miktarı: {item.stockQuantity}
                           </CustomText>
+                          <CustomText color="black" fontSizes="body6">
+                            {item.product.activeSubstance}
+                          </CustomText>
+                          <CustomText color="black" fontSizes="body6">
+                            {item.startDate}
+                          </CustomText>
+                          <CustomText color="black" fontSizes="body6">
+                            {item.expiryDate}
+                          </CustomText>
                           {/* <CustomText color="black" fontSizes="body5">
                      Fiyat: {advert.price}
                    </CustomText> */}
