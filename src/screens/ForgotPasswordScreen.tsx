@@ -1,10 +1,9 @@
-import {View, TouchableOpacity, Image} from 'react-native';
-import React, {useRef, useState} from 'react';
+import {View, Image} from 'react-native';
+import React, {useState} from 'react';
 import Container from '../components/Container/Container';
 import Input from '../components/Input/Input';
 import styled from 'styled-components';
 import Button from '../components/Button/Button';
-import FormContainer, {FormContainerRef} from 'react-native-form-container';
 import {faEnvelope} from '@fortawesome/free-solid-svg-icons';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../types/navigator';
@@ -18,7 +17,7 @@ export default function ForgotPasswordScreen(
   const [email, setEmail] = useState('');
   return (
     <Page header title="Şifremi Unuttum" showGoBack>
-      <Container mx={20} bgColor="white">
+      <Container mx={10} bgColor="white">
         <PasswordContainer>
           <View style={{alignItems: 'center', justifyContent: 'center'}}>
             <Image

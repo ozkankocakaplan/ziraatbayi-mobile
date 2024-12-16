@@ -1,24 +1,17 @@
-import React, {useEffect, useRef, useState} from 'react';
-import {
-  Platform,
-  ScrollView,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from 'react-native';
-import Button from '../components/Button/Button';
+import React, {useRef, useState} from 'react';
+import {Platform, Text, TextInput, TouchableOpacity, View} from 'react-native';
+
 import AdvertCard from '../components/Advert/AdvertCard';
 import styled from 'styled-components';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {faBars, faFilter} from '@fortawesome/free-solid-svg-icons';
+import {faFilter} from '@fortawesome/free-solid-svg-icons';
 import CustomBottomSheet, {
   BottomSheetRef,
 } from '../components/BottomSheet/CustomBottomSheet';
-import {categoryApi} from '../services/categoryService';
+
 import Container from '../components/Container/Container';
 
-import {BottomTabParamList, RootStackParamList} from '../types/navigator';
+import {RootStackParamList} from '../types/navigator';
 import Page from '../components/Page/Page';
 
 import {AdvertApi} from '../services/advertService';
@@ -35,7 +28,6 @@ export default function DealerDetailScreen(
   const {navigation} = props;
   const bottomSheetRef = useRef<BottomSheetRef>(null);
 
-  const {data: categories} = categoryApi.useGetCategoriesQuery();
   const {data, isLoading, error} = AdvertApi.useGetShowCaseAdvertsQuery();
 
   const [search, setSearch] = useState('');

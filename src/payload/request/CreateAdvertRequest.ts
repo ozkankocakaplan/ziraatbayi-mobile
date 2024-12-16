@@ -1,3 +1,6 @@
+import DealerResponse from '../response/DealerResponse';
+import ProductResponse from '../response/ProductResponse';
+
 interface CreateAdvertRequest {
   productId: number;
   stockQuantity: number;

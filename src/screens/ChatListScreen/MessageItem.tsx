@@ -1,8 +1,7 @@
-import {View, Text, TouchableOpacity} from 'react-native';
+import {View, TouchableOpacity} from 'react-native';
 import React, {memo} from 'react';
 import MessageResponse from '../../payload/response/MessageResponse';
 import styled from 'styled-components';
-import {Image} from 'react-native';
 import ProductImage from '../../components/Advert/ProductImage';
 import Container from '../../components/Container/Container';
 import {Col, Flex, Row} from '../../constant/GlobalStyled';

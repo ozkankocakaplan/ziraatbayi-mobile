@@ -11,12 +11,11 @@ import {faLock, faUser} from '@fortawesome/free-solid-svg-icons';
 import {TouchableOpacity} from 'react-native';
 import Icon from '../components/Icon/Icon';
 import {IconProp} from '@fortawesome/fontawesome-svg-core';
-import {NavigationProp, useNavigation} from '@react-navigation/native';
-import {BottomTabParamList, RootStackParamList} from '../types/navigator';
+import {RootStackParamList} from '../types/navigator';
 import auth from '@react-native-firebase/auth';
 import AlertDialog from '../components/AlertDialog/AlertDialog';
-import {AuthApi} from '../services/authService';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {DealerApi} from '../services/dealerService';
 
 const pageColor = '#f9f9f9';
 export default function AccountScreen({
@@ -24,7 +23,7 @@ export default function AccountScreen({
 }: NativeStackScreenProps<RootStackParamList>) {
   const dispatch = useDispatch();
 
-  const {refetch} = AuthApi.useGetDealerQuery();
+  const {refetch} = DealerApi.useGetDealerQuery();
 
   useEffect(() => {
     navigation.addListener('focus', () => {

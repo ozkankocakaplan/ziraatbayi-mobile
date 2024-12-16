@@ -1,10 +1,9 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useRef, useState} from 'react';
 import Page from '../components/Page/Page';
 import FormContainer, {FormContainerRef} from 'react-native-form-container';
 import Input from '../components/Input/Input';
 import styled from 'styled-components';
-import CustomText from '../components/Text/Text';
-import {Modal, ScrollView, Text, TouchableOpacity, View} from 'react-native';
+import {KeyboardAvoidingView, Platform, ScrollView, View} from 'react-native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../types/navigator';
 import {AdvertApi} from '../services/advertService';
@@ -14,9 +13,15 @@ import CustomBottomSheet, {
 } from '../components/BottomSheet/CustomBottomSheet';
 import Button from '../components/Button/Button';
 import CheckRadio from '../components/CheckInput/CheckRadio';
-import {Calendar} from 'react-native-calendars';
 import CalendarModal from '../components/CalendarModal/CalendarModal';
 import dayjs from 'dayjs';
+import CategorySelection from '../components/Advert/CategoryBottomSheet';
+import CategoryBottomSheet from '../components/Advert/CategoryBottomSheet';
+import ProductBottomSheet from '../components/Advert/ProductBottomSheet';
+import ProductResponse from '../payload/response/ProductResponse';
+import CategoryResponse from '../payload/response/CategoryResponse';
+import {checkObject} from '../helper/Helper';
+import Container from '../components/Container/Container';
 
 const family = ['Feriza', 'Özkan'];
 export default function AddAdvertScreen(
@@ -25,29 +30,34 @@ export default function AddAdvertScreen(
   var ref = useRef<FormContainerRef>(null);
   const [useRegister] = AdvertApi.useCreateAdvertMutation();
   const [selectedFamily, setSelectedFamily] = useState<string>('');
+  const [selectedProduct, setSelectedProduct] = useState({} as ProductResponse);
+  const [selectedCategory, setSelectedCategory] = useState({
+    id: 1,
+  } as CategoryResponse);
   const [advertRequest, setAdvertRequest] = useState<CreateAdvertRequest>({
     productId: 0,
     stockQuantity: 1,
+    startDate: '',
     expiryDate: '',
+    minOrderQuantity: 1,
   });
-  const bottomSheetRef = useRef<BottomSheetRef>(null);
+  const categoryBottomSheetRef = useRef<BottomSheetRef>(null);
+  const productBottomSheetRef = useRef<BottomSheetRef>(null);
   const [activeInput, setActiveInput] = useState<
     'productionDate' | 'expirationDate' | null
   >(null);
 
   const [isCalendarVisible, setIsCalendarVisible] = useState(false);
-  const [expirationDate, setExpirationDate] = useState('');
-  const [productionDate, setProductionDate] = useState('');
 
   const handleExpirationDateChange = (day: any) => {
     const formattedDate = formatDate(day.dateString);
-    setExpirationDate(formattedDate);
+    setAdvertRequest({...advertRequest, expiryDate: formattedDate});
     setIsCalendarVisible(false);
   };
 
   const handleProductionDateChange = (day: any) => {
     const formattedDate = formatDate(day.dateString);
-    setProductionDate(formattedDate);
+    setAdvertRequest({...advertRequest, startDate: formattedDate});
     setIsCalendarVisible(false);
   };
 
@@ -55,13 +65,37 @@ export default function AddAdvertScreen(
     return dayjs(dateString).format('DD.MM.YYYY');
   };
 
+  const checkRequestForm = () => {
+    let form = {
+      productId:
+        advertRequest.productId == 0 ? '' : advertRequest.productId.toString(),
+      categoryId:
+        Object.keys(selectedCategory).length == 0
+          ? ''
+          : selectedCategory.id.toString(),
+      stockQuantity:
+        advertRequest.stockQuantity == 0
+          ? ''
+          : advertRequest.stockQuantity.toString(),
+      minOrderQuantity:
+        advertRequest.minOrderQuantity == 0
+          ? ''
+          : advertRequest?.minOrderQuantity?.toString() || '',
+      expiryDate: advertRequest.expiryDate,
+    };
+    return checkObject(form);
+  };
+
   return (
-    <>
+    <KeyboardAvoidingView
+      style={{flex: 1}}
+      keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 50}
+      behavior={'padding'}>
       <Page header showGoBack title="İlan Ekle">
-        <Form formContainerRef={ref}>
+        <Container mx={10} mt={10} gap={10}>
           <Input
             handlePress={() => {
-              bottomSheetRef.current?.open();
+              categoryBottomSheetRef.current?.open();
             }}
             isPlaceholder={true}
             required
@@ -70,28 +104,26 @@ export default function AddAdvertScreen(
           />
           <Input
             handlePress={() => {
-              bottomSheetRef.current?.open();
+              productBottomSheetRef.current?.open();
             }}
             isPlaceholder={true}
-            placeholderValue="Ürün Seç"
+            placeholderValue={
+              advertRequest.productId == 0 ? 'Ürün Seç' : selectedProduct.name
+            }
             required
             id="productName"
           />
           <Input
-            handlePress={() => {
-              bottomSheetRef.current?.open();
-            }}
-            isPlaceholder={true}
-            placeholderValue="Etken Madde"
             required
-            id="activeSubstance"
+            id="stockQuantity"
+            placeholder="Stok Miktarı"
+            keyboardType="number-pad"
           />
-
-          <Input required id="stockQuantity" placeholder="Stok Miktarı" />
           <Input
             required
             id="orderQuantity"
             placeholder="Minimum Sipariş Miktarı"
+            keyboardType="number-pad"
           />
 
           <Input
@@ -102,7 +134,11 @@ export default function AddAdvertScreen(
             isPlaceholder={true}
             required
             id="productionDate"
-            placeholderValue={productionDate ? productionDate : 'Üretim Tarihi'}
+            placeholderValue={
+              advertRequest.startDate && advertRequest?.startDate?.length > 0
+                ? advertRequest.startDate
+                : 'Üretim Tarihi'
+            }
           />
           <Input
             handlePress={() => {
@@ -113,77 +149,54 @@ export default function AddAdvertScreen(
             required
             id="expirationDate"
             placeholderValue={
-              expirationDate ? expirationDate : 'Son Kullanma Tarihi'
+              advertRequest.expiryDate.length > 0
+                ? advertRequest.expiryDate
+                : 'Son Kullanma Tarihi'
             }
           />
-
-          <RegisterContainer>
-            <Button text="KAYDET"></Button>
-          </RegisterContainer>
-        </Form>
+        </Container>
+        <Container mx={10} flex={0.15}>
+          <Button isDisabled={checkRequestForm()} text="KAYDET"></Button>
+        </Container>
       </Page>
-      <CustomBottomSheet ref={bottomSheetRef} snapPoints={['25%', '50%']}>
-        <ScrollableContainer contentContainerStyle={{margin: 10}}>
-          {family.map((item, index) => {
-            return (
-              <CheckRadio
-                key={item}
-                value={item}
-                checked={selectedFamily === item}
-                handleChecked={(isCheck: boolean) => {
-                  bottomSheetRef.current?.close();
-                  setSelectedFamily(item);
-                }}
-              />
-            );
-          })}
-        </ScrollableContainer>
-      </CustomBottomSheet>
+
       <CalendarModal
         isCalendarVisible={isCalendarVisible}
         setIsCalendarVisible={value => {
           setIsCalendarVisible(value);
         }}
-        expirationDate={expirationDate}
-        productionDate={productionDate}
+        expirationDate={advertRequest.expiryDate}
+        productionDate={advertRequest.startDate || ''}
         handleDateChange={
           activeInput === 'productionDate'
             ? handleProductionDateChange
             : handleExpirationDateChange
         }
       />
-    </>
+      <CategoryBottomSheet
+        bottomSheetRef={categoryBottomSheetRef}
+        checked={selectedCategory}
+        handleChecked={item => {
+          if (item) {
+            setSelectedCategory(item);
+          } else {
+            setSelectedCategory({} as CategoryResponse);
+          }
+        }}
+      />
+      <ProductBottomSheet
+        bottomSheetRef={productBottomSheetRef}
+        categoryId={selectedCategory.id}
+        checked={selectedProduct}
+        handleChecked={item => {
+          if (item) {
+            setSelectedProduct(item);
+          } else {
+            setSelectedProduct({} as ProductResponse);
+          }
+          setAdvertRequest({...advertRequest, productId: item?.id || 0});
+        }}
+      />
+    </KeyboardAvoidingView>
   );
 }
-const Form = styled(FormContainer)`
-  margin-top: 20px;
-  gap: 10px;
-  margin-horizontal: 10px;
-  flex: 1;
-`;
-const RegisterContainer = styled(View)`
-  margin-bottom: 50px;
-  flex: 1;
-  justify-content: flex-end;
-`;
-
-const ScrollableContainer = styled(ScrollView)``;
-
-const ModalOverlay = styled(View)`
-  flex: 1;
-  background-color: rgba(0, 0, 0, 0.5);
-  justify-content: center;
-  align-items: center;
-`;
-
-const CalendarContainer = styled(View)`
-  background-color: white;
-  border-radius: 10px;
-  padding: 20px;
-  align-items: center;
-`;
-
-const CloseButton = styled(View)`
-  margin-top: 10px;
-  width: 100px;
-`;

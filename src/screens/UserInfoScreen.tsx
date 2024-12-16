@@ -1,8 +1,7 @@
-import React, {useRef, useState, useEffect} from 'react';
+import React, {useState, useEffect} from 'react';
 import Page from '../components/Page/Page';
 import styled from 'styled-components';
 import Input from '../components/Input/Input';
-import {FormContainerRef} from 'react-native-form-container';
 import {
   faBarcode,
   faBuilding,
@@ -15,19 +14,20 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import Button from '../components/Button/Button';
 import {View} from 'react-native';
-import {AuthApi} from '../services/authService';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../types/navigator';
 import {checkObject} from '../helper/Helper';
 import {useSelector} from 'react-redux';
 import {RootState} from '../store';
+import {DealerApi} from '../services/dealerService';
+import Container from '../components/Container/Container';
 
 export default function UserInfoScreen({
   navigation,
 }: NativeStackScreenProps<RootStackParamList>) {
   const {dealer} = useSelector((x: RootState) => x.dealer);
   const [updateDealer, {isLoading, isSuccess, isError}] =
-    AuthApi.useUpdateDealerMutation();
+    DealerApi.useUpdateDealerMutation();
 
   const [formData, setFormData] = useState({
     firstName: '',
@@ -69,7 +69,7 @@ export default function UserInfoScreen({
 
   return (
     <Page header showGoBack title="Kullanıcı Bilgilerim">
-      <Form>
+      <Container mx={10} mt={10} gap={10}>
         <Input
           required
           id="firstName"
@@ -154,26 +154,14 @@ export default function UserInfoScreen({
           value={formData.address}
           onChangeText={text => handleInputChange('address', text)}
         />
-        <RegisterContainer>
-          <Button
-            isDisabled={checkObject(formData)}
-            text="Kaydet"
-            onPress={handleUpdate}
-          />
-        </RegisterContainer>
-      </Form>
+      </Container>
+      <Container mx={10} flex={0.15}>
+        <Button
+          isDisabled={checkObject(formData)}
+          text="Kaydet"
+          onPress={handleUpdate}
+        />
+      </Container>
     </Page>
   );
 }
-
-const Form = styled(View)`
-  margin-top: 20px;
-  gap: 10px;
-  margin-horizontal: 10px;
-  flex: 1;
-`;
-const RegisterContainer = styled(View)`
-  margin-bottom: 50px;
-  flex: 1;
-  justify-content: flex-end;
-`;

@@ -10,24 +10,23 @@ import {
   faBuilding,
   faEnvelope,
   faFileLines,
-  faHouse,
   faLocationDot,
   faPhone,
   faUser,
 } from '@fortawesome/free-solid-svg-icons';
-import {AuthApi} from '../services/authService';
 import CreateDealerRequest from '../payload/request/CreateDealerRequest';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../types/navigator';
 import Page from '../components/Page/Page';
 import {checkObject} from '../helper/Helper';
 import Container from '../components/Container/Container';
+import {DealerApi} from '../services/dealerService';
 
 export default function RegisterScreen(
   props: NativeStackScreenProps<RootStackParamList, 'RegisterScreen'>,
 ) {
   var ref = useRef<FormContainerRef>(null);
-  const [useRegister] = AuthApi.useCreateDealerMutation();
+  const [useRegister] = DealerApi.useCreateDealerMutation();
   const [isContractChecked, setIsContractChecked] = useState(false);
   const [registerRequest, setRegisterRequest] = useState<CreateDealerRequest>({
     firstName: '',
@@ -49,7 +48,7 @@ export default function RegisterScreen(
 
   return (
     <Page header title={'Kayıt Ol'} showGoBack>
-      <Container mx={20} bgColor="white" mt={20} gap={10}>
+      <Container mx={10} mt={10} gap={10}>
         <Input
           required
           id="firstName"

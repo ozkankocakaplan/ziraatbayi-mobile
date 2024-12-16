@@ -1,11 +1,11 @@
 import React, {useRef, useState} from 'react';
 import Page from '../components/Page/Page';
-import FormContainer, {FormContainerRef} from 'react-native-form-container';
+import {FormContainerRef} from 'react-native-form-container';
 import Input from '../components/Input/Input';
-import styled from 'styled-components';
+
 import CustomText from '../components/Text/Text';
 import Button from '../components/Button/Button';
-import {ScrollView, View} from 'react-native';
+import {ScrollView} from 'react-native';
 import CustomBottomSheet, {
   BottomSheetRef,
 } from '../components/BottomSheet/CustomBottomSheet';
@@ -13,7 +13,6 @@ import CheckRadio from '../components/CheckInput/CheckRadio';
 import AlertDialog from '../components/AlertDialog/AlertDialog';
 import CalendarModal from '../components/CalendarModal/CalendarModal';
 import dayjs from 'dayjs';
-import SwitchButton from '../components/Button/SwitchButton';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../types/navigator';
 import {Row} from '../constant/GlobalStyled';

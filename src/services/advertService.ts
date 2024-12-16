@@ -17,12 +17,6 @@ const advertApi = baseApi.injectEndpoints({
           let result = await queryFulfilled;
 
           AlertDialog.hideLoading();
-        } catch (error: any) {
-          AlertDialog.showModal({
-            type: 'error',
-            message: error?.error?.data?.exceptionMessage || 'Bir hata oluştu',
-          });
-          AlertDialog.hideLoading();
         } finally {
           AlertDialog.hideLoading();
         }
@@ -80,7 +74,10 @@ const advertApi = baseApi.injectEndpoints({
         }),
       },
     ),
-    createAdvert: builder.mutation<ServiceResponse<AdvertResponse>, void>({
+    createAdvert: builder.mutation<
+      ServiceResponse<AdvertResponse>,
+      CreateAdvertRequest
+    >({
       query: credentials => ({
         url: '/advert/create-advert',
         method: 'POST',

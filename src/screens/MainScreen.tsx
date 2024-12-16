@@ -1,4 +1,3 @@
-import {View, Text} from 'react-native';
 import React, {useEffect} from 'react';
 import {CategoryApi} from '../services/categoryService';
 import Container from '../components/Container/Container';

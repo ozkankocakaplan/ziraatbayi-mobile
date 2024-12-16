@@ -1,6 +1,7 @@
 import {View, Text, Modal, TouchableOpacity} from 'react-native';
 import React from 'react';
 import {Calendar} from 'react-native-calendars';
+import dayjs from 'dayjs';
 
 interface CalendarModalProps {
   isCalendarVisible: boolean;
@@ -43,11 +44,11 @@ export default function CalendarModal(props: CalendarModalProps) {
           <Calendar
             onDayPress={handleDateChange}
             markedDates={{
-              [expirationDate]: {
+              [dayjs(productionDate).format('YYYY-MM-DD')]: {
                 selected: true,
                 selectedColor: '#007AFF',
               },
-              [productionDate]: {
+              [dayjs(expirationDate).format('YYYY-MM-DD')]: {
                 selected: true,
                 selectedColor: '#007AFF',
               },

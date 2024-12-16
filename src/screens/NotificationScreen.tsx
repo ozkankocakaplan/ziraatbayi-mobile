@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import styled from 'styled-components/native';
 import {View, Text, TouchableOpacity, ScrollView} from 'react-native';
 import {faBell, faTimes, faUndo} from '@fortawesome/free-solid-svg-icons';

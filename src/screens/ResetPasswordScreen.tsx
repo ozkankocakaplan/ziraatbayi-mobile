@@ -1,12 +1,9 @@
-import {View, Text, Linking, TouchableOpacity} from 'react-native';
-import React, {useEffect, useState} from 'react';
-import {URL} from 'react-native-url-polyfill';
+import {View} from 'react-native';
+import React from 'react';
 import Page from '../components/Page/Page';
 import Container from '../components/Container/Container';
-import styled from 'styled-components';
 import Input from '../components/Input/Input';
 import {faLock} from '@fortawesome/free-solid-svg-icons';
-import CustomText from '../components/Text/Text';
 import Button from '../components/Button/Button';
 import {Image} from 'react-native';
 import {LogoIcon} from '../assets/logo';
@@ -14,7 +11,6 @@ import Divider from '../components/Divider/Divider';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../types/navigator';
 import {UserApi} from '../services/userService';
-import {AppDispatch} from '../store';
 import {useDispatch} from 'react-redux';
 import {AuthActions} from '../store/features/authReducer';
 

@@ -1,4 +1,3 @@
-import {View, Text} from 'react-native';
 import React from 'react';
 import Page from '../components/Page/Page';
 import Container from '../components/Container/Container';

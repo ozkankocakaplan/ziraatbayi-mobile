@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
-import {Dimensions, TouchableOpacity, View} from 'react-native';
-import {Row, ColBackground, Flex} from '../constant/GlobalStyled';
+import {TouchableOpacity} from 'react-native';
+import {Row} from '../constant/GlobalStyled';
 import Container from '../components/Container/Container';
 import CustomText from '../components/Text/Text';
 import styled from 'styled-components';

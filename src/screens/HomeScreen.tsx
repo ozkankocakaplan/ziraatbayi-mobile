@@ -4,7 +4,7 @@ import Button from '../components/Button/Button';
 import AdvertCard from '../components/Advert/AdvertCard';
 import styled from 'styled-components';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {faBars, faFilter} from '@fortawesome/free-solid-svg-icons';
+import {faBars} from '@fortawesome/free-solid-svg-icons';
 import CustomBottomSheet, {
   BottomSheetRef,
 } from '../components/BottomSheet/CustomBottomSheet';
@@ -22,7 +22,7 @@ import useFcmToken from '../hooks/useFcmToken';
 import FirebaseApi from '../services/firebaseService';
 import DeviceRequest from '../payload/request/DeviceRequest';
 import CustomSvgXml from '../components/Icon/CustomSvgXml';
-import SendIcon, {FilterIcon} from '../constant/icons';
+import {FilterIcon} from '../constant/icons';
 import {useSelector} from 'react-redux';
 import {RootState} from '../store';
 

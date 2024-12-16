@@ -1,13 +1,11 @@
 import React, {useEffect} from 'react';
-import {View, TouchableOpacity, TextInput, Image} from 'react-native';
+import {View, TouchableOpacity, TextInput} from 'react-native';
 import styled from 'styled-components';
-import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {faFilter} from '@fortawesome/free-solid-svg-icons';
 import Container from '../components/Container/Container';
 import Page from '../components/Page/Page';
 import CustomText from '../components/Text/Text';
 import Button from '../components/Button/Button';
-import {Center, Col, Row} from '../constant/GlobalStyled';
+import {Col, Row} from '../constant/GlobalStyled';
 
 import AdvertResponse from '../payload/response/AdvertResponse';
 import ProductImage from '../components/Advert/ProductImage';

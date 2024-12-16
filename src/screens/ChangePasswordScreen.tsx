@@ -1,4 +1,4 @@
-import {View, Text} from 'react-native';
+import {View} from 'react-native';
 import React, {useRef, useState} from 'react';
 import Page from '../components/Page/Page';
 
@@ -10,6 +10,7 @@ import {faLock} from '@fortawesome/free-solid-svg-icons';
 
 import AlertDialog from '../components/AlertDialog/AlertDialog';
 import {UserApi} from '../services/userService';
+import Container from '../components/Container/Container';
 
 export default function ChangePasswordScreen() {
   var ref = useRef<FormContainerRef>(null);
@@ -69,7 +70,7 @@ export default function ChangePasswordScreen() {
 
   return (
     <Page header showGoBack title="Şifremi Değiştir">
-      <Form formContainerRef={ref}>
+      <Container mx={10} mt={10} gap={10}>
         <Input
           required
           id="oldPassword"
@@ -96,7 +97,7 @@ export default function ChangePasswordScreen() {
         />
 
         <Button text="Kaydet" onPress={handleSave} />
-      </Form>
+      </Container>
     </Page>
   );
 }

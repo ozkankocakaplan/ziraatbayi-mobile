@@ -1,5 +1,4 @@
 import DealerResponse from './DealerResponse';
-import ProductImageResponse from './ProductImageResponse';
 import ProductResponse from './ProductResponse';
 
 interface AdvertResponse {
