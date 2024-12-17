@@ -49,6 +49,7 @@ const categoryApi = baseApi.injectEndpoints({
       },
     }),
   }),
+  overrideExisting: true,
 });
 
 export const CategoryApi = categoryApi;

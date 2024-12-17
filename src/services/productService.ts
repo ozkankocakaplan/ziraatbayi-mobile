@@ -14,5 +14,6 @@ const productApi = baseApi.injectEndpoints({
       }),
     }),
   }),
+  overrideExisting: true,
 });
 export const ProductApi = productApi;

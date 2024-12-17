@@ -62,7 +62,7 @@ export default function ProductImage({
               }}>
               <Image
                 source={{uri: image}}
-                style={{width: '100%', height: '100%'}}
+                style={{width: '100%', height: '100%', aspectRatio: 1}}
                 resizeMode="contain"
               />
             </TouchableOpacity>
@@ -70,7 +70,7 @@ export default function ProductImage({
             <>
               <Image
                 source={{uri: image}}
-                style={{width: '100%', height: '100%'}}
+                style={{width: '100%', height: '100%', aspectRatio: 1}}
                 resizeMode="contain"
               />
             </>

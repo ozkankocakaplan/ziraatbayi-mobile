@@ -117,7 +117,9 @@ export default function AddAdvertScreen(
           />
           <Input
             handlePress={() => {
-              productBottomSheetRef.current?.open();
+              if (selectedProduct.id) {
+                productBottomSheetRef.current?.open();
+              }
             }}
             isPlaceholder={true}
             placeholderValue={

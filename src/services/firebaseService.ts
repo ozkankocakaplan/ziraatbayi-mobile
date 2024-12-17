@@ -43,6 +43,7 @@ const firebaseApi = baseApi.injectEndpoints({
       }),
     }),
   }),
+  overrideExisting: true,
 });
 const FirebaseApi = firebaseApi;
 export default FirebaseApi;

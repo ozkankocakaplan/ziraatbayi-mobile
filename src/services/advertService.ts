@@ -85,6 +85,7 @@ const advertApi = baseApi.injectEndpoints({
       }),
     }),
   }),
+  overrideExisting: true,
 });
 export const AdvertApi = advertApi;
 
@@ -127,4 +128,5 @@ export const {useGetProductImageQuery, useGetProductImageForChatMutation} =
         },
       }),
     }),
+    overrideExisting: true,
   });

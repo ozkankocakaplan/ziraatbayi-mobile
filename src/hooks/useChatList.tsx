@@ -74,6 +74,7 @@ const useChatList = () => {
           setLoading(false);
         } catch (error) {
           console.error('Error fetching chat data:', error);
+          setLoading(false);
         }
       }
     });

@@ -1,7 +1,7 @@
 import React, {memo} from 'react';
 import {View, TouchableOpacity} from 'react-native';
 import styled from 'styled-components';
-import Page from '../../components/Page/Page';
+
 import CustomText from '../../components/Text/Text';
 
 import {Col, Row} from '../../constant/GlobalStyled';
@@ -18,7 +18,7 @@ const AdvertListItem = ({item}: {item: AdvertResponse}) => {
     <StyledContainer
       key={item.id}
       onPress={() => navigation.navigate('EditAdvertScreen')}>
-      <Row>
+      <Row gap={5}>
         <ImageWrapper>
           <ProductImageContainer>
             <ProductImage
@@ -31,10 +31,15 @@ const AdvertListItem = ({item}: {item: AdvertResponse}) => {
           <CustomText color="black" fontSizes="body4" fontWeight="light">
             {item.product.name}
           </CustomText>
-          <CustomText color="black" fontSizes="body6">
-            {item.product.categoryName}
-          </CustomText>
-          <Row>
+          <Row gap={2}>
+            <CustomText color="darkGrey" fontSizes="body6" fontWeight="bold">
+              Kategori:
+            </CustomText>
+            <CustomText color="black" fontSizes="body6">
+              {item.product.categoryName}
+            </CustomText>
+          </Row>
+          <Row gap={2}>
             <CustomText color="darkGrey" fontSizes="body6" fontWeight="bold">
               Stok Miktarı:
             </CustomText>
@@ -42,22 +47,29 @@ const AdvertListItem = ({item}: {item: AdvertResponse}) => {
               {item.stockQuantity}
             </CustomText>
           </Row>
-          <CustomText color="black" fontSizes="body6">
-            {item.product.activeSubstance}
-          </CustomText>
-          <Row>
+          <Row gap={2}>
             <CustomText color="darkGrey" fontSizes="body6" fontWeight="bold">
-              Üretim Tarihi:
+              Etkin Madde:
             </CustomText>
-            <CustomText color="grey" fontSizes="body6" fontWeight="light">
-              {formatDate(item?.startDate || '')}
+            <CustomText color="black" fontSizes="body6">
+              {item.product.activeSubstance}
             </CustomText>
           </Row>
-          <Row>
+          {item.startDate && (
+            <Row gap={2}>
+              <CustomText color="darkGrey" fontSizes="body6" fontWeight="bold">
+                Üretim Tarihi:
+              </CustomText>
+              <CustomText color="black" fontSizes="body6" fontWeight="light">
+                {formatDate(item?.startDate || '')}
+              </CustomText>
+            </Row>
+          )}
+          <Row gap={2}>
             <CustomText color="darkGrey" fontSizes="body6" fontWeight="bold">
               Son Tüketim Tarihi:
             </CustomText>
-            <CustomText color="grey" fontSizes="body6" fontWeight="light">
+            <CustomText color="black" fontSizes="body6" fontWeight="light">
               {formatDate(item?.expiryDate || '')}
             </CustomText>
           </Row>

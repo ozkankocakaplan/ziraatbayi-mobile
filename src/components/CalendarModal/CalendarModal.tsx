@@ -2,6 +2,7 @@ import {View, Text, Modal, TouchableOpacity} from 'react-native';
 import React from 'react';
 import {Calendar} from 'react-native-calendars';
 import dayjs from 'dayjs';
+import useThemeColors from '../../constant/useColor';
 
 interface CalendarModalProps {
   isCalendarVisible: boolean;
@@ -18,6 +19,8 @@ export default function CalendarModal(props: CalendarModalProps) {
     productionDate,
     handleDateChange,
   } = props;
+  const colors = useThemeColors();
+
   return (
     <Modal
       transparent
@@ -46,11 +49,13 @@ export default function CalendarModal(props: CalendarModalProps) {
             markedDates={{
               [dayjs(productionDate).format('YYYY-MM-DD')]: {
                 selected: true,
-                selectedColor: '#007AFF',
+                selectedColor: colors.primary,
+                startingDay: true,
               },
               [dayjs(expirationDate).format('YYYY-MM-DD')]: {
                 selected: true,
-                selectedColor: '#007AFF',
+                selectedColor: colors.primary,
+                endingDay: true,
               },
             }}
             style={{borderRadius: 10}}

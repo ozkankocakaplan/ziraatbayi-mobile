@@ -91,6 +91,7 @@ const dealerApi = baseApi.injectEndpoints({
       },
     }),
   }),
+  overrideExisting: true,
 });
 
 export const DealerApi = dealerApi;

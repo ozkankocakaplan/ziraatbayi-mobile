@@ -36,7 +36,9 @@ export default function CategoriesScreen(
       !previousSelected &&
       !props.route.params.initCategory
     ) {
-      setSelectedCategory(categories?.list[0]);
+      if (categories?.list[0]?.children.length != 0) {
+        setSelectedCategory(categories?.list[0]);
+      }
     }
   }, [categories]);
   useEffect(() => {
@@ -93,58 +95,56 @@ export default function CategoriesScreen(
 
   return (
     <Page header title={'Kategoriler'} showGoBack>
-      <Container>
-        <Row>
-          <Container flex={1} bgColor="#F5F5F5">
-            {previousSelected
-              ? recuversiveCategory(previousSelected, undefined, 'left')
-              : categories?.list
-                  .filter(x => x.parentCategoryId == 0)
-                  .map((el, index) => {
-                    return (
-                      <CategoryButton
-                        key={el.id}
-                        borderLeft={el.id === selectedCategory.id ? 5 : 0}
-                        isSelected={el.id === selectedCategory.id}
-                        onPress={() => {
-                          if (el.children.length != 0) {
-                            setSelectedCategory(el);
-                          } else {
-                            goToProductPage();
-                          }
-                        }}>
-                        <CustomText
-                          fontWeight={
-                            el.id === selectedCategory.id ? 'bold' : 'normal'
-                          }
-                          fontSizes="body5"
-                          color="primary">
-                          {el.name}
-                        </CustomText>
-                        <Icon icon={faAngleRight} color="#1F8505" size={20} />
-                      </CategoryButton>
-                    );
-                  })}
-          </Container>
-          <Container bgColor="#fff">
-            {selectedCategory && selectedCategories?.children.length == 0 ? (
-              <CategoryButton
-                onPress={() => {
-                  goToProductPage();
-                }}
-                isSelected={true}>
-                <CustomText fontWeight="bold" fontSizes="body3" color="default">
-                  {selectedCategories.name}
-                </CustomText>
-              </CategoryButton>
-            ) : selected ? (
-              recuversiveCategory(selectedCategory, false)
-            ) : (
-              recuversiveCategory(selectedCategories, true)
-            )}
-          </Container>
-        </Row>
-      </Container>
+      <Row>
+        <Container flex={1} bgColor="#F5F5F5">
+          {previousSelected
+            ? recuversiveCategory(previousSelected, undefined, 'left')
+            : categories?.list
+                .filter(x => x.parentCategoryId == 0)
+                .map((el, index) => {
+                  return (
+                    <CategoryButton
+                      key={el.id}
+                      borderLeft={el.id === selectedCategory.id ? 5 : 0}
+                      isSelected={el.id === selectedCategory.id}
+                      onPress={() => {
+                        if (el.children.length != 0) {
+                          setSelectedCategory(el);
+                        } else {
+                          goToProductPage();
+                        }
+                      }}>
+                      <CustomText
+                        fontWeight={
+                          el.id === selectedCategory.id ? 'bold' : 'normal'
+                        }
+                        fontSizes="body5"
+                        color="primary">
+                        {el.name}
+                      </CustomText>
+                      <Icon icon={faAngleRight} color="#1F8505" size={20} />
+                    </CategoryButton>
+                  );
+                })}
+        </Container>
+        <Container bgColor="#fff" flex={1}>
+          {selectedCategory && selectedCategories?.children.length == 0 ? (
+            <CategoryButton
+              onPress={() => {
+                goToProductPage();
+              }}
+              isSelected={true}>
+              <CustomText fontWeight="bold" fontSizes="body3" color="default">
+                {selectedCategories.name}
+              </CustomText>
+            </CategoryButton>
+          ) : selected ? (
+            recuversiveCategory(selectedCategory, false)
+          ) : (
+            recuversiveCategory(selectedCategories, true)
+          )}
+        </Container>
+      </Row>
     </Page>
   );
 }

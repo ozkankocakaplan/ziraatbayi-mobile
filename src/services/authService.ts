@@ -37,6 +37,7 @@ const authApi = baseApi.injectEndpoints({
       },
     }),
   }),
+  overrideExisting: true,
 });
 
 export const AuthApi = authApi;

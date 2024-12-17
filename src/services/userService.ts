@@ -85,6 +85,7 @@ export const userApi = baseApi.injectEndpoints({
       },
     }),
   }),
+  overrideExisting: true,
 });
 
 export const UserApi = userApi;

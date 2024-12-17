@@ -1,10 +1,11 @@
+import React from 'react';
 import Modal, {
   ModalContent,
   ModalPortal,
   SlideAnimation,
 } from 'react-native-modals';
 import {SIZES} from '../../constant/theme';
-import {Appearance, Text, View} from 'react-native';
+import {Text, View} from 'react-native';
 import styled from 'styled-components';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import LottieView from 'lottie-react-native';
@@ -48,7 +49,7 @@ class AlertDialog {
             alignItems: 'center',
           }}>
           <LottieView
-            style={{width: 100, height: 100}}
+            style={{width: 50, height: 50}}
             autoPlay
             loop
             source={LoadingAnimation}
