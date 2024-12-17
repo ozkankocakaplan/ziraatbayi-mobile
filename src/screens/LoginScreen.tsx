@@ -18,7 +18,7 @@ export default function LoginScreen(
 ) {
   const [loginRequest, setLoginRequest] = useState<LoginRequest>({
     email: 'ferizaocal60@gmail.com',
-    password: 'Asdf',
+    password: '86bdde',
   });
 
   const [loginMutation, {isLoading, isError, error}] =

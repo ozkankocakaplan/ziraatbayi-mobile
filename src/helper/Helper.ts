@@ -1,3 +1,5 @@
+import dayjs from 'dayjs';
+
 export const generateChatId = (
   senderId: number,
   receiverId: number,
@@ -20,4 +22,7 @@ export const checkObject = (data: any): boolean => {
     return false;
   });
   return result.length == 0 ? false : true;
+};
+export const formatDate = (dateString: string) => {
+  return dayjs(dateString).format('DD.MM.YYYY');
 };

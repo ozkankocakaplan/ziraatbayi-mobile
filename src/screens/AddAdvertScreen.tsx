@@ -20,20 +20,19 @@ import CategoryBottomSheet from '../components/Advert/CategoryBottomSheet';
 import ProductBottomSheet from '../components/Advert/ProductBottomSheet';
 import ProductResponse from '../payload/response/ProductResponse';
 import CategoryResponse from '../payload/response/CategoryResponse';
-import {checkObject} from '../helper/Helper';
+import {checkObject, formatDate} from '../helper/Helper';
 import Container from '../components/Container/Container';
+import AlertDialog from '../components/AlertDialog/AlertDialog';
 
-const family = ['Feriza', 'Özkan'];
 export default function AddAdvertScreen(
   props: NativeStackScreenProps<RootStackParamList, 'AddAdvertScreen'>,
 ) {
   var ref = useRef<FormContainerRef>(null);
-  const [useRegister] = AdvertApi.useCreateAdvertMutation();
-  const [selectedFamily, setSelectedFamily] = useState<string>('');
+  const [useCreateAdvert] = AdvertApi.useCreateAdvertMutation();
   const [selectedProduct, setSelectedProduct] = useState({} as ProductResponse);
-  const [selectedCategory, setSelectedCategory] = useState({
-    id: 1,
-  } as CategoryResponse);
+  const [selectedCategory, setSelectedCategory] = useState(
+    {} as CategoryResponse,
+  );
   const [advertRequest, setAdvertRequest] = useState<CreateAdvertRequest>({
     productId: 0,
     stockQuantity: 1,
@@ -50,19 +49,13 @@ export default function AddAdvertScreen(
   const [isCalendarVisible, setIsCalendarVisible] = useState(false);
 
   const handleExpirationDateChange = (day: any) => {
-    const formattedDate = formatDate(day.dateString);
-    setAdvertRequest({...advertRequest, expiryDate: formattedDate});
+    setAdvertRequest({...advertRequest, expiryDate: day.dateString});
     setIsCalendarVisible(false);
   };
 
   const handleProductionDateChange = (day: any) => {
-    const formattedDate = formatDate(day.dateString);
-    setAdvertRequest({...advertRequest, startDate: formattedDate});
+    setAdvertRequest({...advertRequest, startDate: day.dateString});
     setIsCalendarVisible(false);
-  };
-
-  const formatDate = (dateString: string) => {
-    return dayjs(dateString).format('DD.MM.YYYY');
   };
 
   const checkRequestForm = () => {
@@ -85,7 +78,25 @@ export default function AddAdvertScreen(
     };
     return checkObject(form);
   };
-
+  const handleSave = async () => {
+    try {
+      let result = await useCreateAdvert(advertRequest);
+      console.log(result);
+      if (result.data?.isSuccessful) {
+        AlertDialog.showModal({
+          type: 'success',
+          title: 'İlanınız Oluşturuldu',
+          message: 'İlanınız başarıyla yayına alınmıştır.',
+        });
+      }
+    } catch (error) {
+      AlertDialog.showModal({
+        type: 'error',
+        title: 'İlanınız oluşturulamadı',
+        message: 'İlanınız oluşturulamadı tekrar deneyiniz',
+      });
+    }
+  };
   return (
     <KeyboardAvoidingView
       style={{flex: 1}}
@@ -100,7 +111,9 @@ export default function AddAdvertScreen(
             isPlaceholder={true}
             required
             id="category"
-            placeholderValue={selectedFamily ? selectedFamily : 'Kategori Seç'}
+            placeholderValue={
+              selectedCategory ? selectedCategory.name : 'Kategori Seç'
+            }
           />
           <Input
             handlePress={() => {
@@ -136,7 +149,7 @@ export default function AddAdvertScreen(
             id="productionDate"
             placeholderValue={
               advertRequest.startDate && advertRequest?.startDate?.length > 0
-                ? advertRequest.startDate
+                ? formatDate(advertRequest.startDate)
                 : 'Üretim Tarihi'
             }
           />
@@ -150,13 +163,16 @@ export default function AddAdvertScreen(
             id="expirationDate"
             placeholderValue={
               advertRequest.expiryDate.length > 0
-                ? advertRequest.expiryDate
+                ? formatDate(advertRequest.expiryDate)
                 : 'Son Kullanma Tarihi'
             }
           />
         </Container>
         <Container mx={10} flex={0.15}>
-          <Button isDisabled={checkRequestForm()} text="KAYDET"></Button>
+          <Button
+            onPress={handleSave}
+            isDisabled={checkRequestForm()}
+            text="KAYDET"></Button>
         </Container>
       </Page>
 

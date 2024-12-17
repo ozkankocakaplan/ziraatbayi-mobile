@@ -8,7 +8,7 @@ import {RootState} from '../store';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faBullhorn, faHome, faUser} from '@fortawesome/free-solid-svg-icons';
 import HomeScreen from '../screens/HomeScreen';
-import AdvertScreen from '../screens/AdvertScreen';
+import AdvertScreen from '../screens/Advert/AdvertScreen';
 import AccountScreen from '../screens/AccountScreen';
 
 const Tab = createBottomTabNavigator<BottomTabParamList>();

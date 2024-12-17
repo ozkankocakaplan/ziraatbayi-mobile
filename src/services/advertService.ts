@@ -78,10 +78,10 @@ const advertApi = baseApi.injectEndpoints({
       ServiceResponse<AdvertResponse>,
       CreateAdvertRequest
     >({
-      query: credentials => ({
+      query: body => ({
         url: '/advert/create-advert',
         method: 'POST',
-        body: credentials,
+        body,
       }),
     }),
   }),

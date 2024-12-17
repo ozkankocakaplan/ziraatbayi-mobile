@@ -1,14 +1,12 @@
-import {View, Text, ScrollView} from 'react-native';
-import React, {RefObject, useEffect, useRef, useState} from 'react';
-import Input from '../Input/Input';
-import styled from 'styled-components';
+import {ScrollView} from 'react-native';
+import React, {RefObject, useEffect, useState} from 'react';
 import CustomBottomSheet, {
   BottomSheetRef,
 } from '../BottomSheet/CustomBottomSheet';
 import CheckRadio from '../CheckInput/CheckRadio';
 import ProductResponse from '../../payload/response/ProductResponse';
+import {ProductApi} from '../../services/productService';
 
-const family = [] as ProductResponse[];
 interface ProductBottomSheetProps {
   categoryId?: number;
   bottomSheetRef: RefObject<BottomSheetRef>;
@@ -21,17 +19,23 @@ export default function ProductBottomSheet({
   handleChecked,
   categoryId,
 }: ProductBottomSheetProps) {
-  //products state
-  useEffect(() => {
-    if (categoryId != null && categoryId != 0) {
-      //istek
-    }
-  }, [categoryId]);
+  const [products, setProducts] = useState<ProductResponse[]>([]);
 
+  const [getProductsByCategory] = ProductApi.useGetProductsByCategoryMutation();
+
+  useEffect(() => {
+    getLoadCategories();
+  }, [categoryId]);
+  const getLoadCategories = async () => {
+    if (categoryId != null && categoryId != 0) {
+      const response = await getProductsByCategory(categoryId);
+      setProducts(response.data?.list || []);
+    }
+  };
   return (
     <CustomBottomSheet ref={bottomSheetRef} snapPoints={['50%']}>
       <ScrollView contentContainerStyle={{margin: 10}}>
-        {family.map((item, index) => {
+        {products?.map?.((item: ProductResponse) => {
           return (
             <CheckRadio
               key={item.id}

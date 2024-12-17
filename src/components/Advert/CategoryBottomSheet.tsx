@@ -1,14 +1,12 @@
 import {View, Text, ScrollView} from 'react-native';
-import React, {RefObject, useRef, useState} from 'react';
-import Input from '../Input/Input';
-import styled from 'styled-components';
+import React, {RefObject, useEffect, useState} from 'react';
 import CustomBottomSheet, {
   BottomSheetRef,
 } from '../BottomSheet/CustomBottomSheet';
 import CheckRadio from '../CheckInput/CheckRadio';
 import CategoryResponse from '../../payload/response/CategoryResponse';
+import {CategoryApi} from '../../services/categoryService';
 
-const family = [] as CategoryResponse[];
 interface CategoryBottomSheetProps {
   bottomSheetRef: RefObject<BottomSheetRef>;
   checked?: CategoryResponse;
@@ -19,10 +17,19 @@ export default function CategoryBottomSheet({
   checked,
   handleChecked,
 }: CategoryBottomSheetProps) {
+  const [categories, setCategories] = useState<CategoryResponse[]>([]);
+  const {data} = CategoryApi.useGetCategoriesQuery(true);
+
+  useEffect(() => {
+    if (data) {
+      setCategories(data.list);
+    }
+  }, [data]);
+
   return (
     <CustomBottomSheet ref={bottomSheetRef} snapPoints={['50%']}>
       <ScrollView contentContainerStyle={{margin: 10}}>
-        {family.map((item, index) => {
+        {categories.map((item: CategoryResponse) => {
           return (
             <CheckRadio
               key={item.id}

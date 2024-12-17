@@ -8,7 +8,6 @@ interface PageProps extends HeaderProps {
   header?: boolean;
   showGoBack?: boolean;
   bgColor?: string;
-
   flex?: number;
   isLoading?: boolean;
 }
