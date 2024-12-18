@@ -4,7 +4,7 @@ interface CustomListProps {
   contentContainerStyle?: StyleProp<ViewStyle>;
   numColumns?: number;
   data: any[];
-  filter?: (entity: any, value: any, index: number) => boolean;
+  filter?: (entity: any, value: any) => boolean;
   sort?: (a: any, b: any) => number;
   handleRefresh?: () => void;
   isSearchable?: boolean;

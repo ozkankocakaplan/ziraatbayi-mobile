@@ -18,6 +18,7 @@ export default function AdvertScreen(props: any) {
       refetch();
     });
   }, []);
+
   return (
     <Page header showNotification showMessage title="İlanlarım">
       {adverts && adverts.list.length > 0 ? (
@@ -26,7 +27,10 @@ export default function AdvertScreen(props: any) {
             <Container mt={10}>
               <CustomFlatList
                 isSearchable
-                data={adverts.list}
+                data={[...adverts.list].sort(
+                  (a: AdvertResponse, b: AdvertResponse) =>
+                    new Date(a.expiryDate) > new Date(b.expiryDate) ? 1 : -1,
+                )}
                 renderItem={(item: AdvertResponse) => {
                   return <AdvertListItem item={item} key={item.id} />;
                 }}

@@ -1,5 +1,5 @@
 import React, {useRef, useState} from 'react';
-import {Image, Platform, Text, TouchableOpacity, View} from 'react-native';
+import {Platform, TouchableOpacity, View} from 'react-native';
 import styled from 'styled-components';
 import {TouchableOpacityProps} from 'react-native';
 import CustomText from '../Text/Text';
@@ -10,16 +10,10 @@ import {RootState} from '../../store';
 import {AdvertApi} from '../../services/advertService';
 import AdvertResponse from '../../payload/response/AdvertResponse';
 import {AdvertActions} from '../../store/features/advertReducer';
-import dayjs from 'dayjs';
+
 import {formatDate} from '../../helper/Helper';
 import Icon from '../Icon/Icon';
-import {
-  faCalendarCheck,
-  faGripHorizontal,
-  faHistory,
-  faHourglass3,
-} from '@fortawesome/free-solid-svg-icons';
-import {faHourglass, faHourglass2} from '@fortawesome/free-regular-svg-icons';
+import {faCalendarCheck, faHourglass3} from '@fortawesome/free-solid-svg-icons';
 
 interface AdvertCardProps extends TouchableOpacityProps {
   item: AdvertResponse;

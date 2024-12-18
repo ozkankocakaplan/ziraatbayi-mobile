@@ -18,7 +18,7 @@ export default function CategoryBottomSheet({
   handleChecked,
 }: CategoryBottomSheetProps) {
   const [categories, setCategories] = useState<CategoryResponse[]>([]);
-  const {data} = CategoryApi.useGetCategoriesQuery(true);
+  const {data} = CategoryApi.useGetCategoriesLeavesQuery();
 
   useEffect(() => {
     if (data) {

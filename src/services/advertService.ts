@@ -84,6 +84,23 @@ const advertApi = baseApi.injectEndpoints({
         body,
       }),
     }),
+
+    updateAdvert: builder.mutation<
+      ServiceResponse<AdvertResponse>,
+      CreateAdvertRequest
+    >({
+      query: body => ({
+        url: '/advert/update-advert',
+        method: 'POST',
+        body,
+      }),
+    }),
+    deleteAdvert: builder.mutation<ServiceResponse<AdvertResponse>, number>({
+      query: () => ({
+        url: '/advert/delete-advert/1',
+        method: 'DELETE',
+      }),
+    }),
   }),
   overrideExisting: true,
 });

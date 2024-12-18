@@ -26,28 +26,14 @@ const categoryApi = baseApi.injectEndpoints({
         }
       },
     }),
-    getCategory: builder.query<ServiceResponse<CategoryResponse>, number>({
-      query: id => ({
-        url: '/getCategory/' + id,
-        method: 'GET',
-      }),
-      async onQueryStarted(arg, {dispatch, queryFulfilled}) {
-        try {
-          AlertDialog.showLoading();
-          let result = await queryFulfilled;
-
-          AlertDialog.hideLoading();
-        } catch (error: any) {
-          AlertDialog.showModal({
-            type: 'error',
-            message: error?.error?.data?.exceptionMessage || 'Bir hata oluştu',
-          });
-          AlertDialog.hideLoading();
-        } finally {
-          AlertDialog.hideLoading();
-        }
+    getCategoriesLeaves: builder.query<ServiceResponse<CategoryResponse>, void>(
+      {
+        query: () => ({
+          url: '/category/categories/active/leaves',
+          method: 'GET',
+        }),
       },
-    }),
+    ),
   }),
   overrideExisting: true,
 });

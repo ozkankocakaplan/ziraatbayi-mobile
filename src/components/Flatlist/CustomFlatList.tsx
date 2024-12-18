@@ -22,18 +22,14 @@ export default function CustomFlatList(props: CustomListProps) {
         return props.data
           .sort(props.sort)
           .filter((item: any, index: any) =>
-            props.filter != undefined
-              ? props.filter(item, search, index)
-              : item,
+            props.filter != undefined ? props.filter(item, search) : item,
           );
       } else {
         if (props.sort) {
           return props.data.sort(props.sort);
         } else if (props.filter) {
           return props.data.filter((item: any, index: any) =>
-            props.filter != undefined
-              ? props.filter(item, search, index)
-              : item,
+            props.filter != undefined ? props.filter(item, search) : item,
           );
         } else {
           return props.data;

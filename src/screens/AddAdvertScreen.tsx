@@ -1,21 +1,15 @@
 import React, {useRef, useState} from 'react';
 import Page from '../components/Page/Page';
-import FormContainer, {FormContainerRef} from 'react-native-form-container';
+import {FormContainerRef} from 'react-native-form-container';
 import Input from '../components/Input/Input';
-import styled from 'styled-components';
 import {KeyboardAvoidingView, Platform, ScrollView, View} from 'react-native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../types/navigator';
 import {AdvertApi} from '../services/advertService';
 import CreateAdvertRequest from '../payload/request/CreateAdvertRequest';
-import CustomBottomSheet, {
-  BottomSheetRef,
-} from '../components/BottomSheet/CustomBottomSheet';
+import {BottomSheetRef} from '../components/BottomSheet/CustomBottomSheet';
 import Button from '../components/Button/Button';
-import CheckRadio from '../components/CheckInput/CheckRadio';
 import CalendarModal from '../components/CalendarModal/CalendarModal';
-import dayjs from 'dayjs';
-import CategorySelection from '../components/Advert/CategoryBottomSheet';
 import CategoryBottomSheet from '../components/Advert/CategoryBottomSheet';
 import ProductBottomSheet from '../components/Advert/ProductBottomSheet';
 import ProductResponse from '../payload/response/ProductResponse';
@@ -117,7 +111,7 @@ export default function AddAdvertScreen(
           />
           <Input
             handlePress={() => {
-              if (selectedProduct.id) {
+              if (selectedCategory.id) {
                 productBottomSheetRef.current?.open();
               }
             }}
@@ -195,6 +189,7 @@ export default function AddAdvertScreen(
         bottomSheetRef={categoryBottomSheetRef}
         checked={selectedCategory}
         handleChecked={item => {
+          console.log(item);
           if (item) {
             setSelectedCategory(item);
           } else {
