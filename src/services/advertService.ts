@@ -1,5 +1,6 @@
 import AlertDialog from '../components/AlertDialog/AlertDialog';
 import CreateAdvertRequest from '../payload/request/CreateAdvertRequest';
+import UpdateAdvertRequest from '../payload/request/UpdateAdvertRequest';
 import AdvertResponse from '../payload/response/AdvertResponse';
 import ServiceResponse from '../payload/response/ServiceResponse';
 import {baseApi, imageApi} from '../store/api/BaseApi';
@@ -53,7 +54,6 @@ const advertApi = baseApi.injectEndpoints({
         try {
           AlertDialog.showLoading();
           let result = await queryFulfilled;
-
           AlertDialog.hideLoading();
         } catch (error: any) {
           AlertDialog.showModal({
@@ -87,7 +87,7 @@ const advertApi = baseApi.injectEndpoints({
 
     updateAdvert: builder.mutation<
       ServiceResponse<AdvertResponse>,
-      CreateAdvertRequest
+      UpdateAdvertRequest
     >({
       query: body => ({
         url: '/advert/update-advert',

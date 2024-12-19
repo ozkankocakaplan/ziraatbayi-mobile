@@ -10,6 +10,7 @@ interface CalendarModalProps {
   expirationDate: string;
   productionDate: string;
   handleDateChange: (day: any) => void;
+  minDate?: string;
 }
 export default function CalendarModal(props: CalendarModalProps) {
   const {
@@ -45,6 +46,7 @@ export default function CalendarModal(props: CalendarModalProps) {
         />
         <View style={{marginHorizontal: 10}}>
           <Calendar
+            minDate={props.minDate}
             onDayPress={handleDateChange}
             markedDates={{
               [dayjs(productionDate).format('YYYY-MM-DD')]: {

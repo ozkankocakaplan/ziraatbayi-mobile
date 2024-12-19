@@ -5,8 +5,8 @@ interface CustomListProps {
   contentContainerStyle?: StyleProp<ViewStyle>;
   numColumns?: number;
   data: any[];
-  filter?: (entity: any, value: any) => boolean;
-  sort?: (a: any, b: any) => number;
+  listFilter?: (entity: any, search: string) => Boolean;
+  listSort?: (a: any, b: any) => number;
   handleRefresh?: () => void;
   isSearchable?: boolean;
   searchStyle?: StyleProp<ViewStyle>;
@@ -14,6 +14,7 @@ interface CustomListProps {
   isBottomSheet?: boolean;
   renderItem: (item: any, index: number) => JSX.Element;
   notFoundText?: string;
+  customNotFound?: JSX.Element;
   extraData?: React.ReactNode;
 }
 export default CustomListProps;

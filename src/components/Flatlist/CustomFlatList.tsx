@@ -10,28 +10,33 @@ export default function CustomFlatList(props: CustomListProps) {
   const [search, setSearch] = useState('');
 
   const GetData = () => {
-    if (props.data) {
-      if (props.filter && props.sort) {
-        return props.data
-          .sort(props.sort)
-          .filter((item: any, index: any) =>
-            props.filter != undefined ? props.filter(item, search) : item,
+    if (props.data && props.data.length != 0) {
+      if (props.listFilter && props.listSort) {
+        return [...props.data]
+          .sort(props.listSort)
+          .filter(item =>
+            props.listFilter != undefined
+              ? props.listFilter(item, search)
+              : item,
           );
       } else {
-        if (props.sort) {
-          return props.data.sort(props.sort);
-        } else if (props.filter) {
-          return props.data.filter((item: any, index: any) =>
-            props.filter != undefined ? props.filter(item, search) : item,
+        if (props.listSort) {
+          return props.data.sort(props.listSort);
+        } else if (props.listFilter) {
+          return [...props.data].filter(item =>
+            props.listFilter != undefined
+              ? props.listFilter(item, search)
+              : item,
           );
         } else {
-          return props.data;
+          return [...props.data];
         }
       }
     } else {
       return [];
     }
   };
+
   return (
     <>
       {props.isSearchable && (
@@ -41,7 +46,7 @@ export default function CustomFlatList(props: CustomListProps) {
             inputSize="sm"
             style={{backgroundColor: '#fff'}}
             icon={faSearch}
-            placeholder="Ürün Ara"
+            placeholder={props.searchPlaceholder || 'Ara'}
             onChangeText={text => setSearch(text)}
             value={search}
           />
@@ -52,12 +57,12 @@ export default function CustomFlatList(props: CustomListProps) {
         !props.isBottomSheet ? (
           <FlatList
             {...props}
+            data={GetData() || []}
             contentContainerStyle={props?.contentContainerStyle}
-            data={GetData() as any}
             keyExtractor={(item, index) => index.toString()}
+            renderItem={({item, index}) => props.renderItem(item, index)}
             scrollEventThrottle={16}
             onEndReachedThreshold={0.5}
-            renderItem={({item, index}) => props.renderItem(item, index)}
             refreshControl={
               <RefreshControl
                 refreshing={onRefresh}
@@ -72,6 +77,8 @@ export default function CustomFlatList(props: CustomListProps) {
             }
           />
         ) : null
+      ) : props.customNotFound && !search ? (
+        props.customNotFound
       ) : (
         <View
           style={{

@@ -7,6 +7,7 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from 'react-native-reanimated';
+import Container from '../Container/Container';
 
 const Switch = ({
   value,

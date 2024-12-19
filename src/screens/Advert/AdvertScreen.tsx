@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {AdvertApi} from '../../services/advertService';
 import Container from '../../components/Container/Container';
 import Page from '../../components/Page/Page';
@@ -13,10 +13,19 @@ import styled from 'styled-components';
 import {View} from 'react-native';
 import useThemeColors from '../../constant/useColor';
 
+type SelectedFilter = 'active' | 'passive';
+const PassiveColor = '#4CB05750';
 export default function AdvertScreen(props: any) {
-  const {data: adverts, refetch} = AdvertApi.useGetAdvertsByDealerIdQuery();
+  const {
+    data: adverts,
+    refetch,
+    isLoading,
+  } = AdvertApi.useGetAdvertsByDealerIdQuery();
+
   const {navigation} = props;
   const colors = useThemeColors();
+  const [selectedFilter, setSelectedFilter] =
+    React.useState<SelectedFilter>('active');
   useEffect(() => {
     navigation.addListener('focus', () => {
       refetch();
@@ -25,58 +34,78 @@ export default function AdvertScreen(props: any) {
 
   return (
     <Page header showNotification showMessage title="İlanlarım">
-      {adverts && adverts.list.length > 0 ? (
-        <Container pb={10} pl={10} pr={10}>
-          <Container>
-            <Container mt={10}>
-              <CustomFlatList
-                extraData={
-                  <FilterContainer>
-                    <Flex>
-                      <Button
-                        borderRadius={100}
-                        textColor={colors.primary}
-                        outline
-                        text="Aktif İlanlar"></Button>
-                    </Flex>
-                    <Flex>
-                      <Button
-                        borderRadius={100}
-                        textColor={colors.primary}
-                        outline
-                        text="Bekleyen İlanlar"></Button>
-                    </Flex>
-                  </FilterContainer>
+      <Container pb={10} pl={10} pr={10}>
+        <Container>
+          <Container mt={10}>
+            <CustomFlatList
+              notFoundText="İlan Bulunamadı"
+              customNotFound={
+                <Container gap={10} aItems="center" jContent="center">
+                  <CustomText color="black" fontSizes="body4">
+                    Henüz hiç ilan eklemediniz.
+                  </CustomText>
+                  <Button
+                    text="İlan Ekle"
+                    onPress={() => props.navigation.navigate('AddAdvertScreen')}
+                  />
+                </Container>
+              }
+              extraData={
+                <FilterContainer>
+                  <Flex>
+                    <Button
+                      onPress={() => setSelectedFilter('active')}
+                      borderRadius={100}
+                      textColor={
+                        selectedFilter === 'active'
+                          ? colors.primary
+                          : PassiveColor
+                      }
+                      outline
+                      text="Yayında Olanlar"></Button>
+                  </Flex>
+                  <Flex>
+                    <Button
+                      onPress={() => setSelectedFilter('passive')}
+                      borderRadius={100}
+                      textColor={
+                        selectedFilter === 'passive'
+                          ? colors.primary
+                          : PassiveColor
+                      }
+                      outline
+                      text="Yayında Olmayanlar "></Button>
+                  </Flex>
+                </FilterContainer>
+              }
+              isSearchable
+              listSort={(a: AdvertResponse, b: AdvertResponse) => {
+                return a.id - b.id;
+              }}
+              listFilter={(entity: AdvertResponse, value: string) => {
+                if (selectedFilter === 'active') {
+                  return entity.isActive && entity.product.name.includes(value);
+                } else {
+                  return (
+                    !entity.isActive && entity.product.name.includes(value)
+                  );
                 }
-                isSearchable
-                data={[...adverts.list].sort(
-                  (a: AdvertResponse, b: AdvertResponse) =>
-                    new Date(a.expiryDate) > new Date(b.expiryDate) ? 1 : -1,
-                )}
-                renderItem={(item: AdvertResponse) => {
-                  return <AdvertListItem item={item} key={item.id} />;
-                }}
-              />
-            </Container>
-            <Container flex={0.07}>
-              <Button
-                onPress={() => props.navigation.navigate('AddAdvertScreen')}
-                text="YENİ İLAN EKLE"
-              />
-            </Container>
+              }}
+              searchPlaceholder="İlan Ara"
+              data={adverts?.list || []}
+              renderItem={(item: any) => {
+                return <AdvertListItem item={item} key={item.id} />;
+              }}
+            />
+          </Container>
+          <Container flex={0.07}>
+            <Button
+              onPress={() => props.navigation.navigate('AddAdvertScreen')}
+              text="YENİ İLAN EKLE"
+            />
           </Container>
         </Container>
-      ) : (
-        <Container gap={10} aItems="center" jContent="center">
-          <CustomText color="black" fontSizes="body4">
-            Henüz hiç ilan eklemediniz.
-          </CustomText>
-          <Button
-            text="İlan Ekle"
-            onPress={() => props.navigation.navigate('AddAdvertScreen')}
-          />
-        </Container>
-      )}
+      </Container>
     </Page>
   );
 }

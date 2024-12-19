@@ -11,8 +11,6 @@ import BottomTabNavigator from './BottomTabNavigator';
 import ChatListScreen from '../screens/ChatListScreen/ChatListScreen';
 import NotificationScreen from '../screens/NotificationScreen';
 import CategoriesScreen from '../screens/CategoriesScreen';
-import AddAdvertScreen from '../screens/AddAdvertScreen';
-import EditAdvertScreen from '../screens/EditAdvertScreen';
 import UserInfoScreen from '../screens/UserInfoScreen';
 import ChangePasswordScreen from '../screens/ChangePasswordScreen';
 import SupportScreen from '../screens/SupportScreen';
@@ -22,6 +20,8 @@ import FirebaseNotification from '../firebase/FirebaseNotification';
 import DealerDetailScreen from '../screens/DealerDetailScreen';
 import ResetPasswordScreen from '../screens/ResetPasswordScreen';
 import MainScreen from '../screens/MainScreen';
+import EditAdvertScreen from '../screens/Advert/EditAdvertScreen';
+import AddAdvertScreen from '../screens/Advert/AddAdvertScreen';
 
 const Stack = createStackNavigator<RootStackParamList>();
 const RootNavigator = () => {

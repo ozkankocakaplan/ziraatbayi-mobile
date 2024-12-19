@@ -1,0 +1,303 @@
+import React, {useEffect, useRef, useState} from 'react';
+import Page from '../../components/Page/Page';
+import Input from '../../components/Input/Input';
+import {
+  Keyboard,
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+  View,
+} from 'react-native';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {RootStackParamList} from '../../types/navigator';
+import {AdvertApi} from '../../services/advertService';
+import {BottomSheetRef} from '../../components/BottomSheet/CustomBottomSheet';
+import Button from '../../components/Button/Button';
+import CalendarModal from '../../components/CalendarModal/CalendarModal';
+import CategoryBottomSheet from '../../components/Advert/CategoryBottomSheet';
+import ProductBottomSheet from '../../components/Advert/ProductBottomSheet';
+import ProductResponse from '../../payload/response/ProductResponse';
+import CategoryResponse from '../../payload/response/CategoryResponse';
+import {checkObject, formatDate} from '../../helper/Helper';
+import Container from '../../components/Container/Container';
+import AlertDialog from '../../components/AlertDialog/AlertDialog';
+import dayjs from 'dayjs';
+import UpdateAdvertRequest from '../../payload/request/UpdateAdvertRequest';
+import CheckInput from '../../components/CheckInput/CheckInput';
+
+export default function EditAdvertScreen({
+  navigation,
+  route,
+}: NativeStackScreenProps<RootStackParamList, 'EditAdvertScreen'>) {
+  const categoryBottomSheetRef = useRef<BottomSheetRef>(null);
+  const productBottomSheetRef = useRef<BottomSheetRef>(null);
+  const advertId = route.params.id;
+  const [getAdvert] = AdvertApi.useGetAdvertByIdMutation();
+  const [useUpdateAdvert] = AdvertApi.useUpdateAdvertMutation();
+  const [isCalendarVisible, setIsCalendarVisible] = useState(false);
+  const [activeInput, setActiveInput] = useState<
+    'productionDate' | 'expirationDate' | null
+  >(null);
+  const [selectedProduct, setSelectedProduct] = useState({} as ProductResponse);
+  const [selectedCategory, setSelectedCategory] = useState(
+    {} as CategoryResponse,
+  );
+  const [advertRequest, setAdvertRequest] = useState<UpdateAdvertRequest>(
+    {} as UpdateAdvertRequest,
+  );
+
+  useEffect(() => {
+    navigation.addListener('focus', () => {
+      loadAdvert();
+    });
+  }, []);
+
+  const loadAdvert = async () => {
+    const {data} = await getAdvert(advertId);
+    if (data?.isSuccessful) {
+      let request = {
+        id: advertId,
+        productId: data.entity.product.id,
+        stockQuantity: data.entity.stockQuantity,
+        minOrderQuantity: data.entity.minOrderQuantity,
+        startDate:
+          data.entity.startDate != null
+            ? dayjs(data.entity.startDate).format('YYYY-MM-DD')
+            : '',
+        expiryDate:
+          data.entity.expiryDate != null
+            ? dayjs(data.entity.expiryDate).format('YYYY-MM-DD')
+            : '',
+        isActive: data.entity.isActive,
+      } as UpdateAdvertRequest;
+      let categoryResponse = {
+        id: data.entity.product.categoryId,
+        name: data.entity.product.categoryName,
+      } as CategoryResponse;
+      let productResponse = {
+        ...data.entity.product,
+      };
+      setSelectedCategory(categoryResponse);
+      setSelectedProduct(productResponse);
+      setAdvertRequest(request);
+    }
+  };
+
+  const handleChangeAdvertRequest = (
+    key: keyof UpdateAdvertRequest,
+    value: any,
+  ) => {
+    setAdvertRequest({...advertRequest, [key]: value});
+    if (key === 'expiryDate' || key === 'startDate') {
+      setIsCalendarVisible(false);
+    }
+  };
+
+  const checkRequestForm = () => {
+    let form = {
+      productId:
+        advertRequest?.productId == 0
+          ? ''
+          : advertRequest?.productId?.toString(),
+      categoryId:
+        Object.keys(selectedCategory).length == 0
+          ? ''
+          : selectedCategory?.id.toString(),
+      stockQuantity:
+        advertRequest?.stockQuantity == 0
+          ? ''
+          : advertRequest?.stockQuantity?.toString(),
+      minOrderQuantity:
+        advertRequest.minOrderQuantity == 0
+          ? ''
+          : advertRequest?.minOrderQuantity?.toString() || '',
+      expiryDate: advertRequest.expiryDate,
+    };
+    return checkObject(form);
+  };
+  const handleSave = async () => {
+    try {
+      let result = await useUpdateAdvert({
+        ...advertRequest,
+        stockQuantity: parseInt(advertRequest.stockQuantity),
+        minOrderQuantity: parseInt(advertRequest.minOrderQuantity),
+      });
+      if (result.data?.isSuccessful) {
+        AlertDialog.showModal({
+          disableCloseOnTouchOutside: true,
+          type: 'success',
+          message: 'İlanınız başarıyla güncellenmiştir.',
+          onConfirm() {
+            navigation.goBack();
+          },
+        });
+      }
+    } catch (error) {
+      AlertDialog.showModal({
+        type: 'error',
+        title: 'İlanınız oluşturulamadı',
+        message: 'İlanınız oluşturulamadı tekrar deneyiniz',
+      });
+    }
+  };
+  return (
+    <KeyboardAvoidingView
+      style={{flex: 1}}
+      keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 50}
+      behavior={'padding'}>
+      <Page header showGoBack title="İlan Düzenle">
+        <Container mx={10} mt={10}>
+          <ScrollView
+            showsHorizontalScrollIndicator={false}
+            showsVerticalScrollIndicator={false}
+            keyboardShouldPersistTaps="handled"
+            keyboardDismissMode="on-drag"
+            contentContainerStyle={{gap: 10}}>
+            <Input
+              handlePress={() => {
+                categoryBottomSheetRef.current?.open();
+              }}
+              isPlaceholder={true}
+              required
+              id="category"
+              placeholderValue={
+                selectedCategory?.id
+                  ? selectedCategory.name
+                  : 'Kategori Seçiniz'
+              }
+            />
+            <Input
+              handlePress={() => {
+                if (selectedCategory.id) {
+                  productBottomSheetRef.current?.open();
+                }
+              }}
+              isPlaceholder={true}
+              placeholderValue={
+                advertRequest.productId == 0
+                  ? 'Ürün Seçiniz'
+                  : selectedProduct.name
+              }
+              required
+              id="productName"
+            />
+            <Input
+              required
+              id="stockQuantity"
+              placeholder="Stok Miktarı"
+              keyboardType="number-pad"
+              value={advertRequest?.stockQuantity?.toString()}
+              onChangeText={text => {
+                handleChangeAdvertRequest('stockQuantity', text);
+              }}
+            />
+            <Input
+              required
+              id="orderQuantity"
+              placeholder="Minimum Sipariş Miktarı"
+              keyboardType="number-pad"
+              value={advertRequest?.minOrderQuantity?.toString()}
+              onChangeText={text => {
+                handleChangeAdvertRequest('minOrderQuantity', text);
+              }}
+            />
+
+            <Input
+              handlePress={() => {
+                setActiveInput('productionDate');
+                setIsCalendarVisible(true);
+              }}
+              isPlaceholder={true}
+              required
+              id="productionDate"
+              placeholderValue={
+                advertRequest?.startDate && advertRequest?.startDate?.length > 0
+                  ? formatDate(advertRequest.startDate)
+                  : 'Üretim Tarihi'
+              }
+            />
+            <Input
+              handlePress={() => {
+                setActiveInput('expirationDate');
+                setIsCalendarVisible(true);
+              }}
+              isPlaceholder={true}
+              required
+              id="expirationDate"
+              placeholderValue={
+                advertRequest?.expiryDate?.length > 0
+                  ? formatDate(advertRequest.expiryDate)
+                  : 'Son Kullanma Tarihi'
+              }
+            />
+
+            <CheckInput
+              fontWeight="bold"
+              bgColor="white"
+              value={advertRequest.isActive}
+              onPress={() => {
+                handleChangeAdvertRequest('isActive', !advertRequest.isActive);
+              }}
+              clickLabel={() => {
+                handleChangeAdvertRequest('isActive', !advertRequest.isActive);
+              }}
+              label="İlanı Aktif Et"
+            />
+          </ScrollView>
+        </Container>
+
+        <Container mx={10} flex={0.15}>
+          <Button
+            onPress={handleSave}
+            isDisabled={checkRequestForm()}
+            text="KAYDET"></Button>
+        </Container>
+      </Page>
+
+      <CalendarModal
+        isCalendarVisible={isCalendarVisible}
+        setIsCalendarVisible={value => {
+          setIsCalendarVisible(value);
+        }}
+        minDate={
+          advertRequest.startDate && advertRequest?.startDate.length > 0
+            ? advertRequest.startDate
+            : activeInput === 'productionDate'
+            ? undefined
+            : dayjs().format('YYYY-MM-DD')
+        }
+        expirationDate={advertRequest.expiryDate}
+        productionDate={advertRequest.startDate || ''}
+        handleDateChange={day => {
+          activeInput === 'productionDate'
+            ? handleChangeAdvertRequest('startDate', day.dateString)
+            : handleChangeAdvertRequest('expiryDate', day.dateString);
+        }}
+      />
+      <CategoryBottomSheet
+        bottomSheetRef={categoryBottomSheetRef}
+        checked={selectedCategory}
+        handleChecked={item => {
+          if (item) {
+            setSelectedCategory(item);
+          } else {
+            setSelectedCategory({} as CategoryResponse);
+          }
+        }}
+      />
+      <ProductBottomSheet
+        bottomSheetRef={productBottomSheetRef}
+        categoryId={selectedCategory.id}
+        checked={selectedProduct}
+        handleChecked={item => {
+          if (item) {
+            setSelectedProduct(item);
+          } else {
+            setSelectedProduct({} as ProductResponse);
+          }
+          setAdvertRequest({...advertRequest, productId: item?.id || 0});
+        }}
+      />
+    </KeyboardAvoidingView>
+  );
+}

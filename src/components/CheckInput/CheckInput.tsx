@@ -4,6 +4,7 @@ import {
   TouchableOpacity,
   TouchableOpacityProps,
   Platform,
+  Pressable,
 } from 'react-native';
 import React from 'react';
 import styled from 'styled-components';
@@ -19,6 +20,8 @@ interface CheckInputProps extends TouchableOpacityProps {
   clickedLabel?: string;
   errorMessage?: string;
   type?: 'checkbox';
+  bgColor?: string;
+  fontWeight?: 'bold' | 'normal';
 }
 export default function CheckInput({
   value = false,
@@ -74,7 +77,11 @@ export default function CheckInput({
         </Label>
       );
     }
-    return <Label>{label}</Label>;
+    return (
+      <Pressable hitSlop={15} onPress={clickLabel}>
+        <Label fontWeight={props.fontWeight}>{label}</Label>
+      </Pressable>
+    );
   };
 
   const FindLabelByIndex = () => {
@@ -100,7 +107,7 @@ export default function CheckInput({
   return (
     <View>
       <Container>
-        <InputContainer {...props} activeOpacity={0.7}>
+        <InputContainer bgColor={props.bgColor} {...props} activeOpacity={0.7}>
           {value ? (
             <FontAwesomeIcon
               color={colors.iconColor}
@@ -122,12 +129,12 @@ export default function CheckInput({
     </View>
   );
 }
-const InputContainer = styled(TouchableOpacity)`
+const InputContainer = styled(TouchableOpacity)<{bgColor?: string}>`
   padding: 15px;
   max-width: 30px;
   max-height: 30px;
   border-radius: 5px;
-  background-color: #ebeff3;
+  background-color: ${props => props.bgColor || '#f5f5f5'};
   align-items: center;
   justify-content: center;
 `;
@@ -136,8 +143,8 @@ const Container = styled(View)`
   align-items: center;
   gap: 10px;
 `;
-const Label = styled(Text)`
+const Label = styled(Text)<{fontWeight?: 'bold' | 'normal'}>`
   font-size: 13px;
-  font-weight: 400;
+  font-weight: ${props => props.fontWeight || '400'};
   color: #444;
 `;

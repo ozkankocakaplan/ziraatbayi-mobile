@@ -25,7 +25,7 @@ export type RootStackParamList = {
   };
   AddAdvertScreen: undefined;
   AdvertScreen: undefined;
-  EditAdvertScreen: undefined;
+  EditAdvertScreen: {id: number};
   SearchScreen: {query: string};
   UserInfoScreen: undefined;
   ChangePasswordScreen: undefined;

@@ -17,7 +17,7 @@ const AdvertListItem = ({item}: {item: AdvertResponse}) => {
   return (
     <StyledContainer
       key={item.id}
-      onPress={() => navigation.navigate('EditAdvertScreen')}>
+      onPress={() => navigation.navigate('EditAdvertScreen', {id: item.id})}>
       <Row gap={5}>
         <ImageWrapper>
           <ProductImageContainer>
