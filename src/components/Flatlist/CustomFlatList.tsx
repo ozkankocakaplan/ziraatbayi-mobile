@@ -1,11 +1,4 @@
-import {
-  View,
-  Text,
-  FlatList,
-  Dimensions,
-  ActivityIndicator,
-  RefreshControl,
-} from 'react-native';
+import {View, FlatList, Dimensions, RefreshControl} from 'react-native';
 import React, {useState} from 'react';
 import CustomListProps from './CustomFlatListProps';
 import Input from '../Input/Input';
@@ -54,6 +47,7 @@ export default function CustomFlatList(props: CustomListProps) {
           />
         </View>
       )}
+      {props.extraData}
       {GetData() && GetData().length != 0 ? (
         !props.isBottomSheet ? (
           <FlatList

@@ -8,11 +8,15 @@ import Button from '../../components/Button/Button';
 import AdvertResponse from '../../payload/response/AdvertResponse';
 import CustomFlatList from '../../components/Flatlist/CustomFlatList';
 import AdvertListItem from './AdvertListItem';
+import {Col, Flex, Row} from '../../constant/GlobalStyled';
+import styled from 'styled-components';
+import {View} from 'react-native';
+import useThemeColors from '../../constant/useColor';
 
 export default function AdvertScreen(props: any) {
   const {data: adverts, refetch} = AdvertApi.useGetAdvertsByDealerIdQuery();
   const {navigation} = props;
-
+  const colors = useThemeColors();
   useEffect(() => {
     navigation.addListener('focus', () => {
       refetch();
@@ -26,6 +30,24 @@ export default function AdvertScreen(props: any) {
           <Container>
             <Container mt={10}>
               <CustomFlatList
+                extraData={
+                  <FilterContainer>
+                    <Flex>
+                      <Button
+                        borderRadius={100}
+                        textColor={colors.primary}
+                        outline
+                        text="Aktif İlanlar"></Button>
+                    </Flex>
+                    <Flex>
+                      <Button
+                        borderRadius={100}
+                        textColor={colors.primary}
+                        outline
+                        text="Bekleyen İlanlar"></Button>
+                    </Flex>
+                  </FilterContainer>
+                }
                 isSearchable
                 data={[...adverts.list].sort(
                   (a: AdvertResponse, b: AdvertResponse) =>
@@ -58,3 +80,8 @@ export default function AdvertScreen(props: any) {
     </Page>
   );
 }
+const FilterContainer = styled(View)`
+  gap: 10px;
+  flex-direction: row;
+  margin-bottom: 10px;
+`;

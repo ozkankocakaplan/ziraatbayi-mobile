@@ -13,6 +13,7 @@ const Colors = {
     descriptionColor: '#797979',
     inputPlaceholder: '#868182',
     error: '#FF0000',
+    textWhite: 'white',
   },
   dark: {
     background: '#f0f0f0',
@@ -26,6 +27,7 @@ const Colors = {
     descriptionColor: '#797979',
     inputPlaceholder: '#868182',
     error: '#FF0000',
+    textWhite: 'white',
   },
 };
 

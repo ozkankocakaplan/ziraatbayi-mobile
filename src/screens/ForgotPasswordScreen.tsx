@@ -10,11 +10,19 @@ import {RootStackParamList} from '../types/navigator';
 import Page from '../components/Page/Page';
 import {LogoIcon} from '../assets/logo';
 import {checkObject} from '../helper/Helper';
+import {UserApi} from '../services/userService';
 
 export default function ForgotPasswordScreen(
   props: NativeStackScreenProps<RootStackParamList, 'ForgotPasswordScreen'>,
 ) {
   const [email, setEmail] = useState('');
+
+  const [forgotPassword] = UserApi.useForgotPasswordMutation();
+
+  const handleSubmit = async () => {
+    await forgotPassword({email}).unwrap();
+  };
+
   return (
     <Page header title="Şifremi Unuttum" showGoBack>
       <Container mx={10} bgColor="white">
@@ -37,7 +45,11 @@ export default function ForgotPasswordScreen(
           />
 
           <View style={{marginTop: 15}}>
-            <Button text="Gönder" isDisabled={checkObject({email})} />
+            <Button
+              text="Gönder"
+              isDisabled={checkObject({email})}
+              onPress={handleSubmit}
+            />
           </View>
         </PasswordContainer>
       </Container>

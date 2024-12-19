@@ -54,9 +54,12 @@ export const userApi = baseApi.injectEndpoints({
         }
       },
     }),
-    forgotPassword: builder.mutation<ServiceResponse<DealerResponse>, void>({
+    forgotPassword: builder.mutation<
+      ServiceResponse<DealerResponse>,
+      {email: string}
+    >({
       query: credentials => ({
-        url: 'user/forgot-password?email=ozkankocakaplan07@gmail.com',
+        url: 'user/forgot-password?email=ferizaocal60@gmail.com',
         method: 'POST',
         body: credentials,
       }),

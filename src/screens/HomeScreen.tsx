@@ -31,12 +31,8 @@ export default function HomeScreen(
 ) {
   const {fcmToken} = useFcmToken();
   const {mainCategories} = useSelector((x: RootState) => x.category);
-  const {
-    data: adverts,
-    refetch: refetchAdverts,
-    isLoading,
-    error,
-  } = AdvertApi.useGetShowCaseAdvertsQuery();
+  const {data: adverts, refetch: refetchAdverts} =
+    AdvertApi.useGetShowCaseAdvertsQuery();
   const [useCreateFcmToken] = FirebaseApi.useCreateFirebaseMutation();
   const {navigation} = props;
   const bottomSheetRef = useRef<BottomSheetRef>(null);
@@ -103,6 +99,9 @@ export default function HomeScreen(
             </FilterIconContainer>
           </HeaderRow>
           <CustomFlatList
+            handleRefresh={() => {
+              refetchAdverts();
+            }}
             numColumns={3}
             data={adverts?.list || []}
             renderItem={(item: AdvertResponse) => {

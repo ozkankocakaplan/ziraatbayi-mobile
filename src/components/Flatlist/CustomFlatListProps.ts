@@ -1,3 +1,4 @@
+import React from 'react';
 import {StyleProp, ViewStyle} from 'react-native';
 
 interface CustomListProps {
@@ -13,5 +14,6 @@ interface CustomListProps {
   isBottomSheet?: boolean;
   renderItem: (item: any, index: number) => JSX.Element;
   notFoundText?: string;
+  extraData?: React.ReactNode;
 }
 export default CustomListProps;

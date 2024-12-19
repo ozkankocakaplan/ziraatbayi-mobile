@@ -24,6 +24,7 @@ interface OutlineButtonProps extends TouchableOpacityProps {
   marginBottom?: number;
   margin?: number;
   isDisabled?: boolean;
+  variant?: boolean;
 }
 
 export default function Button({
@@ -36,10 +37,12 @@ export default function Button({
   borderRadius = SIZES.radius_sm,
   size = 'md',
   isDisabled = false,
+  variant = false,
   ...props
 }: OutlineButtonProps) {
   const colors = useThemeColors();
   var lockPressed = false;
+
   return (
     <CustomButton
       style={props.style}
@@ -81,7 +84,13 @@ export default function Button({
         <CustomText
           left
           fontWeight="bold"
-          color={outline ? 'primary' : !isDisabled ? 'white' : 'darkGrey3'}>
+          color={
+            outline
+              ? (textColor as any) || 'primary'
+              : !isDisabled
+              ? 'white'
+              : (textColor as any) || 'darkGrey3'
+          }>
           {text}
         </CustomText>
       )}
