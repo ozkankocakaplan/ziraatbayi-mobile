@@ -22,6 +22,7 @@ import ResetPasswordScreen from '../screens/ResetPasswordScreen';
 import MainScreen from '../screens/MainScreen';
 import EditAdvertScreen from '../screens/Advert/EditAdvertScreen';
 import AddAdvertScreen from '../screens/Advert/AddAdvertScreen';
+import SearchScreen from '../screens/SearchScreen';
 
 const Stack = createStackNavigator<RootStackParamList>();
 const RootNavigator = () => {
@@ -53,6 +54,7 @@ const RootNavigator = () => {
             <Stack.Screen name="HomeScreen" component={HomeScreen} />
             <Stack.Screen name="ChatListScreen" component={ChatListScreen} />
             <Stack.Screen name="ChatRoomScreen" component={ChatRoomScreen} />
+            <Stack.Screen name="SearchScreen" component={SearchScreen} />
             <Stack.Screen
               name="NotificationScreen"
               component={NotificationScreen}

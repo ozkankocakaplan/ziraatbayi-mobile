@@ -14,6 +14,7 @@ const Colors = {
     inputPlaceholder: '#868182',
     error: '#FF0000',
     textWhite: 'white',
+    black: '#000',
   },
   dark: {
     background: '#f0f0f0',
@@ -28,6 +29,7 @@ const Colors = {
     inputPlaceholder: '#868182',
     error: '#FF0000',
     textWhite: 'white',
+    black: '#000',
   },
 };
 

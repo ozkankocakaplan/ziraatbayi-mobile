@@ -90,6 +90,16 @@ const dealerApi = baseApi.injectEndpoints({
         }
       },
     }),
+    uploadDealerImage: builder.mutation<ServiceResponse<Boolean>, FormData>({
+      query: body => ({
+        url: '/dealer/upload-image',
+        method: 'POST',
+        body: body,
+        headers: new Headers({
+          'Content-Type': 'multipart/form-data',
+        }),
+      }),
+    }),
   }),
   overrideExisting: true,
 });

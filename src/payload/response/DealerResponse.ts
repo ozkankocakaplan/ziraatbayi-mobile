@@ -1,5 +1,6 @@
 export default interface DealerResponse {
   id: number;
+  companyImage: string;
   dealerId: number;
   firstName: string;
   lastName: string;

@@ -24,10 +24,12 @@ import {checkObject, formatDate} from '../../helper/Helper';
 import Container from '../../components/Container/Container';
 import AlertDialog from '../../components/AlertDialog/AlertDialog';
 import dayjs from 'dayjs';
+import useThemeColors from '../../constant/useColor';
 
 export default function AddAdvertScreen({
   navigation,
 }: NativeStackScreenProps<RootStackParamList>) {
+  const colors = useThemeColors();
   const [useCreateAdvert] = AdvertApi.useCreateAdvertMutation();
   const [selectedProduct, setSelectedProduct] = useState({} as ProductResponse);
   const [selectedCategory, setSelectedCategory] = useState(
@@ -135,6 +137,9 @@ export default function AddAdvertScreen({
                   ? selectedCategory.name
                   : 'Kategori Seçiniz'
               }
+              color={
+                selectedCategory?.id ? colors.black : colors.inputPlaceholder
+              }
             />
             <Input
               handlePress={() => {
@@ -150,6 +155,9 @@ export default function AddAdvertScreen({
               }
               required
               id="productName"
+              color={
+                selectedProduct.name ? colors.black : colors.inputPlaceholder
+              }
             />
             <Input
               required
@@ -185,6 +193,9 @@ export default function AddAdvertScreen({
                   ? formatDate(advertRequest.startDate)
                   : 'Üretim Tarihi'
               }
+              color={
+                advertRequest.startDate ? colors.black : colors.inputPlaceholder
+              }
             />
             <Input
               handlePress={() => {
@@ -198,6 +209,11 @@ export default function AddAdvertScreen({
                 advertRequest.expiryDate.length > 0
                   ? formatDate(advertRequest.expiryDate)
                   : 'Son Kullanma Tarihi'
+              }
+              color={
+                advertRequest.expiryDate
+                  ? colors.black
+                  : colors.inputPlaceholder
               }
             />
           </ScrollView>

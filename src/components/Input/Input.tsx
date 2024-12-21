@@ -22,10 +22,12 @@ export default function Input({
   isPlaceholder?: boolean;
   placeholderValue?: string;
   handlePress?: () => void;
+  color?: string;
 }) {
   const colors = useThemeColors();
   const [passwordShow, setPasswordShow] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
+
   const handleFocus = () => {
     if (enableFocusBorder) {
       setIsFocused(true);
@@ -145,7 +147,7 @@ export default function Input({
                 : size,
             borderColor: isFocused ? colors.activeBorder : colors.inputBorder,
           }}>
-          <CustomText fontWeight="normal" color="grey">
+          <CustomText fontWeight="normal" color={props.color as any}>
             {props.placeholderValue || 'Seçiniz'}
           </CustomText>
         </CustomPlaceholder>

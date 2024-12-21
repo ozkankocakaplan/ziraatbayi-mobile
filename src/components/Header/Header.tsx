@@ -20,7 +20,7 @@ import Icon from '../Icon/Icon';
 import {Col, Row} from '../../constant/GlobalStyled';
 import {useSelector} from 'react-redux';
 import {RootState} from '../../store';
-import {useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {RootStackParamList} from '../../types/navigator';
 import {AuthApi} from '../../services/authService';
 import {AdvertApi} from '../../services/advertService';

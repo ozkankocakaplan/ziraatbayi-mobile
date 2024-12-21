@@ -24,11 +24,14 @@ import AlertDialog from '../../components/AlertDialog/AlertDialog';
 import dayjs from 'dayjs';
 import UpdateAdvertRequest from '../../payload/request/UpdateAdvertRequest';
 import CheckInput from '../../components/CheckInput/CheckInput';
+import useThemeColors from '../../constant/useColor';
+import {messages} from '../../mockup/data';
 
 export default function EditAdvertScreen({
   navigation,
   route,
 }: NativeStackScreenProps<RootStackParamList, 'EditAdvertScreen'>) {
+  const colors = useThemeColors();
   const categoryBottomSheetRef = useRef<BottomSheetRef>(null);
   const productBottomSheetRef = useRef<BottomSheetRef>(null);
   const advertId = route.params.id;
@@ -140,12 +143,51 @@ export default function EditAdvertScreen({
       });
     }
   };
+  const [deleteAdvert] = AdvertApi.useDeleteAdvertMutation();
   return (
     <KeyboardAvoidingView
       style={{flex: 1}}
       keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 50}
       behavior={'padding'}>
-      <Page header showGoBack title="İlan Düzenle">
+      <Page
+        header
+        showGoBack
+        title="İlan Düzenle"
+        handleDelete={() => {
+          AlertDialog.showModal({
+            message: 'Bu ilanı silmek istediğinizden emin misiniz?',
+            onConfirm: async () => {
+              try {
+                const result = await deleteAdvert(advertId);
+                if (result.data?.isSuccessful) {
+                  AlertDialog.showModal({
+                    type: 'success',
+                    message: 'İlan başarıyla silindi.',
+                    onConfirm: () => navigation.goBack(),
+                  });
+                } else {
+                  console.log(result.error);
+                  AlertDialog.showModal({
+                    type: 'error',
+
+                    message:
+                      'İlan silinirken bir hata oluştu. Lütfen tekrar deneyin.',
+                  });
+                }
+              } catch (error) {
+                console.log(error);
+                AlertDialog.showModal({
+                  type: 'error',
+
+                  message: 'Bir hata meydana geldi. Lütfen tekrar deneyin.',
+                });
+              }
+            },
+            onCancel: () => {
+              console.log('Silme işlemi iptal edildi.');
+            },
+          });
+        }}>
         <Container mx={10} mt={10}>
           <ScrollView
             showsHorizontalScrollIndicator={false}
@@ -165,6 +207,9 @@ export default function EditAdvertScreen({
                   ? selectedCategory.name
                   : 'Kategori Seçiniz'
               }
+              color={
+                selectedCategory?.id ? colors.black : colors.inputPlaceholder
+              }
             />
             <Input
               handlePress={() => {
@@ -177,6 +222,9 @@ export default function EditAdvertScreen({
                 advertRequest.productId == 0
                   ? 'Ürün Seçiniz'
                   : selectedProduct.name
+              }
+              color={
+                selectedProduct.name ? colors.black : colors.inputPlaceholder
               }
               required
               id="productName"
@@ -215,6 +263,9 @@ export default function EditAdvertScreen({
                   ? formatDate(advertRequest.startDate)
                   : 'Üretim Tarihi'
               }
+              color={
+                advertRequest.startDate ? colors.black : colors.inputPlaceholder
+              }
             />
             <Input
               handlePress={() => {
@@ -228,6 +279,11 @@ export default function EditAdvertScreen({
                 advertRequest?.expiryDate?.length > 0
                   ? formatDate(advertRequest.expiryDate)
                   : 'Son Kullanma Tarihi'
+              }
+              color={
+                advertRequest.expiryDate
+                  ? colors.black
+                  : colors.inputPlaceholder
               }
             />
 

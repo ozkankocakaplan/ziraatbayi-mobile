@@ -69,7 +69,7 @@ const advertApi = baseApi.injectEndpoints({
     searchAdvertsByName: builder.query<ServiceResponse<AdvertResponse>, string>(
       {
         query: query => ({
-          url: '/product/search-product?query=' + query,
+          url: '/advert/search-adverts?query=' + query,
           method: 'GET',
         }),
       },
@@ -96,8 +96,8 @@ const advertApi = baseApi.injectEndpoints({
       }),
     }),
     deleteAdvert: builder.mutation<ServiceResponse<AdvertResponse>, number>({
-      query: () => ({
-        url: '/advert/delete-advert/1',
+      query: id => ({
+        url: '/advert/delete-advert/' + id,
         method: 'DELETE',
       }),
     }),

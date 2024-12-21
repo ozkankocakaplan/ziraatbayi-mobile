@@ -1,4 +1,4 @@
-import React, {useEffect, useRef} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {Platform, ScrollView, Text, TouchableOpacity, View} from 'react-native';
 import Button from '../components/Button/Button';
 import AdvertCard from '../components/Advert/AdvertCard';

@@ -13,7 +13,7 @@ import {
   faUser,
 } from '@fortawesome/free-solid-svg-icons';
 import Button from '../components/Button/Button';
-import {View} from 'react-native';
+import {TouchableOpacity, View} from 'react-native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../types/navigator';
 import {checkObject} from '../helper/Helper';
@@ -21,13 +21,19 @@ import {useSelector} from 'react-redux';
 import {RootState} from '../store';
 import {DealerApi} from '../services/dealerService';
 import Container from '../components/Container/Container';
+import usePhoto from '../hooks/usePhoto';
+import ProductImage from '../components/Advert/ProductImage';
+import AlertDialog from '../components/AlertDialog/AlertDialog';
 
 export default function UserInfoScreen({
   navigation,
 }: NativeStackScreenProps<RootStackParamList>) {
+  const {initLaunchImage, photos} = usePhoto();
   const {dealer} = useSelector((x: RootState) => x.dealer);
   const [updateDealer, {isLoading, isSuccess, isError}] =
     DealerApi.useUpdateDealerMutation();
+  const [updateImage] = DealerApi.useUploadDealerImageMutation();
+  const [uploadedImageUri, setUploadedImageUri] = useState<string | null>(null);
 
   const [formData, setFormData] = useState({
     firstName: '',
@@ -40,6 +46,12 @@ export default function UserInfoScreen({
     taxOffice: '',
     address: '',
   });
+
+  useEffect(() => {
+    if (photos.length > 0) {
+      uploadFile();
+    }
+  }, [photos]);
 
   useEffect(() => {
     if (dealer) {
@@ -56,6 +68,25 @@ export default function UserInfoScreen({
       });
     }
   }, [dealer]);
+  const uploadFile = async () => {
+    var data = new FormData();
+
+    data.append('file', {
+      uri: photos[0].uri,
+      name: photos[0].fileName,
+      type: 'image/jpeg',
+    });
+    try {
+      AlertDialog.showLoading();
+      const response = await updateImage(data).unwrap();
+
+      setUploadedImageUri(photos[0].uri);
+    } catch (error) {
+      console.error('File upload failed:', error);
+    } finally {
+      AlertDialog.hideLoading();
+    }
+  };
 
   const handleInputChange = (key: string, value: string) => {
     setFormData(prev => ({...prev, [key]: value}));
@@ -70,6 +101,23 @@ export default function UserInfoScreen({
   return (
     <Page header showGoBack title="Kullanıcı Bilgilerim">
       <Container mx={10} mt={10} gap={10}>
+        <View style={{justifyContent: 'center', alignItems: 'center'}}>
+          <TouchableOpacity
+            onPress={() => {
+              initLaunchImage(false);
+            }}
+            style={{
+              width: 100,
+              height: 100,
+              overflow: 'hidden',
+              borderRadius: 100,
+            }}>
+            <ProductImage
+              borderRadius={100}
+              imageUrl={uploadedImageUri || dealer?.companyImage || 'error'}
+            />
+          </TouchableOpacity>
+        </View>
         <Input
           required
           id="firstName"

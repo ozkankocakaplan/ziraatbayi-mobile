@@ -56,6 +56,7 @@ export const COLORS = {
   darkGrey: '#333333',
   darkGrey2: '#666666',
   darkGrey3: '#999999',
+  inputPlaceholder: '#868182',
 };
 export const FONTWEIGHT = {
   bold: 'bold',

@@ -8,7 +8,7 @@ interface PhotoType {
 export default function usePhoto() {
   const [photos, setPhotos] = useState<PhotoType[]>([]);
 
-  const initLaunchImage = () => {
+  const initLaunchImage = (isMultiple = false) => {
     launchImageLibrary(
       {
         mediaType: 'photo',
@@ -19,14 +19,22 @@ export default function usePhoto() {
         if (response.assets) {
           let uri = response.assets[0].uri as string;
           let fileName = response.assets[0].fileName as string;
-
-          setPhotos([
-            ...photos,
-            {
-              fileName: fileName,
-              uri: uri,
-            },
-          ]);
+          if (isMultiple) {
+            setPhotos([
+              ...photos,
+              {
+                fileName: fileName,
+                uri: uri,
+              },
+            ]);
+          } else {
+            setPhotos([
+              {
+                fileName: fileName,
+                uri: uri,
+              },
+            ]);
+          }
         }
       },
     );

@@ -17,9 +17,13 @@ import {faClose, faGripHorizontal} from '@fortawesome/free-solid-svg-icons';
 export default function ProductImage({
   imageUrl,
   isImageView = false,
+  borderRadius = 0,
+  color,
 }: {
   imageUrl: string;
   isImageView?: boolean;
+  borderRadius?: number;
+  color?: string;
 }) {
   const {data, isLoading, isError} = useGetProductImageQuery({
     endpoint: imageUrl,
@@ -62,7 +66,12 @@ export default function ProductImage({
               }}>
               <Image
                 source={{uri: image}}
-                style={{width: '100%', height: '100%', aspectRatio: 1}}
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  aspectRatio: 1,
+                  borderRadius: borderRadius,
+                }}
                 resizeMode="contain"
               />
             </TouchableOpacity>
@@ -115,9 +124,10 @@ export default function ProductImage({
             height: '100%',
             justifyContent: 'center',
             alignItems: 'center',
+            borderRadius: borderRadius,
             backgroundColor: isError ? '#E1EAF1' : 'transparent',
           }}>
-          <Icon color="white" size={50} icon={faImage} />
+          <Icon color={color || 'white'} size={50} icon={faImage} />
         </View>
       );
     }

@@ -12,7 +12,7 @@ export default function SearchScreen({
   route,
 }: NativeStackScreenProps<RootStackParamList, 'SearchScreen'>) {
   const search = route.params.query;
-  const {data} = AdvertApi.useSearchAdvertsByNameQuery(search);
+  const {data, error} = AdvertApi.useSearchAdvertsByNameQuery(search);
 
   return (
     <Page showGoBack header title="Arama Sonuçları">
