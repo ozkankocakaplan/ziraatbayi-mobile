@@ -1,19 +1,13 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useEffect} from 'react';
 import {Platform, ScrollView, Text, TouchableOpacity, View} from 'react-native';
 import Button from '../components/Button/Button';
 import AdvertCard from '../components/Advert/AdvertCard';
 import styled from 'styled-components';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faBars} from '@fortawesome/free-solid-svg-icons';
-import CustomBottomSheet, {
-  BottomSheetRef,
-} from '../components/BottomSheet/CustomBottomSheet';
-
 import Container from '../components/Container/Container';
-
 import {RootStackParamList} from '../types/navigator';
 import Page from '../components/Page/Page';
-
 import {AdvertApi} from '../services/advertService';
 import AdvertResponse from '../payload/response/AdvertResponse';
 import CustomFlatList from '../components/Flatlist/CustomFlatList';
@@ -23,23 +17,29 @@ import FirebaseApi from '../services/firebaseService';
 import DeviceRequest from '../payload/request/DeviceRequest';
 import CustomSvgXml from '../components/Icon/CustomSvgXml';
 import {FilterIcon} from '../constant/icons';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '../store';
+import {AdvertActions} from '../store/features/advertReducer';
+import useThemeColors from '../constant/useColor';
 
 export default function HomeScreen(
   props: NativeStackScreenProps<RootStackParamList>,
 ) {
   const {fcmToken} = useFcmToken();
+  const dispatch = useDispatch();
+  const colors = useThemeColors();
+  const {filterBottomSheetRef, isFitered, filteredAdverts} = useSelector(
+    (state: RootState) => state.advert,
+  );
   const {mainCategories} = useSelector((x: RootState) => x.category);
   const {data: adverts, refetch: refetchAdverts} =
     AdvertApi.useGetShowCaseAdvertsQuery();
   const [useCreateFcmToken] = FirebaseApi.useCreateFirebaseMutation();
   const {navigation} = props;
-  const bottomSheetRef = useRef<BottomSheetRef>(null);
-  const closeBottomSheet = () => {
-    bottomSheetRef.current?.close();
-  };
 
+  const openFilter = () => {
+    filterBottomSheetRef?.open();
+  };
   useEffect(() => {
     if (fcmToken && fcmToken.length > 0) {
       let entity: DeviceRequest = {
@@ -88,12 +88,12 @@ export default function HomeScreen(
 
             <FilterIconContainer
               onPress={() => {
-                bottomSheetRef.current?.open();
+                openFilter();
               }}>
               <CustomSvgXml
                 width={25}
                 height={25}
-                color="grey"
+                color={isFitered ? colors.primary : 'grey'}
                 xml={FilterIcon}
               />
             </FilterIconContainer>
@@ -103,21 +103,13 @@ export default function HomeScreen(
               refetchAdverts();
             }}
             numColumns={3}
-            data={adverts?.list || []}
+            data={isFitered ? filteredAdverts : adverts?.list || []}
             renderItem={(item: AdvertResponse) => {
               return <AdvertCard key={item.id} item={item} />;
             }}
           />
         </Container>
       </Page>
-      <CustomBottomSheet ref={bottomSheetRef} snapPoints={['25%', '50%']}>
-        <View style={{padding: 20}}>
-          <Text style={{fontSize: 16}}>Alt bilgi içeriği buraya gelecek.</Text>
-          <TouchableOpacity onPress={closeBottomSheet} style={{marginTop: 20}}>
-            <Text style={{color: 'blue'}}>Kapat</Text>
-          </TouchableOpacity>
-        </View>
-      </CustomBottomSheet>
     </>
   );
 }

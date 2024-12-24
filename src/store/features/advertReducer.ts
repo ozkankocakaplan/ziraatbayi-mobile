@@ -5,13 +5,19 @@ interface AdvertState {
   advertBottomSheetRef: any;
   selectedAdvertId: number | null;
   advert: AdvertResponse | null;
+  filteredAdverts: AdvertResponse[];
   selectedChatId: string | null;
+  filterBottomSheetRef: any;
+  isFitered: boolean;
 }
 const InitialState: AdvertState = {
   advertBottomSheetRef: null,
   selectedAdvertId: null,
   advert: null,
   selectedChatId: null,
+  filterBottomSheetRef: null,
+  isFitered: false,
+  filteredAdverts: [],
 };
 const advertSlice = createSlice({
   name: 'advert',
@@ -28,6 +34,16 @@ const advertSlice = createSlice({
     },
     setSelectedChatId(state, action) {
       state.selectedChatId = action.payload;
+    },
+
+    setFilterBottomSheetRef(state, action) {
+      state.filterBottomSheetRef = action.payload;
+    },
+    setFilteredAdverts(state, action) {
+      state.filteredAdverts = action.payload;
+    },
+    setIsFiltered(state, action) {
+      state.isFitered = action.payload;
     },
   },
 });

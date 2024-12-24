@@ -3,9 +3,11 @@ import DealerResponse from '../../payload/response/DealerResponse';
 
 interface DealerState {
   dealer: DealerResponse | null;
+  uploadedImageUri: null;
 }
 const InitialState: DealerState = {
   dealer: null,
+  uploadedImageUri: null,
 };
 const dealerSlice = createSlice({
   name: 'dealer',
@@ -13,6 +15,9 @@ const dealerSlice = createSlice({
   reducers: {
     setDealer(state, action) {
       state.dealer = action.payload;
+    },
+    setUploadedImageUri(state, action) {
+      state.uploadedImageUri = action.payload;
     },
   },
 });

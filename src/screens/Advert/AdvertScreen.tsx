@@ -44,10 +44,6 @@ export default function AdvertScreen(props: any) {
                   <CustomText color="black" fontSizes="body4">
                     Henüz hiç ilan eklemediniz.
                   </CustomText>
-                  <Button
-                    text="İlan Ekle"
-                    onPress={() => props.navigation.navigate('AddAdvertScreen')}
-                  />
                 </Container>
               }
               extraData={

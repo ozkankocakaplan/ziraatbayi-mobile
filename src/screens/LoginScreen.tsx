@@ -1,5 +1,5 @@
 import {View, TouchableOpacity, Image} from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Input from '../components/Input/Input';
 import styled from 'styled-components';
 import CustomText from '../components/Text/Text';
@@ -12,25 +12,58 @@ import {AuthApi} from '../services/authService';
 import Page from '../components/Page/Page';
 import {LogoIcon} from '../assets/logo';
 import Container from '../components/Container/Container';
+import DeviceInfo from 'react-native-device-info';
+import DeviceInfoComponent from '../components/DeviceInfo/DeviceInfoComponent';
 
 export default function LoginScreen(
   props: NativeStackScreenProps<RootStackParamList, 'LoginScreen'>,
 ) {
   const [loginRequest, setLoginRequest] = useState<LoginRequest>({
-    email: 'ferizaocal60@gmail.com',
-    password: '123fb',
+    email:
+      process.env.NODE_ENV === 'development' ? 'ferizaocal60@gmail.com' : '',
+    password: process.env.NODE_ENV === 'development' ? '123fb' : '',
+    uniqueId: '',
+    deviceBrand: '',
+    deviceId: '',
+    deviceOs: '',
+    deviceOsVersion: '',
+    devicePlatform: '',
   });
 
-  const [loginMutation, {isLoading, isError, error}] =
-    AuthApi.useLoginMutation();
+  const [loginMutation] = AuthApi.useLoginMutation();
+
+  useEffect(() => {
+    props.navigation.addListener('focus', async () => {
+      await deviceInfo();
+    });
+  }, []);
 
   const login = async () => {
     await loginMutation(loginRequest).unwrap();
+  };
+  const deviceInfo = async () => {
+    const uniqueId = await DeviceInfo.getUniqueId();
+    const deviceBrand = DeviceInfo.getBrand();
+    const deviceId = DeviceInfo.getDeviceId();
+    const deviceOs = DeviceInfo.getSystemName();
+    const deviceOsVersion = DeviceInfo.getSystemVersion();
+    const devicePlatform = DeviceInfo.getSystemName();
+
+    setLoginRequest(prevState => ({
+      ...prevState,
+      uniqueId,
+      deviceBrand,
+      deviceId,
+      deviceOs,
+      deviceOsVersion,
+      devicePlatform,
+    }));
   };
 
   return (
     <Page bgColor="#ffff" header title="Giriş Yap">
       <Container bgColor="white" mx={10}>
+        <DeviceInfoComponent />
         <LoginContainer>
           <View style={{alignItems: 'center', justifyContent: 'center'}}>
             <Image

@@ -15,6 +15,7 @@ const Colors = {
     error: '#FF0000',
     textWhite: 'white',
     black: '#000',
+    lightGrey: '#F5F5F5',
   },
   dark: {
     background: '#f0f0f0',
@@ -30,6 +31,7 @@ const Colors = {
     error: '#FF0000',
     textWhite: 'white',
     black: '#000',
+    lightGrey: '#F5F5F5',
   },
 };
 

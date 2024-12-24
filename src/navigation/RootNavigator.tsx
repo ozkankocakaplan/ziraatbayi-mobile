@@ -23,6 +23,7 @@ import MainScreen from '../screens/MainScreen';
 import EditAdvertScreen from '../screens/Advert/EditAdvertScreen';
 import AddAdvertScreen from '../screens/Advert/AddAdvertScreen';
 import SearchScreen from '../screens/SearchScreen';
+import FilterBottomSheet from '../components/BottomSheet/FilterBottomSheet';
 
 const Stack = createStackNavigator<RootStackParamList>();
 const RootNavigator = () => {
@@ -89,6 +90,7 @@ const RootNavigator = () => {
         <>
           <FirebaseNotification />
           <AdvertDetailBottomSheet />
+          <FilterBottomSheet />
         </>
       )}
     </>

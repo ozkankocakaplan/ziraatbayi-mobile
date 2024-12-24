@@ -4,7 +4,7 @@ import {StyleProp, ViewStyle} from 'react-native';
 interface CustomListProps {
   contentContainerStyle?: StyleProp<ViewStyle>;
   numColumns?: number;
-  data: any[];
+  data?: any[];
   listFilter?: (entity: any, search: string) => Boolean;
   listSort?: (a: any, b: any) => number;
   handleRefresh?: () => void;
@@ -16,5 +16,6 @@ interface CustomListProps {
   notFoundText?: string;
   customNotFound?: JSX.Element;
   extraData?: React.ReactNode;
+  children?: React.ReactNode;
 }
 export default CustomListProps;

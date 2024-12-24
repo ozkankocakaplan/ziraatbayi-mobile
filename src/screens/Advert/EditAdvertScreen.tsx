@@ -196,6 +196,7 @@ export default function EditAdvertScreen({
             keyboardDismissMode="on-drag"
             contentContainerStyle={{gap: 10}}>
             <Input
+              title="Kategori Adı"
               handlePress={() => {
                 categoryBottomSheetRef.current?.open();
               }}
@@ -212,6 +213,7 @@ export default function EditAdvertScreen({
               }
             />
             <Input
+              title="Ürün Adı"
               handlePress={() => {
                 if (selectedCategory.id) {
                   productBottomSheetRef.current?.open();
@@ -230,9 +232,10 @@ export default function EditAdvertScreen({
               id="productName"
             />
             <Input
+              title="Stok Miktarı"
               required
               id="stockQuantity"
-              placeholder="Stok Miktarı"
+              placeholder="Stok Miktarını Seçiniz"
               keyboardType="number-pad"
               value={advertRequest?.stockQuantity?.toString()}
               onChangeText={text => {
@@ -240,9 +243,10 @@ export default function EditAdvertScreen({
               }}
             />
             <Input
+              title="Sipariş Miktarı"
               required
               id="orderQuantity"
-              placeholder="Minimum Sipariş Miktarı"
+              placeholder="Minimum Sipariş Miktarını Seçiniz"
               keyboardType="number-pad"
               value={advertRequest?.minOrderQuantity?.toString()}
               onChangeText={text => {
@@ -251,6 +255,7 @@ export default function EditAdvertScreen({
             />
 
             <Input
+              title="Üretim Tarihi"
               handlePress={() => {
                 setActiveInput('productionDate');
                 setIsCalendarVisible(true);
@@ -261,13 +266,14 @@ export default function EditAdvertScreen({
               placeholderValue={
                 advertRequest?.startDate && advertRequest?.startDate?.length > 0
                   ? formatDate(advertRequest.startDate)
-                  : 'Üretim Tarihi'
+                  : 'Üretim Tarihini Seçiniz'
               }
               color={
                 advertRequest.startDate ? colors.black : colors.inputPlaceholder
               }
             />
             <Input
+              title="Son Kullanma Tarihi"
               handlePress={() => {
                 setActiveInput('expirationDate');
                 setIsCalendarVisible(true);
@@ -278,7 +284,7 @@ export default function EditAdvertScreen({
               placeholderValue={
                 advertRequest?.expiryDate?.length > 0
                   ? formatDate(advertRequest.expiryDate)
-                  : 'Son Kullanma Tarihi'
+                  : 'Son Kullanma Tarihini Seçiniz'
               }
               color={
                 advertRequest.expiryDate

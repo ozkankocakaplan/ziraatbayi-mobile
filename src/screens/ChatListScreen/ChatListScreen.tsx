@@ -17,6 +17,7 @@ import FirebaseApi from '../../services/firebaseService';
 import {AdvertActions} from '../../store/features/advertReducer';
 import {useFocusEffect} from '@react-navigation/native';
 import MessageItem from './MessageItem';
+import CustomFlatList from '../../components/Flatlist/CustomFlatList';
 export default function ChatListScreen(
   props: NativeStackScreenProps<RootStackParamList, 'ChatListScreen'>,
 ) {
@@ -59,7 +60,7 @@ export default function ChatListScreen(
   };
   return (
     <Page header title="Mesajlar" showGoBack>
-      <Container p={10} flex={1}>
+      <Container p={10}>
         <Loading loading={loading}>
           <SearchBar placeholder="Ara" />
           <FlatList

@@ -15,14 +15,12 @@ export default function ChangePasswordScreen() {
   const ref = useRef<FormContainerRef>(null);
   const [updatePassword] = UserApi.useUpdatePasswordMutation();
 
-  // Tüm state'leri bir nesnede birleştiriyoruz
   const [passwords, setPasswords] = useState({
     oldPassword: '',
     newPassword: '',
     confirmPassword: '',
   });
 
-  // Değer güncellemeleri için bir yardımcı fonksiyon
   const handleChange = (field: string, value: string) => {
     setPasswords(prev => ({
       ...prev,

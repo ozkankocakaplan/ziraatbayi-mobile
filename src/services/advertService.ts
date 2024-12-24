@@ -1,5 +1,6 @@
 import AlertDialog from '../components/AlertDialog/AlertDialog';
 import CreateAdvertRequest from '../payload/request/CreateAdvertRequest';
+import FilterRequest from '../payload/request/FilterRequest';
 import UpdateAdvertRequest from '../payload/request/UpdateAdvertRequest';
 import AdvertResponse from '../payload/response/AdvertResponse';
 import ServiceResponse from '../payload/response/ServiceResponse';
@@ -99,6 +100,16 @@ const advertApi = baseApi.injectEndpoints({
       query: id => ({
         url: '/advert/delete-advert/' + id,
         method: 'DELETE',
+      }),
+    }),
+    getAdvertsFiltered: builder.mutation<
+      ServiceResponse<AdvertResponse>,
+      FilterRequest
+    >({
+      query: body => ({
+        url: '/advert/filter',
+        method: 'POST',
+        body,
       }),
     }),
   }),

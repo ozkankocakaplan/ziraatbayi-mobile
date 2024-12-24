@@ -22,6 +22,7 @@ interface CheckInputProps extends TouchableOpacityProps {
   type?: 'checkbox';
   bgColor?: string;
   fontWeight?: 'bold' | 'normal';
+  mb?: number;
 }
 export default function CheckInput({
   value = false,
@@ -107,7 +108,11 @@ export default function CheckInput({
   return (
     <View>
       <Container>
-        <InputContainer bgColor={props.bgColor} {...props} activeOpacity={0.7}>
+        <InputContainer
+          mb={props.mb}
+          bgColor={props.bgColor}
+          {...props}
+          activeOpacity={0.7}>
           {value ? (
             <FontAwesomeIcon
               color={colors.iconColor}
@@ -129,12 +134,16 @@ export default function CheckInput({
     </View>
   );
 }
-const InputContainer = styled(TouchableOpacity)<{bgColor?: string}>`
+const InputContainer = styled(TouchableOpacity)<{
+  bgColor?: string;
+  mb?: number;
+}>`
   padding: 15px;
   max-width: 30px;
   max-height: 30px;
   border-radius: 5px;
   background-color: ${props => props.bgColor || '#f5f5f5'};
+  margin-bottom: ${props => props.mb || 0};
   align-items: center;
   justify-content: center;
 `;

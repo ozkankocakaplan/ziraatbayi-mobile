@@ -24,11 +24,15 @@ const authApi = baseApi.injectEndpoints({
             );
             dispatch(AuthActions.setUser(result.data.entity));
           }
-        } catch (error) {
+        } catch (ex: any) {
+          let errorMessage = ex?.error?.data?.exceptionMessage
+            ? ex?.error?.data?.exceptionMessage.includes('Bad')
+              ? 'Eposta veya şifreniz hatalı.'
+              : ex?.error?.data?.exceptionMessage
+            : 'Eposta veya şifreniz hatalı';
           AlertDialog.showModal({
-            title: 'Hata',
             type: 'error',
-            message: 'E-posta veya şifre hatalı',
+            message: errorMessage,
           });
           AlertDialog.hideLoading();
         } finally {

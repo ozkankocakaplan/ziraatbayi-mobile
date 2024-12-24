@@ -15,6 +15,7 @@ export default function Input({
   enableFocusBorder = true,
   errorMessage,
   required = false,
+
   ...props
 }: FormInputProps & {
   priceInput?: boolean;
@@ -23,6 +24,7 @@ export default function Input({
   placeholderValue?: string;
   handlePress?: () => void;
   color?: string;
+  title?: string;
 }) {
   const colors = useThemeColors();
   const [passwordShow, setPasswordShow] = useState(false);
@@ -49,6 +51,13 @@ export default function Input({
   let inputPaddingHorizontal = inputSize === 'sm' ? '33px' : '40px';
   return (
     <View>
+      {props.title && (
+        <View style={{marginBottom: 5}}>
+          <CustomText color="inputPlaceholder" fontWeight="bold">
+            {props.title}
+          </CustomText>
+        </View>
+      )}
       {iconPosition === 'left' && icon && (
         <IconLeft
           theme={{
