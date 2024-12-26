@@ -1,5 +1,5 @@
 import React from 'react';
-import {TransitionPresets, createStackNavigator} from '@react-navigation/stack';
+
 import {RootStackParamList} from '../types/navigator';
 import LoginScreen from '../screens/LoginScreen';
 import RegisterScreen from '../screens/RegisterScreen';
@@ -24,15 +24,15 @@ import EditAdvertScreen from '../screens/Advert/EditAdvertScreen';
 import AddAdvertScreen from '../screens/Advert/AddAdvertScreen';
 import SearchScreen from '../screens/SearchScreen';
 import FilterBottomSheet from '../components/BottomSheet/FilterBottomSheet';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
-const Stack = createStackNavigator<RootStackParamList>();
+const Stack = createNativeStackNavigator<RootStackParamList>();
 const RootNavigator = () => {
   const user = useSelector((state: RootState) => state.auth.user);
   return (
     <>
       <Stack.Navigator
         screenOptions={{
-          ...TransitionPresets.SlideFromRightIOS,
           headerShown: false,
         }}>
         {user == null ? (
