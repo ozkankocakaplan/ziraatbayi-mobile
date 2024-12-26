@@ -62,7 +62,7 @@ export default function DealerDetailScreen(
           />
         </Container>
       </Page>
-      <CustomBottomSheet ref={bottomSheetRef} snapPoints={['25%', '50%']}>
+      <CustomBottomSheet ref={bottomSheetRef} snapPoints={['50%']}>
         <View style={{padding: 20}}>
           <Text style={{fontSize: 16}}>Alt bilgi içeriği buraya gelecek.</Text>
           <TouchableOpacity onPress={closeBottomSheet} style={{marginTop: 20}}>

@@ -1,5 +1,6 @@
 import React from 'react';
 import Modal, {
+  FadeAnimation,
   ModalContent,
   ModalPortal,
   SlideAnimation,
@@ -33,6 +34,7 @@ interface ModalProps {
 
 class AlertDialog {
   ids: any[] = [];
+  showLoadingIds: any[] = [];
   showLoading() {
     const id = ModalPortal.show(
       <Modal
@@ -40,8 +42,16 @@ class AlertDialog {
         onTouchOutside={() => {
           ModalPortal.dismiss(id);
         }}
+        modalAnimation={
+          new FadeAnimation({
+            animationDuration: 100,
+            useNativeDriver: true,
+          })
+        }
+        overlayOpacity={0}
+        style={{backgroundColor: 'transparent'}}
         modalStyle={{backgroundColor: 'transparent'}}
-        overlayBackgroundColor={'black'}>
+        overlayBackgroundColor={'rgba(0,0,0,0)'}>
         <View
           style={{
             flex: 1,
@@ -57,11 +67,13 @@ class AlertDialog {
         </View>
       </Modal>,
     );
-    this.ids.push(id);
+    this.showLoadingIds.push(id);
   }
   hideLoading() {
-    ModalPortal.dismiss(this.ids[this.ids.length - 1]);
-    this.ids.pop();
+    this.showLoadingIds.forEach(item => {
+      ModalPortal.dismiss(item);
+    });
+    this.showLoadingIds = [];
   }
   showLogoutModal(onConfirm: () => void) {
     return new Promise(resolve => {
@@ -75,8 +87,9 @@ class AlertDialog {
           }}
           overlayBackgroundColor={'black'}
           modalAnimation={
-            new SlideAnimation({
-              slideFrom: 'bottom',
+            new FadeAnimation({
+              animationDuration: 100,
+              useNativeDriver: true,
             })
           }>
           <ModalContent style={{backgroundColor: '#fff'}}>
@@ -248,17 +261,25 @@ class AlertDialog {
     this.ids.forEach(item => {
       ModalPortal.update(item);
     });
+    this.showLoadingIds.forEach(item => {
+      ModalPortal.update(item);
+    });
   }
 
   dismissAll() {
     ModalPortal.dismissAll();
     this.ids = [];
+    this.showLoadingIds = [];
   }
 
   dismiss() {
     if (this.ids.length > 0) {
       ModalPortal.dismiss(this.ids[this.ids.length - 1]);
       this.ids.pop();
+    }
+    if (this.showLoadingIds.length > 0) {
+      ModalPortal.dismiss(this.showLoadingIds[this.showLoadingIds.length - 1]);
+      this.showLoadingIds.pop();
     }
   }
 }
