@@ -9,8 +9,8 @@ import {baseApi, imageApi} from '../store/api/BaseApi';
 const advertApi = baseApi.injectEndpoints({
   endpoints: builder => ({
     getAdvertsByDealerId: builder.query<ServiceResponse<AdvertResponse>, void>({
-      query: () => ({
-        url: '/advert/get-adverts-by-dealer-id',
+      query: id => ({
+        url: '/advert/get-adverts-by-dealer-' + id,
         method: 'GET',
       }),
       async onQueryStarted(arg, {dispatch, queryFulfilled}) {
@@ -110,6 +110,15 @@ const advertApi = baseApi.injectEndpoints({
         url: '/advert/filter',
         method: 'POST',
         body,
+      }),
+    }),
+    getAdvertsByCategoryId: builder.query<
+      ServiceResponse<AdvertResponse>,
+      number
+    >({
+      query: id => ({
+        url: '/advert/adverts-by-category/' + id,
+        method: 'GET',
       }),
     }),
   }),

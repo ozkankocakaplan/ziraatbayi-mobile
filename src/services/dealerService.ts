@@ -100,6 +100,12 @@ const dealerApi = baseApi.injectEndpoints({
         }),
       }),
     }),
+    getDealerDetail: builder.query<ServiceResponse<DealerResponse>, number>({
+      query: id => ({
+        url: `/dealer/dealer-detail/` + id,
+        method: 'GET',
+      }),
+    }),
   }),
   overrideExisting: true,
 });

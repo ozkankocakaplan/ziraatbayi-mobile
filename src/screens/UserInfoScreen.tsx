@@ -115,38 +115,29 @@ export default function UserInfoScreen({
   };
 
   return (
-    <KeyboardAvoidingView
-      style={{flex: 1}}
-      keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 50}
-      behavior={'padding'}>
-      <Page header showGoBack title="Kullanıcı Bilgilerim">
-        <Container mx={10} mt={10} gap={10}>
-          <ScrollView
-            showsHorizontalScrollIndicator={false}
-            showsVerticalScrollIndicator={false}
-            keyboardShouldPersistTaps="handled"
-            keyboardDismissMode="on-drag"
-            contentContainerStyle={{gap: 10}}>
-            <View style={{justifyContent: 'center', alignItems: 'center'}}>
-              <TouchableOpacity
-                onPress={() => {
-                  initLaunchImage(false);
-                }}
-                style={{
-                  width: 100,
-                  height: 100,
-                  overflow: 'hidden',
-                  borderRadius: 100,
-                }}>
-                <ProductImage
-                  borderRadius={100}
-                  imageUrl={
-                    reduxUploadedImageUri || dealer?.companyImage || 'error'
-                  }
-                />
-              </TouchableOpacity>
-            </View>
-
+    <Page header showGoBack title="Kullanıcı Bilgilerim">
+      <ScrollView contentContainerStyle={{flexGrow: 1}}>
+        <Container mx={10} mt={10}>
+          <Container jContent="center" aItems="center" noFlex mb={10}>
+            <TouchableOpacity
+              onPress={() => {
+                initLaunchImage(false);
+              }}
+              style={{
+                width: 100,
+                height: 100,
+                overflow: 'hidden',
+                borderRadius: 100,
+              }}>
+              <ProductImage
+                borderRadius={100}
+                imageUrl={
+                  reduxUploadedImageUri || dealer?.companyImage || 'error'
+                }
+              />
+            </TouchableOpacity>
+          </Container>
+          <Container gap={10} mb={10}>
             <Input
               required
               id="firstName"
@@ -226,20 +217,20 @@ export default function UserInfoScreen({
               multiline
               icon={faLocationDot}
               placeholder="Firma Adresi"
-              style={{height: 100}}
               value={formData.address}
               onChangeText={text => handleInputChange('address', text)}
+              style={{height: 70, textAlignVertical: 'top', paddingTop: 13}}
             />
-          </ScrollView>
+          </Container>
+          <Container flex={0.6}>
+            <Button
+              isDisabled={checkObject(formData)}
+              text="Kaydet"
+              onPress={handleUpdate}
+            />
+          </Container>
         </Container>
-        <Container mx={10} flex={0.15}>
-          <Button
-            isDisabled={checkObject(formData)}
-            text="Kaydet"
-            onPress={handleUpdate}
-          />
-        </Container>
-      </Page>
-    </KeyboardAvoidingView>
+      </ScrollView>
+    </Page>
   );
 }

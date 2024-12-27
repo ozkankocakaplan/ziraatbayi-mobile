@@ -28,7 +28,7 @@ export default function CategoriesScreen(
       refetchCategories();
     });
   }, []);
-
+  //şimdi sağdaki ekran için buraya geldik burada
   useEffect(() => {
     if (
       categories?.list &&
@@ -49,9 +49,9 @@ export default function CategoriesScreen(
   const selectedCategories = categories?.list.find(
     x => x.id == selectedCategory.id,
   );
-  const goToProductPage = () => {
-    AlertDialog.showModal({
-      message: 'Ürün sayfasına git',
+  const goToProductPage = (category: CategoryResponse) => {
+    navigation.push('ProductsByCategoryScreen', {
+      category: category,
     });
   };
   const recuversiveCategory = (
@@ -74,7 +74,7 @@ export default function CategoriesScreen(
                   previousCategory: selectedCategory,
                 });
               } else {
-                goToProductPage();
+                goToProductPage(el);
               }
             } else {
               setSelectedCategory(el);
@@ -111,7 +111,7 @@ export default function CategoriesScreen(
                         if (el.children.length != 0) {
                           setSelectedCategory(el);
                         } else {
-                          goToProductPage();
+                          goToProductPage(el);
                         }
                       }}>
                       <CustomText
@@ -131,7 +131,7 @@ export default function CategoriesScreen(
           {selectedCategory && selectedCategories?.children.length == 0 ? (
             <CategoryButton
               onPress={() => {
-                goToProductPage();
+                goToProductPage(selectedCategories);
               }}
               isSelected={true}>
               <CustomText fontWeight="bold" fontSizes="body3" color="default">

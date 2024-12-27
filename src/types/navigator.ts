@@ -1,4 +1,5 @@
 import CategoryResponse from '../payload/response/CategoryResponse';
+import DealerResponse from '../payload/response/DealerResponse';
 import ProductResponse from '../payload/response/ProductResponse';
 
 export type RootStackParamList = {
@@ -32,6 +33,7 @@ export type RootStackParamList = {
   SupportScreen: undefined;
   DealerDetailScreen: {id: number};
   ResetPassword: {token: string};
+  ProductsByCategoryScreen: {category: CategoryResponse};
 };
 export type BottomTabParamList = {
   Home: undefined;

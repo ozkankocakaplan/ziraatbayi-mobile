@@ -58,10 +58,9 @@ export const userApi = baseApi.injectEndpoints({
       ServiceResponse<DealerResponse>,
       {email: string}
     >({
-      query: credentials => ({
-        url: 'user/forgot-password?email=ferizaocal60@gmail.com',
+      query: email => ({
+        url: 'user/forgot-password?email=' + email,
         method: 'POST',
-        body: credentials,
       }),
       async onQueryStarted(arg, {dispatch, queryFulfilled}) {
         try {

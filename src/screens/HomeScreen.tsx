@@ -73,7 +73,9 @@ export default function HomeScreen(
                             initCategory: category,
                           });
                         } else {
-                          console.log('ürünler');
+                          navigation.navigate('ProductsByCategoryScreen', {
+                            category,
+                          });
                         }
                       }}
                       borderRadius={100}

@@ -34,6 +34,7 @@ interface ContainerProps {
   aItems?: 'center' | 'flex-start' | 'flex-end' | 'stretch' | 'baseline';
   borderColor?: string;
   borderWidth?: number;
+  noFlex?: boolean;
 }
 
 export default function Container({
@@ -41,41 +42,46 @@ export default function Container({
   bgColor,
   isLoading = false,
   flex = 1,
+  noFlex = false,
   ...props
 }: ContainerProps) {
   const colors = useThemeColors();
 
   return (
-    <ViewContainer
-      flex={flex}
-      style={{
-        backgroundColor: bgColor ? bgColor : colors.background,
-      }}>
+    <View
+      style={[
+        {
+          backgroundColor: bgColor ? bgColor : colors.background,
+        },
+        noFlex ? {} : {flex: flex},
+      ]}>
       <View
-        style={{
-          flex: flex,
-          margin: props.m,
-          marginRight: props.mr,
-          marginLeft: props.ml,
-          marginTop: props.mt,
-          marginBottom: props.mb,
-          padding: props.p,
-          paddingLeft: props.pl,
-          paddingRight: props.pr,
-          paddingTop: props.pt,
-          paddingBottom: props.pb,
-          gap: props.gap,
-          marginHorizontal: props.mx,
-          marginVertical: props.my,
-          paddingHorizontal: props.px,
-          paddingVertical: props.py,
-          borderRightColor: props.borderRightColor,
-          borderRightWidth: props.borderRightWidth,
-          justifyContent: props.jContent,
-          alignItems: props.aItems,
-          borderColor: props.borderColor,
-          borderWidth: props.borderWidth,
-        }}>
+        style={[
+          {
+            margin: props.m,
+            marginRight: props.mr,
+            marginLeft: props.ml,
+            marginTop: props.mt,
+            marginBottom: props.mb,
+            padding: props.p,
+            paddingLeft: props.pl,
+            paddingRight: props.pr,
+            paddingTop: props.pt,
+            paddingBottom: props.pb,
+            gap: props.gap,
+            marginHorizontal: props.mx,
+            marginVertical: props.my,
+            paddingHorizontal: props.px,
+            paddingVertical: props.py,
+            borderRightColor: props.borderRightColor,
+            borderRightWidth: props.borderRightWidth,
+            justifyContent: props.jContent,
+            alignItems: props.aItems,
+            borderColor: props.borderColor,
+            borderWidth: props.borderWidth,
+          },
+          noFlex ? {} : {flex: flex},
+        ]}>
         {isLoading ? (
           <View
             style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
@@ -85,10 +91,6 @@ export default function Container({
           children
         )}
       </View>
-    </ViewContainer>
+    </View>
   );
 }
-const ViewContainer = styled(View)<{flex?: number}>`
-  flex: ${props => props.flex || 1};
-  background-color: ${props => props.theme.background};
-`;

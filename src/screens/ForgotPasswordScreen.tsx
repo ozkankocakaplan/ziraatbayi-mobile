@@ -25,38 +25,32 @@ export default function ForgotPasswordScreen(
 
   return (
     <Page header title="Şifremi Unuttum" showGoBack>
-      <Container mx={10} bgColor="white">
-        <PasswordContainer>
-          <View style={{alignItems: 'center', justifyContent: 'center'}}>
-            <Image
-              source={LogoIcon}
-              style={{width: 200, height: 200}}
-              resizeMode="contain"
-            />
-          </View>
-          <Input
-            autoCapitalize="none"
-            id="email"
-            required
-            icon={faEnvelope}
-            placeholder="E-posta"
-            value={email}
-            onChangeText={setEmail}
+      <Container mt={50} mx={10} bgColor="white" gap={10}>
+        <Container noFlex jContent="center" aItems="center" bgColor="#ffffff">
+          <Image
+            source={LogoIcon}
+            style={{width: 175, height: 175}}
+            resizeMode="contain"
           />
+        </Container>
+        <Input
+          autoCapitalize="none"
+          id="email"
+          required
+          icon={faEnvelope}
+          placeholder="E-posta"
+          value={email}
+          onChangeText={setEmail}
+        />
 
-          <View style={{marginTop: 15}}>
-            <Button
-              text="Gönder"
-              isDisabled={checkObject({email})}
-              onPress={handleSubmit}
-            />
-          </View>
-        </PasswordContainer>
+        <Container bgColor="white">
+          <Button
+            text="Gönder"
+            isDisabled={checkObject({email})}
+            onPress={handleSubmit}
+          />
+        </Container>
       </Container>
     </Page>
   );
 }
-
-const PasswordContainer = styled(View)`
-  margin-top: 50px;
-`;

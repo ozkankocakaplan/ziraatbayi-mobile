@@ -1,37 +1,22 @@
-import React, {useRef, useState} from 'react';
-import {Platform, Text, TextInput, TouchableOpacity, View} from 'react-native';
+import React from 'react';
 
 import AdvertCard from '../components/Advert/AdvertCard';
-import styled from 'styled-components';
-import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {faFilter} from '@fortawesome/free-solid-svg-icons';
-import CustomBottomSheet, {
-  BottomSheetRef,
-} from '../components/BottomSheet/CustomBottomSheet';
-
 import Container from '../components/Container/Container';
-
 import {RootStackParamList} from '../types/navigator';
 import Page from '../components/Page/Page';
-
-import {AdvertApi} from '../services/advertService';
 import AdvertResponse from '../payload/response/AdvertResponse';
 import CustomFlatList from '../components/Flatlist/CustomFlatList';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {DealerApi} from '../services/dealerService';
 
-export default function DealerDetailScreen(
-  props: NativeStackScreenProps<RootStackParamList>,
-) {
-  const closeBottomSheet = () => {
-    bottomSheetRef.current?.close();
-  };
-  const {navigation} = props;
-  const bottomSheetRef = useRef<BottomSheetRef>(null);
+export default function DealerDetailScreen({
+  route,
+}: NativeStackScreenProps<RootStackParamList, 'DealerDetailScreen'>) {
+  const {id} = route.params;
+  const {data, error} = DealerApi.useGetDealerDetailQuery(1);
 
-  const {data, isLoading, error} = AdvertApi.useGetShowCaseAdvertsQuery();
-
-  const [search, setSearch] = useState('');
   return (
+<<<<<<< HEAD
     <>
       <Page showGoBack header title="Bayi Adı">
         <Container>
@@ -71,31 +56,18 @@ export default function DealerDetailScreen(
         </View>
       </CustomBottomSheet>
     </>
+=======
+    <Page showGoBack header title={data?.entity.companyName + ' Bayisi'}>
+      <Container>
+        <CustomFlatList
+          numColumns={3}
+          data={data?.list || []}
+          renderItem={(item: AdvertResponse) => {
+            return <AdvertCard key={item.id} item={item} />;
+          }}
+        />
+      </Container>
+    </Page>
+>>>>>>> e64c1d3 (ProductsByCategoryScreen was created and design deficiencies were corrected.)
   );
 }
-
-const HeaderRow = styled(View)`
-  flex-direction: row;
-  align-items: center;
-  background-color: #f0f0f0;
-  margin-horizontal: 10px;
-  margin-vertical: 10px;
-`;
-
-const SearchInput = styled(TextInput)`
-  border: 1px solid #ddd;
-  border-radius: 100px;
-  padding-vertical: 10px;
-  padding-horizontal: 10px;
-  background-color: #fff;
-  width: 100%;
-  flex: 0.9;
-
-  top: ${Platform.OS === 'android' ? '5px' : '0px'};
-`;
-
-const FilterIconContainer = styled(TouchableOpacity)`
-  flex: 0.1;
-  align-items: flex-end;
-  justify-content: center;
-`;

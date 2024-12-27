@@ -64,15 +64,24 @@ export default function AdvertCard({item, ...props}: AdvertCardProps) {
       <InfoContainer>
         <CustomText
           numberOfLines={2}
+          ellipsizeMode="tail"
           fontSizes="body6"
           color="black"
           fontWeight="bold">
           {item?.product?.name}
         </CustomText>
-        <CustomText color="darkGrey3" fontSizes="caption1">
+        <CustomText
+          color="darkGrey3"
+          fontSizes="caption1"
+          numberOfLines={1}
+          ellipsizeMode="tail">
           {item?.dealer?.companyName}
         </CustomText>
-        <CustomText color="primary" fontSizes="caption2">
+        <CustomText
+          color="primary"
+          fontSizes="caption2"
+          numberOfLines={1}
+          ellipsizeMode="tail">
           {item?.product?.categoryName}
         </CustomText>
       </InfoContainer>
