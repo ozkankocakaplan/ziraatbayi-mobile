@@ -1,4 +1,9 @@
-import {View, ActivityIndicator} from 'react-native';
+import {
+  View,
+  ActivityIndicator,
+  ScrollView,
+  ScrollViewProps,
+} from 'react-native';
 import useThemeColors from '../../constant/useColor';
 import styled from 'styled-components';
 
@@ -35,6 +40,8 @@ interface ContainerProps {
   borderColor?: string;
   borderWidth?: number;
   noFlex?: boolean;
+  scrollable?: boolean;
+  scrollableProps?: ScrollViewProps;
 }
 
 export default function Container({
@@ -43,6 +50,7 @@ export default function Container({
   isLoading = false,
   flex = 1,
   noFlex = false,
+  scrollable = false,
   ...props
 }: ContainerProps) {
   const colors = useThemeColors();
@@ -87,6 +95,8 @@ export default function Container({
             style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
             <ActivityIndicator size="large" color={colors.primary} />
           </View>
+        ) : scrollable ? (
+          <ScrollView {...props.scrollableProps}>{children}</ScrollView>
         ) : (
           children
         )}

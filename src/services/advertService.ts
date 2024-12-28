@@ -32,8 +32,7 @@ const advertApi = baseApi.injectEndpoints({
       async onQueryStarted(arg, {dispatch, queryFulfilled}) {
         try {
           AlertDialog.showLoading();
-          let result = await queryFulfilled;
-
+          await queryFulfilled;
           AlertDialog.hideLoading();
         } catch (error: any) {
           AlertDialog.showModal({
@@ -51,21 +50,6 @@ const advertApi = baseApi.injectEndpoints({
         url: `/advert/get-advert-by-id/${id}`,
         method: 'GET',
       }),
-      async onQueryStarted(arg, {dispatch, queryFulfilled}) {
-        try {
-          AlertDialog.showLoading();
-          let result = await queryFulfilled;
-          AlertDialog.hideLoading();
-        } catch (error: any) {
-          AlertDialog.showModal({
-            type: 'error',
-            message: error?.error?.data?.exceptionMessage || 'Bir hata oluştu',
-          });
-          AlertDialog.hideLoading();
-        } finally {
-          AlertDialog.hideLoading();
-        }
-      },
     }),
     searchAdvertsByName: builder.query<ServiceResponse<AdvertResponse>, string>(
       {

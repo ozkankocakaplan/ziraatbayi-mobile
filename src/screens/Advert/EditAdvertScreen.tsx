@@ -25,7 +25,6 @@ import dayjs from 'dayjs';
 import UpdateAdvertRequest from '../../payload/request/UpdateAdvertRequest';
 import CheckInput from '../../components/CheckInput/CheckInput';
 import useThemeColors from '../../constant/useColor';
-import {messages} from '../../mockup/data';
 
 export default function EditAdvertScreen({
   navigation,

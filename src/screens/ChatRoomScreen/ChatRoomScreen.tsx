@@ -30,20 +30,21 @@ export default function ChatRoomScreen({
     senderId,
     product,
     receiverId,
+    advertId,
   } = route.params;
   const [lastLimit, setLastLimit] = useState(LAST_LIMIT);
   const {initLaunchImage, photos, resetPhotos} = usePhoto();
   const user = useSelector((state: RootState) => state.auth.user);
   const {messages, loading} = useChatMessages(chatId);
   const flatListRef = useRef<FlatList>(null);
-
+  const [totalContentHeight, setTotalContentHeight] = useState(0);
   useEffect(() => {
     if (
       flatListRef.current &&
       messages.slice(-LAST_LIMIT).length === LAST_LIMIT
     ) {
       let scrollEnd = setTimeout(() => {
-        slideToBottom();
+        scrollToEnd();
       }, 100);
       return () => {
         clearTimeout(scrollEnd);
@@ -51,9 +52,15 @@ export default function ChatRoomScreen({
     }
   }, [flatListRef.current, messages]);
 
-  const slideToBottom = () => {
-    flatListRef.current?.scrollToEnd({animated: true});
+  const scrollToEnd = () => {
+    if (flatListRef.current) {
+      flatListRef.current.scrollToOffset({
+        offset: totalContentHeight + 100,
+        animated: true,
+      });
+    }
   };
+
   const calculateLastLimit = useCallback(() => {
     if (lastLimit > messages.length) {
       return false;
@@ -79,7 +86,10 @@ export default function ChatRoomScreen({
           <ProductInfoContainer>
             <Row gap={10}>
               <ProductImageContainer>
-                <ProductImage imageUrl={product?.images?.[0]?.imageUrl || ''} />
+                <ProductImage
+                  isImageView
+                  imageUrl={product?.images?.[0]?.imageUrl || ''}
+                />
               </ProductImageContainer>
               <Col gap={5}>
                 <CustomText numberOfLines={1} color="black">
@@ -108,9 +118,10 @@ export default function ChatRoomScreen({
             maintainVisibleContentPosition={{minIndexForVisible: 0}}
             ref={flatListRef}
             data={messages.slice(-lastLimit)}
-            onContentSizeChange={() =>
-              flatListRef.current?.scrollToEnd({animated: true})
-            }
+            onContentSizeChange={(contentWidth, contentHeight) => {
+              setTotalContentHeight(contentHeight);
+              scrollToEnd();
+            }}
             keyExtractor={(item: MessageResponse) => item.messageId}
             renderItem={({item}) => {
               const isCurrentUser = item.senderId === senderId.toString();
@@ -126,6 +137,7 @@ export default function ChatRoomScreen({
           />
         </Container>
         <ChatInput
+          advertId={advertId.toString()}
           productId={product?.id || 0}
           chatId={chatId}
           senderId={senderId}

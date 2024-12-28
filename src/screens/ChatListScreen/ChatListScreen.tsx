@@ -40,9 +40,11 @@ export default function ChatListScreen(
         receiverId: item.receiverId.toString(),
         senderId: item.senderId.toString(),
         messageId: item.lastMessage.messageId,
+        advertId: item.advertId,
       });
     }
     dispatch(AdvertActions.setSelectedChatId(item.chatId));
+
     navigation.navigate('ChatRoomScreen', {
       chatId: item.chatId,
       senderFullName: isCurrentUser
@@ -56,18 +58,24 @@ export default function ChatListScreen(
         ? item?.receiverId?.toString()
         : item?.senderId?.toString?.(),
       product: item.product,
+      advertId: Number(item.advertId),
     });
   };
   return (
     <Page header title="Mesajlar" showGoBack>
       <Container p={10}>
         <Loading loading={loading}>
-          <SearchBar placeholder="Ara" />
-          <FlatList
+          <CustomFlatList
             data={chats}
-            keyExtractor={(item: MessageResponse) => item.chatId}
-            renderItem={({item}) => {
-              var isCurrentUser = item.senderId === userId?.toString();
+            isSearchable
+            searchPlaceholder="Mesajlarınızı arayın"
+            listFilter={(item, search) => {
+              return JSON.stringify(item)
+                .toLowerCase()
+                .includes(search.toLowerCase());
+            }}
+            renderItem={item => {
+              var isCurrentUser = item?.senderId === userId?.toString();
               return (
                 <MessageItem
                   handlePress={() => {
@@ -77,11 +85,11 @@ export default function ChatListScreen(
                   message={{
                     ...item,
                     senderFullName: isCurrentUser
-                      ? item.receiverFullName
-                      : item.senderFullName,
+                      ? item?.receiverFullName
+                      : item?.senderFullName,
                     receiverFullName: isCurrentUser
-                      ? item.senderFullName
-                      : item.receiverFullName,
+                      ? item?.senderFullName
+                      : item?.receiverFullName,
                   }}
                 />
               );

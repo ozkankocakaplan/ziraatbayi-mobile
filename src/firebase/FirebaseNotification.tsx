@@ -20,6 +20,7 @@ export interface NotificationData {
   receiverFullName: string;
   senderFullName: string;
   product: ProductResponse;
+  advertId: number;
 }
 export default function FirebaseNotification() {
   const currentScreen = useNavigationState(
@@ -74,12 +75,14 @@ export default function FirebaseNotification() {
       chatId: generateChatId(
         Number(notificationData?.senderId),
         Number(notificationData?.receiverId),
+        notificationData?.advertId || 0,
       ),
       receiverFullName: !isSender ? senderFullName : receiverFullName,
       senderFullName: !isSender ? receiverFullName : senderFullName,
       senderId: userId,
       receiverId: notificationData?.senderId || '',
       product: notificationData?.product || ({} as ProductResponse),
+      advertId: notificationData?.advertId || 0,
     });
   };
 
@@ -91,6 +94,7 @@ export default function FirebaseNotification() {
     let chatId = generateChatId(
       Number(notificationData.senderId),
       Number(notificationData.receiverId),
+      notificationData.advertId,
     );
 
     if (selectedChatId !== chatId && currentScreen !== 'ChatRoomScreen') {

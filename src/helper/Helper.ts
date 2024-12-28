@@ -3,11 +3,12 @@ import dayjs from 'dayjs';
 export const generateChatId = (
   senderId: number,
   receiverId: number,
+  advertId: number,
 ): string => {
   if (senderId < receiverId) {
-    return `${senderId}_${receiverId}`;
+    return `${senderId}_${receiverId}_${advertId}`;
   } else {
-    return `${receiverId}_${senderId}`;
+    return `${receiverId}_${senderId}_${advertId}`;
   }
 };
 export const checkEqualChatId = (chatId: string): boolean => {

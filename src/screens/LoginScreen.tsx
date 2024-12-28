@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import Input from '../components/Input/Input';
-import styled from 'styled-components';
+
 import CustomText from '../components/Text/Text';
 import Button from '../components/Button/Button';
 import {faLock, faEnvelope} from '@fortawesome/free-solid-svg-icons';

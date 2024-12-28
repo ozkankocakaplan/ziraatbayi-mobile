@@ -1,12 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  Animated,
-  Dimensions,
-  Easing,
-} from 'react-native';
+import {View, StyleSheet, Animated, Easing} from 'react-native';
 import styled from 'styled-components';
 import CustomText from '../Text/Text';
 import {Col, Row} from '../../constant/GlobalStyled';
@@ -84,12 +77,14 @@ const Snackbar: React.FC<SnackbarProps> = ({
             chatId: generateChatId(
               Number(data?.senderId),
               Number(data?.receiverId),
+              data?.advertId || 0,
             ),
             receiverFullName: !isSender ? senderFullName : receiverFullName,
             senderFullName: !isSender ? receiverFullName : senderFullName,
             senderId: userId,
             receiverId: data?.senderId || '',
             product: data?.product || ({} as ProductResponse),
+            advertId: data?.advertId || 0,
           });
           onDismiss && onDismiss();
         }}

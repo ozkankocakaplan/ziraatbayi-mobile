@@ -31,7 +31,6 @@ export default function AdvertDetailBottomSheet() {
   }, [advertBottomSheetRef]);
   const goToChatRoom = ({
     chatId,
-
     product,
   }: {
     chatId: string;
@@ -51,65 +50,76 @@ export default function AdvertDetailBottomSheet() {
       senderId: userId,
       receiverId: isSender ? userId : receiverId,
       product: product,
+      advertId: advertDetail?.id || 0,
     });
   };
   let isEquals = checkEqualChatId(
-    generateChatId(Number(user?.id), Number(advertDetail?.dealer.id)),
+    generateChatId(
+      Number(user?.id),
+      Number(advertDetail?.dealer.id),
+      Number(advertDetail?.id),
+    ),
   );
+
   return (
     <CustomBottomSheet ref={advertBottomSheetRef} snapPoints={['60%']}>
-      <Container m={5} flex={0.3} bgColor="white">
-        <Row gap={10}>
-          <AccountProfile>
-            <ProductImage
-              imageUrl={advertDetail?.product?.images?.[0]?.imageUrl || ''}
-            />
-          </AccountProfile>
-          <Col gap={12}>
-            <CustomText color="black" fontSizes="body4" fontWeight="bold">
-              {advertDetail?.product?.name}
-            </CustomText>
-            <CustomText color="black" fontSizes="body6">
-              {advertDetail?.product?.categoryName}
-            </CustomText>
-            <CustomText color="black" fontSizes="body6">
-              Stok Miktarı : {advertDetail?.stockQuantity}
-            </CustomText>
-            {/* <CustomText color="black" fontSizes="body5">
+      {advertDetail && (
+        <>
+          <Container m={5} flex={0.3} bgColor="white">
+            <Row gap={10}>
+              <AccountProfile>
+                <ProductImage
+                  imageUrl={advertDetail?.product?.images?.[0]?.imageUrl || ''}
+                />
+              </AccountProfile>
+              <Col gap={12}>
+                <CustomText color="black" fontSizes="body4" fontWeight="bold">
+                  {advertDetail?.product?.name}
+                </CustomText>
+                <CustomText color="black" fontSizes="body6">
+                  {advertDetail?.product?.categoryName}
+                </CustomText>
+                <CustomText color="black" fontSizes="body6">
+                  Stok Miktarı : {advertDetail?.stockQuantity}
+                </CustomText>
+                {/* <CustomText color="black" fontSizes="body5">
               Fiyat
             </CustomText> */}
-          </Col>
-        </Row>
-      </Container>
-      <Container flex={0.5} m={14} bgColor="white">
-        <Col gap={10}>
-          <CustomText color="black" fontSizes="body3" fontWeight="bold">
-            Ürün Açıklaması
-          </CustomText>
-          <CustomText color="black" fontSizes="body5">
-            {advertDetail?.product?.description}
-          </CustomText>
-        </Col>
-      </Container>
-      {!isEquals && (
-        <Container flex={0.1} bgColor="white" mx={10}>
-          <Button
-            onPress={() => {
-              if (isEquals) {
-                return;
-              }
-              advertBottomSheetRef.current?.close();
-              goToChatRoom({
-                chatId: generateChatId(
-                  Number(user?.id),
-                  Number(advertDetail?.dealer.id),
-                ),
-                product: advertDetail?.product as ProductResponse,
-              });
-            }}
-            style={{marginTop: 20}}
-            text="MESAJ GÖNDER"></Button>
-        </Container>
+              </Col>
+            </Row>
+          </Container>
+          <Container flex={0.5} m={14} bgColor="white">
+            <Col gap={10}>
+              <CustomText color="black" fontSizes="body3" fontWeight="bold">
+                Ürün Açıklaması
+              </CustomText>
+              <CustomText color="black" fontSizes="body5">
+                {advertDetail?.product?.description}
+              </CustomText>
+            </Col>
+          </Container>
+          {!isEquals && (
+            <Container noFlex bgColor="white" mx={10}>
+              <Button
+                onPress={() => {
+                  if (isEquals) {
+                    return;
+                  }
+                  advertBottomSheetRef.current?.close();
+                  goToChatRoom({
+                    chatId: generateChatId(
+                      Number(user?.id),
+                      Number(advertDetail?.dealer.id),
+                      Number(advertDetail?.id),
+                    ),
+                    product: advertDetail?.product as ProductResponse,
+                  });
+                }}
+                style={{marginTop: 20}}
+                text="MESAJ GÖNDER"></Button>
+            </Container>
+          )}
+        </>
       )}
     </CustomBottomSheet>
   );

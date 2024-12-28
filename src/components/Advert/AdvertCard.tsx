@@ -14,6 +14,7 @@ import {AdvertActions} from '../../store/features/advertReducer';
 import {formatDate} from '../../helper/Helper';
 import Icon from '../Icon/Icon';
 import {faCalendarCheck, faHourglass3} from '@fortawesome/free-solid-svg-icons';
+import AlertDialog from '../AlertDialog/AlertDialog';
 
 interface AdvertCardProps extends TouchableOpacityProps {
   item: AdvertResponse;
@@ -25,15 +26,19 @@ export default function AdvertCard({item, ...props}: AdvertCardProps) {
   const dispatch = useDispatch();
   const [getAdvert] = AdvertApi.useGetAdvertByIdMutation();
   const openDetail = async () => {
-    const response = await getAdvert(item.id).unwrap();
-    if (response.isSuccessful) {
-      dispatch(AdvertActions.setAdvert(response.entity));
-      advertBottomSheetRef?.open();
+    try {
+      const response = await getAdvert(item.id).unwrap();
+      if (response.isSuccessful) {
+        dispatch(AdvertActions.setAdvert(response.entity));
+        advertBottomSheetRef?.open();
+      }
+    } finally {
     }
   };
 
   return (
     <Card
+      activeOpacity={0.7}
       onPress={() => {
         openDetail();
       }}>
@@ -45,14 +50,14 @@ export default function AdvertCard({item, ...props}: AdvertCardProps) {
               color="darkGrey3"
               fontSizes="caption1"
               fontWeight="bold">
-              {formatDate(item?.startDate || '')}
+              {'Üretim Tarihi ' + formatDate(item?.startDate || '')}
             </CustomText>
           </DateBadge>
         )}
         <DateBadge>
           <Icon icon={faHourglass3} size={10} />
           <CustomText color="darkGrey3" fontSizes="caption1" fontWeight="bold">
-            {formatDate(item?.expiryDate || '')}
+            {'Son Kullanma Tarihi ' + formatDate(item?.expiryDate || '')}
           </CustomText>
         </DateBadge>
       </ExpiryDateContainer>
@@ -71,19 +76,27 @@ export default function AdvertCard({item, ...props}: AdvertCardProps) {
           {item?.product?.name}
         </CustomText>
         <CustomText
+          numberOfLines={2}
+          ellipsizeMode="tail"
+          fontSizes="caption1"
+          color="grey"
+          fontWeight="bold">
+          {item?.product?.activeSubstance}
+        </CustomText>
+        <CustomText
           color="darkGrey3"
           fontSizes="caption1"
           numberOfLines={1}
           ellipsizeMode="tail">
           {item?.dealer?.companyName}
         </CustomText>
-        <CustomText
+        {/* <CustomText
           color="primary"
           fontSizes="caption2"
           numberOfLines={1}
           ellipsizeMode="tail">
           {item?.product?.categoryName}
-        </CustomText>
+        </CustomText> */}
       </InfoContainer>
     </Card>
   );

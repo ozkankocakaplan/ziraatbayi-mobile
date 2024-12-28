@@ -16,6 +16,8 @@ import auth from '@react-native-firebase/auth';
 import AlertDialog from '../components/AlertDialog/AlertDialog';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {DealerApi} from '../services/dealerService';
+import SubscriptionApi from '../services/subscriptionService';
+import {Row} from '../constant/GlobalStyled';
 
 const pageColor = '#f9f9f9';
 export default function AccountScreen({
@@ -24,13 +26,13 @@ export default function AccountScreen({
   const dispatch = useDispatch();
 
   const {refetch} = DealerApi.useGetDealerQuery();
-
+  const {data: getSubscription} = SubscriptionApi.useGetSubscriptionQuery();
   useEffect(() => {
     navigation.addListener('focus', () => {
       refetch();
     });
   }, []);
-
+  console.log(getSubscription);
   const logOut = () => {
     AlertDialog.showLogoutModal(() => {
       auth().signOut();
@@ -72,7 +74,15 @@ export default function AccountScreen({
         <Container bgColor={pageColor}>
           <ColTitle title="Abonelik Bilgilerim" />
           <ListItemContainer>
-            <ListItem icon={faUser} text="Abonelik Durumum" />
+            <ListItem
+              icon={faUser}
+              text="Abonelik Durumum"
+              color={getSubscription?.entity?.color}
+              value={
+                (getSubscription?.entity?.daysRemaining?.toString?.() || '0') +
+                ' Gün Kaldı'
+              }
+            />
             <ListItem
               noneBorder
               icon={faLock}
@@ -100,16 +110,32 @@ const ListItem = ({
   icon,
   text,
   onPress,
+  color,
+  value,
 }: {
   noneBorder?: boolean;
   icon: IconProp;
   text: string;
   onPress?: () => void;
+  color?: string;
+  value?: string;
 }) => {
   return (
-    <ListItemButton noneBorder={noneBorder} onPress={onPress}>
-      <Icon icon={icon} color="#1F8505" />
-      <CustomText color="black">{text}</CustomText>
+    <ListItemButton
+      activeOpacity={0.7}
+      noneBorder={noneBorder}
+      onPress={onPress}>
+      <Row between flex={1} alignCenter>
+        <Row gap={10} alignCenter>
+          <Icon icon={icon} color="#1F8505" />
+          <CustomText color="black">{text}</CustomText>
+        </Row>
+        {value && (
+          <CustomText fontWeight="bold" color={(color as any) || 'black'}>
+            {value}
+          </CustomText>
+        )}
+      </Row>
     </ListItemButton>
   );
 };

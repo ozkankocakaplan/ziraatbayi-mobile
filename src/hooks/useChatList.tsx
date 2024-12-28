@@ -62,6 +62,7 @@ const useChatList = () => {
                 contentType: lastMessage.contentType,
                 productId: lastMessage.productId,
                 product: response.entity.product,
+                advertId: lastMessage.advertId,
               };
             }
             return null;

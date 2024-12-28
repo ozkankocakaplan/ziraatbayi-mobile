@@ -1,5 +1,6 @@
 import AlertDialog from '../components/AlertDialog/AlertDialog';
 import CreateDealerRequest from '../payload/request/CreateDealerRequest';
+import DealerDetailResponse from '../payload/response/DealerDetailResponse';
 import DealerResponse from '../payload/response/DealerResponse';
 import ServiceResponse from '../payload/response/ServiceResponse';
 import {baseApi} from '../store/api/BaseApi';
@@ -100,7 +101,10 @@ const dealerApi = baseApi.injectEndpoints({
         }),
       }),
     }),
-    getDealerDetail: builder.query<ServiceResponse<DealerResponse>, number>({
+    getDealerDetail: builder.query<
+      ServiceResponse<DealerDetailResponse>,
+      number
+    >({
       query: id => ({
         url: `/dealer/dealer-detail/` + id,
         method: 'GET',

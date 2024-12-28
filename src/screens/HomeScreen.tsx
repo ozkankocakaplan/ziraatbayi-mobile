@@ -22,11 +22,11 @@ import {RootState} from '../store';
 import {AdvertActions} from '../store/features/advertReducer';
 import useThemeColors from '../constant/useColor';
 
-export default function HomeScreen(
-  props: NativeStackScreenProps<RootStackParamList>,
-) {
+export default function HomeScreen({
+  navigation,
+}: NativeStackScreenProps<RootStackParamList>) {
   const {fcmToken} = useFcmToken();
-  const dispatch = useDispatch();
+
   const colors = useThemeColors();
   const {filterBottomSheetRef, isFitered, filteredAdverts} = useSelector(
     (state: RootState) => state.advert,
@@ -35,11 +35,7 @@ export default function HomeScreen(
   const {data: adverts, refetch: refetchAdverts} =
     AdvertApi.useGetShowCaseAdvertsQuery();
   const [useCreateFcmToken] = FirebaseApi.useCreateFirebaseMutation();
-  const {navigation} = props;
 
-  const openFilter = () => {
-    filterBottomSheetRef?.open();
-  };
   useEffect(() => {
     if (fcmToken && fcmToken.length > 0) {
       let entity: DeviceRequest = {
@@ -49,7 +45,14 @@ export default function HomeScreen(
       useCreateFcmToken(entity);
     }
   }, [fcmToken]);
-
+  useEffect(() => {
+    navigation.addListener('focus', () => {
+      refetchAdverts();
+    });
+  }, []);
+  const openFilter = () => {
+    filterBottomSheetRef?.open();
+  };
   return (
     <>
       <Page isSearchable header showNotification showMessage>

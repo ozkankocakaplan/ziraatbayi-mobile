@@ -14,5 +14,6 @@ interface MessageResponse {
   senderFullName: string;
   isRead: boolean;
   product: ProductResponse;
+  advertId: string;
 }
 export default MessageResponse;

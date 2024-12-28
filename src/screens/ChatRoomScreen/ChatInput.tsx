@@ -21,6 +21,7 @@ const ChatInput = ({
   chatId,
   senderId,
   receiverId,
+  advertId,
   productId,
   initLaunchImage,
   selectedFile,
@@ -29,6 +30,7 @@ const ChatInput = ({
   chatId: string;
   senderId: string;
   receiverId: string;
+  advertId: string;
   productId: number;
   initLaunchImage: () => void;
   selectedFile?: {uri: string; name: string} | undefined;
@@ -57,6 +59,9 @@ const ChatInput = ({
   }, [selectedFile]);
 
   const handleSend = async () => {
+    if (!advertId) {
+      return;
+    }
     if (content.trim()) {
       let entity: CreateMessageRequest = {
         chatId: chatId,
@@ -64,6 +69,7 @@ const ChatInput = ({
         receiverId,
         content,
         productId,
+        advertId,
       };
 
       let finalContent = entity.content;
@@ -71,24 +77,33 @@ const ChatInput = ({
       formData.append('chatId', entity.chatId);
       formData.append('senderId', entity.senderId);
       formData.append('receiverId', entity.receiverId);
+      formData.append('advertId', entity.advertId);
       formData.append('content', finalContent);
       formData.append('productId', entity.productId.toString());
       setContent('');
+
       await sendMessage(formData).unwrap();
     }
   };
+
   const handlePhotoSend = async () => {
+    if (!advertId) {
+      return;
+    }
+
     let entity: CreateMessageRequest = {
       chatId: chatId,
       senderId,
       receiverId,
       content,
       productId,
+      advertId,
     };
     var formData = new FormData();
     formData.append('chatId', entity.chatId);
     formData.append('senderId', entity.senderId);
     formData.append('receiverId', entity.receiverId);
+    formData.append('advertId', entity.advertId);
     formData.append('content', entity.content);
     formData.append('productId', entity.productId.toString());
     if (selectedFile) {
@@ -170,6 +185,7 @@ const CInput = styled(Input)`
   padding-vertical: 10px;
   padding-horizontal: 10px;
   background-color: #fff;
+  padding-right: 70px;
 `;
 const ActionButton = styled(TouchableOpacity)`
   flex: 1;

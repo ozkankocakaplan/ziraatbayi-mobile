@@ -2,16 +2,22 @@ import {AppRegistry, Linking, LogBox} from 'react-native';
 import {name as appName} from './app.json';
 import 'react-native-gesture-handler';
 import {Provider} from 'react-redux';
-import {ModalPortal} from 'react-native-modals';
 import {NavigationContainer} from '@react-navigation/native';
 import {PersistGate} from 'redux-persist/integration/react';
 import RootNavigator from './src/navigation/RootNavigator';
 import {persistor, store} from './src/store';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import {LocaleConfig} from 'react-native-calendars';
-
+import ModalPortals from './src/components/AlertDialog/ModalPortals';
+import {
+  configureReanimatedLogger,
+  ReanimatedLogLevel,
+} from 'react-native-reanimated';
 LogBox.ignoreAllLogs(true);
-
+configureReanimatedLogger({
+  level: ReanimatedLogLevel.warn,
+  strict: false, // Reanimated runs in strict mode by default
+});
 LocaleConfig.locales['tr'] = {
   monthNames: [
     'Ocak',
@@ -79,7 +85,7 @@ const linking = {
       ResetPassword: {
         path: 'reset-password',
         parse: {
-          token: token => token, // Token'i işle
+          token: token => token,
         },
       },
     },
@@ -94,7 +100,7 @@ const ZiraatBayi = () => {
             <RootNavigator />
           </NavigationContainer>
         </PersistGate>
-        <ModalPortal />
+        <ModalPortals />
       </GestureHandlerRootView>
     </Provider>
   );

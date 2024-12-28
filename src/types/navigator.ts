@@ -16,6 +16,7 @@ export type RootStackParamList = {
     senderFullName: string;
     senderId: string;
     receiverId: string;
+    advertId: number;
     product: ProductResponse;
   };
   NotificationScreen: undefined;

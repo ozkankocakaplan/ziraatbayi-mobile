@@ -34,46 +34,43 @@ interface ModalProps {
 
 class AlertDialog {
   ids: any[] = [];
-  showLoadingIds: any[] = [];
+
   showLoading() {
-    const id = ModalPortal.show(
-      <Modal
-        visible={true}
-        onTouchOutside={() => {
-          ModalPortal.dismiss(id);
-        }}
-        modalAnimation={
-          new FadeAnimation({
-            animationDuration: 100,
-            useNativeDriver: true,
-          })
-        }
-        overlayOpacity={0}
-        style={{backgroundColor: 'transparent'}}
-        modalStyle={{backgroundColor: 'transparent'}}
-        overlayBackgroundColor={'rgba(0,0,0,0)'}>
-        <View
-          style={{
-            flex: 1,
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}>
+    return new Promise(resolve => {
+      const id = ModalPortal.show(
+        <Modal
+          visible={true}
+          onTouchOutside={() => {
+            ModalPortal.dismiss(id);
+          }}
+          swipeThreshold={100}
+          modalAnimation={
+            new FadeAnimation({
+              animationDuration: 100,
+              useNativeDriver: true,
+            })
+          }
+          overlayOpacity={0}
+          style={{backgroundColor: 'transparent'}}
+          modalStyle={{backgroundColor: 'transparent'}}
+          overlayBackgroundColor={'transparent'}>
           <LottieView
             style={{width: 50, height: 50}}
             autoPlay
             loop
             source={LoadingAnimation}
           />
-        </View>
-      </Modal>,
-    );
-    this.showLoadingIds.push(id);
+        </Modal>,
+      );
+      this.ids.push(id);
+    });
   }
   hideLoading() {
-    this.showLoadingIds.forEach(item => {
+    this.ids.forEach(item => {
       ModalPortal.dismiss(item);
     });
-    this.showLoadingIds = [];
+    console.log('ids', this.ids);
+    this.ids.pop();
   }
   showLogoutModal(onConfirm: () => void) {
     return new Promise(resolve => {
@@ -261,25 +258,17 @@ class AlertDialog {
     this.ids.forEach(item => {
       ModalPortal.update(item);
     });
-    this.showLoadingIds.forEach(item => {
-      ModalPortal.update(item);
-    });
   }
 
   dismissAll() {
     ModalPortal.dismissAll();
     this.ids = [];
-    this.showLoadingIds = [];
   }
 
   dismiss() {
     if (this.ids.length > 0) {
       ModalPortal.dismiss(this.ids[this.ids.length - 1]);
       this.ids.pop();
-    }
-    if (this.showLoadingIds.length > 0) {
-      ModalPortal.dismiss(this.showLoadingIds[this.showLoadingIds.length - 1]);
-      this.showLoadingIds.pop();
     }
   }
 }
