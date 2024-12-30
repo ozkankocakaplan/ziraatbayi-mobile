@@ -28,7 +28,16 @@ const AdvertListItem = ({item}: {item: AdvertResponse}) => {
           </ProductImageContainer>
         </ImageWrapper>
         <Col gap={10}>
-          <CustomText color="black" fontSizes="body4" fontWeight="light">
+          <CustomText
+            sx={{
+              flex: 0.5,
+              flexWrap: 'wrap',
+              backgroundColor: 'red',
+            }}
+            numberOfLines={2}
+            color="black"
+            fontSizes="body4"
+            fontWeight="light">
             {item.product.name}
           </CustomText>
           <Row gap={2}>
@@ -49,7 +58,7 @@ const AdvertListItem = ({item}: {item: AdvertResponse}) => {
           </Row>
           <Row gap={2}>
             <CustomText color="darkGrey" fontSizes="body6" fontWeight="bold">
-              Etkin Madde:
+              Etken Madde:
             </CustomText>
             <CustomText color="black" fontSizes="body6">
               {item.product.activeSubstance}

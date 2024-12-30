@@ -13,6 +13,7 @@ import {
   configureReanimatedLogger,
   ReanimatedLogLevel,
 } from 'react-native-reanimated';
+import {enableScreens} from 'react-native-screens';
 LogBox.ignoreAllLogs(true);
 configureReanimatedLogger({
   level: ReanimatedLogLevel.warn,
@@ -91,6 +92,7 @@ const linking = {
     },
   },
 };
+enableScreens();
 const ZiraatBayi = () => {
   return (
     <Provider store={store}>

@@ -10,7 +10,7 @@ const advertApi = baseApi.injectEndpoints({
   endpoints: builder => ({
     getAdvertsByDealerId: builder.query<ServiceResponse<AdvertResponse>, void>({
       query: id => ({
-        url: '/advert/get-adverts-by-dealer-' + id,
+        url: '/advert/get-adverts-by-dealer-id',
         method: 'GET',
       }),
       async onQueryStarted(arg, {dispatch, queryFulfilled}) {
