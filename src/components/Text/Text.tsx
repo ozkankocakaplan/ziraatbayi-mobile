@@ -18,6 +18,7 @@ export default function CustomText(props: CustomTextProps) {
   const colors = useThemeColors();
   return (
     <Text
+      allowFontScaling={false}
       style={[
         props.sx,
         {

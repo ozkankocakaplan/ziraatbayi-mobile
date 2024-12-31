@@ -19,12 +19,14 @@ interface BottomSheetComponentProps {
   snapPoints?: string[];
   indicator?: boolean;
   close?: () => void;
+  snapToIndex?: void;
   onLoad?: () => void;
 }
 
 export interface BottomSheetRef {
   open: () => void;
   close: () => void;
+  snapToIndex?: () => void;
   status: boolean;
 }
 
@@ -47,6 +49,9 @@ const CustomBottomSheet = forwardRef<BottomSheetRef, BottomSheetComponentProps>(
       isOpenRef.current = false;
       setIsOpen(false);
     }, []);
+    const snapToIndex = useCallback(() => {
+      bottomSheetRef.current?.snapToIndex(0);
+    }, []);
 
     useImperativeHandle(
       ref,
@@ -54,6 +59,7 @@ const CustomBottomSheet = forwardRef<BottomSheetRef, BottomSheetComponentProps>(
         open: openSheet,
         close: closeSheet,
         status: isOpenRef.current,
+        snapToIndex: snapToIndex,
       }),
       [isOpen],
     );
@@ -94,7 +100,7 @@ const CustomBottomSheet = forwardRef<BottomSheetRef, BottomSheetComponentProps>(
           children
         ) : (
           <BottomSheetView
-            style={{flex: 0, minHeight: 500, backgroundColor: 'white'}}>
+            style={{flex: 0, minHeight: 100, backgroundColor: 'white'}}>
             {isOpen && children}
           </BottomSheetView>
         )}

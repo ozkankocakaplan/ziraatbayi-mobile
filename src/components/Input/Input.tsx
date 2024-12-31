@@ -7,6 +7,7 @@ import {useState} from 'react';
 import CustomText from '../Text/Text';
 import CurrencyInput from 'react-native-currency-input';
 import {FormInputProps} from 'react-native-form-container';
+import {BottomSheetTextInput} from '@gorhom/bottom-sheet';
 
 export default function Input({
   iconPosition = 'left',
@@ -25,6 +26,7 @@ export default function Input({
   handlePress?: () => void;
   color?: string;
   title?: string;
+  isBottomSheetInput?: boolean;
 }) {
   const colors = useThemeColors();
   const [passwordShow, setPasswordShow] = useState(false);
@@ -101,37 +103,71 @@ export default function Input({
           }}
         />
       ) : !props.isPlaceholder ? (
-        <CustomInput
-          autoFocus={false}
-          placeholderTextColor={colors.inputPlaceholder}
-          {...props}
-          secureTextEntry={props.secureTextEntry && !passwordShow}
-          onFocus={event => {
-            handleFocus();
-            props.onFocus && props.onFocus(event);
-          }}
-          onBlur={event => {
-            handleBlur();
-            props.onBlur && props.onBlur(event);
-          }}
-          theme={{
-            size:
-              inputSize === 'sm'
-                ? '10px'
-                : Platform.OS === 'android'
-                ? '10px'
-                : '15px',
-            left:
-              iconPosition === 'left' && icon !== undefined
-                ? inputPaddingHorizontal
-                : size,
-            right:
-              iconPosition === 'right' && icon !== undefined
-                ? inputPaddingHorizontal
-                : size,
-            borderColor: isFocused ? colors.activeBorder : colors.inputBorder,
-          }}
-        />
+        props.isBottomSheetInput ? (
+          <CustomBottomSheetInput
+            autoFocus={false}
+            placeholderTextColor={colors.inputPlaceholder}
+            {...props}
+            secureTextEntry={props.secureTextEntry && !passwordShow}
+            onFocus={event => {
+              handleFocus();
+              props.onFocus && props.onFocus(event);
+            }}
+            onBlur={event => {
+              handleBlur();
+              props.onBlur && props.onBlur(event);
+            }}
+            theme={{
+              size:
+                inputSize === 'sm'
+                  ? '10px'
+                  : Platform.OS === 'android'
+                  ? '10px'
+                  : '15px',
+              left:
+                iconPosition === 'left' && icon !== undefined
+                  ? inputPaddingHorizontal
+                  : size,
+              right:
+                iconPosition === 'right' && icon !== undefined
+                  ? inputPaddingHorizontal
+                  : size,
+              borderColor: isFocused ? colors.activeBorder : colors.inputBorder,
+            }}
+          />
+        ) : (
+          <CustomInput
+            autoFocus={false}
+            placeholderTextColor={colors.inputPlaceholder}
+            {...props}
+            secureTextEntry={props.secureTextEntry && !passwordShow}
+            onFocus={event => {
+              handleFocus();
+              props.onFocus && props.onFocus(event);
+            }}
+            onBlur={event => {
+              handleBlur();
+              props.onBlur && props.onBlur(event);
+            }}
+            theme={{
+              size:
+                inputSize === 'sm'
+                  ? '10px'
+                  : Platform.OS === 'android'
+                  ? '10px'
+                  : '15px',
+              left:
+                iconPosition === 'left' && icon !== undefined
+                  ? inputPaddingHorizontal
+                  : size,
+              right:
+                iconPosition === 'right' && icon !== undefined
+                  ? inputPaddingHorizontal
+                  : size,
+              borderColor: isFocused ? colors.activeBorder : colors.inputBorder,
+            }}
+          />
+        )
       ) : (
         <CustomPlaceholder
           onPress={e => {
@@ -156,7 +192,11 @@ export default function Input({
                 : size,
             borderColor: isFocused ? colors.activeBorder : colors.inputBorder,
           }}>
-          <CustomText fontWeight="normal" color={props.color as any}>
+          <CustomText
+            numberOfLines={1}
+            sx={{top: Platform.OS === 'ios' ? 0 : 3}}
+            fontWeight="normal"
+            color={props.color as any}>
             {props.placeholderValue || 'Seçiniz'}
           </CustomText>
         </CustomPlaceholder>
@@ -195,6 +235,16 @@ export default function Input({
   );
 }
 const CustomInput = styled(TextInput)`
+  padding: ${props => props.theme.size} ${props => props.theme.right}
+    ${props => props.theme.size} ${props => props.theme.left};
+  width: 100%;
+  height: 50px;
+  border-radius: 10px;
+  background-color: #fff;
+  color: #143722;
+  border: 1px solid ${props => props.theme.borderColor};
+`;
+const CustomBottomSheetInput = styled(BottomSheetTextInput)`
   padding: ${props => props.theme.size} ${props => props.theme.right}
     ${props => props.theme.size} ${props => props.theme.left};
   width: 100%;

@@ -21,14 +21,16 @@ import styled from 'styled-components';
 import useThemeColors from '../../constant/useColor';
 import {AdvertApi} from '../../services/advertService';
 import FilterRequest from '../../payload/request/FilterRequest';
+import {
+  BottomSheetScrollView,
+  BottomSheetTextInput,
+} from '@gorhom/bottom-sheet';
+import {useKeyboard} from '../../hooks/useKeyboard';
+import AlertDialog from '../AlertDialog/AlertDialog';
 
 export default function FilterBottomSheet() {
   const dispatch = useDispatch();
-  const [filterRequest, setFilterRequest] = useState({
-    product: '',
-    activeSubstance: '',
-    manufacturer: '',
-  } as FilterRequest);
+  const {filterRequest} = useSelector((state: RootState) => state.advert);
   const filterBottomSheetRef = React.useRef<BottomSheetRef>(null);
   const colors = useThemeColors();
   useEffect(() => {
@@ -50,62 +52,89 @@ export default function FilterBottomSheet() {
   };
   const filterCancel = () => {
     dispatch(AdvertActions.setIsFiltered(false));
+    dispatch(AdvertActions.resetFilterRequest());
   };
+
   return (
     <CustomBottomSheet
       indicator={false}
       ref={filterBottomSheetRef}
-      snapPoints={['45%']}>
+      snapPoints={[Platform.OS === 'ios' ? '45%' : '60%']}>
       <KeyboardAvoidingView
         style={{flex: 1}}
         keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 50}
         behavior={'padding'}>
         <Container bgColor="white" mx={15} gap={5}>
-          <ScrollView
-            showsHorizontalScrollIndicator={false}
-            showsVerticalScrollIndicator={false}
-            keyboardShouldPersistTaps="handled"
-            keyboardDismissMode="on-drag"
-            contentContainerStyle={{gap: 10}}>
-            <View style={{marginBottom: 10, alignItems: 'center'}}>
-              <CustomText color="darkGrey2" fontWeight="bold" fontSizes="body2">
-                Filtrele
-              </CustomText>
-            </View>
+          <View style={{marginBottom: 10, alignItems: 'center'}}>
+            <CustomText color="darkGrey2" fontWeight="bold" fontSizes="body2">
+              Filtrele
+            </CustomText>
+          </View>
+          <BottomSheetScrollView contentContainerStyle={{gap: 10}}>
             <Input
+              isBottomSheetInput
               style={{backgroundColor: colors.lightGrey, marginBottom: 10}}
               enableFocusBorder={false}
               inputSize="sm"
               title="Üretici Firma"
-              onChangeValue={val =>
-                setFilterRequest({...filterRequest, manufacturer: val})
+              value={filterRequest.manufacturer}
+              onBlur={() => {
+                filterBottomSheetRef.current?.snapToIndex?.();
+              }}
+              onChangeText={val =>
+                dispatch(
+                  AdvertActions.handleChangeFilterRequest({
+                    key: 'manufacturer',
+                    value: val,
+                  }),
+                )
               }
               placeholder="Üretici adı yazınız."
             />
             <Input
+              isBottomSheetInput
               style={{backgroundColor: colors.lightGrey, marginBottom: 10}}
               enableFocusBorder={false}
               inputSize="sm"
               title="Ürün Adı"
+              onBlur={() => {
+                filterBottomSheetRef.current?.snapToIndex?.();
+              }}
               value={filterRequest.product}
-              onChangeValue={val =>
-                setFilterRequest({...filterRequest, product: val})
+              onChangeText={val =>
+                dispatch(
+                  AdvertActions.handleChangeFilterRequest({
+                    key: 'product',
+                    value: val,
+                  }),
+                )
               }
               placeholder="Ürün adı yazınız."
             />
             <Input
+              isBottomSheetInput
               style={{backgroundColor: colors.lightGrey, marginBottom: 10}}
               enableFocusBorder={false}
               inputSize="sm"
+              onBlur={() => {
+                filterBottomSheetRef.current?.snapToIndex?.();
+              }}
               title="Etken Madde"
               placeholder="Etken madde yazınız."
               value={filterRequest.activeSubstance}
-              onChangeValue={val =>
-                setFilterRequest({...filterRequest, activeSubstance: val})
+              onChangeText={val =>
+                dispatch(
+                  AdvertActions.handleChangeFilterRequest({
+                    key: 'activeSubstance',
+                    value: val,
+                  }),
+                )
               }
-            />{' '}
-          </ScrollView>
-          <FilterContainer>
+            />
+          </BottomSheetScrollView>
+        </Container>
+        <Container mx={15} my={15} bgColor="white" noFlex>
+          <Row gap={5}>
             <Flex flex={0.5}>
               <Button
                 onPress={filterCancel}
@@ -118,14 +147,9 @@ export default function FilterBottomSheet() {
                 borderRadius={100}
                 text="Uygula "></Button>
             </Flex>
-          </FilterContainer>
+          </Row>
         </Container>
       </KeyboardAvoidingView>
     </CustomBottomSheet>
   );
 }
-const FilterContainer = styled(View)`
-  gap: 10px;
-  flex-direction: row;
-  margin-bottom: 10px;
-`;

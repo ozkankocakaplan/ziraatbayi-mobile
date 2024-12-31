@@ -32,12 +32,12 @@ export default function CalendarModal(props: CalendarModalProps) {
         style={{
           justifyContent: 'center',
           flex: 1,
-          position: 'relative',
         }}>
         <TouchableOpacity
           activeOpacity={1}
           onPress={() => setIsCalendarVisible(false)}
           style={{
+            flex: 1,
             position: 'absolute',
             height: '100%',
             width: '100%',

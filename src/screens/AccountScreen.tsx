@@ -7,7 +7,7 @@ import {View} from 'react-native';
 import styled from 'styled-components';
 import CustomText from '../components/Text/Text';
 import Page from '../components/Page/Page';
-import {faLock, faUser} from '@fortawesome/free-solid-svg-icons';
+import {faAngleRight, faLock, faUser} from '@fortawesome/free-solid-svg-icons';
 import {TouchableOpacity} from 'react-native';
 import Icon from '../components/Icon/Icon';
 import {IconProp} from '@fortawesome/fontawesome-svg-core';
@@ -40,9 +40,18 @@ export default function AccountScreen({
     });
   };
 
-  const ColTitle = ({title}: {title: string}) => {
+  const ColTitle = ({
+    title,
+    marginTop = 0,
+  }: {
+    title: string;
+    marginTop?: number;
+  }) => {
     return (
-      <CustomText sx={{marginBottom: 15}} color="black" fontSizes="body3">
+      <CustomText
+        sx={{marginBottom: 15, marginTop}}
+        color="black"
+        fontSizes="body3">
         {title}
       </CustomText>
     );
@@ -51,7 +60,7 @@ export default function AccountScreen({
   return (
     <Page header showAccountDetail showMessage showNotification>
       <Container bgColor={pageColor} pb={10} pl={10} pr={10}>
-        <Container bgColor={pageColor} pt={25} flex={0.4}>
+        <Container bgColor={pageColor} pt={25}>
           <ColTitle title="Hesap Bilgilerim" />
           <ListItemContainer>
             <ListItem
@@ -70,9 +79,7 @@ export default function AccountScreen({
               text="Şifremi Değiştir"
             />
           </ListItemContainer>
-        </Container>
-        <Container bgColor={pageColor}>
-          <ColTitle title="Abonelik Bilgilerim" />
+          <ColTitle title="Abonelik Bilgilerim" marginTop={15} />
           <ListItemContainer>
             <ListItem
               icon={faUser}
@@ -93,6 +100,7 @@ export default function AccountScreen({
             />
           </ListItemContainer>
         </Container>
+
         <Button text="Çıkış Yap" onPress={logOut} />
       </Container>
     </Page>
@@ -130,10 +138,12 @@ const ListItem = ({
           <Icon icon={icon} color="#1F8505" />
           <CustomText color="black">{text}</CustomText>
         </Row>
-        {value && (
+        {value ? (
           <CustomText fontWeight="bold" color={(color as any) || 'black'}>
             {value}
           </CustomText>
+        ) : (
+          <Icon icon={faAngleRight} />
         )}
       </Row>
     </ListItemButton>

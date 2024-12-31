@@ -313,28 +313,28 @@ export default function EditAdvertScreen({
             isDisabled={checkRequestForm()}
             text="KAYDET"></Button>
         </Container>
+        <CalendarModal
+          isCalendarVisible={isCalendarVisible}
+          setIsCalendarVisible={value => {
+            setIsCalendarVisible(value);
+          }}
+          minDate={
+            advertRequest.startDate && advertRequest?.startDate.length > 0
+              ? advertRequest.startDate
+              : activeInput === 'productionDate'
+              ? undefined
+              : dayjs().format('YYYY-MM-DD')
+          }
+          expirationDate={advertRequest.expiryDate}
+          productionDate={advertRequest.startDate || ''}
+          handleDateChange={day => {
+            activeInput === 'productionDate'
+              ? handleChangeAdvertRequest('startDate', day.dateString)
+              : handleChangeAdvertRequest('expiryDate', day.dateString);
+          }}
+        />
       </Page>
 
-      <CalendarModal
-        isCalendarVisible={isCalendarVisible}
-        setIsCalendarVisible={value => {
-          setIsCalendarVisible(value);
-        }}
-        minDate={
-          advertRequest.startDate && advertRequest?.startDate.length > 0
-            ? advertRequest.startDate
-            : activeInput === 'productionDate'
-            ? undefined
-            : dayjs().format('YYYY-MM-DD')
-        }
-        expirationDate={advertRequest.expiryDate}
-        productionDate={advertRequest.startDate || ''}
-        handleDateChange={day => {
-          activeInput === 'productionDate'
-            ? handleChangeAdvertRequest('startDate', day.dateString)
-            : handleChangeAdvertRequest('expiryDate', day.dateString);
-        }}
-      />
       <CategoryBottomSheet
         bottomSheetRef={categoryBottomSheetRef}
         checked={selectedCategory}

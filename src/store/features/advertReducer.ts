@@ -1,5 +1,6 @@
-import {createSlice} from '@reduxjs/toolkit';
+import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import AdvertResponse from '../../payload/response/AdvertResponse';
+import FilterRequest from '../../payload/request/FilterRequest';
 
 interface AdvertState {
   advertBottomSheetRef: any;
@@ -9,6 +10,7 @@ interface AdvertState {
   selectedChatId: string | null;
   filterBottomSheetRef: any;
   isFitered: boolean;
+  filterRequest: FilterRequest;
 }
 const InitialState: AdvertState = {
   advertBottomSheetRef: null,
@@ -18,6 +20,11 @@ const InitialState: AdvertState = {
   filterBottomSheetRef: null,
   isFitered: false,
   filteredAdverts: [],
+  filterRequest: {
+    product: '',
+    activeSubstance: '',
+    manufacturer: '',
+  },
 };
 const advertSlice = createSlice({
   name: 'advert',
@@ -45,7 +52,20 @@ const advertSlice = createSlice({
     setIsFiltered(state, action) {
       state.isFitered = action.payload;
     },
+    handleChangeFilterRequest(
+      state,
+      action: PayloadAction<FilterRequestPayload>,
+    ) {
+      state.filterRequest[action.payload.key] = action.payload.value;
+    },
+    resetFilterRequest(state) {
+      state.filterRequest = InitialState.filterRequest;
+    },
   },
 });
 export const AdvertReducer = advertSlice.reducer;
 export const AdvertActions = advertSlice.actions;
+interface FilterRequestPayload {
+  key: keyof FilterRequest;
+  value: string;
+}

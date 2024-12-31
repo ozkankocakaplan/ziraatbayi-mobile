@@ -18,6 +18,7 @@ import {
   Platform,
   ScrollView,
   TouchableOpacity,
+  TouchableWithoutFeedbackComponent,
   View,
 } from 'react-native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
@@ -117,7 +118,7 @@ export default function UserInfoScreen({
   return (
     <KeyboardAvoidingView
       style={{flex: 1}}
-      keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 50}
+      keyboardVerticalOffset={Platform.OS === 'ios' ? 10 : 50}
       behavior={'padding'}>
       <Page header showGoBack title="Kullanıcı Bilgilerim">
         <Container mx={10} mt={10} mb={10}>
@@ -144,8 +145,6 @@ export default function UserInfoScreen({
             <ScrollView
               showsHorizontalScrollIndicator={false}
               showsVerticalScrollIndicator={false}
-              keyboardShouldPersistTaps="handled"
-              keyboardDismissMode="on-drag"
               contentContainerStyle={{gap: 10}}>
               <Input
                 required

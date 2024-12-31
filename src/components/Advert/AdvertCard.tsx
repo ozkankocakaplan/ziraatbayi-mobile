@@ -109,7 +109,7 @@ const Card = styled(TouchableOpacity)`
   border-width: 1px;
   min-height: 200px;
   border-color: #f9f9f9;
-  width: ${SIZES.width / 2 - (Platform.OS === 'ios' ? 20 : 0)}px;
+  width: ${SIZES.width / 2 - (Platform.OS === 'ios' ? 20 : 20)}px;
 `;
 
 const ExpiryDateContainer = styled(View)`
