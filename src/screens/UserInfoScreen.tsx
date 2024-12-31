@@ -115,9 +115,12 @@ export default function UserInfoScreen({
   };
 
   return (
-    <Page header showGoBack title="Kullanıcı Bilgilerim">
-      <ScrollView contentContainerStyle={{flexGrow: 1}}>
-        <Container mx={10} mt={10}>
+    <KeyboardAvoidingView
+      style={{flex: 1}}
+      keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 50}
+      behavior={'padding'}>
+      <Page header showGoBack title="Kullanıcı Bilgilerim">
+        <Container mx={10} mt={10} mb={10}>
           <Container jContent="center" aItems="center" noFlex mb={10}>
             <TouchableOpacity
               onPress={() => {
@@ -138,91 +141,98 @@ export default function UserInfoScreen({
             </TouchableOpacity>
           </Container>
           <Container gap={10} mb={10}>
-            <Input
-              required
-              id="firstName"
-              icon={faUser}
-              placeholder="Ad"
-              value={formData.firstName}
-              onChangeText={text => handleInputChange('firstName', text)}
-            />
-            <Input
-              required
-              id="lastName"
-              icon={faUser}
-              placeholder="Soyad"
-              value={formData.lastName}
-              onChangeText={text => handleInputChange('lastName', text)}
-            />
-            <Input
-              required
-              id="companyName"
-              icon={faHouse}
-              placeholder="Firma Adı"
-              value={formData.companyName}
-              onChangeText={text => handleInputChange('companyName', text)}
-            />
-            <Input
-              required
-              id="email"
-              autoCapitalize="none"
-              icon={faEnvelope}
-              placeholder="E-posta"
-              validation="email"
-              value={formData.email}
-              editable={false}
-              onChangeText={text => handleInputChange('email', text)}
-              style={{color: '#ddd'}}
-            />
-            <Input
-              required
-              id="phone"
-              icon={faPhone}
-              validation="phone"
-              keyboardType="phone-pad"
-              placeholder="Telefon Numarası"
-              value={formData.phone}
-              onChangeText={text => handleInputChange('phone', text)}
-            />
-            <Input
-              required
-              id="glnNumber"
-              icon={faBarcode}
-              keyboardType="phone-pad"
-              placeholder="GNL Numarası"
-              value={formData.gnlNumber}
-              onChangeText={text => handleInputChange('gnlNumber', text)}
-            />
+            <ScrollView
+              showsHorizontalScrollIndicator={false}
+              showsVerticalScrollIndicator={false}
+              keyboardShouldPersistTaps="handled"
+              keyboardDismissMode="on-drag"
+              contentContainerStyle={{gap: 10}}>
+              <Input
+                required
+                id="firstName"
+                icon={faUser}
+                placeholder="Ad"
+                value={formData.firstName}
+                onChangeText={text => handleInputChange('firstName', text)}
+              />
+              <Input
+                required
+                id="lastName"
+                icon={faUser}
+                placeholder="Soyad"
+                value={formData.lastName}
+                onChangeText={text => handleInputChange('lastName', text)}
+              />
+              <Input
+                required
+                id="companyName"
+                icon={faHouse}
+                placeholder="Firma Adı"
+                value={formData.companyName}
+                onChangeText={text => handleInputChange('companyName', text)}
+              />
+              <Input
+                required
+                id="email"
+                autoCapitalize="none"
+                icon={faEnvelope}
+                placeholder="E-posta"
+                validation="email"
+                value={formData.email}
+                editable={false}
+                onChangeText={text => handleInputChange('email', text)}
+                style={{color: '#ddd'}}
+              />
+              <Input
+                required
+                id="phone"
+                icon={faPhone}
+                validation="phone"
+                keyboardType="phone-pad"
+                placeholder="Telefon Numarası"
+                value={formData.phone}
+                onChangeText={text => handleInputChange('phone', text)}
+              />
+              <Input
+                required
+                id="glnNumber"
+                icon={faBarcode}
+                keyboardType="phone-pad"
+                placeholder="GNL Numarası"
+                value={formData.gnlNumber}
+                onChangeText={text => handleInputChange('gnlNumber', text)}
+              />
 
-            <Input
-              required
-              id="taxNumber"
-              icon={faFileLines}
-              placeholder="Vergi Numarası"
-              keyboardType="phone-pad"
-              value={formData.taxNumber}
-              onChangeText={text => handleInputChange('taxNumber', text)}
-            />
-            <Input
-              required
-              id="taxOffice"
-              icon={faBuilding}
-              placeholder="Vergi Dairesi"
-              value={formData.taxOffice}
-              onChangeText={text => handleInputChange('taxOffice', text)}
-            />
-            <Input
-              required
-              id="address"
-              multiline
-              icon={faLocationDot}
-              placeholder="Firma Adresi"
-              value={formData.address}
-              onChangeText={text => handleInputChange('address', text)}
-              style={{height: 70, textAlignVertical: 'top', paddingTop: 13}}
-            />
+              <Input
+                required
+                id="taxNumber"
+                icon={faFileLines}
+                placeholder="Vergi Numarası"
+                keyboardType="phone-pad"
+                value={formData.taxNumber}
+                onChangeText={text => handleInputChange('taxNumber', text)}
+              />
+              <Input
+                required
+                id="taxOffice"
+                icon={faBuilding}
+                placeholder="Vergi Dairesi"
+                value={formData.taxOffice}
+                onChangeText={text => handleInputChange('taxOffice', text)}
+              />
+              <Input
+                required
+                id="address"
+                multiline
+                icon={faLocationDot}
+                placeholder="Firma Adresi"
+                value={formData.address}
+                onChangeText={text => handleInputChange('address', text)}
+                style={{height: 70, textAlignVertical: 'top', paddingTop: 13}}
+              />
+            </ScrollView>
           </Container>
-          <Container flex={0.6}>
+          <Container flex={0.1}>
             <Button
               isDisabled={checkObject(formData)}
               text="Kaydet"
@@ -230,7 +240,7 @@ export default function UserInfoScreen({
             />
           </Container>
         </Container>
-      </ScrollView>
-    </Page>
+      </Page>
+    </KeyboardAvoidingView>
   );
 }

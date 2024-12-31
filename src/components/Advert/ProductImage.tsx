@@ -72,7 +72,7 @@ export default function ProductImage({
                   aspectRatio: 1,
                   borderRadius: borderRadius,
                 }}
-                resizeMode="contain"
+                resizeMode="cover"
               />
             </TouchableOpacity>
           ) : (

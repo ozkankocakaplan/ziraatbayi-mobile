@@ -1,4 +1,11 @@
-import {View, Text, TouchableOpacity} from 'react-native';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  ScrollView,
+  KeyboardAvoidingView,
+  Platform,
+} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import CustomBottomSheet, {BottomSheetRef} from './CustomBottomSheet';
 import Container from '../Container/Container';
@@ -49,62 +56,71 @@ export default function FilterBottomSheet() {
       indicator={false}
       ref={filterBottomSheetRef}
       snapPoints={['45%']}>
-      <Container bgColor="white" mx={15} gap={5}>
-        <View style={{marginBottom: 10, alignItems: 'center'}}>
-          <CustomText color="darkGrey2" fontWeight="bold" fontSizes="body2">
-            Filtrele
-          </CustomText>
-        </View>
-
-        <Input
-          style={{backgroundColor: colors.lightGrey, marginBottom: 10}}
-          enableFocusBorder={false}
-          inputSize="sm"
-          title="Üretici Firma"
-          onChangeValue={val =>
-            setFilterRequest({...filterRequest, manufacturer: val})
-          }
-          placeholder="Üretici adı yazınız."
-        />
-
-        <Input
-          style={{backgroundColor: colors.lightGrey, marginBottom: 10}}
-          enableFocusBorder={false}
-          inputSize="sm"
-          title="Ürün Adı"
-          value={filterRequest.product}
-          onChangeValue={val =>
-            setFilterRequest({...filterRequest, product: val})
-          }
-          placeholder="Ürün adı yazınız."
-        />
-
-        <Input
-          style={{backgroundColor: colors.lightGrey, marginBottom: 10}}
-          enableFocusBorder={false}
-          inputSize="sm"
-          title="Etken Madde"
-          placeholder="Etken madde yazınız."
-          value={filterRequest.activeSubstance}
-          onChangeValue={val =>
-            setFilterRequest({...filterRequest, activeSubstance: val})
-          }
-        />
-        <FilterContainer>
-          <Flex flex={0.5}>
-            <Button
-              onPress={filterCancel}
-              borderRadius={100}
-              text="Temizle"></Button>
-          </Flex>
-          <Flex>
-            <Button
-              onPress={filterApply}
-              borderRadius={100}
-              text="Uygula "></Button>
-          </Flex>
-        </FilterContainer>
-      </Container>
+      <KeyboardAvoidingView
+        style={{flex: 1}}
+        keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 50}
+        behavior={'padding'}>
+        <Container bgColor="white" mx={15} gap={5}>
+          <ScrollView
+            showsHorizontalScrollIndicator={false}
+            showsVerticalScrollIndicator={false}
+            keyboardShouldPersistTaps="handled"
+            keyboardDismissMode="on-drag"
+            contentContainerStyle={{gap: 10}}>
+            <View style={{marginBottom: 10, alignItems: 'center'}}>
+              <CustomText color="darkGrey2" fontWeight="bold" fontSizes="body2">
+                Filtrele
+              </CustomText>
+            </View>
+            <Input
+              style={{backgroundColor: colors.lightGrey, marginBottom: 10}}
+              enableFocusBorder={false}
+              inputSize="sm"
+              title="Üretici Firma"
+              onChangeValue={val =>
+                setFilterRequest({...filterRequest, manufacturer: val})
+              }
+              placeholder="Üretici adı yazınız."
+            />
+            <Input
+              style={{backgroundColor: colors.lightGrey, marginBottom: 10}}
+              enableFocusBorder={false}
+              inputSize="sm"
+              title="Ürün Adı"
+              value={filterRequest.product}
+              onChangeValue={val =>
+                setFilterRequest({...filterRequest, product: val})
+              }
+              placeholder="Ürün adı yazınız."
+            />
+            <Input
+              style={{backgroundColor: colors.lightGrey, marginBottom: 10}}
+              enableFocusBorder={false}
+              inputSize="sm"
+              title="Etken Madde"
+              placeholder="Etken madde yazınız."
+              value={filterRequest.activeSubstance}
+              onChangeValue={val =>
+                setFilterRequest({...filterRequest, activeSubstance: val})
+              }
+            />{' '}
+          </ScrollView>
+          <FilterContainer>
+            <Flex flex={0.5}>
+              <Button
+                onPress={filterCancel}
+                borderRadius={100}
+                text="Temizle"></Button>
+            </Flex>
+            <Flex>
+              <Button
+                onPress={filterApply}
+                borderRadius={100}
+                text="Uygula "></Button>
+            </Flex>
+          </FilterContainer>
+        </Container>
+      </KeyboardAvoidingView>
     </CustomBottomSheet>
   );
 }

@@ -1,1 +1,2 @@
-export const LogoIcon = require('../logo/logo.jpeg'); //png olursa uzantısı arkaplan transparent olur. Yani png olan resmi alman gerekiyordu
+export const LogoIcon = require('../logo/logo.jpeg');
+export const LogoBeyazIcon = require('../logo/logo-beyaz.png');

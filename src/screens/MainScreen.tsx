@@ -5,6 +5,8 @@ import useThemeColors from '../constant/useColor';
 import CustomText from '../components/Text/Text';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../types/navigator';
+import {Image} from 'react-native';
+import {LogoBeyazIcon} from '../assets/logo';
 
 export default function MainScreen(
   props: NativeStackScreenProps<RootStackParamList>,
@@ -29,7 +31,7 @@ export default function MainScreen(
   }, [isLoading]);
   return (
     <Container bgColor={colors.primary} jContent="center" aItems="center">
-      <CustomText>Yükleniyor</CustomText>
+      <Image source={LogoBeyazIcon} style={{width: 200, height: 200}} />
     </Container>
   );
 }
