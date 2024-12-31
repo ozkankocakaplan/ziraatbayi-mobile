@@ -7,7 +7,12 @@ import {View} from 'react-native';
 import styled from 'styled-components';
 import CustomText from '../components/Text/Text';
 import Page from '../components/Page/Page';
-import {faAngleRight, faLock, faUser} from '@fortawesome/free-solid-svg-icons';
+import {
+  faAngleRight,
+  faBuilding,
+  faLock,
+  faUser,
+} from '@fortawesome/free-solid-svg-icons';
 import {TouchableOpacity} from 'react-native';
 import Icon from '../components/Icon/Icon';
 import {IconProp} from '@fortawesome/fontawesome-svg-core';
@@ -69,6 +74,13 @@ export default function AccountScreen({
               }}
               icon={faUser}
               text="Kullanıcı Bilgilerim"
+            />
+            <ListItem
+              onPress={() => {
+                navigation.navigate('AddressInfoScreen');
+              }}
+              icon={faBuilding}
+              text="Firma Detayları"
             />
             <ListItem
               onPress={() => {

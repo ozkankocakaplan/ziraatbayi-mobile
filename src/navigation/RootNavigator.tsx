@@ -26,6 +26,7 @@ import SearchScreen from '../screens/SearchScreen';
 import FilterBottomSheet from '../components/BottomSheet/FilterBottomSheet';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import ProductsByCategoryScreen from '../screens/ProductsByCategoryScreen';
+import AddressInfoScreen from '../screens/AddressInfoScreen';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 const RootNavigator = () => {
@@ -87,6 +88,10 @@ const RootNavigator = () => {
             <Stack.Screen
               name="ProductsByCategoryScreen"
               component={ProductsByCategoryScreen}
+            />
+            <Stack.Screen
+              name="AddressInfoScreen"
+              component={AddressInfoScreen}
             />
           </>
         )}

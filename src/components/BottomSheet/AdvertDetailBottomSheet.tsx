@@ -9,11 +9,17 @@ import {NavigationProp, useNavigation} from '@react-navigation/native';
 import {RootStackParamList} from '../../types/navigator';
 import {RootState} from '../../store';
 import {useDispatch, useSelector} from 'react-redux';
-import {checkEqualChatId, generateChatId} from '../../helper/Helper';
+import {
+  checkEqualChatId,
+  formatDate,
+  generateChatId,
+} from '../../helper/Helper';
 import styled from 'styled-components';
 import {AdvertActions} from '../../store/features/advertReducer';
 import ProductImage from '../Advert/ProductImage';
 import ProductResponse from '../../payload/response/ProductResponse';
+import {SIZES} from '../../constant/theme';
+import {BottomSheetScrollView} from '@gorhom/bottom-sheet';
 
 export default function AdvertDetailBottomSheet() {
   const dispatch = useDispatch();
@@ -65,41 +71,123 @@ export default function AdvertDetailBottomSheet() {
     <CustomBottomSheet ref={advertBottomSheetRef} snapPoints={['60%']}>
       {advertDetail && (
         <>
-          <Container m={5} flex={0.3} bgColor="white">
-            <Row gap={10}>
-              <AccountProfile>
-                <ProductImage
-                  imageUrl={advertDetail?.product?.images?.[0]?.imageUrl || ''}
-                />
-              </AccountProfile>
-              <Col gap={12}>
-                <CustomText color="black" fontSizes="body4" fontWeight="bold">
-                  {advertDetail?.product?.name}
+          <BottomSheetScrollView>
+            <Container m={5} bgColor="white">
+              <Row gap={10}>
+                <Row gap={10}>
+                  <View
+                    style={{
+                      height: 100,
+                      width: 100,
+                    }}>
+                    <ProductImage
+                      imageUrl={
+                        advertDetail?.product?.images?.[0]?.imageUrl || ''
+                      }
+                    />
+                  </View>
+                </Row>
+                <Row>
+                  <Col gap={12}>
+                    <CustomText
+                      numberOfLines={2}
+                      ellipsizeMode="tail"
+                      sx={{width: SIZES.width - 140}}
+                      color="black"
+                      fontSizes="body4"
+                      fontWeight="bold">
+                      {advertDetail?.product?.name}
+                    </CustomText>
+                    <Row gap={2}>
+                      <CustomText
+                        color="darkGrey"
+                        fontSizes="body6"
+                        fontWeight="bold">
+                        Kategori:
+                      </CustomText>
+                      <CustomText color="black" fontSizes="body6">
+                        {advertDetail?.product?.categoryName}
+                      </CustomText>
+                    </Row>
+                    <Row gap={2}>
+                      <CustomText
+                        color="darkGrey"
+                        fontSizes="body6"
+                        fontWeight="bold">
+                        Stok Miktarı:
+                      </CustomText>
+                      <CustomText color="black" fontSizes="body6">
+                        {advertDetail?.stockQuantity}
+                      </CustomText>
+                    </Row>
+                    <Row gap={2}>
+                      <CustomText
+                        color="darkGrey"
+                        fontSizes="body6"
+                        fontWeight="bold">
+                        Etken Madde:
+                      </CustomText>
+                      <CustomText
+                        color="black"
+                        fontSizes="body6"
+                        numberOfLines={2}
+                        ellipsizeMode="tail"
+                        sx={{width: SIZES.width - 140}}>
+                        {advertDetail?.product?.activeSubstance}
+                      </CustomText>
+                    </Row>
+                    {advertDetail.startDate && (
+                      <Row gap={2}>
+                        <CustomText
+                          color="darkGrey"
+                          fontSizes="body6"
+                          fontWeight="bold">
+                          Üretim Tarihi:
+                        </CustomText>
+                        <CustomText
+                          color="black"
+                          fontSizes="body6"
+                          fontWeight="light">
+                          {formatDate(advertDetail?.startDate || '')}
+                        </CustomText>
+                      </Row>
+                    )}
+                    <Row gap={2}>
+                      <CustomText
+                        color="darkGrey"
+                        fontSizes="body6"
+                        fontWeight="bold">
+                        Son Tüketim Tarihi:
+                      </CustomText>
+                      <CustomText
+                        color="black"
+                        fontSizes="body6"
+                        fontWeight="light">
+                        {formatDate(advertDetail?.expiryDate || '')}
+                      </CustomText>
+                    </Row>
+                  </Col>
+                </Row>
+              </Row>
+            </Container>
+            <Container m={14} bgColor="white">
+              <Col gap={10}>
+                <CustomText color="black" fontSizes="body3" fontWeight="bold">
+                  Ürün Açıklaması
                 </CustomText>
-                <CustomText color="black" fontSizes="body6">
-                  {advertDetail?.product?.categoryName}
+                <CustomText
+                  color="black"
+                  fontSizes="body5"
+                  sx={{width: SIZES.width - 30}}
+                  numberOfLines={5}
+                  ellipsizeMode="tail">
+                  {advertDetail?.product?.description}
                 </CustomText>
-                <CustomText color="black" fontSizes="body6">
-                  Stok Miktarı : {advertDetail?.stockQuantity}
-                </CustomText>
-                {/* <CustomText color="black" fontSizes="body5">
-              Fiyat
-            </CustomText> */}
               </Col>
-            </Row>
-          </Container>
-          <Container flex={0.5} m={14} bgColor="white">
-            <Col gap={10}>
-              <CustomText color="black" fontSizes="body3" fontWeight="bold">
-                Ürün Açıklaması
-              </CustomText>
-              <CustomText color="black" fontSizes="body5">
-                {advertDetail?.product?.description}
-              </CustomText>
-            </Col>
-          </Container>
+            </Container>
+          </BottomSheetScrollView>
           {!isEquals && (
-            <Container noFlex bgColor="white" mx={10}>
+            <Container noFlex bgColor="white" mx={10} mb={10}>
               <Button
                 onPress={() => {
                   if (isEquals) {
@@ -115,7 +203,6 @@ export default function AdvertDetailBottomSheet() {
                     product: advertDetail?.product as ProductResponse,
                   });
                 }}
-                style={{marginTop: 20}}
                 text="MESAJ GÖNDER"></Button>
             </Container>
           )}
@@ -124,8 +211,3 @@ export default function AdvertDetailBottomSheet() {
     </CustomBottomSheet>
   );
 }
-const AccountProfile = styled(View)`
-  height: 100px;
-  width: 100px;
-  margin-left: 10px;
-`;

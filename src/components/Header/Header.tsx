@@ -102,7 +102,7 @@ export default function Header({
         {title?.length != 0 && (
           <TitleContainer>
             <CustomText
-              fontSizes="body3"
+              fontSizes="h5"
               color="white"
               fontWeight="bold"
               adjustsFontSizeToFit={true}>
@@ -113,7 +113,7 @@ export default function Header({
         <ExtraContainer>
           {showNotification && (
             <IconRight
-              top={isSearchable ? '-5px' : '0px'}
+              top={isSearchable ? '0px' : '0px'}
               onPress={() => {
                 navigation.navigate('NotificationScreen' as never);
               }}
@@ -123,7 +123,7 @@ export default function Header({
           )}
           {showMessage && (
             <IconRight
-              top={isSearchable ? '-5px' : '0px'}
+              top={isSearchable ? '0px' : '0px'}
               onPress={() => {
                 navigation.navigate('ChatListScreen' as never);
               }}

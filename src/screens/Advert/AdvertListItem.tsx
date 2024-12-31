@@ -11,9 +11,11 @@ import ProductImage from '../../components/Advert/ProductImage';
 import {NavigationProp, useNavigation} from '@react-navigation/native';
 import {RootStackParamList} from '../../types/navigator';
 import {formatDate} from '../../helper/Helper';
+import {SIZES} from '../../constant/theme';
 
 const AdvertListItem = ({item}: {item: AdvertResponse}) => {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
+  const textWidth = SIZES.width - 150;
   return (
     <StyledContainer
       key={item.id}
@@ -32,7 +34,7 @@ const AdvertListItem = ({item}: {item: AdvertResponse}) => {
             sx={{
               flex: 0.5,
               flexWrap: 'wrap',
-              backgroundColor: 'red',
+              width: textWidth,
             }}
             numberOfLines={2}
             color="black"
