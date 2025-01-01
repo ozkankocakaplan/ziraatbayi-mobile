@@ -1,11 +1,11 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 
 import {RootStackParamList} from '../types/navigator';
 import LoginScreen from '../screens/LoginScreen';
 import RegisterScreen from '../screens/RegisterScreen';
 import ForgotPasswordScreen from '../screens/ForgotPasswordScreen';
 import HomeScreen from '../screens/HomeScreen';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '../store';
 import BottomTabNavigator from './BottomTabNavigator';
 import ChatListScreen from '../screens/ChatListScreen/ChatListScreen';
@@ -27,12 +27,33 @@ import FilterBottomSheet from '../components/BottomSheet/FilterBottomSheet';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import ProductsByCategoryScreen from '../screens/ProductsByCategoryScreen';
 import AddressInfoScreen from '../screens/AddressInfoScreen';
+import NetworkCheckScreen from '../screens/NetworkCheckScreen';
+import AlertDialog from '../components/AlertDialog/AlertDialog';
+import {AuthActions} from '../store/features/authReducer';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 const RootNavigator = () => {
+  const dispatch = useDispatch();
   const user = useSelector((state: RootState) => state.auth.user);
+  const {errorCode} = useSelector((state: RootState) => state.auth);
+
+  useEffect(() => {
+    if (errorCode != null) {
+      AlertDialog.showModal({
+        disableCloseOnTouchOutside: true,
+        type: 'error',
+        message:
+          errorCode === 402
+            ? 'Abonelik süreniz sona erdiği için oturumunuz sonlandırıldı.'
+            : 'Oturumunuz sonlandırıldı. Lütfen tekrar giriş yapınız.',
+        onConfirm() {
+          dispatch(AuthActions.setUser(null));
+        },
+      });
+    }
+  }, [errorCode]);
   return (
-    <>
+    <NetworkCheckScreen>
       <Stack.Navigator
         screenOptions={{
           headerShown: false,
@@ -103,7 +124,7 @@ const RootNavigator = () => {
           <FilterBottomSheet />
         </>
       )}
-    </>
+    </NetworkCheckScreen>
   );
 };
 

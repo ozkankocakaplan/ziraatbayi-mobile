@@ -3,9 +3,11 @@ import LoginResponse from '../../payload/response/LoginResponse';
 
 interface AuthState {
   user: LoginResponse | null;
+  errorCode: number | null;
 }
 const InitialState: AuthState = {
   user: null,
+  errorCode: null,
 };
 const authSlice = createSlice({
   name: 'auth',
@@ -13,6 +15,11 @@ const authSlice = createSlice({
   reducers: {
     setUser(state, action) {
       state.user = action.payload;
+    },
+    setErrorCode(state, action) {
+      if (state.errorCode != action.payload) {
+        state.errorCode = action.payload;
+      }
     },
   },
 });
