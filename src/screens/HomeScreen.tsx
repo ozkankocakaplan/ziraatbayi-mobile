@@ -21,6 +21,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '../store';
 import {AdvertActions} from '../store/features/advertReducer';
 import useThemeColors from '../constant/useColor';
+import CustomNotFound from '../components/CustomNotFound/CustomNotFound';
 
 export default function HomeScreen({
   navigation,
@@ -104,6 +105,9 @@ export default function HomeScreen({
             </FilterIconContainer>
           </HeaderRow>
           <CustomFlatList
+            customNotFound={
+              <CustomNotFound notFoundText="Yayınlanmış ilan bulunamadı" />
+            }
             handleRefresh={() => {
               refetchAdverts();
             }}

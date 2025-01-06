@@ -9,6 +9,7 @@ import CustomFlatList from '../components/Flatlist/CustomFlatList';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {DealerApi} from '../services/dealerService';
 import SubscriptionApi from '../services/subscriptionService';
+import CustomNotFound from '../components/CustomNotFound/CustomNotFound';
 
 export default function DealerDetailScreen({
   navigation,
@@ -28,7 +29,7 @@ export default function DealerDetailScreen({
       <Container>
         <CustomFlatList
           numColumns={3}
-          notFoundText="İlan bulunamadı"
+          customNotFound={<CustomNotFound notFoundText="İlan bulunamadı" />}
           data={data?.entity.adverts || []}
           renderItem={(item: AdvertResponse) => {
             return <AdvertCard key={item.id} item={item} />;

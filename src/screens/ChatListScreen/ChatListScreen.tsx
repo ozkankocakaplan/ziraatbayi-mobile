@@ -18,6 +18,7 @@ import {AdvertActions} from '../../store/features/advertReducer';
 import {useFocusEffect} from '@react-navigation/native';
 import MessageItem from './MessageItem';
 import CustomFlatList from '../../components/Flatlist/CustomFlatList';
+import CustomNotFound from '../../components/CustomNotFound/CustomNotFound';
 export default function ChatListScreen(
   props: NativeStackScreenProps<RootStackParamList, 'ChatListScreen'>,
 ) {
@@ -66,6 +67,9 @@ export default function ChatListScreen(
       <Container p={10}>
         <Loading loading={loading}>
           <CustomFlatList
+            customNotFound={
+              <CustomNotFound notFoundText="Henüz mesajınız bulunmamaktadır." />
+            }
             data={chats}
             isSearchable
             searchPlaceholder="Mesajlarınızı arayın"

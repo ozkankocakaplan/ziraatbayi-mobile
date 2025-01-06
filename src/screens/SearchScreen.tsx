@@ -7,6 +7,7 @@ import Page from '../components/Page/Page';
 import CustomFlatList from '../components/Flatlist/CustomFlatList';
 import AdvertResponse from '../payload/response/AdvertResponse';
 import AdvertCard from '../components/Advert/AdvertCard';
+import NotFoundAnimation from '../components/CustomNotFound/CustomNotFound';
 
 export default function SearchScreen({
   route,
@@ -20,6 +21,9 @@ export default function SearchScreen({
         {data && (
           <CustomFlatList
             numColumns={3}
+            customNotFound={
+              <NotFoundAnimation notFoundText="Aranan ilan bulunamadı" />
+            }
             data={data?.list || []}
             renderItem={(item: AdvertResponse) => {
               return <AdvertCard key={item.id} item={item} />;
