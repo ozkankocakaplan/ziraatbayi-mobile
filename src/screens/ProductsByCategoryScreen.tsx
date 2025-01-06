@@ -27,7 +27,7 @@ export default function ProductsByCategoryScreen({
     refetch();
   };
   return (
-    <Page showGoBack header title={category.name + ' Ürünleri'}>
+    <Page showGoBack header title={category.name}>
       <Container>
         {data && (
           <CustomFlatList
