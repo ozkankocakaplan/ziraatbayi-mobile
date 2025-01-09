@@ -192,15 +192,6 @@ export default function UserInfoScreen({
                 value={formData.phone}
                 onChangeText={text => handleInputChange('phone', text)}
               />
-              <Input
-                required
-                id="glnNumber"
-                icon={faBarcode}
-                keyboardType="phone-pad"
-                placeholder="GNL Numarası"
-                value={formData.gnlNumber}
-                onChangeText={text => handleInputChange('gnlNumber', text)}
-              />
             </ScrollView>
           </Container>
           <Container flex={0.1}>

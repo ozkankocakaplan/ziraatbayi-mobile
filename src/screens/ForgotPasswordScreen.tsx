@@ -25,8 +25,8 @@ export default function ForgotPasswordScreen(
 
   return (
     <Page header title="Şifremi Unuttum" showGoBack>
-      <Container mt={50} mx={10} bgColor="white" gap={10}>
-        <Container noFlex jContent="center" aItems="center" bgColor="#ffffff">
+      <Container mt={50} mx={10} gap={10}>
+        <Container noFlex jContent="center" aItems="center">
           <Image
             source={LogoIcon}
             style={{width: 175, height: 175}}
@@ -43,7 +43,7 @@ export default function ForgotPasswordScreen(
           onChangeText={setEmail}
         />
 
-        <Container bgColor="white">
+        <Container>
           <Button
             text="Gönder"
             isDisabled={checkObject({email})}

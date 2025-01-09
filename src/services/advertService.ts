@@ -35,10 +35,6 @@ const advertApi = baseApi.injectEndpoints({
           await queryFulfilled;
           AlertDialog.hideLoading();
         } catch (error: any) {
-          AlertDialog.showModal({
-            type: 'error',
-            message: error?.error?.data?.exceptionMessage || 'Bir hata oluştu',
-          });
           AlertDialog.hideLoading();
         } finally {
           AlertDialog.hideLoading();
@@ -133,16 +129,8 @@ export const {useGetProductImageQuery, useGetProductImageForChatMutation} =
         async onQueryStarted(arg, {dispatch, queryFulfilled}) {
           try {
             AlertDialog.showLoading();
-            let result = await queryFulfilled;
-
-            AlertDialog.hideLoading();
+            await queryFulfilled;
           } catch (error: any) {
-            AlertDialog.showModal({
-              type: 'error',
-              message:
-                error?.error?.data?.exceptionMessage || 'Bir hata oluştu',
-            });
-            AlertDialog.hideLoading();
           } finally {
             AlertDialog.hideLoading();
           }

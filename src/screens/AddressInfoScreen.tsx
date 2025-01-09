@@ -146,6 +146,15 @@ export default function AddressInfoScreen({
               />
               <Input
                 required
+                id="glnNumber"
+                icon={faBarcode}
+                keyboardType="phone-pad"
+                placeholder="GNL Numarası"
+                value={formData.gnlNumber}
+                onChangeText={text => handleInputChange('gnlNumber', text)}
+              />
+              <Input
+                required
                 id="address"
                 multiline
                 icon={faLocationDot}

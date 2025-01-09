@@ -37,10 +37,8 @@ export default function AddAdvertScreen({
   );
   const [advertRequest, setAdvertRequest] = useState<CreateAdvertRequest>({
     productId: 0,
-    stockQuantity: '',
     startDate: '',
     expiryDate: '',
-    minOrderQuantity: '',
   });
   const categoryBottomSheetRef = useRef<BottomSheetRef>(null);
   const productBottomSheetRef = useRef<BottomSheetRef>(null);
@@ -68,15 +66,6 @@ export default function AddAdvertScreen({
         Object.keys(selectedCategory).length == 0
           ? ''
           : selectedCategory.id.toString(),
-      stockQuantity:
-        advertRequest.stockQuantity == 0
-          ? ''
-          : advertRequest.stockQuantity.toString(),
-      minOrderQuantity:
-        advertRequest.minOrderQuantity == 0
-          ? ''
-          : advertRequest?.minOrderQuantity?.toString() || '',
-      expiryDate: advertRequest.expiryDate,
     };
     return checkObject(form);
   };
@@ -84,8 +73,6 @@ export default function AddAdvertScreen({
     try {
       let result = await useCreateAdvert({
         ...advertRequest,
-        stockQuantity: parseInt(advertRequest.stockQuantity),
-        minOrderQuantity: parseInt(advertRequest.minOrderQuantity),
       });
 
       if (result.data?.isSuccessful) {
@@ -160,28 +147,6 @@ export default function AddAdvertScreen({
               color={
                 selectedProduct.name ? colors.black : colors.inputPlaceholder
               }
-            />
-            <Input
-              title="Stok Miktarı"
-              required
-              id="stockQuantity"
-              placeholder="Stok Miktarını Seçiniz"
-              keyboardType="number-pad"
-              value={advertRequest.stockQuantity.toString()}
-              onChangeText={text => {
-                handleChangeAdvertRequest('stockQuantity', text);
-              }}
-            />
-            <Input
-              title="Sipariş Miktarı"
-              required
-              id="orderQuantity"
-              placeholder="Minimum Sipariş Miktarını Seçiniz"
-              keyboardType="number-pad"
-              value={advertRequest.minOrderQuantity?.toString()}
-              onChangeText={text => {
-                handleChangeAdvertRequest('minOrderQuantity', text);
-              }}
             />
 
             <Input

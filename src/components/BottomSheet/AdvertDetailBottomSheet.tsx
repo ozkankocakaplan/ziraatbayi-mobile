@@ -109,17 +109,7 @@ export default function AdvertDetailBottomSheet() {
                         {advertDetail?.product?.categoryName}
                       </CustomText>
                     </Row>
-                    <Row gap={2}>
-                      <CustomText
-                        color="darkGrey"
-                        fontSizes="body6"
-                        fontWeight="bold">
-                        Stok Miktarı:
-                      </CustomText>
-                      <CustomText color="black" fontSizes="body6">
-                        {advertDetail?.stockQuantity}
-                      </CustomText>
-                    </Row>
+
                     <Row gap={2}>
                       <CustomText
                         color="darkGrey"

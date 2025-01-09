@@ -86,22 +86,18 @@ export default function LoginScreen(
   };
 
   return (
-    <Page bgColor="#ffff" header title="Giriş Yap">
+    <Page header title="Giriş Yap">
       <ScrollView contentContainerStyle={{flexGrow: 1}}>
-        <Container bgColor="#ffffff" mx={10} mt={30}>
-          <Container bgColor="#ffffff">
-            <Container
-              noFlex
-              jContent="center"
-              aItems="center"
-              bgColor="#ffffff">
+        <Container mx={10} mt={30}>
+          <Container>
+            <Container noFlex jContent="center" aItems="center">
               <Image
                 source={LogoIcon}
                 style={{width: 175, height: 175}}
                 resizeMode="contain"
               />
             </Container>
-            <Container bgColor="#ffffff" gap={15}>
+            <Container gap={15}>
               <Input
                 autoCapitalize="none"
                 id="email"
@@ -143,7 +139,7 @@ export default function LoginScreen(
             </Container>
           </Container>
 
-          <Container flex={0.15} bgColor="#ffffff">
+          <Container flex={0.15}>
             <CustomText sx={{marginBottom: 10}} center color="secondary">
               Hesabınız yok mu?
             </CustomText>

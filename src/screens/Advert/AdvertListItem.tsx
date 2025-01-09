@@ -52,14 +52,6 @@ const AdvertListItem = ({item}: {item: AdvertResponse}) => {
           </Row>
           <Row gap={2}>
             <CustomText color="darkGrey" fontSizes="body6" fontWeight="bold">
-              Stok Miktarı:
-            </CustomText>
-            <CustomText color="black" fontSizes="body6">
-              {item.stockQuantity}
-            </CustomText>
-          </Row>
-          <Row gap={2}>
-            <CustomText color="darkGrey" fontSizes="body6" fontWeight="bold">
               Etken Madde:
             </CustomText>
             <CustomText color="black" fontSizes="body6">

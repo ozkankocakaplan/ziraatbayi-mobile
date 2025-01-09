@@ -15,7 +15,6 @@ const customBaseQuery = fetchBaseQuery({
 
 const baseQueryWithReauth = async (args: any, api: any, extraOptions: any) => {
   const result = await customBaseQuery(args, api, extraOptions);
-
   if (
     result.error &&
     (result.error.status === 402 || result.error.status === 401) &&

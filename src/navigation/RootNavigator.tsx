@@ -47,9 +47,14 @@ const RootNavigator = () => {
             ? 'Abonelik süreniz sona erdiği için oturumunuz sonlandırıldı.'
             : 'Oturumunuz sonlandırıldı. Lütfen tekrar giriş yapınız.',
         onConfirm() {
+          dispatch(AuthActions.setErrorCode(null));
           dispatch(AuthActions.setUser(null));
         },
       });
+      setTimeout(() => {
+        dispatch(AuthActions.setErrorCode(null));
+        dispatch(AuthActions.setUser(null));
+      }, 2000);
     }
   }, [errorCode]);
   return (
