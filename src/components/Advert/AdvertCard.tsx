@@ -90,13 +90,6 @@ export default function AdvertCard({item, ...props}: AdvertCardProps) {
           ellipsizeMode="tail">
           {item?.dealer?.companyName}
         </CustomText>
-        {/* <CustomText
-          color="primary"
-          fontSizes="caption2"
-          numberOfLines={1}
-          ellipsizeMode="tail">
-          {item?.product?.categoryName}
-        </CustomText> */}
       </InfoContainer>
     </Card>
   );

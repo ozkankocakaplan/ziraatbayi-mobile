@@ -79,12 +79,13 @@ export default function AdvertScreen(props: any) {
                 return a.id - b.id;
               }}
               listFilter={(entity: AdvertResponse, value: string) => {
+                const lowerValue = value.toLowerCase();
+                const productName = entity.product.name.toLowerCase();
+
                 if (selectedFilter === 'active') {
-                  return entity.isActive && entity.product.name.includes(value);
+                  return entity.isActive && productName.includes(lowerValue);
                 } else {
-                  return (
-                    !entity.isActive && entity.product.name.includes(value)
-                  );
+                  return !entity.isActive && productName.includes(lowerValue);
                 }
               }}
               searchPlaceholder="İlan Ara"

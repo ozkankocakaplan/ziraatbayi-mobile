@@ -1,10 +1,12 @@
 interface NotificationResponse {
+  id: number;
   title: string;
   message: string;
   dataId: number;
   userId: number;
   isRead: boolean;
   notificationType: NotificationType;
+  createAt: Date;
 }
 export default NotificationResponse;
 

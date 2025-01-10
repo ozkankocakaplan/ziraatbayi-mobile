@@ -112,18 +112,18 @@ export default function AdvertDetailBottomSheet() {
 
                     <Row gap={2}>
                       <CustomText
+                        sx={{width: SIZES.width - 110}}
                         color="darkGrey"
                         fontSizes="body6"
                         fontWeight="bold">
                         Etken Madde:
-                      </CustomText>
-                      <CustomText
-                        color="black"
-                        fontSizes="body6"
-                        numberOfLines={2}
-                        ellipsizeMode="tail"
-                        sx={{width: SIZES.width - 140}}>
-                        {advertDetail?.product?.activeSubstance}
+                        <CustomText
+                          color="black"
+                          fontSizes="body6"
+                          numberOfLines={2}
+                          ellipsizeMode="tail">
+                          {advertDetail?.product?.activeSubstance}
+                        </CustomText>
                       </CustomText>
                     </Row>
                     {advertDetail.startDate && (

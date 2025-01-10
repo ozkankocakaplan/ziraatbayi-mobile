@@ -15,7 +15,7 @@ import {SIZES} from '../../constant/theme';
 
 const AdvertListItem = ({item}: {item: AdvertResponse}) => {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
-  const textWidth = SIZES.width - 150;
+
   return (
     <StyledContainer
       key={item.id}
@@ -34,7 +34,7 @@ const AdvertListItem = ({item}: {item: AdvertResponse}) => {
             sx={{
               flex: 0.5,
               flexWrap: 'wrap',
-              width: textWidth,
+              width: SIZES.width - 140,
             }}
             numberOfLines={2}
             color="black"
@@ -51,11 +51,19 @@ const AdvertListItem = ({item}: {item: AdvertResponse}) => {
             </CustomText>
           </Row>
           <Row gap={2}>
-            <CustomText color="darkGrey" fontSizes="body6" fontWeight="bold">
+            <CustomText
+              sx={{width: SIZES.width - 140}}
+              color="darkGrey"
+              fontSizes="body6"
+              fontWeight="bold">
               Etken Madde:
-            </CustomText>
-            <CustomText color="black" fontSizes="body6">
-              {item.product.activeSubstance}
+              <CustomText
+                color="black"
+                fontSizes="body6"
+                numberOfLines={2}
+                ellipsizeMode="tail">
+                {item.product.activeSubstance}
+              </CustomText>
             </CustomText>
           </Row>
           {item.startDate && (

@@ -149,7 +149,7 @@ export default function AddressInfoScreen({
                 id="glnNumber"
                 icon={faBarcode}
                 keyboardType="phone-pad"
-                placeholder="GNL Numarası"
+                placeholder="GLN Numarası"
                 value={formData.gnlNumber}
                 onChangeText={text => handleInputChange('gnlNumber', text)}
               />
