@@ -29,7 +29,7 @@ export default function CompanyInformationScreen({
     companyName: '',
     email: '',
     phone: '',
-    gnlNumber: '',
+    glnNumber: '',
     taxNumber: '',
     taxOffice: '',
     address: '',
@@ -43,7 +43,7 @@ export default function CompanyInformationScreen({
         companyName: dealer.companyName || '',
         email: dealer.email || '',
         phone: dealer.phone || '',
-        gnlNumber: dealer.gnlNumber || '',
+        glnNumber: dealer.glnNumber || '',
         taxNumber: dealer.taxNumber || '',
         taxOffice: dealer.taxOffice || '',
         address: dealer.address || '',
@@ -98,8 +98,8 @@ export default function CompanyInformationScreen({
                 icon={faBarcode}
                 keyboardType="phone-pad"
                 placeholder="GLN Numarası"
-                value={formData.gnlNumber}
-                onChangeText={text => handleInputChange('gnlNumber', text)}
+                value={formData.glnNumber}
+                onChangeText={text => handleInputChange('glnNumber', text)}
               />
               <Input
                 required

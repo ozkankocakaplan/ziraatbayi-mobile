@@ -8,7 +8,7 @@ export default interface DealerResponse {
   email: string;
   phone: string;
   companyName: string;
-  gnlNumber: string;
+  glnNumber: string;
   taxNumber: string;
   taxOffice: string;
   address: string;

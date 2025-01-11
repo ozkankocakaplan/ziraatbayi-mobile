@@ -36,7 +36,7 @@ export default function RegisterScreen(
     companyName: '',
     email: '',
     phone: '',
-    gnlNumber: '',
+    glnNumber: '',
     taxNumber: '',
     taxOffice: '',
     address: '',
@@ -112,9 +112,9 @@ export default function RegisterScreen(
                 icon={faBarcode}
                 keyboardType="phone-pad"
                 placeholder="GLN Numarası"
-                value={registerRequest.gnlNumber}
+                value={registerRequest.glnNumber}
                 onChangeText={text =>
-                  setRegisterRequest({...registerRequest, gnlNumber: text})
+                  setRegisterRequest({...registerRequest, glnNumber: text})
                 }
               />
               <Input

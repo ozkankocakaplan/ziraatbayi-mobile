@@ -4,7 +4,7 @@ interface CreateDealerRequest {
   companyName: string;
   email: string;
   phone: string;
-  gnlNumber: string;
+  glnNumber: string;
   taxNumber: string;
   taxOffice: string;
   address: string;
