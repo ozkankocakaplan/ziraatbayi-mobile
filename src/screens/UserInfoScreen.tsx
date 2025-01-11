@@ -147,7 +147,7 @@ export default function UserInfoScreen({
               showsVerticalScrollIndicator={false}
               contentContainerStyle={{gap: 10}}>
               <Input
-                required
+                 
                 id="firstName"
                 icon={faUser}
                 placeholder="Ad"
@@ -155,7 +155,7 @@ export default function UserInfoScreen({
                 onChangeText={text => handleInputChange('firstName', text)}
               />
               <Input
-                required
+                 
                 id="lastName"
                 icon={faUser}
                 placeholder="Soyad"
@@ -163,7 +163,7 @@ export default function UserInfoScreen({
                 onChangeText={text => handleInputChange('lastName', text)}
               />
               <Input
-                required
+                 
                 id="companyName"
                 icon={faHouse}
                 placeholder="Firma Adı"
@@ -171,7 +171,6 @@ export default function UserInfoScreen({
                 onChangeText={text => handleInputChange('companyName', text)}
               />
               <Input
-                required
                 id="email"
                 autoCapitalize="none"
                 icon={faEnvelope}
@@ -180,10 +179,10 @@ export default function UserInfoScreen({
                 value={formData.email}
                 editable={false}
                 onChangeText={text => handleInputChange('email', text)}
-                style={{color: '#ddd'}}
+                 
               />
               <Input
-                required
+                 
                 id="phone"
                 icon={faPhone}
                 validation="phone"

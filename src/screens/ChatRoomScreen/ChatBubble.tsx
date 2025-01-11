@@ -25,10 +25,12 @@ function ChatBubble(props: ChatBubbleProps) {
               marginVertical: 5,
               maxWidth: '70%',
               marginHorizontal: 10,
+              opacity: item.isPending ? 0.7 : 1,
             }
           : {
               padding: 10,
               alignSelf: isCurrentUser ? 'flex-end' : 'flex-start',
+              opacity: item.isPending ? 0.7 : 1,
             }
       }>
       {!isCurrentUser && (
@@ -68,7 +70,7 @@ function ChatBubble(props: ChatBubbleProps) {
           alignSelf: 'flex-end',
           marginTop: 5,
         }}>
-        {new Date(item.timestamp).toLocaleTimeString()}
+        {item.isPending ? 'Gönderiliyor...' : new Date(item.timestamp).toLocaleTimeString()}
       </Text>
     </View>
   );

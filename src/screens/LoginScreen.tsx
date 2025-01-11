@@ -27,7 +27,7 @@ export default function LoginScreen(
 ) {
   const [loginRequest, setLoginRequest] = useState<LoginRequest>({
     email:
-      process.env.NODE_ENV === 'development' ? 'ferizaocal60@gmail.com' : '',
+      process.env.NODE_ENV === 'development' ? 'senteksin07@gmail.com' : '',
     password: process.env.NODE_ENV === 'development' ? '123fb' : '',
     uniqueId: '',
     deviceBrand: '',
@@ -38,24 +38,6 @@ export default function LoginScreen(
   });
 
   const [loginMutation] = AuthApi.useLoginMutation();
-
-  useEffect(() => {
-    const fetchDeviceInfo = async () => {
-      const uniqueId = await DeviceInfo.getUniqueId();
-      const deviceModel = DeviceInfo.getModel();
-      const deviceBrand = DeviceInfo.getBrand();
-      const systemName = DeviceInfo.getSystemName();
-      const systemVersion = DeviceInfo.getSystemVersion();
-
-      console.log('Unique ID:', uniqueId);
-      console.log('Model:', deviceModel);
-      console.log('Brand:', deviceBrand);
-      console.log('OS:', systemName);
-      console.log('OS Version:', systemVersion);
-    };
-
-    fetchDeviceInfo();
-  }, []);
 
   useEffect(() => {
     props.navigation.addListener('focus', async () => {

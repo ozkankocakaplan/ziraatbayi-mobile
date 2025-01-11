@@ -26,6 +26,7 @@ export default function Input({
   handlePress?: () => void;
   color?: string;
   title?: string;
+  editable?: boolean;
   isBottomSheetInput?: boolean;
 }) {
   const colors = useThemeColors();
@@ -85,21 +86,12 @@ export default function Input({
             props.onBlur && props.onBlur(event);
           }}
           theme={{
-            size:
-              inputSize === 'sm'
-                ? '10px'
-                : Platform.OS === 'android'
-                ? '10px'
-                : '15px',
-            left:
-              iconPosition === 'left' && icon !== undefined
-                ? inputPaddingHorizontal
-                : size,
-            right:
-              iconPosition === 'right' && icon !== undefined
-                ? inputPaddingHorizontal
-                : size,
+            size: inputSize === 'sm' ? '10px' : Platform.OS === 'android' ? '10px' : '15px',
+            left: iconPosition === 'left' && icon !== undefined ? inputPaddingHorizontal : size,
+            right: iconPosition === 'right' && icon !== undefined ? inputPaddingHorizontal : size,
             borderColor: isFocused ? colors.activeBorder : colors.inputBorder,
+            backgroundColor: props.editable === false ? '#ddd' : '#fff',
+            color: props.editable === false ? '#999' : '#143722'
           }}
         />
       ) : !props.isPlaceholder ? (
@@ -118,21 +110,12 @@ export default function Input({
               props.onBlur && props.onBlur(event);
             }}
             theme={{
-              size:
-                inputSize === 'sm'
-                  ? '10px'
-                  : Platform.OS === 'android'
-                  ? '10px'
-                  : '15px',
-              left:
-                iconPosition === 'left' && icon !== undefined
-                  ? inputPaddingHorizontal
-                  : size,
-              right:
-                iconPosition === 'right' && icon !== undefined
-                  ? inputPaddingHorizontal
-                  : size,
+              size: inputSize === 'sm' ? '10px' : Platform.OS === 'android' ? '10px' : '15px',
+              left: iconPosition === 'left' && icon !== undefined ? inputPaddingHorizontal : size,
+              right: iconPosition === 'right' && icon !== undefined ? inputPaddingHorizontal : size,
               borderColor: isFocused ? colors.activeBorder : colors.inputBorder,
+              backgroundColor: props.editable === false ? '#ddd' : '#fff',
+              color: props.editable === false ? '#999' : '#143722'
             }}
           />
         ) : (
@@ -150,21 +133,12 @@ export default function Input({
               props.onBlur && props.onBlur(event);
             }}
             theme={{
-              size:
-                inputSize === 'sm'
-                  ? '10px'
-                  : Platform.OS === 'android'
-                  ? '10px'
-                  : '15px',
-              left:
-                iconPosition === 'left' && icon !== undefined
-                  ? inputPaddingHorizontal
-                  : size,
-              right:
-                iconPosition === 'right' && icon !== undefined
-                  ? inputPaddingHorizontal
-                  : size,
+              size: inputSize === 'sm' ? '10px' : Platform.OS === 'android' ? '10px' : '15px',
+              left: iconPosition === 'left' && icon !== undefined ? inputPaddingHorizontal : size,
+              right: iconPosition === 'right' && icon !== undefined ? inputPaddingHorizontal : size,
               borderColor: isFocused ? colors.activeBorder : colors.inputBorder,
+              backgroundColor: props.editable === false ? '#ddd' : '#fff',
+              color: props.editable === false ? '#999' : '#143722'
             }}
           />
         )
@@ -176,21 +150,12 @@ export default function Input({
             }
           }}
           theme={{
-            size:
-              inputSize === 'sm'
-                ? '10px'
-                : Platform.OS === 'android'
-                ? '10px'
-                : '15px',
-            left:
-              iconPosition === 'left' && icon !== undefined
-                ? inputPaddingHorizontal
-                : size,
-            right:
-              iconPosition === 'right' && icon !== undefined
-                ? inputPaddingHorizontal
-                : size,
+            size: inputSize === 'sm' ? '10px' : Platform.OS === 'android' ? '10px' : '15px',
+            left: iconPosition === 'left' && icon !== undefined ? inputPaddingHorizontal : size,
+            right: iconPosition === 'right' && icon !== undefined ? inputPaddingHorizontal : size,
             borderColor: isFocused ? colors.activeBorder : colors.inputBorder,
+            backgroundColor: props.editable === false ? '#ddd' : '#fff',
+            color: props.editable === false ? '#999' : '#143722'
           }}>
           <CustomText
             numberOfLines={1}
@@ -240,8 +205,8 @@ const CustomInput = styled(TextInput)`
   width: 100%;
   height: 50px;
   border-radius: 10px;
-  background-color: #fff;
-  color: #143722;
+  background-color: ${props => props.theme.backgroundColor};
+  color: ${props => props.theme.color};
   border: 1px solid ${props => props.theme.borderColor};
 `;
 const CustomBottomSheetInput = styled(BottomSheetTextInput)`
@@ -250,8 +215,8 @@ const CustomBottomSheetInput = styled(BottomSheetTextInput)`
   width: 100%;
   height: 50px;
   border-radius: 10px;
-  background-color: #fff;
-  color: #143722;
+  background-color: ${props => props.theme.backgroundColor};
+  color: ${props => props.theme.color};
   border: 1px solid ${props => props.theme.borderColor};
 `;
 const CustomPlaceholder = styled(TouchableOpacity)`
@@ -260,8 +225,8 @@ const CustomPlaceholder = styled(TouchableOpacity)`
   width: 100%;
   height: 50px;
   border-radius: 10px;
-  background-color: #fff;
-  color: #143722;
+  background-color: ${props => props.theme.backgroundColor};
+  color: ${props => props.theme.color};
   border: 1px solid ${props => props.theme.borderColor};
 `;
 const PriceInput = styled(CurrencyInput)`
@@ -269,8 +234,8 @@ const PriceInput = styled(CurrencyInput)`
     ${props => props.theme.size} ${props => props.theme.left};
   width: 100%;
   border-radius: 10px;
-  background-color: #fff;
-  color: #143722;
+  background-color: ${props => props.theme.backgroundColor};
+  color: ${props => props.theme.color};
   height: 50px;
   border: 1px solid ${props => props.theme.borderColor};
 `;

@@ -15,5 +15,6 @@ interface MessageResponse {
   isRead: boolean;
   product: ProductResponse;
   advertId: string;
+  isPending?: boolean;
 }
 export default MessageResponse;

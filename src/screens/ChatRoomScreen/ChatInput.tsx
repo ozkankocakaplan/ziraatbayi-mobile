@@ -26,6 +26,8 @@ const ChatInput = ({
   initLaunchImage,
   selectedFile,
   resetPhotos,
+  onMessageSent,
+  onMessageSendSuccess,
 }: {
   chatId: string;
   senderId: string;
@@ -35,6 +37,8 @@ const ChatInput = ({
   initLaunchImage: () => void;
   selectedFile?: {uri: string; name: string} | undefined;
   resetPhotos?: () => void;
+  onMessageSent: (message: string) => void;
+  onMessageSendSuccess?: () => void;
 }) => {
   const [postImageLoading, setPostImageLoading] = useState(false);
   const [content, setContent] = useState('');
@@ -59,59 +63,43 @@ const ChatInput = ({
   }, [selectedFile]);
 
   const handleSend = async () => {
-    if (!advertId) {
+    if (!advertId || !content.trim()) {
       return;
     }
-    if (content.trim()) {
+
+    const messageContent = content.trim();
+   
+    onMessageSent(messageContent);
+    setContent('');
+
+    try {
       let entity: CreateMessageRequest = {
         chatId: chatId,
         senderId,
         receiverId,
-        content,
+        content: messageContent,
         productId,
         advertId,
       };
 
-      let finalContent = entity.content;
       var formData = new FormData();
       formData.append('chatId', entity.chatId);
       formData.append('senderId', entity.senderId);
       formData.append('receiverId', entity.receiverId);
       formData.append('advertId', entity.advertId);
-      formData.append('content', finalContent);
+      formData.append('content', entity.content);
       formData.append('productId', entity.productId.toString());
-      setContent('');
-
+      
       await sendMessage(formData).unwrap();
+      onMessageSendSuccess?.();
+    } catch (error) {
+       
     }
   };
 
   const handlePhotoSend = async () => {
-    if (!advertId) {
+    if (!advertId || !selectedFile) {
       return;
-    }
-
-    let entity: CreateMessageRequest = {
-      chatId: chatId,
-      senderId,
-      receiverId,
-      content,
-      productId,
-      advertId,
-    };
-    var formData = new FormData();
-    formData.append('chatId', entity.chatId);
-    formData.append('senderId', entity.senderId);
-    formData.append('receiverId', entity.receiverId);
-    formData.append('advertId', entity.advertId);
-    formData.append('content', entity.content);
-    formData.append('productId', entity.productId.toString());
-    if (selectedFile) {
-      formData.append('file', {
-        uri: selectedFile.uri,
-        name: selectedFile.name,
-        type: 'image/jpeg',
-      });
     }
 
     AlertDialog.showModal({
@@ -119,10 +107,39 @@ const ChatInput = ({
       title: 'Uyarı',
       message: 'Fotoğrafı göndermek istediğinize emin misiniz?',
       onConfirm() {
+        onMessageSent("Resim gönderiliyor...");
         setPostImageLoading(true);
-        sendMessage(formData).finally(() => {
-          setPostImageLoading(false);
+
+        let entity: CreateMessageRequest = {
+          chatId: chatId,
+          senderId,
+          receiverId,
+          content,
+          productId,
+          advertId,
+        };
+        var formData = new FormData();
+        formData.append('chatId', entity.chatId);
+        formData.append('senderId', entity.senderId);
+        formData.append('receiverId', entity.receiverId);
+        formData.append('advertId', entity.advertId);
+        formData.append('content', entity.content);
+        formData.append('productId', entity.productId.toString());
+        formData.append('file', {
+          uri: selectedFile.uri,
+          name: selectedFile.name,
+          type: 'image/jpeg',
         });
+
+        sendMessage(formData)
+          .unwrap()
+          .then(() => {
+            setPostImageLoading(false);
+          })
+          .finally(() => {
+            onMessageSendSuccess?.();
+            setPostImageLoading(false);
+          });
         if (resetPhotos) resetPhotos();
       },
       onCancel() {

@@ -1,5 +1,5 @@
-import React, {useCallback, useEffect, useRef, useState} from 'react';
-import {View, FlatList} from 'react-native';
+import React, {useCallback, useEffect, useRef, useState, useMemo} from 'react';
+import {View, FlatList, Keyboard} from 'react-native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../../types/navigator';
 import {useSelector} from 'react-redux';
@@ -33,6 +33,7 @@ export default function ChatRoomScreen({
     advertId,
   } = route.params;
   const [lastLimit, setLastLimit] = useState(LAST_LIMIT);
+  const [pendingMessage, setPendingMessage] = useState<MessageResponse | null>(null);
   const {initLaunchImage, photos, resetPhotos} = usePhoto();
   const user = useSelector((state: RootState) => state.auth.user);
   const {messages, loading} = useChatMessages(chatId);
@@ -43,23 +44,30 @@ export default function ChatRoomScreen({
       flatListRef.current &&
       messages.slice(-LAST_LIMIT).length === LAST_LIMIT
     ) {
-      let scrollEnd = setTimeout(() => {
-        scrollToEnd();
-      }, 100);
-      return () => {
-        clearTimeout(scrollEnd);
-      };
+      scrollToEnd();
     }
   }, [flatListRef.current, messages]);
 
-  const scrollToEnd = () => {
+  useEffect(() => {
+    const keyboardDidShowListener = Keyboard.addListener(
+      'keyboardDidShow',
+      () => {
+        setTimeout(scrollToEnd, 100);
+      }
+    );
+
+    return () => {
+      keyboardDidShowListener.remove();
+    };
+  }, []);
+
+  const scrollToEnd = useCallback(() => {
     if (flatListRef.current) {
-      flatListRef.current.scrollToOffset({
-        offset: totalContentHeight + 100,
-        animated: true,
-      });
+      setTimeout(() => {
+        flatListRef.current?.scrollToEnd({animated: false});
+      }, 200);
     }
-  };
+  }, []);
 
   const calculateLastLimit = useCallback(() => {
     if (lastLimit > messages.length) {
@@ -67,6 +75,45 @@ export default function ChatRoomScreen({
     }
     return true;
   }, [lastLimit, messages.length]);
+
+  const handleMessageSend = (message: string) => {
+    const tempMessage: MessageResponse = {
+      messageId: 'temp-' + Date.now(),
+      content: message,
+      senderId: senderId.toString(),
+      receiverId: receiverId.toString(),
+      chatId: chatId,
+      contentType: 'text',
+      timestamp: Date.now(),
+      lastMessage: null as any,
+      receiverFullName: receiverFullName,
+      senderFullName: senderFullName,
+      isRead: false,
+      product: product,
+      advertId: advertId.toString(),
+      isPending: true
+    };
+    
+    setPendingMessage(tempMessage);
+    setTimeout(scrollToEnd, 100);
+  };
+
+  const displayMessages = useMemo(() => {
+    return [...messages.slice(-lastLimit), ...(pendingMessage ? [pendingMessage] : [])];
+  }, [messages, pendingMessage, lastLimit]);
+
+  useEffect(() => {
+    if (pendingMessage && messages.length > 0) {
+      const lastMessage = messages[messages.length - 1];
+      
+      if ((lastMessage.content === pendingMessage.content || 
+           lastMessage.contentType === 'image') && 
+          lastMessage.senderId === pendingMessage.senderId) {
+        setPendingMessage(null);
+      }
+    }
+  }, [messages, pendingMessage]);
+
   return (
     <Page
       header
@@ -115,12 +162,14 @@ export default function ChatRoomScreen({
             }}
           />
           <FlatList
+            removeClippedSubviews={false}
             maintainVisibleContentPosition={{minIndexForVisible: 0}}
             ref={flatListRef}
-            data={messages.slice(-lastLimit)}
-            onContentSizeChange={(contentWidth, contentHeight) => {
-              setTotalContentHeight(contentHeight);
-              scrollToEnd();
+            data={displayMessages}
+            onContentSizeChange={() => {
+              if (messages.length > 0 || pendingMessage) {
+                scrollToEnd();
+              }
             }}
             keyExtractor={(item: MessageResponse) => item.messageId}
             renderItem={({item}) => {
@@ -137,6 +186,10 @@ export default function ChatRoomScreen({
           />
         </Container>
         <ChatInput
+          onMessageSent={handleMessageSend}
+          onMessageSendSuccess={() => {
+            
+          }}
           advertId={advertId.toString()}
           productId={product?.id || 0}
           chatId={chatId}
