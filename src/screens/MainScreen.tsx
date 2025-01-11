@@ -35,7 +35,7 @@ export default function MainScreen(
   }, [isLoading]);
   return (
     <Container bgColor={colors.primary} jContent="center" aItems="center">
-      <Image source={LogoBeyazIcon} style={{width: 200, height: 200}} />
+      <Image source={LogoBeyazIcon} style={{width: 300, height: 200}} />
     </Container>
   );
 }
