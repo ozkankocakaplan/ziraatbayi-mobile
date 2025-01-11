@@ -52,7 +52,24 @@ export default function AddAdvertScreen({
     key: keyof CreateAdvertRequest,
     value: any,
   ) => {
-    setAdvertRequest({...advertRequest, [key]: value});
+    if (activeInput === 'productionDate') {
+      let expiryDateValue = '';
+      if (advertRequest.expiryDate && advertRequest.expiryDate.length > 0) {
+        let isAfter = dayjs(value).isAfter(advertRequest.expiryDate);
+        expiryDateValue = !isAfter ? advertRequest.expiryDate : '';
+      }
+      setAdvertRequest({
+        ...advertRequest,
+        startDate: value,
+        expiryDate: expiryDateValue,
+      });
+    } else {
+      setAdvertRequest({
+        ...advertRequest,
+        [key]: advertRequest[key] === value ? '' : value,
+      });
+    }
+
     if (key === 'expiryDate' || key === 'startDate') {
       setIsCalendarVisible(false);
     }
@@ -202,23 +219,31 @@ export default function AddAdvertScreen({
             setIsCalendarVisible(value);
           }}
           minDate={
-            advertRequest.startDate && advertRequest?.startDate.length > 0
-              ? advertRequest.startDate
-              : activeInput === 'productionDate'
+            activeInput === 'productionDate'
               ? undefined
+              : advertRequest.startDate && advertRequest?.startDate?.length > 0
+              ? advertRequest.startDate
               : dayjs().format('YYYY-MM-DD')
           }
-          expirationDate={advertRequest.expiryDate}
-          productionDate={advertRequest.startDate || ''}
-          handleDateChange={day => {
-            console.log(day);
+          selectedDate={
             activeInput === 'productionDate'
-              ? handleChangeAdvertRequest('startDate', day.dateString)
-              : handleChangeAdvertRequest('expiryDate', day.dateString);
+              ? advertRequest.startDate
+              : advertRequest.expiryDate
+          }
+          handleDateChange={day => {
+            if (activeInput === 'productionDate') {
+              handleChangeAdvertRequest('startDate', day.dateString);
+            } else {
+              handleChangeAdvertRequest('expiryDate', day.dateString);
+            }
           }}
         />
       </Page>
-
+      {/* advertRequest.startDate && advertRequest?.startDate.length > 0
+              ? advertRequest.startDate
+              : activeInput === 'productionDate'
+              ? undefined
+              : dayjs().format('YYYY-MM-DD') */}
       <CategoryBottomSheet
         bottomSheetRef={categoryBottomSheetRef}
         checked={selectedCategory}

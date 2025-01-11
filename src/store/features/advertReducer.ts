@@ -8,8 +8,7 @@ interface AdvertState {
   advert: AdvertResponse | null;
   filteredAdverts: AdvertResponse[];
   selectedChatId: string | null;
-  filterBottomSheetRef: any;
-  isFitered: boolean;
+  isFiltered: boolean;
   filterRequest: FilterRequest;
 }
 const InitialState: AdvertState = {
@@ -17,8 +16,8 @@ const InitialState: AdvertState = {
   selectedAdvertId: null,
   advert: null,
   selectedChatId: null,
-  filterBottomSheetRef: null,
-  isFitered: false,
+
+  isFiltered: false,
   filteredAdverts: [],
   filterRequest: {
     product: '',
@@ -43,14 +42,11 @@ const advertSlice = createSlice({
       state.selectedChatId = action.payload;
     },
 
-    setFilterBottomSheetRef(state, action) {
-      state.filterBottomSheetRef = action.payload;
-    },
     setFilteredAdverts(state, action) {
       state.filteredAdverts = action.payload;
     },
     setIsFiltered(state, action) {
-      state.isFitered = action.payload;
+      state.isFiltered = action.payload;
     },
     handleChangeFilterRequest(
       state,
@@ -60,6 +56,8 @@ const advertSlice = createSlice({
     },
     resetFilterRequest(state) {
       state.filterRequest = InitialState.filterRequest;
+      state.isFiltered = false;
+      state.filteredAdverts = [];
     },
   },
 });

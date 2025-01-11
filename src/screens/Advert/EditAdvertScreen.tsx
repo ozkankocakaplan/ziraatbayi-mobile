@@ -87,7 +87,24 @@ export default function EditAdvertScreen({
     key: keyof UpdateAdvertRequest,
     value: any,
   ) => {
-    setAdvertRequest({...advertRequest, [key]: value});
+    if (activeInput === 'productionDate') {
+      let expiryDateValue = '';
+      if (advertRequest.expiryDate && advertRequest.expiryDate.length > 0) {
+        let isAfter = dayjs(value).isAfter(advertRequest.expiryDate);
+        expiryDateValue = !isAfter ? advertRequest.expiryDate : '';
+      }
+      setAdvertRequest({
+        ...advertRequest,
+        startDate: value,
+        expiryDate: expiryDateValue,
+      });
+    } else {
+      setAdvertRequest({
+        ...advertRequest,
+        [key]: advertRequest[key] === value ? '' : value,
+      });
+    }
+
     if (key === 'expiryDate' || key === 'startDate') {
       setIsCalendarVisible(false);
     }
@@ -113,23 +130,31 @@ export default function EditAdvertScreen({
       let result = await useUpdateAdvert({
         ...advertRequest,
       });
+
       if (result.data?.isSuccessful) {
-        AlertDialog.showModal({
-          disableCloseOnTouchOutside: true,
-          type: 'success',
-          message: 'İlanınız başarıyla güncellenmiştir.',
-          onConfirm() {
-            navigation.goBack();
-          },
-        });
+        SaveSuccesMessage();
+      } else {
+        SaveErrorMessage();
       }
     } catch (error) {
-      AlertDialog.showModal({
-        type: 'error',
-        title: 'İlanınız oluşturulamadı',
-        message: 'İlanınız oluşturulamadı tekrar deneyiniz',
-      });
+      SaveErrorMessage();
     }
+  };
+  const SaveErrorMessage = () => {
+    AlertDialog.showModal({
+      type: 'error',
+      message: 'İlanınız oluşturulamadı lütfen tekrar deneyiniz.',
+    });
+  };
+  const SaveSuccesMessage = () => {
+    AlertDialog.showModal({
+      disableCloseOnTouchOutside: true,
+      type: 'success',
+      message: 'İlanınız başarıyla güncellenmiştir.',
+      onConfirm() {
+        navigation.goBack();
+      },
+    });
   };
   const [deleteAdvert] = AdvertApi.useDeleteAdvertMutation();
   return (
@@ -292,8 +317,11 @@ export default function EditAdvertScreen({
               ? undefined
               : dayjs().format('YYYY-MM-DD')
           }
-          expirationDate={advertRequest.expiryDate}
-          productionDate={advertRequest.startDate || ''}
+          selectedDate={
+            activeInput === 'productionDate'
+              ? advertRequest.startDate
+              : advertRequest.expiryDate
+          }
           handleDateChange={day => {
             activeInput === 'productionDate'
               ? handleChangeAdvertRequest('startDate', day.dateString)

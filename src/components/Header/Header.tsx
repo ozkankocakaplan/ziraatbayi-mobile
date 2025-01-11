@@ -22,8 +22,6 @@ import {useSelector} from 'react-redux';
 import {RootState} from '../../store';
 import React, {useEffect, useState} from 'react';
 import {RootStackParamList} from '../../types/navigator';
-import {AuthApi} from '../../services/authService';
-import {AdvertApi} from '../../services/advertService';
 
 export interface HeaderProps {
   title?: string;
@@ -48,6 +46,7 @@ export default function Header({
   const [search, setSearch] = useState('');
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
   const colors = useThemeColors();
+  const {notificationCount} = useSelector((state: RootState) => state.auth);
   const {dealer} = useSelector((state: RootState) => state.dealer);
 
   return (
@@ -118,7 +117,10 @@ export default function Header({
                 navigation.navigate('NotificationScreen' as never);
               }}
               hitSlop={15}>
-              <Icon icon={faBell} color="white" />
+              <Icon
+                icon={faBell}
+                color={notificationCount > 0 ? '#E9D502' : 'white'}
+              />
             </IconRight>
           )}
           {showMessage && (

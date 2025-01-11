@@ -11,6 +11,8 @@ import {RootStackParamList} from '../types/navigator';
 import {useSelector} from 'react-redux';
 import {RootState} from '../store';
 import {generateChatId} from '../helper/Helper';
+import {NotificationType} from '../payload/response/NotificationResponse';
+import {NotificationApi} from '../services/notificationService';
 
 export interface NotificationData {
   productId: string;
@@ -26,7 +28,8 @@ export default function FirebaseNotification() {
   const currentScreen = useNavigationState(
     state => state?.routes?.[state.index]?.name,
   );
-
+  const [getNotificationCount] =
+    NotificationApi.useGetNotificationCountMutation();
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
   const {selectedChatId} = useSelector((state: RootState) => state.advert);
   const [showSnackbar, setShowSnackbar] = useState(false);
@@ -44,14 +47,29 @@ export default function FirebaseNotification() {
     });
     const onNotificationOpenedApp = messaging().onNotificationOpenedApp(
       remoteMessage => {
-        goToChatRoom(remoteMessage.data, remoteMessage);
+        let notificationType = remoteMessage?.data?.notificationType || '';
+        if (
+          notificationType === NotificationType.NOTIFICATION_MESSAGE.toString()
+        ) {
+          goToChatRoom(remoteMessage.data, remoteMessage);
+        } else {
+          getNotificationCount();
+        }
       },
     );
     messaging()
       .getInitialNotification()
-      .then(remoteMessage => {
+      .then((remoteMessage: any) => {
         if (remoteMessage) {
-          goToChatRoom(remoteMessage.data, remoteMessage);
+          let notificationType = remoteMessage?.data?.notificationType || '';
+          if (
+            notificationType ===
+            NotificationType.NOTIFICATION_MESSAGE.toString()
+          ) {
+            goToChatRoom(remoteMessage.data, remoteMessage);
+          } else {
+            getNotificationCount();
+          }
         }
       });
 

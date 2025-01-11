@@ -1,4 +1,4 @@
-import {View, Text} from 'react-native';
+import {View, Text, Platform} from 'react-native';
 import React, {useEffect} from 'react';
 import CustomBottomSheet, {BottomSheetRef} from './CustomBottomSheet';
 import Container from '../Container/Container';
@@ -20,6 +20,11 @@ import ProductImage from '../Advert/ProductImage';
 import ProductResponse from '../../payload/response/ProductResponse';
 import {SIZES} from '../../constant/theme';
 import {BottomSheetScrollView} from '@gorhom/bottom-sheet';
+
+const SendButtonMarginBottom = Platform.select({
+  ios: 20,
+  android: 10,
+});
 
 export default function AdvertDetailBottomSheet() {
   const dispatch = useDispatch();
@@ -103,13 +108,23 @@ export default function AdvertDetailBottomSheet() {
                         color="darkGrey"
                         fontSizes="body6"
                         fontWeight="bold">
+                        Üretici Firma:
+                      </CustomText>
+                      <CustomText color="black" fontSizes="body6">
+                        {advertDetail?.product?.manufacturer?.name}
+                      </CustomText>
+                    </Row>
+                    <Row gap={2}>
+                      <CustomText
+                        color="darkGrey"
+                        fontSizes="body6"
+                        fontWeight="bold">
                         Kategori:
                       </CustomText>
                       <CustomText color="black" fontSizes="body6">
                         {advertDetail?.product?.categoryName}
                       </CustomText>
                     </Row>
-
                     <Row gap={2}>
                       <CustomText
                         sx={{width: SIZES.width - 110}}
@@ -177,8 +192,13 @@ export default function AdvertDetailBottomSheet() {
             </Container>
           </BottomSheetScrollView>
           {!isEquals && (
-            <Container noFlex bgColor="white" mx={10} mb={10}>
+            <Container
+              noFlex
+              bgColor="white"
+              mx={10}
+              mb={SendButtonMarginBottom}>
               <Button
+                hitSlop={15}
                 onPress={() => {
                   if (isEquals) {
                     return;

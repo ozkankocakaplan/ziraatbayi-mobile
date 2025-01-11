@@ -21,11 +21,13 @@ import Page from '../components/Page/Page';
 import {checkObject} from '../helper/Helper';
 import Container from '../components/Container/Container';
 import {DealerApi} from '../services/dealerService';
+import ContractBottomSheet from '../components/BottomSheet/ContractBottomSheet';
+import {BottomSheetRef} from '../components/BottomSheet/CustomBottomSheet';
 
 export default function RegisterScreen(
   props: NativeStackScreenProps<RootStackParamList, 'RegisterScreen'>,
 ) {
-  var ref = useRef<FormContainerRef>(null);
+  var ref = useRef<BottomSheetRef>(null);
   const [useRegister] = DealerApi.useCreateDealerMutation();
   const [isContractChecked, setIsContractChecked] = useState(false);
   const [registerRequest, setRegisterRequest] = useState<CreateDealerRequest>({
@@ -41,140 +43,141 @@ export default function RegisterScreen(
   });
 
   const handleRegister = async () => {
-    try {
-      const response = await useRegister(registerRequest).unwrap();
-    } catch (error) {}
+    await useRegister(registerRequest).unwrap();
   };
 
   return (
-    <Page header title={'Kayıt Ol'} showGoBack>
-      <ScrollView contentContainerStyle={{flexGrow: 1}}>
-        <Container mx={10} mt={10}>
-          <Container gap={10} mb={10}>
-            <Input
-              required
-              id="firstName"
-              icon={faUser}
-              placeholder="Ad"
-              value={registerRequest.firstName}
-              onChangeText={text =>
-                setRegisterRequest({...registerRequest, firstName: text})
-              }
-            />
-            <Input
-              required
-              id="lastName"
-              icon={faUser}
-              placeholder="Soyad"
-              value={registerRequest.lastName}
-              onChangeText={text =>
-                setRegisterRequest({...registerRequest, lastName: text})
-              }
-            />
-            <Input
-              required
-              id="companyName"
-              icon={faBuilding}
-              placeholder="Firma Adı"
-              value={registerRequest.companyName}
-              onChangeText={text =>
-                setRegisterRequest({...registerRequest, companyName: text})
-              }
-            />
-            <Input
-              required
-              id="email"
-              autoCapitalize="none"
-              icon={faEnvelope}
-              placeholder="E-posta"
-              validation="email"
-              value={registerRequest.email}
-              onChangeText={text =>
-                setRegisterRequest({...registerRequest, email: text})
-              }
-            />
-            <Input
-              required
-              id="phone"
-              icon={faPhone}
-              validation="phone"
-              keyboardType="phone-pad"
-              placeholder="Telefon Numarası"
-              value={registerRequest.phone}
-              onChangeText={text =>
-                setRegisterRequest({...registerRequest, phone: text})
-              }
-            />
-            <Input
-              required
-              id="glnNumber"
-              icon={faBarcode}
-              keyboardType="phone-pad"
-              placeholder="GLN Numarası"
-              value={registerRequest.gnlNumber}
-              onChangeText={text =>
-                setRegisterRequest({...registerRequest, gnlNumber: text})
-              }
-            />
-            <Input
-              required
-              id="taxNumber"
-              icon={faFileLines}
-              placeholder="Vergi Numarası"
-              keyboardType="phone-pad"
-              value={registerRequest.taxNumber}
-              onChangeText={text =>
-                setRegisterRequest({...registerRequest, taxNumber: text})
-              }
-            />
-            <Input
-              required
-              id="taxOffice"
-              icon={faBuilding}
-              placeholder="Vergi Dairesi"
-              value={registerRequest.taxOffice}
-              onChangeText={text =>
-                setRegisterRequest({...registerRequest, taxOffice: text})
-              }
-            />
-            <Input
-              required
-              id="address"
-              multiline
-              icon={faLocationDot}
-              placeholder="Firma Adresi"
-              value={registerRequest.address}
-              onChangeText={text =>
-                setRegisterRequest({...registerRequest, address: text})
-              }
-              style={{height: 70, textAlignVertical: 'top', paddingTop: 13}}
-            />
-            <CheckInput
-              bgColor="#fff"
-              id="contract"
-              type="checkbox"
-              value={isContractChecked}
-              onPress={() => setIsContractChecked(!isContractChecked)}
-              label="Gizlilik ve Kullanım Koşullarını okudum kabul ediyorum."
-              clickedLabel="Gizlilik ve Kullanım Koşullarını"
-              clickLabel={() => console.log('clicked')}
-            />
-          </Container>
+    <>
+      <Page header title={'Kayıt Ol'} showGoBack>
+        <ScrollView contentContainerStyle={{flexGrow: 1}}>
+          <Container mx={10} mt={10}>
+            <Container gap={10} mb={10}>
+              <Input
+                required
+                id="firstName"
+                icon={faUser}
+                placeholder="Ad"
+                value={registerRequest.firstName}
+                onChangeText={text =>
+                  setRegisterRequest({...registerRequest, firstName: text})
+                }
+              />
+              <Input
+                required
+                id="lastName"
+                icon={faUser}
+                placeholder="Soyad"
+                value={registerRequest.lastName}
+                onChangeText={text =>
+                  setRegisterRequest({...registerRequest, lastName: text})
+                }
+              />
+              <Input
+                required
+                id="companyName"
+                icon={faBuilding}
+                placeholder="Firma Adı"
+                value={registerRequest.companyName}
+                onChangeText={text =>
+                  setRegisterRequest({...registerRequest, companyName: text})
+                }
+              />
+              <Input
+                required
+                id="email"
+                autoCapitalize="none"
+                icon={faEnvelope}
+                placeholder="E-posta"
+                validation="email"
+                value={registerRequest.email}
+                onChangeText={text =>
+                  setRegisterRequest({...registerRequest, email: text})
+                }
+              />
+              <Input
+                required
+                id="phone"
+                icon={faPhone}
+                validation="phone"
+                keyboardType="phone-pad"
+                placeholder="Telefon Numarası"
+                value={registerRequest.phone}
+                onChangeText={text =>
+                  setRegisterRequest({...registerRequest, phone: text})
+                }
+              />
+              <Input
+                required
+                id="glnNumber"
+                icon={faBarcode}
+                keyboardType="phone-pad"
+                placeholder="GLN Numarası"
+                value={registerRequest.gnlNumber}
+                onChangeText={text =>
+                  setRegisterRequest({...registerRequest, gnlNumber: text})
+                }
+              />
+              <Input
+                required
+                id="taxNumber"
+                icon={faFileLines}
+                placeholder="Vergi Numarası"
+                keyboardType="phone-pad"
+                value={registerRequest.taxNumber}
+                onChangeText={text =>
+                  setRegisterRequest({...registerRequest, taxNumber: text})
+                }
+              />
+              <Input
+                required
+                id="taxOffice"
+                icon={faBuilding}
+                placeholder="Vergi Dairesi"
+                value={registerRequest.taxOffice}
+                onChangeText={text =>
+                  setRegisterRequest({...registerRequest, taxOffice: text})
+                }
+              />
+              <Input
+                required
+                id="address"
+                multiline
+                icon={faLocationDot}
+                placeholder="Firma Adresi"
+                value={registerRequest.address}
+                onChangeText={text =>
+                  setRegisterRequest({...registerRequest, address: text})
+                }
+                style={{height: 70, textAlignVertical: 'top', paddingTop: 13}}
+              />
+              <CheckInput
+                bgColor="#fff"
+                id="contract"
+                type="checkbox"
+                value={isContractChecked}
+                onPress={() => setIsContractChecked(!isContractChecked)}
+                label="Gizlilik ve Kullanım Koşullarını okudum kabul ediyorum."
+                clickedLabel="Gizlilik ve Kullanım Koşullarını"
+                clickLabel={() => ref.current?.open()}
+              />
+            </Container>
 
-          <Container flex={0.55}>
-            <Button
-              isDisabled={checkObject({
-                ...registerRequest,
-                isContractChecked: isContractChecked ? 'secildi' : '',
-              })}
-              onPress={() => {
-                handleRegister();
-              }}
-              text="Kayıt Ol"
-            />
+            <Container flex={0.55}>
+              <Button
+                isDisabled={checkObject({
+                  ...registerRequest,
+                  isContractChecked: isContractChecked ? 'secildi' : '',
+                })}
+                onPress={() => {
+                  handleRegister();
+                }}
+                text="Kayıt Ol"
+              />
+            </Container>
           </Container>
-        </Container>
-      </ScrollView>
-    </Page>
+        </ScrollView>
+      </Page>
+      <ContractBottomSheet contractBottomSheetRef={ref} />
+    </>
   );
 }

@@ -4,10 +4,12 @@ import LoginResponse from '../../payload/response/LoginResponse';
 interface AuthState {
   user: LoginResponse | null;
   errorCode: number | null;
+  notificationCount: number;
 }
 const InitialState: AuthState = {
   user: null,
   errorCode: null,
+  notificationCount: 0,
 };
 const authSlice = createSlice({
   name: 'auth',
@@ -20,6 +22,9 @@ const authSlice = createSlice({
       if (state.errorCode != action.payload) {
         state.errorCode = action.payload;
       }
+    },
+    setNotificationCount(state, action) {
+      state.notificationCount = action.payload;
     },
   },
 });

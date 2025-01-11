@@ -23,20 +23,23 @@ import MainScreen from '../screens/MainScreen';
 import EditAdvertScreen from '../screens/Advert/EditAdvertScreen';
 import AddAdvertScreen from '../screens/Advert/AddAdvertScreen';
 import SearchScreen from '../screens/SearchScreen';
-import FilterBottomSheet from '../components/BottomSheet/FilterBottomSheet';
+import HomeFilterScreen from '../screens/HomeFilterScreen';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import ProductsByCategoryScreen from '../screens/ProductsByCategoryScreen';
 import AddressInfoScreen from '../screens/AddressInfoScreen';
 import NetworkCheckScreen from '../screens/NetworkCheckScreen';
 import AlertDialog from '../components/AlertDialog/AlertDialog';
 import {AuthActions} from '../store/features/authReducer';
+import {AppState} from 'react-native';
+import {NotificationApi} from '../services/notificationService';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 const RootNavigator = () => {
   const dispatch = useDispatch();
   const user = useSelector((state: RootState) => state.auth.user);
   const {errorCode} = useSelector((state: RootState) => state.auth);
-
+  const [getNotificationCount] =
+    NotificationApi.useGetNotificationCountMutation();
   useEffect(() => {
     if (errorCode != null) {
       AlertDialog.showModal({
@@ -57,6 +60,16 @@ const RootNavigator = () => {
       }, 2000);
     }
   }, [errorCode]);
+  useEffect(() => {
+    const subscription = AppState.addEventListener('change', state => {
+      if (state === 'active') {
+        getNotificationCount();
+      }
+    });
+    return () => {
+      subscription.remove();
+    };
+  }, []);
   return (
     <NetworkCheckScreen>
       <Stack.Navigator
@@ -119,6 +132,13 @@ const RootNavigator = () => {
               name="AddressInfoScreen"
               component={AddressInfoScreen}
             />
+            <Stack.Group>
+              <Stack.Screen
+                name="HomeFilterScreen"
+                component={HomeFilterScreen}
+                options={{presentation: 'modal'}}
+              />
+            </Stack.Group>
           </>
         )}
       </Stack.Navigator>
@@ -126,7 +146,6 @@ const RootNavigator = () => {
         <>
           <FirebaseNotification />
           <AdvertDetailBottomSheet />
-          <FilterBottomSheet />
         </>
       )}
     </NetworkCheckScreen>

@@ -1,6 +1,7 @@
 import NotificationResponse from '../payload/response/NotificationResponse';
 import ServiceResponse from '../payload/response/ServiceResponse';
 import {baseApi} from '../store/api/BaseApi';
+import {AuthActions} from '../store/features/authReducer';
 
 const notificationApi = baseApi.injectEndpoints({
   endpoints: builder => ({
@@ -13,7 +14,7 @@ const notificationApi = baseApi.injectEndpoints({
         method: 'GET',
       }),
     }),
-    getNotificationCount: builder.query<
+    getNotificationCount: builder.mutation<
       ServiceResponse<NotificationResponse>,
       void
     >({
@@ -21,6 +22,11 @@ const notificationApi = baseApi.injectEndpoints({
         url: '/notification/get-notification-not-read-count',
         method: 'GET',
       }),
+      onQueryStarted: async (arg, {dispatch, queryFulfilled}) => {
+        const result = await queryFulfilled;
+
+        dispatch(AuthActions.setNotificationCount(result.data.count));
+      },
     }),
     updateNotificationRead: builder.mutation<
       ServiceResponse<NotificationResponse>,

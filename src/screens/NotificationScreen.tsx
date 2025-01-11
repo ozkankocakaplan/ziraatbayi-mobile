@@ -11,6 +11,9 @@ import CustomFlatList from '../components/Flatlist/CustomFlatList';
 import CustomNotFound from '../components/CustomNotFound/CustomNotFound';
 import NotificationResponse from '../payload/response/NotificationResponse';
 import dayjs from 'dayjs';
+import {useDispatch, useSelector} from 'react-redux';
+import {RootState} from '../store';
+import {AuthActions} from '../store/features/authReducer';
 
 export default function NotificationScreen({
   navigation,
@@ -18,10 +21,10 @@ export default function NotificationScreen({
   const [notificationList, setNotificationList] = useState<
     NotificationResponse[]
   >([]);
-
+  const dispatch = useDispatch();
+  const {notificationCount} = useSelector((state: RootState) => state.auth);
   const {data, refetch} = NotificationApi.useGetNotificationsQuery();
-  const {data: getNotificationCount} =
-    NotificationApi.useGetNotificationCountQuery();
+
   const [updateNotificationRead] =
     NotificationApi.useUpdateNotificationReadMutation();
 
@@ -35,6 +38,7 @@ export default function NotificationScreen({
       setNotificationList(data?.list || []);
     }
   }, [data]);
+
   return (
     <Page header title="Bildirimler" showGoBack>
       <CustomFlatList
@@ -53,6 +57,9 @@ export default function NotificationScreen({
                     return x.id === item.id ? {...x, isRead: true} : x;
                   });
                   setNotificationList(updatedList);
+                  dispatch(
+                    AuthActions.setNotificationCount(notificationCount - 1),
+                  );
                 }
               }}
               activeOpacity={0.7}
@@ -67,7 +74,7 @@ export default function NotificationScreen({
                   {item?.message}
                 </NotificationDescription>
                 <NotificationDate>
-                  {dayjs().format('DD/MM/YYYY')}
+                  {dayjs(item.createdAt).format('DD.MM.YYYY')}
                 </NotificationDate>
               </Content>
             </NotificationCard>

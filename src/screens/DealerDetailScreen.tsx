@@ -28,7 +28,7 @@ export default function DealerDetailScreen({
     <Page showGoBack header title={data?.entity.dealer.companyName}>
       <Container>
         <CustomFlatList
-          numColumns={3}
+          numColumns={2}
           customNotFound={<CustomNotFound notFoundText="İlan bulunamadı" />}
           data={data?.entity.adverts || []}
           renderItem={(item: AdvertResponse) => {

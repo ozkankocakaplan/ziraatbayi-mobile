@@ -20,7 +20,7 @@ export default function SearchScreen({
       <Container>
         {data && (
           <CustomFlatList
-            numColumns={3}
+            numColumns={2}
             customNotFound={
               <NotFoundAnimation notFoundText="Aranan ilan bulunamadı" />
             }

@@ -4,6 +4,7 @@ import CustomListProps from './CustomFlatListProps';
 import Input from '../Input/Input';
 import {faSearch} from '@fortawesome/free-solid-svg-icons';
 import CustomText from '../Text/Text';
+import {BottomSheetFlatList} from '@gorhom/bottom-sheet';
 
 export default function CustomFlatList(props: CustomListProps) {
   const [onRefresh, setOnRefresh] = useState(false);
@@ -76,7 +77,28 @@ export default function CustomFlatList(props: CustomListProps) {
               />
             }
           />
-        ) : null
+        ) : (
+          <BottomSheetFlatList
+            {...props}
+            data={GetData() || []}
+            contentContainerStyle={props?.contentContainerStyle}
+            keyExtractor={(item, index) => index.toString()}
+            renderItem={({item, index}) => props.renderItem(item, index)}
+            onEndReachedThreshold={0.5}
+            refreshControl={
+              <RefreshControl
+                refreshing={onRefresh}
+                onRefresh={() => {
+                  setOnRefresh(true);
+                  if (props.handleRefresh) {
+                    props.handleRefresh();
+                  }
+                  setOnRefresh(false);
+                }}
+              />
+            }
+          />
+        )
       ) : props.customNotFound && !search ? (
         props.customNotFound
       ) : (

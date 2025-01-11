@@ -11,7 +11,7 @@ import {Col, Row} from '../../constant/GlobalStyled';
 import ProductImage from './ProductImage';
 import CustomText from '../Text/Text';
 import useThemeColors from '../../constant/useColor';
-import {SIZES} from '../../constant/theme';
+import {SIZES, TEXT_WIDTH} from '../../constant/theme';
 import Icon from '../Icon/Icon';
 import {faCheck} from '@fortawesome/free-solid-svg-icons';
 import {useKeyboard} from '../../hooks/useKeyboard';
@@ -71,7 +71,7 @@ const ProductCardItem = ({
 }) => {
   console.log(item);
   const colors = useThemeColors();
-  const textWidth = SIZES.width - 100;
+
   return (
     <TouchableOpacity
       onPress={() => handleChecked(!checked)}
@@ -89,20 +89,42 @@ const ProductCardItem = ({
           </View>
         </Row>
         <Row>
-          <Col>
+          <Col gap={5}>
             {item?.name && (
-              <CustomText sx={{width: textWidth}} color="black">
+              <CustomText
+                numberOfLines={2}
+                sx={{
+                  flexWrap: 'wrap',
+                  width: TEXT_WIDTH,
+                }}
+                color="black"
+                fontSizes="body4"
+                fontWeight="bold">
                 {item.name}
               </CustomText>
             )}
-            {item?.activeSubstance && (
-              <CustomText sx={{width: textWidth}} color="black">
-                {item.activeSubstance}
+            {item.manufacturer.name && (
+              <CustomText
+                fontSizes="body5"
+                sx={{
+                  flexWrap: 'wrap',
+                  width: TEXT_WIDTH,
+                }}
+                color="black">
+                {item?.manufacturer?.name}
               </CustomText>
             )}
-            {item.manufacturer.name && (
-              <CustomText sx={{width: textWidth}} color="black">
-                {item?.manufacturer?.name}
+            {item?.activeSubstance && (
+              <CustomText
+                color="grey"
+                fontSizes="body6"
+                numberOfLines={2}
+                sx={{
+                  flexWrap: 'wrap',
+                  width: TEXT_WIDTH,
+                }}
+                ellipsizeMode="tail">
+                {item.activeSubstance}
               </CustomText>
             )}
           </Col>

@@ -29,7 +29,7 @@ export default function HomeScreen({
   const {fcmToken} = useFcmToken();
 
   const colors = useThemeColors();
-  const {filterBottomSheetRef, isFitered, filteredAdverts} = useSelector(
+  const {isFiltered, filteredAdverts} = useSelector(
     (state: RootState) => state.advert,
   );
   const {mainCategories} = useSelector((x: RootState) => x.category);
@@ -52,8 +52,9 @@ export default function HomeScreen({
     });
   }, []);
   const openFilter = () => {
-    filterBottomSheetRef?.open();
+    navigation.navigate('HomeFilterScreen');
   };
+  console.log(adverts?.list.length);
   return (
     <>
       <Page isSearchable header showNotification showMessage>
@@ -99,7 +100,7 @@ export default function HomeScreen({
               <CustomSvgXml
                 width={25}
                 height={25}
-                color={isFitered ? colors.primary : 'grey'}
+                color={isFiltered ? colors.primary : 'grey'}
                 xml={FilterIcon}
               />
             </FilterIconContainer>
@@ -111,8 +112,8 @@ export default function HomeScreen({
             handleRefresh={() => {
               refetchAdverts();
             }}
-            numColumns={3}
-            data={isFitered ? filteredAdverts : adverts?.list || []}
+            numColumns={2}
+            data={isFiltered ? filteredAdverts : adverts?.list || []}
             renderItem={(item: AdvertResponse) => {
               return <AdvertCard key={item.id} item={item} />;
             }}

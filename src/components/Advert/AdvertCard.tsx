@@ -15,6 +15,7 @@ import {formatDate} from '../../helper/Helper';
 import Icon from '../Icon/Icon';
 import {faCalendarCheck, faHourglass3} from '@fortawesome/free-solid-svg-icons';
 import AlertDialog from '../AlertDialog/AlertDialog';
+import useThemeColors from '../../constant/useColor';
 
 interface AdvertCardProps extends TouchableOpacityProps {
   item: AdvertResponse;
@@ -23,6 +24,7 @@ export default function AdvertCard({item, ...props}: AdvertCardProps) {
   const {advertBottomSheetRef} = useSelector(
     (state: RootState) => state.advert,
   );
+  const colors = useThemeColors();
   const dispatch = useDispatch();
   const [getAdvert] = AdvertApi.useGetAdvertByIdMutation();
   const openDetail = async () => {
@@ -67,6 +69,15 @@ export default function AdvertCard({item, ...props}: AdvertCardProps) {
         </ImageContainer>
       </ImageWrapper>
       <InfoContainer>
+        <ManufacturerBadge color={colors.secondary}>
+          <CustomText
+            numberOfLines={1}
+            fontSizes="caption1"
+            color="primary"
+            fontWeight="bold">
+            {item?.product.manufacturer?.name}
+          </CustomText>
+        </ManufacturerBadge>
         <CustomText
           numberOfLines={2}
           ellipsizeMode="tail"
@@ -125,6 +136,7 @@ const InfoContainer = styled(View)`
   padding-horizontal: 10px;
   gap: 5px;
   padding-bottom: 8px;
+  height: auto;
 `;
 const DateBadge = styled(View)`
   background-color: #f9f9f9;
@@ -135,4 +147,9 @@ const DateBadge = styled(View)`
   align-items: center;
   justify-content: center;
   gap: 5px;
+`;
+const ManufacturerBadge = styled(View)<{color: string}>`
+  background-color: ${({color}) => color};
+  padding: 5px;
+  border-radius: 5px;
 `;

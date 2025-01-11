@@ -7,8 +7,7 @@ import useThemeColors from '../../constant/useColor';
 interface CalendarModalProps {
   isCalendarVisible: boolean;
   setIsCalendarVisible: (value: boolean) => void;
-  expirationDate: string;
-  productionDate: string;
+  selectedDate?: string;
   handleDateChange: (day: any) => void;
   minDate?: string;
 }
@@ -16,8 +15,7 @@ export default function CalendarModal(props: CalendarModalProps) {
   const {
     isCalendarVisible,
     setIsCalendarVisible,
-    expirationDate,
-    productionDate,
+    selectedDate,
     handleDateChange,
   } = props;
   const colors = useThemeColors();
@@ -49,15 +47,10 @@ export default function CalendarModal(props: CalendarModalProps) {
             minDate={props.minDate}
             onDayPress={handleDateChange}
             markedDates={{
-              [dayjs(productionDate).format('YYYY-MM-DD')]: {
+              [dayjs(selectedDate).format('YYYY-MM-DD')]: {
                 selected: true,
                 selectedColor: colors.primary,
                 startingDay: true,
-              },
-              [dayjs(expirationDate).format('YYYY-MM-DD')]: {
-                selected: true,
-                selectedColor: colors.primary,
-                endingDay: true,
               },
             }}
             style={{borderRadius: 10}}

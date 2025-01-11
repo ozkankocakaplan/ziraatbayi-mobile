@@ -14,6 +14,7 @@ import CustomText from '../Text/Text';
 import Icon from '../Icon/Icon';
 import {faCheck} from '@fortawesome/free-solid-svg-icons';
 import ProductResponse from '../../payload/response/ProductResponse';
+import CustomFlatList from '../Flatlist/CustomFlatList';
 
 interface CategoryBottomSheetProps {
   bottomSheetRef: RefObject<BottomSheetRef>;
@@ -36,29 +37,23 @@ export default function CategoryBottomSheet({
 
   return (
     <CustomBottomSheet ref={bottomSheetRef} snapPoints={['85%']}>
-      <ScrollView contentContainerStyle={{margin: 10}}>
-        {categories.map((item: CategoryResponse) => {
-          return (
-            <CategoryCardItem
-              item={item}
-              checked={checked?.id == item.id}
-              handleChecked={(value: boolean) => {
-                handleChecked(value == true ? item : null);
-                value && bottomSheetRef.current?.close();
-              }}
-            />
-            // <CheckRadio
-            //   key={item.id}
-            //   value={item.name}
-            //   checked={checked?.id === item.id}
-            //   handleChecked={(isCheck: boolean) => {
-            //     handleChecked(isCheck ? item : null);
-            //     isCheck && bottomSheetRef.current?.close();
-            //   }}
-            // />
-          );
-        })}
-      </ScrollView>
+      <View style={{margin: 10}}>
+        <CustomFlatList
+          data={categories}
+          renderItem={item => {
+            return (
+              <CategoryCardItem
+                item={item}
+                checked={checked?.id == item.id}
+                handleChecked={(value: boolean) => {
+                  handleChecked(value == true ? item : null);
+                  value && bottomSheetRef.current?.close();
+                }}
+              />
+            );
+          }}
+        />
+      </View>
     </CustomBottomSheet>
   );
 }

@@ -31,7 +31,7 @@ export default function ProductsByCategoryScreen({
       <Container>
         {data && (
           <CustomFlatList
-            numColumns={3}
+            numColumns={2}
             handleRefresh={loadData}
             data={data?.list || []}
             renderItem={(item: AdvertResponse) => {

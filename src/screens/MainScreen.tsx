@@ -7,6 +7,7 @@ import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../types/navigator';
 import {Image} from 'react-native';
 import {LogoBeyazIcon} from '../assets/logo';
+import {NotificationApi} from '../services/notificationService';
 
 export default function MainScreen(
   props: NativeStackScreenProps<RootStackParamList>,
@@ -18,11 +19,14 @@ export default function MainScreen(
     isFetching,
   } = CategoryApi.useGetCategoriesQuery(false);
   const colors = useThemeColors();
+  const [getNotificationCount] =
+    NotificationApi.useGetNotificationCountMutation();
   useEffect(() => {
-    props.navigation.addListener('focus', loadCategories);
+    props.navigation.addListener('focus', loadData);
   }, []);
-  const loadCategories = () => {
+  const loadData = () => {
     refetchCategories();
+    getNotificationCount();
   };
   useEffect(() => {
     if (!isLoading) {

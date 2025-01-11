@@ -11,7 +11,7 @@ import ProductImage from '../../components/Advert/ProductImage';
 import {NavigationProp, useNavigation} from '@react-navigation/native';
 import {RootStackParamList} from '../../types/navigator';
 import {formatDate} from '../../helper/Helper';
-import {SIZES} from '../../constant/theme';
+import {SIZES, TEXT_WIDTH} from '../../constant/theme';
 
 const AdvertListItem = ({item}: {item: AdvertResponse}) => {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
@@ -29,14 +29,14 @@ const AdvertListItem = ({item}: {item: AdvertResponse}) => {
             />
           </ProductImageContainer>
         </ImageWrapper>
+
         <Col gap={10}>
           <CustomText
-            sx={{
-              flex: 0.5,
-              flexWrap: 'wrap',
-              width: SIZES.width - 140,
-            }}
             numberOfLines={2}
+            sx={{
+              flexWrap: 'wrap',
+              width: TEXT_WIDTH,
+            }}
             color="black"
             fontSizes="body4"
             fontWeight="light">
@@ -50,9 +50,13 @@ const AdvertListItem = ({item}: {item: AdvertResponse}) => {
               {item.product.categoryName}
             </CustomText>
           </Row>
-          <Row gap={2}>
+          <Row>
             <CustomText
-              sx={{width: SIZES.width - 140}}
+              numberOfLines={2}
+              sx={{
+                flexWrap: 'wrap',
+                width: TEXT_WIDTH,
+              }}
               color="darkGrey"
               fontSizes="body6"
               fontWeight="bold">
