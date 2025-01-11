@@ -43,6 +43,7 @@ export default function CategoryBottomSheet({
           renderItem={item => {
             return (
               <CategoryCardItem
+                key={item.id}
                 item={item}
                 checked={checked?.id == item.id}
                 handleChecked={(value: boolean) => {
@@ -66,7 +67,6 @@ const CategoryCardItem = ({
   handleChecked: (value: boolean) => void;
   checked?: boolean;
 }) => {
-  console.log(item);
   const colors = useThemeColors();
   const textWidth = SIZES.width - 100;
   return (

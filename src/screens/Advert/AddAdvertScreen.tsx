@@ -239,16 +239,10 @@ export default function AddAdvertScreen({
           }}
         />
       </Page>
-      {/* advertRequest.startDate && advertRequest?.startDate.length > 0
-              ? advertRequest.startDate
-              : activeInput === 'productionDate'
-              ? undefined
-              : dayjs().format('YYYY-MM-DD') */}
       <CategoryBottomSheet
         bottomSheetRef={categoryBottomSheetRef}
         checked={selectedCategory}
         handleChecked={item => {
-          console.log(item);
           if (item) {
             setSelectedCategory(item);
           } else {

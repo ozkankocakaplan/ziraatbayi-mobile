@@ -47,6 +47,7 @@ export default function ProductBottomSheet({
         {products?.map?.((item: ProductResponse) => {
           return (
             <ProductCardItem
+              key={item.id}
               item={item}
               checked={checked?.id == item.id}
               handleChecked={(value: boolean) => {
@@ -69,7 +70,6 @@ const ProductCardItem = ({
   handleChecked: (value: boolean) => void;
   checked?: boolean;
 }) => {
-  console.log(item);
   const colors = useThemeColors();
 
   return (

@@ -56,8 +56,6 @@ const linking = {
       const url = await Linking.getInitialURL();
 
       if (url) {
-        console.log('Initial URL:', url);
-
         if (url.includes('reset-password')) {
           Linking.getInitialURL = async () => null;
         }
@@ -72,7 +70,6 @@ const linking = {
 
   subscribe(listener) {
     const linkingSubscription = Linking.addListener('url', ({url}) => {
-      console.log('Dynamic URL:', url);
       listener(url);
     });
 

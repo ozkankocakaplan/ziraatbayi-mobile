@@ -24,9 +24,7 @@ export default function ContractBottomSheet({
         </View>
       )}
       <WebView
-        onLoad={() => {
-          console.log('loaded');
-        }}
+        onLoad={() => {}}
         onLoadEnd={() => {
           setIsLoading(false);
         }}

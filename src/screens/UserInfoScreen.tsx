@@ -100,7 +100,6 @@ export default function UserInfoScreen({
     } finally {
       AlertDialog.hideLoading();
     }
-    console.log(data);
   };
 
   const handleInputChange = (key: string, value: string) => {
@@ -147,7 +146,6 @@ export default function UserInfoScreen({
               showsVerticalScrollIndicator={false}
               contentContainerStyle={{gap: 10}}>
               <Input
-                 
                 id="firstName"
                 icon={faUser}
                 placeholder="Ad"
@@ -155,7 +153,6 @@ export default function UserInfoScreen({
                 onChangeText={text => handleInputChange('firstName', text)}
               />
               <Input
-                 
                 id="lastName"
                 icon={faUser}
                 placeholder="Soyad"
@@ -163,7 +160,6 @@ export default function UserInfoScreen({
                 onChangeText={text => handleInputChange('lastName', text)}
               />
               <Input
-                 
                 id="companyName"
                 icon={faHouse}
                 placeholder="Firma Adı"
@@ -179,10 +175,8 @@ export default function UserInfoScreen({
                 value={formData.email}
                 editable={false}
                 onChangeText={text => handleInputChange('email', text)}
-                 
               />
               <Input
-                 
                 id="phone"
                 icon={faPhone}
                 validation="phone"

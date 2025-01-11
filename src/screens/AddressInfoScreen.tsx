@@ -100,7 +100,6 @@ export default function AddressInfoScreen({
     } finally {
       AlertDialog.hideLoading();
     }
-    console.log(data);
   };
 
   const handleInputChange = (key: string, value: string) => {

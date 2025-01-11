@@ -69,7 +69,6 @@ class AlertDialog {
     this.ids.forEach(item => {
       ModalPortal.dismiss(item);
     });
-    console.log('ids', this.ids);
     this.ids.pop();
   }
   showLogoutModal(onConfirm: () => void) {

@@ -54,7 +54,6 @@ export default function HomeScreen({
   const openFilter = () => {
     navigation.navigate('HomeFilterScreen');
   };
-  console.log(adverts?.list.length);
   return (
     <>
       <Page isSearchable header showNotification showMessage>

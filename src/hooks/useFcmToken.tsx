@@ -19,8 +19,7 @@ export default function useFcmToken() {
       .registerDeviceForRemoteMessages()
       .then(() => {
         requestPermissions();
-      })
-      .catch(e => console.log(e));
+      });
   };
   const requestPermissions = () => {
     firebase
@@ -31,16 +30,14 @@ export default function useFcmToken() {
           getToken();
         } else {
         }
-      })
-      .catch(e => console.log(e));
+      });
   };
   const getToken = async () => {
     messaging()
       .getToken()
       .then(token => {
         setFcmToken(token);
-      })
-      .catch(e => console.log(e));
+      });
   };
 
   return {fcmToken};

@@ -38,6 +38,9 @@ export default function AdvertScreen(props: any) {
         <Container>
           <Container mt={10}>
             <CustomFlatList
+              handleRefresh={() => {
+                refetch();
+              }}
               notFoundText="İlan Bulunamadı"
               customNotFound={
                 <Container gap={10} aItems="center" jContent="center">

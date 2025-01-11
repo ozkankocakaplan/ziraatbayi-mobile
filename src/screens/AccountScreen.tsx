@@ -37,7 +37,6 @@ export default function AccountScreen({
       refetch();
     });
   }, []);
-  console.log(getSubscription);
   const logOut = () => {
     AlertDialog.showLogoutModal(() => {
       auth().signOut();

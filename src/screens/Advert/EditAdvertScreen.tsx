@@ -179,7 +179,6 @@ export default function EditAdvertScreen({
                     onConfirm: () => navigation.goBack(),
                   });
                 } else {
-                  console.log(result.error);
                   AlertDialog.showModal({
                     type: 'error',
 
@@ -188,7 +187,6 @@ export default function EditAdvertScreen({
                   });
                 }
               } catch (error) {
-                console.log(error);
                 AlertDialog.showModal({
                   type: 'error',
 
@@ -196,9 +194,7 @@ export default function EditAdvertScreen({
                 });
               }
             },
-            onCancel: () => {
-              console.log('Silme işlemi iptal edildi.');
-            },
+            onCancel: () => {},
           });
         }}>
         <Container mx={10} mt={10}>
