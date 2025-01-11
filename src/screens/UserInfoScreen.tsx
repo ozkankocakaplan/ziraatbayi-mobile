@@ -119,7 +119,7 @@ export default function UserInfoScreen({
       style={{flex: 1}}
       keyboardVerticalOffset={Platform.OS === 'ios' ? 10 : 50}
       behavior={'padding'}>
-      <Page header showGoBack title="Kullanıcı Bilgilerim">
+      <Page header showGoBack title="Bilgilerim">
         <Container mx={10} mt={10} mb={10}>
           <Container jContent="center" aItems="center" noFlex mb={10}>
             <TouchableOpacity
@@ -185,14 +185,12 @@ export default function UserInfoScreen({
                 value={formData.phone}
                 onChangeText={text => handleInputChange('phone', text)}
               />
+              <Button
+                isDisabled={checkObject(formData)}
+                text="Kaydet"
+                onPress={handleUpdate}
+              />
             </ScrollView>
-          </Container>
-          <Container flex={0.1}>
-            <Button
-              isDisabled={checkObject(formData)}
-              text="Kaydet"
-              onPress={handleUpdate}
-            />
           </Container>
         </Container>
       </Page>

@@ -72,11 +72,11 @@ export default function AccountScreen({
                 navigation.navigate('UserInfoScreen');
               }}
               icon={faUser}
-              text="Kullanıcı Bilgilerim"
+              text="Bilgilerim"
             />
             <ListItem
               onPress={() => {
-                navigation.navigate('AddressInfoScreen');
+                navigation.navigate('CompanyInformationScreen');
               }}
               icon={faBuilding}
               text="Firma Detayları"

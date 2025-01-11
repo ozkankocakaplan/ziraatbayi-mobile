@@ -21,6 +21,7 @@ import {LogoIcon} from '../assets/logo';
 import Container from '../components/Container/Container';
 import DeviceInfo from 'react-native-device-info';
 import {checkObject} from '../helper/Helper';
+import Logo from '../components/Logo/Logo';
 
 export default function LoginScreen(
   props: NativeStackScreenProps<RootStackParamList, 'LoginScreen'>,
@@ -73,11 +74,7 @@ export default function LoginScreen(
         <Container mx={10} mt={30}>
           <Container>
             <Container noFlex jContent="center" aItems="center">
-              <Image
-                source={LogoIcon}
-                style={{width: 175, height: 175}}
-                resizeMode="contain"
-              />
+              <Logo />
             </Container>
             <Container gap={15}>
               <Input

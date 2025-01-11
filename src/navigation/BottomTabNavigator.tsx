@@ -8,7 +8,7 @@ import {RootState} from '../store';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faBullhorn, faHome, faUser} from '@fortawesome/free-solid-svg-icons';
 import HomeScreen from '../screens/HomeScreen';
-import AdvertScreen from '../screens/Advert/AdvertScreen';
+import MyAdvertScreen from '../screens/Advert/MyAdvertScreen';
 import AccountScreen from '../screens/AccountScreen';
 
 const Tab = createBottomTabNavigator<BottomTabParamList>();
@@ -46,7 +46,7 @@ export default function BottomTabNavigator(
         component={HomeScreen}
       />
       <Tab.Screen
-        name="Adverts"
+        name="MyAdverts"
         options={{
           tabBarIcon: ({color, size, focused}) => (
             <FontAwesomeIcon
@@ -57,7 +57,7 @@ export default function BottomTabNavigator(
           ),
           tabBarLabel: 'İlanlarım',
         }}
-        component={AdvertScreen}
+        component={MyAdvertScreen}
       />
 
       <Tab.Screen

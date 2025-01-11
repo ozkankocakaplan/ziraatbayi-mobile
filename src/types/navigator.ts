@@ -35,11 +35,11 @@ export type RootStackParamList = {
   DealerDetailScreen: {id: number};
   ResetPassword: {token: string};
   ProductsByCategoryScreen: {category: CategoryResponse};
-  AddressInfoScreen: undefined;
+  CompanyInformationScreen: undefined;
   HomeFilterScreen: undefined;
 };
 export type BottomTabParamList = {
   Home: undefined;
-  Adverts: undefined;
+  MyAdverts: undefined;
   AccountScreen: undefined;
 };

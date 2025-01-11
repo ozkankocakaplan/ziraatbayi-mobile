@@ -15,7 +15,7 @@ import useThemeColors from '../../constant/useColor';
 
 type SelectedFilter = 'active' | 'passive';
 const PassiveColor = '#4CB05750';
-export default function AdvertScreen(props: any) {
+export default function MyAdvertScreen(props: any) {
   const {
     data: adverts,
     refetch,

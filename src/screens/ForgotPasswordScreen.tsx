@@ -11,6 +11,7 @@ import Page from '../components/Page/Page';
 import {LogoIcon} from '../assets/logo';
 import {checkObject} from '../helper/Helper';
 import {UserApi} from '../services/userService';
+import Logo from '../components/Logo/Logo';
 
 export default function ForgotPasswordScreen(
   props: NativeStackScreenProps<RootStackParamList, 'ForgotPasswordScreen'>,
@@ -27,11 +28,7 @@ export default function ForgotPasswordScreen(
     <Page header title="Şifremi Unuttum" showGoBack>
       <Container mt={50} mx={10} gap={10}>
         <Container noFlex jContent="center" aItems="center">
-          <Image
-            source={LogoIcon}
-            style={{width: 175, height: 175}}
-            resizeMode="contain"
-          />
+          <Logo />
         </Container>
         <Input
           autoCapitalize="none"

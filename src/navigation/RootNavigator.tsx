@@ -26,7 +26,7 @@ import SearchScreen from '../screens/SearchScreen';
 import HomeFilterScreen from '../screens/HomeFilterScreen';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import ProductsByCategoryScreen from '../screens/ProductsByCategoryScreen';
-import AddressInfoScreen from '../screens/AddressInfoScreen';
+import CompanyInformationScreen from '../screens/CompanyInformationScreen';
 import NetworkCheckScreen from '../screens/NetworkCheckScreen';
 import AlertDialog from '../components/AlertDialog/AlertDialog';
 import {AuthActions} from '../store/features/authReducer';
@@ -129,8 +129,8 @@ const RootNavigator = () => {
               component={ProductsByCategoryScreen}
             />
             <Stack.Screen
-              name="AddressInfoScreen"
-              component={AddressInfoScreen}
+              name="CompanyInformationScreen"
+              component={CompanyInformationScreen}
             />
             <Stack.Group>
               <Stack.Screen

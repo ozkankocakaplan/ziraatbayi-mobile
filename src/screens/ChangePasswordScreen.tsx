@@ -1,4 +1,4 @@
-import {View} from 'react-native';
+import {KeyboardAvoidingView, Platform, View} from 'react-native';
 import React, {useRef, useState} from 'react';
 import Page from '../components/Page/Page';
 import {FormContainerRef} from 'react-native-form-container';
@@ -45,39 +45,44 @@ export default function ChangePasswordScreen() {
   };
 
   return (
-    <Page header showGoBack title="Şifremi Değiştir">
-      <Container mx={10} mt={10} gap={10}>
-        <Input
-          required
-          id="oldPassword"
-          icon={faLock}
-          placeholder="Mevcut Şifre"
-          value={passwords.oldPassword}
-          onChangeText={value => handleChange('oldPassword', value)}
-        />
-        <Input
-          required
-          id="newPassword"
-          icon={faLock}
-          placeholder="Yeni Şifre"
-          value={passwords.newPassword}
-          onChangeText={value => handleChange('newPassword', value)}
-        />
-        <Input
-          required
-          id="confirmPassword"
-          icon={faLock}
-          placeholder="Tekrardan Yeni Şifre"
-          value={passwords.confirmPassword}
-          onChangeText={value => handleChange('confirmPassword', value)}
-        />
+    <KeyboardAvoidingView
+      style={{flex: 1}}
+      keyboardVerticalOffset={Platform.OS === 'ios' ? 10 : 50}
+      behavior={'padding'}>
+      <Page header showGoBack title="Şifremi Değiştir">
+        <Container mx={10} mt={10} gap={10}>
+          <Input
+            required
+            id="oldPassword"
+            icon={faLock}
+            placeholder="Mevcut Şifre"
+            value={passwords.oldPassword}
+            onChangeText={value => handleChange('oldPassword', value)}
+          />
+          <Input
+            required
+            id="newPassword"
+            icon={faLock}
+            placeholder="Yeni Şifre"
+            value={passwords.newPassword}
+            onChangeText={value => handleChange('newPassword', value)}
+          />
+          <Input
+            required
+            id="confirmPassword"
+            icon={faLock}
+            placeholder="Tekrardan Yeni Şifre"
+            value={passwords.confirmPassword}
+            onChangeText={value => handleChange('confirmPassword', value)}
+          />
 
-        <Button
-          isDisabled={checkObject(passwords)}
-          text="Kaydet"
-          onPress={handleSave}
-        />
-      </Container>
-    </Page>
+          <Button
+            isDisabled={checkObject(passwords)}
+            text="Kaydet"
+            onPress={handleSave}
+          />
+        </Container>
+      </Page>
+    </KeyboardAvoidingView>
   );
 }
