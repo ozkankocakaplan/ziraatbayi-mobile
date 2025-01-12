@@ -1,6 +1,6 @@
 import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react';
 import {AuthActions} from '../features/authReducer';
-export const BaseUrl = 'http://195.85.207.129:6868/api';
+export const BaseUrl = 'https://api.ziraatbayi.com/api';
 
 const customBaseQuery = fetchBaseQuery({
   baseUrl: BaseUrl,
