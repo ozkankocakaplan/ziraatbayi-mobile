@@ -43,16 +43,7 @@ const AdvertListItem = ({item}: {item: AdvertResponse}) => {
             {item.product.name}
           </CustomText>
           <Row gap={2}>
-            <CustomText color="darkGrey" fontSizes="body6" fontWeight="bold">
-              Kategori:
-            </CustomText>
-            <CustomText color="black" fontSizes="body6">
-              {item.product.categoryName}
-            </CustomText>
-          </Row>
-          <Row>
             <CustomText
-              numberOfLines={2}
               sx={{
                 flexWrap: 'wrap',
                 width: TEXT_WIDTH,
@@ -60,7 +51,22 @@ const AdvertListItem = ({item}: {item: AdvertResponse}) => {
               color="darkGrey"
               fontSizes="body6"
               fontWeight="bold">
-              Etken Madde:
+              Kategori:{''}
+              <CustomText numberOfLines={2} color="black" fontSizes="body6">
+                {item.product.categoryName}
+              </CustomText>
+            </CustomText>
+          </Row>
+          <Row>
+            <CustomText
+              sx={{
+                flexWrap: 'wrap',
+                width: TEXT_WIDTH,
+              }}
+              color="darkGrey"
+              fontSizes="body6"
+              fontWeight="bold">
+              Etken Madde:{''}
               <CustomText
                 color="black"
                 fontSizes="body6"

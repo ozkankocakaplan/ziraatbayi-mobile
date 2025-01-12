@@ -8,6 +8,7 @@ import CustomFlatList from '../components/Flatlist/CustomFlatList';
 import AdvertResponse from '../payload/response/AdvertResponse';
 import AdvertCard from '../components/Advert/AdvertCard';
 import {AdvertApi} from '../services/advertService';
+import CustomNotFound from '../components/CustomNotFound/CustomNotFound';
 
 export default function ProductsByCategoryScreen({
   navigation,
@@ -31,6 +32,9 @@ export default function ProductsByCategoryScreen({
       <Container>
         {data && (
           <CustomFlatList
+            customNotFound={
+              <CustomNotFound notFoundText="Kategoriye ait ürün bulunamadı" />
+            }
             numColumns={2}
             handleRefresh={loadData}
             data={data?.list || []}

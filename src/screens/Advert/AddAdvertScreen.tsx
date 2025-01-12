@@ -35,6 +35,7 @@ export default function AddAdvertScreen({
   const [selectedCategory, setSelectedCategory] = useState(
     {} as CategoryResponse,
   );
+  const [loading, setLoading] = useState(false);
   const [advertRequest, setAdvertRequest] = useState<CreateAdvertRequest>({
     productId: 0,
     startDate: '',
@@ -88,6 +89,7 @@ export default function AddAdvertScreen({
   };
   const handleSave = async () => {
     try {
+      setLoading(true);
       let result = await useCreateAdvert({
         ...advertRequest,
       });
@@ -111,9 +113,11 @@ export default function AddAdvertScreen({
     } catch (error) {
       AlertDialog.showModal({
         type: 'error',
-        title: 'İlanınız oluşturulamadı',
-        message: 'İlanınız oluşturulamadı tekrar deneyiniz',
+        title: 'İlanınız oluşturulamadı.',
+        message: 'İlanınız oluşturulamadı tekrar deneyiniz.',
       });
+    } finally {
+      setLoading(false);
     }
   };
   return (
@@ -209,6 +213,7 @@ export default function AddAdvertScreen({
 
         <Container mx={10} flex={0.15}>
           <Button
+            loading={loading}
             onPress={handleSave}
             isDisabled={checkRequestForm()}
             text="KAYDET"></Button>

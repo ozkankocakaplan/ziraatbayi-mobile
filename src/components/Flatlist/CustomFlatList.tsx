@@ -100,7 +100,16 @@ export default function CustomFlatList(props: CustomListProps) {
           />
         )
       ) : props.customNotFound && !search ? (
-        props.customNotFound
+        <View
+          style={{
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+            backgroundColor: 'transparent',
+            height: Dimensions.get('window').height,
+          }}>
+          {props.customNotFound}
+        </View>
       ) : (
         <View
           style={{

@@ -136,6 +136,7 @@ const InfoContainer = styled(View)`
   padding-horizontal: 10px;
   gap: 5px;
   padding-bottom: 8px;
+  padding-top: 5px;
   height: auto;
 `;
 const DateBadge = styled(View)`

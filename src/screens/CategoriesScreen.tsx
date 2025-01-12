@@ -7,11 +7,12 @@ import styled from 'styled-components';
 import CategoryResponse from '../payload/response/CategoryResponse';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../types/navigator';
-import AlertDialog from '../components/AlertDialog/AlertDialog';
 import Page from '../components/Page/Page';
 import Icon from '../components/Icon/Icon';
 import {faAngleRight} from '@fortawesome/free-solid-svg-icons';
 import {CategoryApi} from '../services/categoryService';
+import CustomNotFound from '../components/CustomNotFound/CustomNotFound';
+import {View} from 'react-native-reanimated/lib/typescript/Animated';
 export default function CategoriesScreen(
   props: NativeStackScreenProps<RootStackParamList, 'CategoriesScreen'>,
 ) {
@@ -20,15 +21,23 @@ export default function CategoriesScreen(
   );
   const selected = props.route.params.selectedCategory;
   const previousSelected = props.route.params.previousCategory;
-  const {data: categories, refetch: refetchCategories} =
-    CategoryApi.useGetCategoriesQuery(true);
+  const {
+    data: categories,
+    refetch: refetchCategories,
+    isLoading,
+    isFetching,
+    isUninitialized,
+  } = CategoryApi.useGetCategoriesQuery(true);
   const {navigation} = props;
+
   useEffect(() => {
     navigation.addListener('focus', () => {
-      refetchCategories();
+      if (!isLoading && !isFetching && !isUninitialized) {
+        refetchCategories();
+      }
     });
-  }, []);
-  //şimdi sağdaki ekran için buraya geldik burada
+  }, [navigation, refetchCategories, isLoading, isFetching, isUninitialized]);
+
   useEffect(() => {
     if (
       categories?.list &&
@@ -82,6 +91,7 @@ export default function CategoriesScreen(
           }}
           isSelected={selectedCategory.id == el.id || isSelected}>
           <CustomText
+            numberOfLines={2}
             fontWeight={el.id === selectedCategory.id ? 'bold' : 'normal'}
             fontSizes="body5"
             color="primary">
@@ -92,59 +102,68 @@ export default function CategoriesScreen(
       );
     });
   };
-
+  const isLoadingCategories = isLoading || isFetching;
   return (
     <Page header title={'Kategoriler'} showGoBack>
-      <Row>
-        <Container flex={1} bgColor="#F5F5F5">
-          {previousSelected
-            ? recuversiveCategory(previousSelected, undefined, 'left')
-            : categories?.list
-                .filter(x => x.parentCategoryId == 0)
-                .map((el, index) => {
-                  return (
-                    <CategoryButton
-                      key={el.id}
-                      borderLeft={el.id === selectedCategory.id ? 5 : 0}
-                      isSelected={el.id === selectedCategory.id}
-                      onPress={() => {
-                        if (el.children.length != 0) {
-                          setSelectedCategory(el);
-                        } else {
-                          goToProductPage(el);
-                        }
-                      }}>
-                      <CustomText
-                        fontWeight={
-                          el.id === selectedCategory.id ? 'bold' : 'normal'
-                        }
-                        fontSizes="body5"
-                        color="primary">
-                        {el.name}
-                      </CustomText>
-                      <Icon icon={faAngleRight} color="#1F8505" size={20} />
-                    </CategoryButton>
-                  );
-                })}
-        </Container>
-        <Container bgColor="#fff" flex={1}>
-          {selectedCategory && selectedCategories?.children.length == 0 ? (
-            <CategoryButton
-              onPress={() => {
-                goToProductPage(selectedCategories);
-              }}
-              isSelected={true}>
-              <CustomText fontWeight="bold" fontSizes="body3" color="default">
-                {selectedCategories.name}
-              </CustomText>
-            </CategoryButton>
-          ) : selected ? (
-            recuversiveCategory(selectedCategory, false)
-          ) : (
-            recuversiveCategory(selectedCategories, true)
-          )}
-        </Container>
-      </Row>
+      {categories?.list.length == 0 && !isLoadingCategories ? (
+        <CustomNotFound notFoundText="Kategori bulunamadı." />
+      ) : (
+        <Row>
+          <Container flex={1} bgColor="#F5F5F5">
+            {previousSelected
+              ? recuversiveCategory(previousSelected, undefined, 'left')
+              : categories?.list
+                  .filter(x => x.parentCategoryId == 0)
+                  .map((el, index) => {
+                    return (
+                      <CategoryButton
+                        key={el.id}
+                        borderLeft={el.id === selectedCategory.id ? 5 : 0}
+                        isSelected={el.id === selectedCategory.id}
+                        onPress={() => {
+                          if (el.children.length != 0) {
+                            setSelectedCategory(el);
+                          } else {
+                            goToProductPage(el);
+                          }
+                        }}>
+                        <CustomText
+                          numberOfLines={2}
+                          fontWeight={
+                            el.id === selectedCategory.id ? 'bold' : 'normal'
+                          }
+                          fontSizes="body5"
+                          color="primary">
+                          {el.name}
+                        </CustomText>
+                        <Icon icon={faAngleRight} color="#1F8505" size={20} />
+                      </CategoryButton>
+                    );
+                  })}
+          </Container>
+          <Container bgColor="#fff" flex={1}>
+            {selectedCategory && selectedCategories?.children.length == 0 ? (
+              <CategoryButton
+                onPress={() => {
+                  goToProductPage(selectedCategories);
+                }}
+                isSelected={true}>
+                <CustomText
+                  numberOfLines={2}
+                  fontWeight="bold"
+                  fontSizes="body3"
+                  color="default">
+                  {selectedCategories.name}
+                </CustomText>
+              </CategoryButton>
+            ) : selected ? (
+              recuversiveCategory(selectedCategory, false)
+            ) : (
+              recuversiveCategory(selectedCategories, true)
+            )}
+          </Container>
+        </Row>
+      )}
     </Page>
   );
 }
@@ -154,9 +173,10 @@ const CategoryButton = styled(TouchableOpacity)<{
   borderBottom?: boolean;
 }>`
   padding-vertical: 10px;
-  height: 50px;
+  height: 55px;
   background-color: ${props => (props.isSelected ? '#fff' : '#F5F5F5')};
-  padding-horizontal: 18px;
+  padding-left: 10px;
+  padding-right: 15px;
   justify-content: space-between;
   align-items: center;
   border-left-width: ${props => props.borderLeft}px;

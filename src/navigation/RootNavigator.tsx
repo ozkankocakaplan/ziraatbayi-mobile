@@ -63,7 +63,9 @@ const RootNavigator = () => {
   useEffect(() => {
     const subscription = AppState.addEventListener('change', state => {
       if (state === 'active') {
-        getNotificationCount();
+        if (user && user != null) {
+          getNotificationCount();
+        }
       }
     });
     return () => {

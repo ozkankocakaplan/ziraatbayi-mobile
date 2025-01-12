@@ -31,10 +31,12 @@ export default function AccountScreen({
   const dispatch = useDispatch();
 
   const {refetch} = DealerApi.useGetDealerQuery();
-  const {data: getSubscription} = SubscriptionApi.useGetSubscriptionQuery();
+  const {data: getSubscription, refetch: subcriptionRefetch} =
+    SubscriptionApi.useGetSubscriptionQuery();
   useEffect(() => {
     navigation.addListener('focus', () => {
       refetch();
+      subcriptionRefetch();
     });
   }, []);
   const logOut = () => {

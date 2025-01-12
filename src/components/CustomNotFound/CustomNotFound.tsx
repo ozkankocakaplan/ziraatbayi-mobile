@@ -12,8 +12,13 @@ export default function CustomNotFound({
   notFoundText?: string;
 }) {
   return (
-    <Container gap={10}>
-      <Container jContent="center" aItems="center" mb={170} mr={30}>
+    <Container bgColor="transparent" gap={10}>
+      <Container
+        bgColor="transparent"
+        jContent="center"
+        aItems="center"
+        mb={170}
+        mr={30}>
         <LottieView
           style={{
             width: SIZES.width / 1.5,

@@ -18,7 +18,7 @@ import styled from 'styled-components';
 import {AdvertActions} from '../../store/features/advertReducer';
 import ProductImage from '../Advert/ProductImage';
 import ProductResponse from '../../payload/response/ProductResponse';
-import {SIZES} from '../../constant/theme';
+import {SIZES, TEXT_WIDTH} from '../../constant/theme';
 import {BottomSheetScrollView} from '@gorhom/bottom-sheet';
 
 const SendButtonMarginBottom = Platform.select({
@@ -97,7 +97,7 @@ export default function AdvertDetailBottomSheet() {
                     <CustomText
                       numberOfLines={2}
                       ellipsizeMode="tail"
-                      sx={{width: SIZES.width - 140}}
+                      sx={{width: TEXT_WIDTH}}
                       color="black"
                       fontSizes="body4"
                       fontWeight="bold">
@@ -105,33 +105,35 @@ export default function AdvertDetailBottomSheet() {
                     </CustomText>
                     <Row gap={2}>
                       <CustomText
+                        sx={{width: TEXT_WIDTH}}
                         color="darkGrey"
                         fontSizes="body6"
                         fontWeight="bold">
-                        Üretici Firma:
-                      </CustomText>
-                      <CustomText color="black" fontSizes="body6">
-                        {advertDetail?.product?.manufacturer?.name}
+                        Üretici Firma:{' '}
+                        <CustomText color="black" fontSizes="body6">
+                          {advertDetail?.product?.manufacturer?.name}
+                        </CustomText>
                       </CustomText>
                     </Row>
                     <Row gap={2}>
                       <CustomText
+                        sx={{width: TEXT_WIDTH}}
                         color="darkGrey"
                         fontSizes="body6"
                         fontWeight="bold">
-                        Kategori:
-                      </CustomText>
-                      <CustomText color="black" fontSizes="body6">
-                        {advertDetail?.product?.categoryName}
+                        Kategori:{' '}
+                        <CustomText color="black" fontSizes="body6">
+                          {advertDetail?.product?.categoryName}
+                        </CustomText>
                       </CustomText>
                     </Row>
                     <Row gap={2}>
                       <CustomText
-                        sx={{width: SIZES.width - 110}}
+                        sx={{width: TEXT_WIDTH}}
                         color="darkGrey"
                         fontSizes="body6"
                         fontWeight="bold">
-                        Etken Madde:
+                        Etken Madde:{' '}
                         <CustomText
                           color="black"
                           fontSizes="body6"

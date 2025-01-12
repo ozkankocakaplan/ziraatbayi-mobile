@@ -3,14 +3,14 @@ import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import useThemeColors from '../constant/useColor';
-import {useSelector} from 'react-redux';
-import {RootState} from '../store';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faBullhorn, faHome, faUser} from '@fortawesome/free-solid-svg-icons';
 import HomeScreen from '../screens/HomeScreen';
 import MyAdvertScreen from '../screens/Advert/MyAdvertScreen';
 import AccountScreen from '../screens/AccountScreen';
+import {Platform} from 'react-native';
 
+const LabelTop = Platform.select({ios: 0, android: -4});
 const Tab = createBottomTabNavigator<BottomTabParamList>();
 export default function BottomTabNavigator(
   props: NativeStackScreenProps<BottomTabParamList>,
@@ -18,7 +18,7 @@ export default function BottomTabNavigator(
   const colors = useThemeColors();
   const iconColor = colors.iconColor;
   const inActiveIconColor = '#D8E7D6';
-  const {user} = useSelector((state: RootState) => state.auth);
+
   return (
     <Tab.Navigator
       screenOptions={{
@@ -28,7 +28,7 @@ export default function BottomTabNavigator(
         tabBarLabelStyle: {
           fontSize: 11,
           fontWeight: 'bold',
-          top: 0,
+          top: LabelTop,
         },
       }}>
       <Tab.Screen

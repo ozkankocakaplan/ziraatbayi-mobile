@@ -15,6 +15,7 @@ import Icon from '../Icon/Icon';
 import {faCheck} from '@fortawesome/free-solid-svg-icons';
 import ProductResponse from '../../payload/response/ProductResponse';
 import CustomFlatList from '../Flatlist/CustomFlatList';
+import CustomNotFound from '../CustomNotFound/CustomNotFound';
 
 interface CategoryBottomSheetProps {
   bottomSheetRef: RefObject<BottomSheetRef>;
@@ -37,9 +38,12 @@ export default function CategoryBottomSheet({
 
   return (
     <CustomBottomSheet ref={bottomSheetRef} snapPoints={['85%']}>
-      <View style={{margin: 10}}>
+      <View style={{margin: 10, flex: 1}}>
         <CustomFlatList
           data={categories}
+          customNotFound={
+            <CustomNotFound notFoundText="Kategori bulunamadı." />
+          }
           renderItem={item => {
             return (
               <CategoryCardItem

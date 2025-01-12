@@ -22,6 +22,7 @@ import {useSelector} from 'react-redux';
 import {RootState} from '../../store';
 import React, {useEffect, useState} from 'react';
 import {RootStackParamList} from '../../types/navigator';
+import {SIZES} from '../../constant/theme';
 
 export interface HeaderProps {
   title?: string;
@@ -101,6 +102,10 @@ export default function Header({
         {title?.length != 0 && (
           <TitleContainer>
             <CustomText
+              center
+              sx={{width: SIZES.width - 100}}
+              numberOfLines={1}
+              ellipsizeMode="tail"
               fontSizes="h5"
               color="white"
               fontWeight="bold"
