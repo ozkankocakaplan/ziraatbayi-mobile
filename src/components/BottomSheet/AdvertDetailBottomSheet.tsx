@@ -186,7 +186,7 @@ export default function AdvertDetailBottomSheet() {
                   color="black"
                   fontSizes="body5"
                   sx={{width: SIZES.width - 30}}
-                  numberOfLines={5}
+                  numberOfLines={6}
                   ellipsizeMode="tail">
                   {advertDetail?.product?.description}
                 </CustomText>

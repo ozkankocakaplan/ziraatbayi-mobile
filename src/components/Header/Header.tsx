@@ -183,7 +183,8 @@ const IconLeft = styled(TouchableOpacity)`
 const IconRight = styled(TouchableOpacity)<{top?: string}>`
   bottom: ${Platform.OS === 'android' ? '0px' : '5px'};
   top: ${props => props.top || '0px'};
-  right: -10px;
+  right: 10px;
+  left: 3px;
 `;
 const DealerButton = styled(TouchableOpacity)`
   background-color: #104f0235;
@@ -201,7 +202,7 @@ const ExtraContainer = styled(View)`
   flex-direction: row-reverse;
   justify-content: space-between;
   align-items: center;
-  gap: 20px;
+  gap: 15px;
 `;
 const SearchInput = styled(TextInput)`
   border: 1px solid #ddd;
