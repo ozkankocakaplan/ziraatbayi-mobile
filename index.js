@@ -14,6 +14,8 @@ import {
   ReanimatedLogLevel,
 } from 'react-native-reanimated';
 import {enableScreens} from 'react-native-screens';
+import {useEffect} from 'react';
+import SplashScreen from 'react-native-splash-screen';
 LogBox.ignoreAllLogs(true);
 configureReanimatedLogger({
   level: ReanimatedLogLevel.warn,
@@ -90,7 +92,11 @@ const linking = {
   },
 };
 enableScreens();
+
 const ZiraatBayi = () => {
+  useEffect(() => {
+    SplashScreen.hide();
+  }, []);
   return (
     <Provider store={store}>
       <GestureHandlerRootView style={{flex: 1}}>
