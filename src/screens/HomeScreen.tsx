@@ -56,7 +56,7 @@ export default function HomeScreen({
   };
   return (
     <>
-      <Page isSearchable header showNotification showMessage>
+      <Page isSearchable header showNotification>
         <Container>
           <HeaderRow>
             <ButtonContainer

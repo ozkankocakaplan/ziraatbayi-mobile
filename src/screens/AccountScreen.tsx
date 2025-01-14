@@ -64,7 +64,7 @@ export default function AccountScreen({
   };
 
   return (
-    <Page header showAccountDetail showMessage showNotification>
+    <Page header showAccountDetail showNotification>
       <Container bgColor={pageColor} pb={10} pl={10} pr={10}>
         <Container bgColor={pageColor} pt={25}>
           <ColTitle title="Hesap Bilgilerim" />

@@ -30,7 +30,7 @@ export interface HeaderProps {
   showNotification?: boolean;
   showAccountDetail?: boolean;
   showGoBack?: boolean;
-  showMessage?: boolean;
+
   showGoToDealerButton?: () => void;
   handleDelete?: () => void;
 }
@@ -41,7 +41,7 @@ export default function Header({
   showGoBack = false,
   isSearchable = false,
   showGoToDealerButton,
-  showMessage,
+
   handleDelete,
 }: HeaderProps) {
   const [search, setSearch] = useState('');
@@ -128,16 +128,7 @@ export default function Header({
               />
             </IconRight>
           )}
-          {showMessage && (
-            <IconRight
-              top={isSearchable ? '0px' : '0px'}
-              onPress={() => {
-                navigation.navigate('ChatListScreen' as never);
-              }}
-              hitSlop={15}>
-              <Icon icon={faEnvelope} color="white" />
-            </IconRight>
-          )}
+
           {handleDelete && (
             <IconRight
               top="0px"

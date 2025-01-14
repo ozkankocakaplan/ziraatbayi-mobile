@@ -33,7 +33,7 @@ export default function MyAdvertScreen(props: any) {
   }, []);
 
   return (
-    <Page header showNotification showMessage title="İlanlarım">
+    <Page header showNotification title="İlanlarım">
       <Container pb={10} pl={10} pr={10}>
         <Container>
           <Container mt={10}>
