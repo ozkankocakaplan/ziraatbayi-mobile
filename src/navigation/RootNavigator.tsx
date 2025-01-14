@@ -8,13 +8,11 @@ import HomeScreen from '../screens/HomeScreen';
 import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '../store';
 import BottomTabNavigator from './BottomTabNavigator';
-import ChatListScreen from '../screens/ChatListScreen/ChatListScreen';
 import NotificationScreen from '../screens/NotificationScreen';
 import CategoriesScreen from '../screens/CategoriesScreen';
 import UserInfoScreen from '../screens/UserInfoScreen';
 import ChangePasswordScreen from '../screens/ChangePasswordScreen';
 import SupportScreen from '../screens/SupportScreen';
-import ChatRoomScreen from '../screens/ChatRoomScreen/ChatRoomScreen';
 import AdvertDetailBottomSheet from '../components/BottomSheet/AdvertDetailBottomSheet';
 import FirebaseNotification from '../firebase/FirebaseNotification';
 import DealerDetailScreen from '../screens/DealerDetailScreen';
@@ -96,8 +94,6 @@ const RootNavigator = () => {
             <Stack.Screen name="MainScreen" component={MainScreen} />
             <Stack.Screen name="BottomTabMenu" component={BottomTabNavigator} />
             <Stack.Screen name="HomeScreen" component={HomeScreen} />
-            <Stack.Screen name="ChatListScreen" component={ChatListScreen} />
-            <Stack.Screen name="ChatRoomScreen" component={ChatRoomScreen} />
             <Stack.Screen name="SearchScreen" component={SearchScreen} />
             <Stack.Screen
               name="NotificationScreen"

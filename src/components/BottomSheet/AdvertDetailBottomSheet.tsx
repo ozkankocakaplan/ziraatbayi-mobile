@@ -1,4 +1,4 @@
-import {View, Text, Platform} from 'react-native';
+import {View, Platform} from 'react-native';
 import React, {useEffect} from 'react';
 import CustomBottomSheet, {BottomSheetRef} from './CustomBottomSheet';
 import Container from '../Container/Container';
@@ -14,12 +14,12 @@ import {
   formatDate,
   generateChatId,
 } from '../../helper/Helper';
-import styled from 'styled-components';
 import {AdvertActions} from '../../store/features/advertReducer';
 import ProductImage from '../Advert/ProductImage';
 import ProductResponse from '../../payload/response/ProductResponse';
 import {SIZES, TEXT_WIDTH} from '../../constant/theme';
 import {BottomSheetScrollView} from '@gorhom/bottom-sheet';
+import WhatsApp from '../WhatsApp/WhatsApp';
 
 const SendButtonMarginBottom = Platform.select({
   ios: 20,
@@ -40,30 +40,7 @@ export default function AdvertDetailBottomSheet() {
       );
     }
   }, [advertBottomSheetRef]);
-  const goToChatRoom = ({
-    chatId,
-    product,
-  }: {
-    chatId: string;
 
-    product: ProductResponse;
-  }) => {
-    const senderFullName = user?.firstName + ' ' + user?.lastName;
-    const receiverId = advertDetail?.dealer.id.toString() || '';
-    const receiverFullName =
-      advertDetail?.dealer?.firstName + ' ' + advertDetail?.dealer?.lastName;
-    const userId = user?.id.toString() || '';
-    let isSender = advertDetail?.dealer.id?.toString() === user?.id.toString();
-    navigation.navigate('ChatRoomScreen', {
-      chatId: chatId,
-      receiverFullName: isSender ? receiverFullName : senderFullName,
-      senderFullName: isSender ? senderFullName : receiverFullName,
-      senderId: userId,
-      receiverId: isSender ? userId : receiverId,
-      product: product,
-      advertId: advertDetail?.id || 0,
-    });
-  };
   let isEquals = checkEqualChatId(
     generateChatId(
       Number(user?.id),
@@ -205,17 +182,19 @@ export default function AdvertDetailBottomSheet() {
                   if (isEquals) {
                     return;
                   }
-                  advertBottomSheetRef.current?.close();
-                  goToChatRoom({
-                    chatId: generateChatId(
-                      Number(user?.id),
-                      Number(advertDetail?.dealer.id),
-                      Number(advertDetail?.id),
-                    ),
-                    product: advertDetail?.product as ProductResponse,
+                  WhatsApp.open({
+                    phone: advertDetail?.dealer?.phone || '',
+                    message: `Merhaba, ${advertDetail?.product?.name} ürünü hakkında bilgi almak istiyorum.`,
+                    onSuccess: () => {
+                      advertBottomSheetRef.current?.close();
+                    },
+                    onError: (error) => {
+                      console.error(error);
+                    },
                   });
                 }}
-                text="MESAJ GÖNDER"></Button>
+                text="MESAJ GÖNDER"
+              />
             </Container>
           )}
         </>

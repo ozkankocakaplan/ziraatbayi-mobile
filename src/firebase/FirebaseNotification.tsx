@@ -42,17 +42,12 @@ export default function FirebaseNotification() {
   );
 
   useEffect(() => {
-    const onMessage = messaging().onMessage(async remoteMessage => {
-      getNotificationContent(remoteMessage.data, remoteMessage);
-    });
     const onNotificationOpenedApp = messaging().onNotificationOpenedApp(
       remoteMessage => {
         let notificationType = remoteMessage?.data?.notificationType || '';
         if (
-          notificationType === NotificationType.NOTIFICATION_MESSAGE.toString()
+          notificationType != NotificationType.NOTIFICATION_MESSAGE.toString()
         ) {
-          goToChatRoom(remoteMessage.data, remoteMessage);
-        } else {
           getNotificationCount();
         }
       },
@@ -66,7 +61,6 @@ export default function FirebaseNotification() {
             notificationType ===
             NotificationType.NOTIFICATION_MESSAGE.toString()
           ) {
-            goToChatRoom(remoteMessage.data, remoteMessage);
           } else {
             getNotificationCount();
           }
@@ -74,54 +68,11 @@ export default function FirebaseNotification() {
       });
 
     return () => {
-      onMessage();
-      onNotificationOpenedApp();
       setShowSnackbar(false);
       setSnackbarMessage('');
     };
   }, []);
 
-  const goToChatRoom = (data: any, remoteMessage?: any) => {
-    let notificationData = data;
-    notificationData.product = JSON.parse(notificationData.product);
-
-    const isSender = notificationData?.senderId === userId;
-    const senderFullName = notificationData?.senderFullName || '';
-    const receiverFullName = notificationData?.receiverFullName || '';
-
-    navigation.navigate('ChatRoomScreen', {
-      chatId: generateChatId(
-        Number(notificationData?.senderId),
-        Number(notificationData?.receiverId),
-        notificationData?.advertId || 0,
-      ),
-      receiverFullName: !isSender ? senderFullName : receiverFullName,
-      senderFullName: !isSender ? receiverFullName : senderFullName,
-      senderId: userId,
-      receiverId: notificationData?.senderId || '',
-      product: notificationData?.product || ({} as ProductResponse),
-      advertId: notificationData?.advertId || 0,
-    });
-  };
-
-  const getNotificationContent = (data: any, remoteMessage?: any) => {
-    let notificationTitle = remoteMessage?.notification?.title;
-    let notificationBody = remoteMessage?.notification?.body;
-    let notificationData = data;
-    notificationData.product = JSON.parse(notificationData.product);
-    let chatId = generateChatId(
-      Number(notificationData.senderId),
-      Number(notificationData.receiverId),
-      notificationData.advertId,
-    );
-
-    if (selectedChatId !== chatId && currentScreen !== 'ChatRoomScreen') {
-      setSnackbarData(notificationData);
-      setShowSnackbar(true);
-      setSnackbarMessage(notificationTitle + '\n' + notificationBody);
-    }
-    return;
-  };
   return (
     <>
       <Snackbar
