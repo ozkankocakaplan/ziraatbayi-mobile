@@ -65,7 +65,9 @@ export default function AdvertCard({item, ...props}: AdvertCardProps) {
       </ExpiryDateContainer>
       <ImageWrapper>
         <ImageContainer>
-          <ProductImage imageUrl={item?.product?.images?.[0]?.imageUrl} />
+          <ProductImage
+            imageUrl={item?.product?.images?.[0]?.imageUrl || 'error'}
+          />
         </ImageContainer>
       </ImageWrapper>
       <InfoContainer>

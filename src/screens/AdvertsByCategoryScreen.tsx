@@ -10,10 +10,10 @@ import AdvertCard from '../components/Advert/AdvertCard';
 import {AdvertApi} from '../services/advertService';
 import CustomNotFound from '../components/CustomNotFound/CustomNotFound';
 
-export default function ProductsByCategoryScreen({
+export default function AdvertsByCategoryScreen({
   navigation,
   route,
-}: NativeStackScreenProps<RootStackParamList, 'ProductsByCategoryScreen'>) {
+}: NativeStackScreenProps<RootStackParamList, 'AdvertsByCategoryScreen'>) {
   const {category} = route.params;
 
   const {data, refetch} = AdvertApi.useGetAdvertsByCategoryIdQuery(category.id);
@@ -27,13 +27,14 @@ export default function ProductsByCategoryScreen({
   const loadData = () => {
     refetch();
   };
+
   return (
     <Page showGoBack header title={category.name}>
       <Container>
         {data && (
           <CustomFlatList
             customNotFound={
-              <CustomNotFound notFoundText="Kategoriye ait ürün bulunamadı" />
+              <CustomNotFound notFoundText="Kategoriye ait ilan bulunamadı." />
             }
             numColumns={2}
             handleRefresh={loadData}

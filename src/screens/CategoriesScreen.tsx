@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {TouchableOpacity} from 'react-native';
+import {TouchableOpacity, View} from 'react-native';
 import {Row} from '../constant/GlobalStyled';
 import Container from '../components/Container/Container';
 import CustomText from '../components/Text/Text';
@@ -12,7 +12,8 @@ import Icon from '../components/Icon/Icon';
 import {faAngleRight} from '@fortawesome/free-solid-svg-icons';
 import {CategoryApi} from '../services/categoryService';
 import CustomNotFound from '../components/CustomNotFound/CustomNotFound';
-import {View} from 'react-native-reanimated/lib/typescript/Animated';
+
+import CustomFlatList from '../components/Flatlist/CustomFlatList';
 export default function CategoriesScreen(
   props: NativeStackScreenProps<RootStackParamList, 'CategoriesScreen'>,
 ) {
@@ -59,7 +60,7 @@ export default function CategoriesScreen(
     x => x.id == selectedCategory.id,
   );
   const goToProductPage = (category: CategoryResponse) => {
-    navigation.push('ProductsByCategoryScreen', {
+    navigation.push('AdvertsByCategoryScreen', {
       category: category,
     });
   };
@@ -69,38 +70,44 @@ export default function CategoriesScreen(
     categoryType?: 'left' | 'right',
   ) => {
     categoryType = categoryType ?? 'right';
-    return data?.children?.map?.((el: CategoryResponse) => {
-      return (
-        <CategoryButton
-          key={el.id}
-          borderBottom={true}
-          borderLeft={categoryType !== 'right' ? 5 : 0}
-          onPress={() => {
-            if (categoryType == 'right') {
-              if (el.children.length != 0) {
-                props.navigation.push('CategoriesScreen', {
-                  selectedCategory: el,
-                  previousCategory: selectedCategory,
-                });
-              } else {
-                goToProductPage(el);
-              }
-            } else {
-              setSelectedCategory(el);
-            }
-          }}
-          isSelected={selectedCategory.id == el.id || isSelected}>
-          <CustomText
-            numberOfLines={2}
-            fontWeight={el.id === selectedCategory.id ? 'bold' : 'normal'}
-            fontSizes="body5"
-            color="primary">
-            {el.name}
-          </CustomText>
-          <Icon icon={faAngleRight} color="#1F8505" size={20} />
-        </CategoryButton>
-      );
-    });
+
+    return (
+      <CustomFlatList
+        data={data?.children}
+        renderItem={(item: CategoryResponse) => {
+          return (
+            <CategoryButton
+              key={item.id}
+              borderBottom={true}
+              borderLeft={categoryType !== 'right' ? 5 : 0}
+              onPress={() => {
+                if (categoryType == 'right') {
+                  if (item.children.length != 0) {
+                    props.navigation.push('CategoriesScreen', {
+                      selectedCategory: item,
+                      previousCategory: selectedCategory,
+                    });
+                  } else {
+                    goToProductPage(item);
+                  }
+                } else {
+                  setSelectedCategory(item);
+                }
+              }}
+              isSelected={selectedCategory.id == item.id || isSelected}>
+              <CustomText
+                numberOfLines={2}
+                fontWeight={item.id === selectedCategory.id ? 'bold' : 'normal'}
+                fontSizes="body6"
+                color="primary">
+                {item.name}
+              </CustomText>
+              <Icon icon={faAngleRight} color="#1F8505" size={20} />
+            </CategoryButton>
+          );
+        }}
+      />
+    );
   };
   const isLoadingCategories = isLoading || isFetching;
   return (
@@ -108,42 +115,47 @@ export default function CategoriesScreen(
       {categories?.list.length == 0 && !isLoadingCategories ? (
         <CustomNotFound notFoundText="Kategori bulunamadı." />
       ) : (
-        <Row>
+        <Row flex={1}>
           <Container flex={1} bgColor="#F5F5F5">
-            {previousSelected
-              ? recuversiveCategory(previousSelected, undefined, 'left')
-              : categories?.list
-                  .filter(x => x.parentCategoryId == 0)
-                  .map((el, index) => {
-                    return (
-                      <CategoryButton
-                        key={el.id}
-                        borderLeft={el.id === selectedCategory.id ? 5 : 0}
-                        isSelected={el.id === selectedCategory.id}
-                        onPress={() => {
-                          if (el.children.length != 0) {
-                            setSelectedCategory(el);
-                          } else {
-                            goToProductPage(el);
-                          }
-                        }}>
-                        <CustomText
-                          numberOfLines={2}
-                          fontWeight={
-                            el.id === selectedCategory.id ? 'bold' : 'normal'
-                          }
-                          fontSizes="body5"
-                          color="primary">
-                          {el.name}
-                        </CustomText>
-                        <Icon icon={faAngleRight} color="#1F8505" size={20} />
-                      </CategoryButton>
-                    );
-                  })}
+            {previousSelected ? (
+              recuversiveCategory(previousSelected, undefined, 'left')
+            ) : (
+              <CustomFlatList
+                scrollEnabled={false}
+                data={categories?.list.filter(x => x.parentCategoryId == 0)}
+                renderItem={(item: CategoryResponse) => {
+                  return (
+                    <CategoryButton
+                      key={item.id}
+                      borderLeft={item.id === selectedCategory.id ? 5 : 0}
+                      isSelected={item.id === selectedCategory.id}
+                      onPress={() => {
+                        if (item.children.length != 0) {
+                          setSelectedCategory(item);
+                        } else {
+                          goToProductPage(item);
+                        }
+                      }}>
+                      <CustomText
+                        numberOfLines={2}
+                        fontWeight={
+                          item.id === selectedCategory.id ? 'bold' : 'normal'
+                        }
+                        fontSizes="body5"
+                        color="primary">
+                        {item.name}
+                      </CustomText>
+                      <Icon icon={faAngleRight} color="#1F8505" size={20} />
+                    </CategoryButton>
+                  );
+                }}
+              />
+            )}
           </Container>
           <Container bgColor="#fff" flex={1}>
             {selectedCategory && selectedCategories?.children.length == 0 ? (
               <CategoryButton
+                id=""
                 onPress={() => {
                   goToProductPage(selectedCategories);
                 }}

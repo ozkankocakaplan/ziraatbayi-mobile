@@ -25,7 +25,7 @@ const AdvertListItem = ({item}: {item: AdvertResponse}) => {
           <ProductImageContainer>
             <ProductImage
               isImageView
-              imageUrl={item?.product?.images?.[0]?.imageUrl}
+              imageUrl={item?.product?.images?.[0]?.imageUrl || 'error'}
             />
           </ProductImageContainer>
         </ImageWrapper>

@@ -25,20 +25,13 @@ export interface NotificationData {
   advertId: number;
 }
 export default function FirebaseNotification() {
-  const currentScreen = useNavigationState(
-    state => state?.routes?.[state.index]?.name,
-  );
   const [getNotificationCount] =
     NotificationApi.useGetNotificationCountMutation();
-  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
-  const {selectedChatId} = useSelector((state: RootState) => state.advert);
+
   const [showSnackbar, setShowSnackbar] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('');
   const [snackbarData, setSnackbarData] = useState<NotificationData>(
     {} as NotificationData,
-  );
-  const userId = useSelector(
-    (state: RootState) => state.auth.user?.id.toString() || '',
   );
 
   useEffect(() => {
@@ -66,7 +59,7 @@ export default function FirebaseNotification() {
           }
         }
       });
-
+    onNotificationOpenedApp();
     return () => {
       setShowSnackbar(false);
       setSnackbarMessage('');

@@ -17,5 +17,6 @@ interface CustomListProps {
   customNotFound?: JSX.Element;
   extraData?: React.ReactNode;
   children?: React.ReactNode;
+  scrollEnabled?: boolean;
 }
 export default CustomListProps;

@@ -29,7 +29,6 @@ const SendButtonMarginBottom = Platform.select({
 export default function AdvertDetailBottomSheet() {
   const dispatch = useDispatch();
   const user = useSelector((state: RootState) => state.auth.user);
-  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
   const advertBottomSheetRef = React.useRef<BottomSheetRef>(null);
   const advertDetail = useSelector((state: RootState) => state.advert.advert);
 
@@ -188,7 +187,7 @@ export default function AdvertDetailBottomSheet() {
                     onSuccess: () => {
                       advertBottomSheetRef.current?.close();
                     },
-                    onError: (error) => {
+                    onError: error => {
                       console.error(error);
                     },
                   });

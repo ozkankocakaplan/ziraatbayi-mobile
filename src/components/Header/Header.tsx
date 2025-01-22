@@ -117,7 +117,7 @@ export default function Header({
         <ExtraContainer>
           {showNotification && (
             <IconRight
-              top={isSearchable ? '0px' : '0px'}
+              top={isSearchable ? '-5px' : '0px'}
               onPress={() => {
                 navigation.navigate('NotificationScreen' as never);
               }}
@@ -201,7 +201,7 @@ const SearchInput = styled(TextInput)`
   padding-vertical: 10px;
   padding-horizontal: 10px;
   background-color: #fff;
-  width: 75%;
+  width: 85%;
   margin-left: 10px;
   top: ${Platform.OS === 'android' ? '5px' : '0px'};
 `;

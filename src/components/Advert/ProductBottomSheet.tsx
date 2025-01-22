@@ -1,4 +1,4 @@
-import {ScrollView, TouchableOpacity, View} from 'react-native';
+import {SafeAreaView, ScrollView, TouchableOpacity, View} from 'react-native';
 import React, {RefObject, useEffect, useState} from 'react';
 import CustomBottomSheet, {
   BottomSheetRef,
@@ -18,6 +18,7 @@ import {useKeyboard} from '../../hooks/useKeyboard';
 import CustomNotFound from '../CustomNotFound/CustomNotFound';
 import CustomFlatList from '../Flatlist/CustomFlatList';
 import Container from '../Container/Container';
+import Input from '../Input/Input';
 
 interface ProductBottomSheetProps {
   categoryId?: number;
@@ -32,42 +33,65 @@ export default function ProductBottomSheet({
   categoryId,
 }: ProductBottomSheetProps) {
   const [products, setProducts] = useState<ProductResponse[]>([]);
+  const [search, setSearch] = useState('');
+  const [getProductsByCategory] =
+    ProductApi.useGetProductSearchByCategoryMutation();
 
-  const [getProductsByCategory] = ProductApi.useGetProductsByCategoryMutation();
-
-  useEffect(() => {
-    getLoadCategories();
-  }, [categoryId]);
   const getLoadCategories = async () => {
-    if (categoryId != null && categoryId != 0) {
-      const response = await getProductsByCategory(categoryId);
+    if (
+      categoryId != null &&
+      categoryId != 0 &&
+      search != '' &&
+      search.length > 1
+    ) {
+      const response = await getProductsByCategory({categoryId, search});
       setProducts(response.data?.list || []);
+      bottomSheetRef.current?.snapToIndex?.();
+    } else {
+      setProducts([]);
     }
   };
 
   return (
     <CustomBottomSheet ref={bottomSheetRef} snapPoints={['85%']}>
-      <View style={{margin: 10, flex: 1}}>
-        <CustomFlatList
-          customNotFound={
-            <CustomNotFound notFoundText="Kategoriye ait ürün bulunamadı" />
-          }
-          data={products}
-          renderItem={item => {
-            return (
-              <ProductCardItem
-                key={item.id}
-                item={item}
-                checked={checked?.id == item.id}
-                handleChecked={(value: boolean) => {
-                  handleChecked(value == true ? item : null);
-                  value && bottomSheetRef.current?.close();
-                }}
-              />
-            );
-          }}
-        />
-      </View>
+      <SafeAreaView style={{flex: 1}}>
+        <Container noFlex bgColor="white" mx={10} mt={35}>
+          <Input
+            isBottomSheetInput
+            placeholder="Ürün Ara"
+            value={search}
+            onChangeText={text => {
+              if (text.length == 0) {
+                setProducts([]);
+              }
+              setSearch(text);
+            }}
+            returnKeyLabel="Ara"
+            returnKeyType="search"
+            onSubmitEditing={() => getLoadCategories()}
+          />
+        </Container>
+        <Container bgColor="white" m={10}>
+          <CustomFlatList
+            isBottomSheet
+            customNotFound={<CustomNotFound notFoundText="Ürün bulunamadı." />}
+            data={products}
+            renderItem={item => {
+              return (
+                <ProductCardItem
+                  key={item.id}
+                  item={item}
+                  checked={checked?.id == item.id}
+                  handleChecked={(value: boolean) => {
+                    handleChecked(value == true ? item : null);
+                    value && bottomSheetRef.current?.close();
+                  }}
+                />
+              );
+            }}
+          />
+        </Container>
+      </SafeAreaView>
     </CustomBottomSheet>
   );
 }
@@ -96,7 +120,7 @@ const ProductCardItem = ({
         <Row gap={10}>
           <Row>
             <View style={{height: 75, width: 75}}>
-              <ProductImage imageUrl={item?.images?.[0].imageUrl || 'error'} />
+              <ProductImage imageUrl={item?.images?.[0]?.imageUrl || 'error'} />
             </View>
           </Row>
           <Row>

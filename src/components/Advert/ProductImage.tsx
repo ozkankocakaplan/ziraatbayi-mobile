@@ -7,7 +7,7 @@ import {
   Platform,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
-import {useGetProductImageQuery} from '../../services/advertService';
+import {useGetProductImageMutation} from '../../services/advertService';
 import Icon from '../Icon/Icon';
 import {faImage} from '@fortawesome/free-regular-svg-icons';
 import {ActivityIndicator} from 'react-native';
@@ -25,20 +25,32 @@ export default function ProductImage({
   borderRadius?: number;
   color?: string;
 }) {
-  const {data, isLoading, isError} = useGetProductImageQuery({
-    endpoint: imageUrl,
-  });
+  const [result, setResult] = useState<string>(imageUrl);
+  const [getImage, {isLoading}] = useGetProductImageMutation();
+
   const [image, setImage] = useState<string | null>(null);
   const [showImageViewer, setShowImageViewer] = useState(false);
+
   useEffect(() => {
+    if (result != 'error' && result != null) {
+      getLoadImage();
+    }
+  }, []);
+
+  const getLoadImage = async () => {
+    const {data, error} = await getImage({endpoint: imageUrl});
     if (data) {
       const fileReaderInstance = new FileReader();
       fileReaderInstance.readAsDataURL(data);
       fileReaderInstance.onload = () => {
         setImage(fileReaderInstance.result as string);
       };
+    } else {
+      if (error) {
+        setResult('error');
+      }
     }
-  }, [data]);
+  };
 
   if (isLoading && !image) {
     return (
@@ -125,7 +137,7 @@ export default function ProductImage({
             justifyContent: 'center',
             alignItems: 'center',
             borderRadius: borderRadius,
-            backgroundColor: isError ? '#E1EAF1' : 'transparent',
+            backgroundColor: result === 'error' ? '#E1EAF1' : 'transparent',
           }}>
           <Icon color={color || 'white'} size={50} icon={faImage} />
         </View>

@@ -29,9 +29,11 @@ export default function CustomNotFound({
           source={NotFoundAnimation}
         />
         {notFoundText && (
-          <CustomText fontSizes="body4" color="primary" fontWeight="bold">
-            {notFoundText}
-          </CustomText>
+          <View style={{marginLeft: 45}}>
+            <CustomText fontSizes="body4" color="primary" fontWeight="bold">
+              {notFoundText}
+            </CustomText>
+          </View>
         )}
       </Container>
     </Container>

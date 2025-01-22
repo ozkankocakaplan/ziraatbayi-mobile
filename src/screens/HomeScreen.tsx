@@ -77,7 +77,7 @@ export default function HomeScreen({
                             initCategory: category,
                           });
                         } else {
-                          navigation.navigate('ProductsByCategoryScreen', {
+                          navigation.navigate('AdvertsByCategoryScreen', {
                             category,
                           });
                         }

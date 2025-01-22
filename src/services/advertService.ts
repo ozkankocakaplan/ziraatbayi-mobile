@@ -100,42 +100,34 @@ const advertApi = baseApi.injectEndpoints({
         url: '/advert/adverts-by-category/' + id,
         method: 'GET',
       }),
+      async onQueryStarted(arg, {dispatch, queryFulfilled}) {
+        try {
+          AlertDialog.showLoading();
+          await queryFulfilled;
+          AlertDialog.hideLoading();
+        } catch (error: any) {
+          AlertDialog.hideLoading();
+        } finally {
+          AlertDialog.hideLoading();
+        }
+      },
     }),
   }),
   overrideExisting: true,
 });
 export const AdvertApi = advertApi;
 
-export const {useGetProductImageQuery, useGetProductImageForChatMutation} =
-  imageApi.injectEndpoints({
-    endpoints: builder => ({
-      getProductImage: builder.query<Blob, {endpoint: string}>({
-        query: ({endpoint}) => ({
-          url: endpoint,
-          method: 'GET',
-          responseHandler: (response: Response) => {
-            return response.blob();
-          },
-        }),
-      }),
-      getProductImageForChat: builder.mutation<Blob, {endpoint: string}>({
-        query: ({endpoint}) => ({
-          url: endpoint,
-          method: 'GET',
-          responseHandler: (response: Response) => {
-            return response.blob();
-          },
-        }),
-        async onQueryStarted(arg, {dispatch, queryFulfilled}) {
-          try {
-            AlertDialog.showLoading();
-            await queryFulfilled;
-          } catch (error: any) {
-          } finally {
-            AlertDialog.hideLoading();
-          }
+export const {useGetProductImageMutation} = imageApi.injectEndpoints({
+  endpoints: builder => ({
+    getProductImage: builder.mutation<Blob, {endpoint: string}>({
+      query: ({endpoint}) => ({
+        url: endpoint,
+        method: 'GET',
+        responseHandler: (response: Response) => {
+          return response.blob();
         },
       }),
     }),
-    overrideExisting: true,
-  });
+  }),
+  overrideExisting: true,
+});

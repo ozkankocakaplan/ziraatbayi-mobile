@@ -23,7 +23,7 @@ import AddAdvertScreen from '../screens/Advert/AddAdvertScreen';
 import SearchScreen from '../screens/SearchScreen';
 import HomeFilterScreen from '../screens/HomeFilterScreen';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import ProductsByCategoryScreen from '../screens/ProductsByCategoryScreen';
+import AdvertsByCategoryScreen from '../screens/AdvertsByCategoryScreen';
 import CompanyInformationScreen from '../screens/CompanyInformationScreen';
 import NetworkCheckScreen from '../screens/NetworkCheckScreen';
 import AlertDialog from '../components/AlertDialog/AlertDialog';
@@ -123,8 +123,8 @@ const RootNavigator = () => {
               component={ResetPasswordScreen}
             />
             <Stack.Screen
-              name="ProductsByCategoryScreen"
-              component={ProductsByCategoryScreen}
+              name="AdvertsByCategoryScreen"
+              component={AdvertsByCategoryScreen}
             />
             <Stack.Screen
               name="CompanyInformationScreen"

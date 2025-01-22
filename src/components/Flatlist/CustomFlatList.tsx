@@ -65,16 +65,18 @@ export default function CustomFlatList(props: CustomListProps) {
             scrollEventThrottle={16}
             onEndReachedThreshold={0.5}
             refreshControl={
-              <RefreshControl
-                refreshing={onRefresh}
-                onRefresh={() => {
-                  setOnRefresh(true);
-                  if (props.handleRefresh) {
-                    props.handleRefresh();
-                  }
-                  setOnRefresh(false);
-                }}
-              />
+              props.handleRefresh ? (
+                <RefreshControl
+                  refreshing={onRefresh}
+                  onRefresh={() => {
+                    setOnRefresh(true);
+                    if (props.handleRefresh) {
+                      props.handleRefresh();
+                    }
+                    setOnRefresh(false);
+                  }}
+                />
+              ) : undefined
             }
           />
         ) : (

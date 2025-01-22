@@ -33,7 +33,7 @@ export type RootStackParamList = {
   SupportScreen: undefined;
   DealerDetailScreen: {id: number};
   ResetPassword: {token: string};
-  ProductsByCategoryScreen: {category: CategoryResponse};
+  AdvertsByCategoryScreen: {category: CategoryResponse};
   CompanyInformationScreen: undefined;
   HomeFilterScreen: undefined;
 };
