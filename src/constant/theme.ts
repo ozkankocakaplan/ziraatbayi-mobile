@@ -64,4 +64,4 @@ export const FONTWEIGHT = {
   light: 'light',
   thin: '100',
 };
-export const TEXT_WIDTH = SIZES.width - 140;
+export const TEXT_WIDTH = SIZES.width - 145;

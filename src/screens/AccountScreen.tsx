@@ -147,7 +147,7 @@ const ListItem = ({
       noneBorder={noneBorder}
       onPress={onPress}>
       <Row between flex={1} alignCenter>
-        <Row gap={10} alignCenter>
+        <Row gap={10} alignCenter flex={1}>
           <Icon icon={icon} color="#1F8505" />
           <CustomText color="black">{text}</CustomText>
         </Row>
@@ -172,4 +172,5 @@ const ListItemButton = styled(TouchableOpacity)<{noneBorder?: boolean}>`
   flex-direction: row;
   align-items: center;
   background-color: white;
+  height: 50px;
 `;

@@ -20,7 +20,7 @@ const AdvertListItem = ({item}: {item: AdvertResponse}) => {
     <StyledContainer
       key={item.id}
       onPress={() => navigation.navigate('EditAdvertScreen', {id: item.id})}>
-      <Row gap={5}>
+      <Row gap={10}>
         <ImageWrapper>
           <ProductImageContainer>
             <ProductImage
@@ -110,7 +110,7 @@ const ProductImageContainer = styled(View)`
 `;
 const StyledContainer = styled(TouchableOpacity)`
   background-color: #fff;
-  padding: 15px;
+  padding: 10px;
   width: 100%;
   justify-content: center;
   border-width: 1px;

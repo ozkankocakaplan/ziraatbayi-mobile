@@ -55,7 +55,7 @@ export default function AdvertDetailBottomSheet() {
           <BottomSheetScrollView>
             <Container m={5} bgColor="white">
               <Row gap={10}>
-                <Row gap={10}>
+                <Row gap={10} flex={0.26}>
                   <View
                     style={{
                       height: 100,
@@ -68,7 +68,7 @@ export default function AdvertDetailBottomSheet() {
                     />
                   </View>
                 </Row>
-                <Row>
+                <Row flex={0.74}>
                   <Col gap={12}>
                     <CustomText
                       numberOfLines={2}

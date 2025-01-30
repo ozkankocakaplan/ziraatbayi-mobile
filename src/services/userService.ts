@@ -54,10 +54,7 @@ export const userApi = baseApi.injectEndpoints({
         }
       },
     }),
-    forgotPassword: builder.mutation<
-      ServiceResponse<DealerResponse>,
-      {email: string}
-    >({
+    forgotPassword: builder.mutation<ServiceResponse<DealerResponse>, string>({
       query: email => ({
         url: 'user/forgot-password?email=' + email,
         method: 'POST',
@@ -76,6 +73,7 @@ export const userApi = baseApi.injectEndpoints({
             });
           }
         } catch (error: any) {
+          console.log(error);
           AlertDialog.showModal({
             type: 'error',
             message: error?.error?.data?.exceptionMessage || 'Bir hata oluştu',

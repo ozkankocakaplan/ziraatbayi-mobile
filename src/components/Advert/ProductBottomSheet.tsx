@@ -51,7 +51,7 @@ export default function ProductBottomSheet({
       setProducts([]);
     }
   };
-
+  const {keyboardShown} = useKeyboard();
   return (
     <CustomBottomSheet ref={bottomSheetRef} snapPoints={['85%']}>
       <SafeAreaView style={{flex: 1}}>
@@ -74,8 +74,12 @@ export default function ProductBottomSheet({
         <Container bgColor="white" m={10}>
           <CustomFlatList
             isBottomSheet
-            customNotFound={<CustomNotFound notFoundText="Ürün bulunamadı." />}
-            data={products}
+            customNotFound={
+              !keyboardShown ? (
+                <CustomNotFound notFoundText="Ürün bulunamadı." />
+              ) : undefined
+            }
+            data={keyboardShown ? [] : products}
             renderItem={item => {
               return (
                 <ProductCardItem
@@ -118,12 +122,12 @@ const ProductCardItem = ({
           borderColor: checked === true ? colors.primary : colors.inputBorder,
         }}>
         <Row gap={10}>
-          <Row>
+          <Row flex={0.22}>
             <View style={{height: 75, width: 75}}>
               <ProductImage imageUrl={item?.images?.[0]?.imageUrl || 'error'} />
             </View>
           </Row>
-          <Row>
+          <Row flex={0.78}>
             <Col gap={5}>
               {item?.name && (
                 <CustomText

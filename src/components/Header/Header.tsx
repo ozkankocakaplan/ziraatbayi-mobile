@@ -57,8 +57,12 @@ export default function Header({
       }}>
       <Container alignItems={title ? 'center' : 'flex-start'}>
         {showAccountDetail && (
-          <View style={{height: 40, top: Platform.OS === 'android' ? 5 : 0}}>
-            <Row gap={10}>
+          <View
+            style={{
+              height: 40,
+              top: Platform.OS === 'android' ? 5 : 0,
+            }}>
+            <Row gap={10} flex={1}>
               <AccountProfile>
                 <CustomText color="primary">
                   {dealer?.firstName?.charAt(0)}
@@ -117,7 +121,9 @@ export default function Header({
         <ExtraContainer>
           {showNotification && (
             <IconRight
-              top={isSearchable ? '-5px' : '0px'}
+              top={
+                isSearchable ? (Platform.OS === 'ios' ? '-5px' : '0px') : '0px'
+              }
               onPress={() => {
                 navigation.navigate('NotificationScreen' as never);
               }}

@@ -121,7 +121,7 @@ export default function CustomFlatList(props: CustomListProps) {
             height: Dimensions.get('window').height,
           }}>
           <CustomText center fontSizes="body6" color="default">
-            {props.notFoundText || 'Veri bulunamadı.'}
+            {props.notFoundText}
           </CustomText>
         </View>
       )}

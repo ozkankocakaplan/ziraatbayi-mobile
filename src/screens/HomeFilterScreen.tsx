@@ -20,7 +20,7 @@ import {faClose} from '@fortawesome/free-solid-svg-icons';
 import styled from 'styled-components';
 import {checkObject} from '../helper/Helper';
 
-const MarginBottom = Platform.select({ios: 50, android: 20});
+const MarginBottom = Platform.select({ios: 50, android: 60});
 
 export default function HomeFilterScreen({navigation}: any) {
   const dispatch = useDispatch();
