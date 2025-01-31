@@ -60,6 +60,7 @@ export default function AdvertDetailBottomSheet() {
                     style={{
                       height: 100,
                       width: 100,
+                      margin: 7,
                     }}>
                     <ProductImage
                       imageUrl={

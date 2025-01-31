@@ -202,6 +202,7 @@ const ExtraContainer = styled(View)`
   gap: 15px;
 `;
 const SearchInput = styled(TextInput)`
+  color: #999999;
   border: 1px solid #ddd;
   border-radius: 100px;
   padding-vertical: 10px;
