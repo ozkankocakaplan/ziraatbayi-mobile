@@ -82,7 +82,7 @@ export default function EditAdvertScreen({
       setAdvertRequest(request);
     }
   };
-
+  console.log(advertRequest);
   const handleChangeAdvertRequest = (
     key: keyof UpdateAdvertRequest,
     value: any,

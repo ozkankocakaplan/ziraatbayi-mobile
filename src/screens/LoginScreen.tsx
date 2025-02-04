@@ -29,7 +29,7 @@ export default function LoginScreen(
   const [loginRequest, setLoginRequest] = useState<LoginRequest>({
     email:
       process.env.NODE_ENV === 'development' ? 'ferizaocal60@gmail.com' : '',
-    password: process.env.NODE_ENV === 'development' ? '123456' : '',
+    password: process.env.NODE_ENV === 'development' ? 'bfc4af' : '',
     uniqueId: '',
     deviceBrand: '',
     deviceId: '',
