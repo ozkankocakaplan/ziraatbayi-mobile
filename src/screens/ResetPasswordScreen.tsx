@@ -13,14 +13,43 @@ import {RootStackParamList} from '../types/navigator';
 import {UserApi} from '../services/userService';
 import {useDispatch} from 'react-redux';
 import {AuthActions} from '../store/features/authReducer';
+import AlertDialog from '../components/AlertDialog/AlertDialog';
 
 export default function ResetPassword(
   props: NativeStackScreenProps<RootStackParamList, 'ResetPassword'>,
 ) {
   const dispatch = useDispatch();
+  const [password, setPassword] = React.useState('');
+  const [passwordRepeat, setPasswordRepeat] = React.useState('');
   const {token} = props.route.params || '';
   const {data, isError, isLoading} = UserApi.useGetVerifyTokenQuery(token);
+  const [resetPassword] = UserApi.useResetPasswordMutation();
 
+  const onSubmit = async () => {
+    if (password === passwordRepeat) {
+      const {data: resetData, error} = await resetPassword({
+        token,
+        password: password,
+        goToLogin: reset,
+      });
+      if (resetData) {
+        setPassword('');
+        setPasswordRepeat('');
+      }
+      return;
+    }
+    AlertDialog.showModal({
+      type: 'error',
+      message: 'Şifreler uyuşmuyor',
+    });
+  };
+  const reset = () => {
+    dispatch(AuthActions.setUser(null));
+    props.navigation.reset({
+      index: 0,
+      routes: [{name: 'LoginScreen'}],
+    });
+  };
   return (
     <Page header title="Şifre Sıfırlama">
       <Container mx={20} bgColor="white" mt={20}>
@@ -34,6 +63,8 @@ export default function ResetPassword(
 
         <View style={{gap: 10}}>
           <Input
+            value={password}
+            onChangeText={setPassword}
             required
             id="password"
             icon={faLock}
@@ -41,6 +72,8 @@ export default function ResetPassword(
             secureTextEntry={true}
           />
           <Input
+            value={passwordRepeat}
+            onChangeText={setPasswordRepeat}
             required
             id="password"
             icon={faLock}
@@ -49,22 +82,13 @@ export default function ResetPassword(
           />
         </View>
         <View style={{marginTop: 30, marginBottom: 20}}>
-          <Button text="Şifreyi Sıfırla" />
+          <Button onPress={onSubmit} text="Şifreyi Sıfırla" />
         </View>
         <View style={{marginTop: 20, marginBottom: 30}}>
           <Divider text="veya" />
         </View>
         <View style={{width: 170, alignSelf: 'center'}}>
-          <Button
-            onPress={() => {
-              dispatch(AuthActions.setUser(null));
-              props.navigation.reset({
-                index: 0,
-                routes: [{name: 'HomeScreen'}],
-              });
-            }}
-            outline
-            text="Giriş Yap"></Button>
+          <Button onPress={reset} outline text="Giriş Yap"></Button>
         </View>
       </Container>
     </Page>

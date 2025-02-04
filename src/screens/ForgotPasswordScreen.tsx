@@ -21,7 +21,10 @@ export default function ForgotPasswordScreen(
   const [forgotPassword] = UserApi.useForgotPasswordMutation();
 
   const handleSubmit = async () => {
-    await forgotPassword(email).unwrap();
+    const {data} = await forgotPassword(email);
+    if (data) {
+      setEmail('');
+    }
   };
 
   return (

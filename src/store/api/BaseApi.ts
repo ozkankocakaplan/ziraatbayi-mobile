@@ -15,6 +15,7 @@ const customBaseQuery = fetchBaseQuery({
 
 const baseQueryWithReauth = async (args: any, api: any, extraOptions: any) => {
   const result = await customBaseQuery(args, api, extraOptions);
+  console.log(result);
   if (
     result.error &&
     (result.error.status === 402 || result.error.status === 401) &&
@@ -40,7 +41,8 @@ export const baseApi = createApi({
 export const imageApi = createApi({
   reducerPath: 'imageApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: BaseUrl.replace('/api', ''),
+    baseUrl: BaseUrl.replace('com/api', 'com'),
+
     prepareHeaders: (headers, {getState}: any) => {
       const token = getState().auth.user?.token;
       if (token) {

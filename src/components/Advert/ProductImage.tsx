@@ -35,7 +35,12 @@ export default function ProductImage({
     if (result != 'error' && result != null) {
       getLoadImage();
     }
-  }, []);
+  }, [result]);
+  useEffect(() => {
+    if (imageUrl) {
+      setResult(imageUrl);
+    }
+  }, [imageUrl]);
 
   const getLoadImage = async () => {
     const {data, error} = await getImage({endpoint: imageUrl});

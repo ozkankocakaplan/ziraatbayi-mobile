@@ -20,8 +20,6 @@ export const WhatsApp = {
         formattedPhone = '90' + formattedPhone;
       }
 
-      console.log('Formatlanmış telefon:', formattedPhone);
-
       const url = Platform.select({
         ios: `whatsapp://send?phone=${formattedPhone}&text=${encodeURIComponent(
           message,
@@ -33,8 +31,6 @@ export const WhatsApp = {
           message,
         )}`,
       });
-
-      console.log('WhatsApp URL:', url);
 
       const canOpen = await Linking.canOpenURL(url);
 

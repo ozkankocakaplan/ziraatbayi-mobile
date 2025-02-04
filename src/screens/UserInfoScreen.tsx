@@ -31,21 +31,18 @@ import Container from '../components/Container/Container';
 import usePhoto from '../hooks/usePhoto';
 import ProductImage from '../components/Advert/ProductImage';
 import AlertDialog from '../components/AlertDialog/AlertDialog';
-import {DealerActions} from '../store/features/dealerReducer';
 
 export default function UserInfoScreen({
   navigation,
-}: NativeStackScreenProps<RootStackParamList>) {
+  route,
+}: NativeStackScreenProps<RootStackParamList, 'UserInfoScreen'>) {
   const {initLaunchImage, photos} = usePhoto();
   const {dealer} = useSelector((x: RootState) => x.dealer);
   const [updateDealer, {isLoading, isSuccess, isError}] =
     DealerApi.useUpdateDealerMutation();
+  const [getDealer] = DealerApi.useGetDealerFuncMutation();
   const [updateImage] = DealerApi.useUploadDealerImageMutation();
   const [uploadedImageUri, setUploadedImageUri] = useState<string | null>();
-  const {uploadedImageUri: reduxUploadedImageUri} = useSelector(
-    (state: RootState) => state.dealer,
-  );
-  const dispatch = useDispatch();
 
   const [formData, setFormData] = useState({
     firstName: '',
@@ -78,23 +75,19 @@ export default function UserInfoScreen({
         taxOffice: dealer.taxOffice || '',
         address: dealer.address || '',
       });
+      setUploadedImageUri(dealer.companyImage);
     }
   }, [dealer]);
-
   const uploadFile = async () => {
     var data = new FormData();
-
     data.append('file', {
       uri: photos[0].uri,
       name: photos[0].fileName,
-      type: 'image/jpeg',
     });
     try {
       AlertDialog.showLoading();
-      const response = await updateImage(data).unwrap();
-
-      setUploadedImageUri(photos[0].uri);
-      dispatch(DealerActions.setUploadedImageUri(photos[0].uri));
+      await updateImage(data).unwrap();
+      await getDealer().unwrap();
     } catch (error) {
       console.error('File upload failed:', error);
     } finally {
@@ -129,14 +122,9 @@ export default function UserInfoScreen({
               style={{
                 width: 100,
                 height: 100,
-                overflow: 'hidden',
-                borderRadius: 100,
               }}>
               <ProductImage
-                borderRadius={100}
-                imageUrl={
-                  reduxUploadedImageUri || dealer?.companyImage || 'error'
-                }
+                imageUrl={uploadedImageUri || dealer?.companyImage || 'error'}
               />
             </TouchableOpacity>
           </Container>

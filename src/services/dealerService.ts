@@ -58,6 +58,23 @@ const dealerApi = baseApi.injectEndpoints({
         }
       },
     }),
+    getDealerFunc: builder.mutation<ServiceResponse<DealerResponse>, void>({
+      query: () => ({
+        url: '/dealer',
+        method: 'GET',
+      }),
+      async onQueryStarted(queryArgument, {queryFulfilled, dispatch}) {
+        try {
+          AlertDialog.showLoading();
+          let {data} = await queryFulfilled;
+          if (data.isSuccessful) {
+            dispatch(DealerActions.setDealer(data.entity));
+          }
+        } finally {
+          AlertDialog.hideLoading();
+        }
+      },
+    }),
     updateDealer: builder.mutation<
       ServiceResponse<DealerResponse>,
       CreateDealerRequest
