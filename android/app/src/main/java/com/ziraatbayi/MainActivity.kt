@@ -7,8 +7,9 @@ import com.facebook.react.defaults.DefaultReactActivityDelegate
 import org.devio.rn.splashscreen.SplashScreen;
 class MainActivity : ReactActivity() {
 
-  init {
-    SplashScreen.show(this)
+override fun onCreate(savedInstanceState: Bundle?) {
+    SplashScreen.show(this);
+    super.onCreate(null)
   }
 
   /**

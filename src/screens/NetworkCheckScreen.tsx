@@ -73,7 +73,7 @@ function NetworkCheckScreen(props: {children: React.ReactNode}) {
   return !networkConnected.status ? (
     <View
       style={{
-        height: SIZES.height - 150,
+        height: SIZES.height,
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: 'white',
